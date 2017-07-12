@@ -1,15 +1,9 @@
-<<<<<<< HEAD
-define('app',['exports'], function (exports) {
-=======
 define('app',['exports', 'jquery', 'bootstrap'], function (exports, _jquery) {
->>>>>>> 0946d5685c6c880ef1ab8c701509a913ad4dcc75
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-<<<<<<< HEAD
-=======
   exports.App = undefined;
 
   var _jquery2 = _interopRequireDefault(_jquery);
@@ -19,7 +13,6 @@ define('app',['exports', 'jquery', 'bootstrap'], function (exports, _jquery) {
       default: obj
     };
   }
->>>>>>> 0946d5685c6c880ef1ab8c701509a913ad4dcc75
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -27,13 +20,6 @@ define('app',['exports', 'jquery', 'bootstrap'], function (exports, _jquery) {
     }
   }
 
-<<<<<<< HEAD
-  var App = exports.App = function App() {
-    _classCallCheck(this, App);
-
-    this.message = 'Hello World!';
-  };
-=======
   var App = exports.App = function () {
     function App() {
       _classCallCheck(this, App);
@@ -58,7 +44,6 @@ define('app',['exports', 'jquery', 'bootstrap'], function (exports, _jquery) {
 
     return App;
   }();
->>>>>>> 0946d5685c6c880ef1ab8c701509a913ad4dcc75
 });
 define('environment',["exports"], function (exports) {
   "use strict";
@@ -103,23 +88,7 @@ define('main',['exports', './environment'], function (exports, _environment) {
     });
   }
 });
-<<<<<<< HEAD
 define('aboutyou/personalinfo',['exports', 'aurelia-framework', 'aurelia-router', '../services/user'], function (exports, _aureliaFramework, _aureliaRouter, _user) {
-=======
-define('resources/index',["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.configure = configure;
-  function configure(config) {}
-});
-<<<<<<< HEAD
-define('text!app.html', ['module'], function(module) { module.exports = "<template><h1>${message}</h1></template>"; });
-=======
-define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../services/user'], function (exports, _aureliaFramework, _aureliaRouter, _user) {
->>>>>>> 95c4a99fcdfa7a89b768847cab6d9b476f58c065
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
@@ -372,10 +341,6 @@ define('services/data/resultsData',["exports"], function (exports) {
 });
 define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"bootstrap/css/bootstrap.css\"></require><h1>Hello</h1><ul><li repeat.for=\"row of router.navigation\" class=\"${row.isActive ? 'active' : 'disabled'}\"><a id=\"navtitles\" href.bind=\"row.href\">${row.title}</a></li></ul><router-view></router-view></template>"; });
 define('text!aboutyou/personalinfo.html', ['module'], function(module) { module.exports = "<template><h1>Words</h1><h1>${user.personalInfo.age}</h1></template>"; });
-<<<<<<< HEAD
 define('text!expenses/expenses.html', ['module'], function(module) { module.exports = "<template><h1>HEKKODKsn</h1></template>"; });
 define('text!results/results.html', ['module'], function(module) { module.exports = "<template><require from=\"highcharts/css/highcharts.css\"></require><h1>HEKKODKsn</h1><div id=\"resultsContainer\"></div></template>"; });
-=======
->>>>>>> 0946d5685c6c880ef1ab8c701509a913ad4dcc75
->>>>>>> 95c4a99fcdfa7a89b768847cab6d9b476f58c065
 //# sourceMappingURL=app-bundle.js.map
