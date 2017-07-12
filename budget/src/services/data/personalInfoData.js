@@ -1,5 +1,6 @@
 export class PersonalInfoData {
     constructor() {
-        this.age = 10;
+        this.age = 30;
+        this.income = 0;
     }
 }
