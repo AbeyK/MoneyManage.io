@@ -1,3 +1,11 @@
 <template>
-  <h1>${message}</h1>
+  <require from="bootstrap/css/bootstrap.css"></require>
+  <h1>Hello</h1>
+
+  <ul class="nav navbar-nav">
+              <li repeat.for="row of router.navigation" class="${row.isActive ? 'active' : 'disabled'}">
+                  <a id="navtitles" href.bind="row.href">${row.title}</a>
+              </li>
+            </ul>
+  <router-view></router-view>
 </template>
