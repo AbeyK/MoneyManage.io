@@ -88,22 +88,13 @@ define('main',['exports', './environment'], function (exports, _environment) {
     });
   }
 });
-define('resources/index',["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.configure = configure;
-  function configure(config) {}
-});
-define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../services/user'], function (exports, _aureliaFramework, _aureliaRouter, _user) {
+define('aboutyou/personalinfo',['exports', 'aurelia-framework', 'aurelia-router', '../services/user'], function (exports, _aureliaFramework, _aureliaRouter, _user) {
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    exports.results = undefined;
+    exports.personalinfo = undefined;
 
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
@@ -113,8 +104,8 @@ define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../
 
     var _dec, _class;
 
-    var results = exports.results = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router, _user.User), _dec(_class = function results(router, user) {
-        _classCallCheck(this, results);
+    var personalinfo = exports.personalinfo = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router, _user.User), _dec(_class = function personalinfo(router, user) {
+        _classCallCheck(this, personalinfo);
 
         this.router = router;
         this.user = user;
@@ -143,28 +134,14 @@ define('expenses/expenses',['exports', 'aurelia-framework', 'aurelia-router', '.
         this.user = user;
     }) || _class);
 });
-define('aboutyou/personalinfo',['exports', 'aurelia-framework', 'aurelia-router', '../services/user'], function (exports, _aureliaFramework, _aureliaRouter, _user) {
-    'use strict';
+define('resources/index',["exports"], function (exports) {
+  "use strict";
 
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.personalinfo = undefined;
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var _dec, _class;
-
-    var personalinfo = exports.personalinfo = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router, _user.User), _dec(_class = function personalinfo(router, user) {
-        _classCallCheck(this, personalinfo);
-
-        this.router = router;
-        this.user = user;
-    }) || _class);
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.configure = configure;
+  function configure(config) {}
 });
 define('services/user',['exports', '../services/data/personalInfoData', '../services/data/goalsData', '../services/data/expensesData', '../services/data/resultsData'], function (exports, _personalInfoData, _goalsData, _expensesData, _resultsData) {
     'use strict';
@@ -189,12 +166,32 @@ define('services/user',['exports', '../services/data/personalInfoData', '../serv
         this.results = new _resultsData.ResultsData();
     };
 });
-define('services/data/personalInfoData',["exports"], function (exports) {
-    "use strict";
+define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../services/user', 'highcharts'], function (exports, _aureliaFramework, _aureliaRouter, _user, _highcharts) {
+    'use strict';
 
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
+    exports.results = undefined;
+
+    var HighCharts = _interopRequireWildcard(_highcharts);
+
+    function _interopRequireWildcard(obj) {
+        if (obj && obj.__esModule) {
+            return obj;
+        } else {
+            var newObj = {};
+
+            if (obj != null) {
+                for (var key in obj) {
+                    if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+                }
+            }
+
+            newObj.default = obj;
+            return newObj;
+        }
+    }
 
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
@@ -202,13 +199,71 @@ define('services/data/personalInfoData',["exports"], function (exports) {
         }
     }
 
-    var PersonalInfoData = exports.PersonalInfoData = function PersonalInfoData() {
-        _classCallCheck(this, PersonalInfoData);
+    var _dec, _class;
 
-        this.age = 10;
-    };
+    var results = exports.results = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router, _user.User), _dec(_class = function () {
+        function results(router, user) {
+            _classCallCheck(this, results);
+
+            this.router = router;
+            this.user = user;
+        }
+
+        results.prototype.attached = function attached() {
+            this.createChart('resultsContainer');
+        };
+
+        results.prototype.createChart = function createChart(containerID) {
+            Highcharts.chart(containerID, {
+
+                title: {
+                    text: 'Solar Employment Growth by Sector, 2010-2016'
+                },
+
+                subtitle: {
+                    text: 'Source: thesolarfoundation.com'
+                },
+
+                yAxis: {
+                    title: {
+                        text: 'Number of Employees'
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+
+                plotOptions: {
+                    series: {
+                        pointStart: 2010
+                    }
+                },
+
+                series: [{
+                    name: 'Installation',
+                    data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+                }, {
+                    name: 'Manufacturing',
+                    data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+                }, {
+                    name: 'Sales & Distribution',
+                    data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
+                }, {
+                    name: 'Project Development',
+                    data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
+                }, {
+                    name: 'Other',
+                    data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
+                }]
+            });
+        };
+
+        return results;
+    }()) || _class);
 });
-define('services/data/personalInfoData.1',["exports"], function (exports) {
+define('services/data/expensesData',["exports"], function (exports) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
@@ -221,29 +276,10 @@ define('services/data/personalInfoData.1',["exports"], function (exports) {
         }
     }
 
-    var PersonalInfoData = exports.PersonalInfoData = function PersonalInfoData() {
-        _classCallCheck(this, PersonalInfoData);
+    var ExpensesData = exports.ExpensesData = function ExpensesData() {
+        _classCallCheck(this, ExpensesData);
 
-        this.age = 10;
-    };
-});
-define('services/data/personalInfoData.2',["exports"], function (exports) {
-    "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var PersonalInfoData = exports.PersonalInfoData = function PersonalInfoData() {
-        _classCallCheck(this, PersonalInfoData);
-
-        this.age = 10;
+        this.expense = 10;
     };
 });
 define('services/data/goalsData',["exports"], function (exports) {
@@ -265,6 +301,25 @@ define('services/data/goalsData',["exports"], function (exports) {
         this.goal = 10;
     };
 });
+define('services/data/personalInfoData',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var PersonalInfoData = exports.PersonalInfoData = function PersonalInfoData() {
+        _classCallCheck(this, PersonalInfoData);
+
+        this.age = 10;
+    };
+});
 define('services/data/resultsData',["exports"], function (exports) {
     "use strict";
 
@@ -284,46 +339,8 @@ define('services/data/resultsData',["exports"], function (exports) {
         this.result = 10;
     };
 });
-define('services/data/resultsData.1',["exports"], function (exports) {
-    "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var PersonalInfoData = exports.PersonalInfoData = function PersonalInfoData() {
-        _classCallCheck(this, PersonalInfoData);
-
-        this.age = 10;
-    };
-});
-define('services/data/expensesData',["exports"], function (exports) {
-    "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var ExpensesData = exports.ExpensesData = function ExpensesData() {
-        _classCallCheck(this, ExpensesData);
-
-        this.expense = 10;
-    };
-});
-define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"bootstrap/css/bootstrap.css\"></require><h1>Hello</h1><ul class=\"nav navbar-nav\"><li repeat.for=\"row of router.navigation\" class=\"${row.isActive ? 'active' : 'disabled'}\"><a id=\"navtitles\" href.bind=\"row.href\">${row.title}</a></li></ul><router-view></router-view></template>"; });
-define('text!results/results.html', ['module'], function(module) { module.exports = "<template><h1>HEKKODKsn</h1></template>"; });
-define('text!expenses/expenses.html', ['module'], function(module) { module.exports = "<template><h1>HEKKODKsn</h1></template>"; });
+define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"bootstrap/css/bootstrap.css\"></require><h1>Hello</h1><ul><li repeat.for=\"row of router.navigation\" class=\"${row.isActive ? 'active' : 'disabled'}\"><a id=\"navtitles\" href.bind=\"row.href\">${row.title}</a></li></ul><router-view></router-view></template>"; });
 define('text!aboutyou/personalinfo.html', ['module'], function(module) { module.exports = "<template><h1>Words</h1><h1>${user.personalInfo.age}</h1></template>"; });
+define('text!expenses/expenses.html', ['module'], function(module) { module.exports = "<template><h1>HEKKODKsn</h1></template>"; });
+define('text!results/results.html', ['module'], function(module) { module.exports = "<template><require from=\"highcharts/css/highcharts.css\"></require><h1>HEKKODKsn</h1><div id=\"resultsContainer\"></div></template>"; });
 //# sourceMappingURL=app-bundle.js.map

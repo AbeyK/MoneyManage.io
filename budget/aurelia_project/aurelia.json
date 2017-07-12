@@ -75,7 +75,14 @@
           ],
           "stub": true
         }
-      ]
+      ],
+      "config": {
+        "shim": {
+          "highcharts": {
+            "exports": "Highcharts"
+          }
+        } 
+      }
     },
     "options": {
       "minify": "stage & prod",
@@ -136,7 +143,7 @@
             "main": "aurelia-testing",
             "env": "dev"
           },
-                    {
+          {
             "name": "ion-rangeslider",
             "path": "../node_modules/ion-rangeslider",
             "main": "js/ion.rangeSlider",
@@ -154,6 +161,14 @@
             "exports": "$",
             "resources": [
               "css/bootstrap.css"
+            ]
+          },
+          {
+            "name": "highcharts",
+            "path": "../node_modules/highcharts",
+            "main": "js/highcharts",
+            "resources": [
+              "css/highcharts.css"
             ]
           }
         ]
