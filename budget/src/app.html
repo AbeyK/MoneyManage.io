@@ -1,11 +1,19 @@
 <template>
+  <require from="ion-rangeslider/css/ion.rangeSlider.css"></require>
+  <require from="ion-rangeslider/css/ion.rangeSlider.skinHTML5.css"></require>
+  <require from="ion-rangeslider/css/normalize.css"></require>
+  <require from="highcharts/css/highcharts.css"></require>
   <require from="bootstrap/css/bootstrap.css"></require>
-  <h1>Hello</h1>
+  <require from="css/style.css"></require>
 
-  <ul >
-              <li repeat.for="row of router.navigation" class="${row.isActive ? 'active' : 'disabled'}">
-                  <a id="navtitles" href.bind="row.href">${row.title}</a>
-              </li>
-            </ul>
+  <h1 style="text-align: center;">My Budget</h1>
+
+  <ul>
+    <li repeat.for="row of router.navigation" class="${row.isActive ? 'active' : 'disabled'}">
+        <a id="navtitles" href.bind="row.href">${row.title}</a>
+    </li>
+  </ul>
+
   <router-view></router-view>
+
 </template>
