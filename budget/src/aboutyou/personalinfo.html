@@ -1,4 +1,20 @@
 <template>
-    <h1>Words</h1>
-    <h1>${user.personalInfo.age}</h1>
+    <div id="personalinfo">
+        <h1>Personal Info</h1>
+
+        <!--===================================AGE================================-->
+        <div class="form-group" >
+            <label for="age">Age:</label>
+            <input style="width: 400px;" id="age"></input>
+        </div>
+
+        <!--=================================INCOME================================-->
+        <div class="form-group">
+            <label for="salary">Income</label>
+            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                <div class="input-group-addon">$</div>
+                <input type="text" value.bind="user.personalInfo.income" class="form-control" id="inlineFormInputGroup">
+            </div>
+        </div>
+    </div>
 </template>
