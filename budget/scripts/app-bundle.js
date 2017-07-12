@@ -118,28 +118,50 @@ define('aboutyou/personalinfo',['exports', 'aurelia-framework', 'aurelia-router'
         };
 
         personalinfo.prototype.drag = function drag(ev) {
-            ev.dataTransfer.setData("tonberry", ev.target.innerText);
-            ev.dataTransfer.setData("occu-name", ev.srcElement.textContent);
+            ev.dataTransfer.setData("goal-name", ev.target.innerText);
             return true;
-        };
-
-        personalinfo.prototype.removeDrop = function removeDrop(ev) {
-            ev.dataTransfer.set;
         };
 
         personalinfo.prototype.drop = function drop(ev) {
             ev.preventDefault();
-            var current;
-            var data = ev.dataTransfer.getData("tonberry");
+            var data = ev.dataTransfer.getData("goal-name");
             var elements = document.getElementsByClassName("current-buttons");
-            var occupationName;
+            this.user.personalInfo.currentGoals.push(data);
+
             for (var i = 0; i < elements.length; i++) {
-                if (elements[i].textContent.trim() === data.trim()) {
-                    current = elements[i];
-                    occupationName = elements[i].textContent.trim();
+                if (elements[i].textContent === data) {
+                    var current = elements[i];
+                    ev.currentTarget.appendChild(current);
                 }
             }
-            ev.currentTarget.appendChild(current);
+
+            data = data.split(" ");
+            var check = "check" + data[data.length - 1];
+            this.user.personalInfo[check] = !this.user.personalInfo[check];
+        };
+
+        personalinfo.prototype.dropBack = function dropBack(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("goal-name");
+            var elements = document.getElementsByClassName("current-buttons");
+
+            var arr = this.user.personalInfo.currentGoals;
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i] === data) {
+                    this.user.personalInfo.currentGoals.splice(i, 1);
+                }
+            }
+
+            for (var i = 0; i < elements.length; i++) {
+                if (elements[i].textContent === data) {
+                    var current = elements[i];
+                    ev.currentTarget.appendChild(current);
+                }
+            }
+
+            data = data.split(" ");
+            var check = "check" + data[data.length - 1];
+            this.user.personalInfo[check] = !this.user.personalInfo[check];
         };
 
         personalinfo.prototype.attached = function attached() {
@@ -278,6 +300,11 @@ define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../
         return results;
     }()) || _class);
 });
+define('services/constants',[], function () {
+  "use strict";
+
+  var goalzzz = ["Celebration", "Saving for College", "Buy a boat"];
+});
 define('services/user',['exports', '../services/data/personalInfoData', '../services/data/goalsData', '../services/data/expensesData', '../services/data/resultsData'], function (exports, _personalInfoData, _goalsData, _expensesData, _resultsData) {
     'use strict';
 
@@ -299,83 +326,6 @@ define('services/user',['exports', '../services/data/personalInfoData', '../serv
         this.goals = new _goalsData.GoalsData();
         this.expenses = new _expensesData.ExpensesData();
         this.results = new _resultsData.ResultsData();
-    };
-});
-define('services/data/expensesData',["exports"], function (exports) {
-    "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var ExpensesData = exports.ExpensesData = function ExpensesData() {
-        _classCallCheck(this, ExpensesData);
-
-        this.expense = 10;
-    };
-});
-define('services/data/goalsData',["exports"], function (exports) {
-    "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var GoalsData = exports.GoalsData = function GoalsData() {
-        _classCallCheck(this, GoalsData);
-
-        this.goal = 10;
-    };
-});
-define('services/data/personalInfoData',["exports"], function (exports) {
-    "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var PersonalInfoData = exports.PersonalInfoData = function PersonalInfoData() {
-        _classCallCheck(this, PersonalInfoData);
-
-        this.age = 30;
-        this.income = 0;
-    };
-});
-define('services/data/resultsData',["exports"], function (exports) {
-    "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var ResultsData = exports.ResultsData = function ResultsData() {
-        _classCallCheck(this, ResultsData);
-
-        this.result = 10;
     };
 });
 define('utilities/slider',['exports', 'aurelia-framework', '../services/user', 'ion-rangeslider'], function (exports, _aureliaFramework, _user, _ionRangeslider) {
@@ -438,9 +388,97 @@ define('utilities/slider',['exports', 'aurelia-framework', '../services/user', '
         return Slider;
     }()) || _class);
 });
+define('services/data/expensesData',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var ExpensesData = exports.ExpensesData = function ExpensesData() {
+        _classCallCheck(this, ExpensesData);
+
+        this.expense = 10;
+    };
+});
+define('services/data/goalsData',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var GoalsData = exports.GoalsData = function GoalsData() {
+        _classCallCheck(this, GoalsData);
+
+        this.goal = 10;
+    };
+});
+define('services/data/personalInfoData',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var PersonalInfoData = exports.PersonalInfoData = function PersonalInfoData() {
+        _classCallCheck(this, PersonalInfoData);
+
+        this.age = 30;
+        this.income = 0;
+
+        this.goalsList = ["Private School", "College", "Wedding", "Vacation", "Boat", "New Car", "Other"];
+        this.checkSchool = false;
+        this.checkCollege = false;
+        this.checkWedding = false;
+        this.checkVacation = false;
+        this.checkBoat = false;
+        this.checkCar = false;
+        this.checkOther = false;
+
+        this.currentGoals = [];
+    };
+});
+define('services/data/resultsData',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var ResultsData = exports.ResultsData = function ResultsData() {
+        _classCallCheck(this, ResultsData);
+
+        this.result = 10;
+    };
+});
 define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"ion-rangeslider/css/ion.rangeSlider.css\"></require><require from=\"ion-rangeslider/css/ion.rangeSlider.skinHTML5.css\"></require><require from=\"ion-rangeslider/css/normalize.css\"></require><require from=\"highcharts/css/highcharts.css\"></require><require from=\"bootstrap/css/bootstrap.css\"></require><require from=\"css/style.css\"></require><nav class=\"navbar navbar-default\"><div class=\"container-fluid\"><div class=\"navbar-header\"><h4 style=\"padding-right:15px\">MyBudget</h4></div><div class=\"collapse navbar-collapse\"><ul class=\"nav navbar-nav\"><li repeat.for=\"row of router.navigation\" class=\"${row.isActive ? 'active' : ''}\"><a href.bind=\"row.href\">${row.title}</a></li></ul></div></div></nav><router-view></router-view></template>"; });
-define('text!aboutyou/personalinfo.html', ['module'], function(module) { module.exports = "<template><div id=\"personalinfo\"><h2>Personal Info</h2><div class=\"form-group\"><label for=\"age\">Age:</label><input style=\"width:400px\" id=\"age\"></div><div class=\"form-group\"><label for=\"salary\">Income</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo.income\" class=\"form-control\" id=\"inlineFormInputGroup\"></div></div><hr><h2>Goals</h2><div id=\"drag-and-drop-container\" style=\"clear:both\"><div class=\"col-md-6\" drop.trigger=\"drop($event)\" dragover.trigger=\"allowDrop($event)\"><nav class=\"navbar navbar-default\"><div class=\"container-fluid\"><div class=\"navbar-header\"><a class=\"navbar-brand\">Goals</a></div></div></nav><div class=\"row col-md-4\" dragstart.trigger=\"drag($event)\"><div class=\"col\" id=\"button-div\"><button class=\"current-buttons\" click.delegate=\"removeDrop()\" draggable=\"true\" id=\"buttons\">Hello</button> <button class=\"current-buttons\" click.delegate=\"removeDrop()\" draggable=\"true\" id=\"buttons\">Yo</button> <button class=\"current-buttons\" click.delegate=\"removeDrop()\" draggable=\"true\" id=\"buttons\">Hoola</button></div></div></div><div class=\"col-md-6\" id=\"drop-box\" drop.trigger=\"drop($event)\" dragstart.trigger=\"drag($event)\" dragover.trigger=\"allowDrop($event)\"><nav class=\"navbar navbar-default\"><div class=\"container-fluid\"><div class=\"navbar-header\"><a class=\"navbar-brand\">My Goals</a></div></div></nav></div></div></div></template>"; });
+define('text!css/style.css', ['module'], function(module) { module.exports = "#personalinfo, #expenses, #results {\r\n    margin: 0 auto;\r\n    text-align: center;\r\n    width: 40%;\r\n}\r\n"; });
+define('text!aboutyou/personalinfo.html', ['module'], function(module) { module.exports = "<template><div id=\"personalinfo\"><h2>Personal Info</h2><div class=\"form-group\"><label for=\"age\">Age:</label><input style=\"width:400px\" id=\"age\"></div><div class=\"form-group\"><label for=\"salary\">Income</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo.income\" class=\"form-control\" id=\"inlineFormInputGroup\"></div></div><hr><h2>Goals</h2><div id=\"drag-and-drop-container\" style=\"clear:both\"><div style=\"height:500px;background-color:orange;border:solid 1px\" class=\"col-md-6\" drop.trigger=\"dropBack($event)\" dragover.trigger=\"allowDrop($event)\"><nav class=\"navbar navbar-default\"><div class=\"container-fluid\"><div class=\"navbar-header\"><a class=\"navbar-brand\">Available Goals</a></div></div></nav><div class=\"row col-md-4 col-md-push-4\" dragstart.trigger=\"drag($event)\"><div repeat.for=\"goal of user.personalInfo.goalsList\" class=\"row\"><div class=\"col-md-4\"><button class=\"current-buttons btn btn-primary\" draggable=\"true\" id=\"buttons\">${goal}</button></div><br><br></div></div></div><div style=\"height:500px;background-color:orange;border:solid 1px\" class=\"col-md-6\" drop.trigger=\"drop($event)\" dragstart.trigger=\"drag($event)\" dragover.trigger=\"allowDrop($event)\"><nav class=\"navbar navbar-default\"><div class=\"container-fluid\"><div class=\"navbar-header\"><a class=\"navbar-brand\">My Goals</a><div show.bind=\"user.personalInfo.checkSchool\"><h1>Private School</h1></div><div show.bind=\"user.personalInfo.checkBoat\"><h1>Boat</h1></div></div></div></nav></div></div></div></template>"; });
 define('text!expenses/expenses.html', ['module'], function(module) { module.exports = "<template><div id=\"expenses\"><h1>Expenses</h1></div></template>"; });
 define('text!results/results.html', ['module'], function(module) { module.exports = "<template><div id=\"results\"><h1>Results</h1><div id=\"resultsContainer\"></div></div></template>"; });
-define('text!css/style.css', ['module'], function(module) { module.exports = "#personalinfo, #expenses, #results {\r\n    margin: 0 auto;\r\n    text-align: center;\r\n    width: 40%;\r\n}\r\n"; });
 //# sourceMappingURL=app-bundle.js.map

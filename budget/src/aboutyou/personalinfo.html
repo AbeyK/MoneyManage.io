@@ -22,30 +22,40 @@
         <h2>Goals</h2>
          <!--==========================DRAG AND DROP=======================-->
         <div id="drag-and-drop-container" style="clear:both">
-            <div class="col-md-6" drop.trigger="drop($event)" dragover.trigger="allowDrop($event)">
+            <div style="height:500px; background-color: orange; border: solid 1px;" 
+                class="col-md-6" drop.trigger="dropBack($event)" dragover.trigger="allowDrop($event)">
                 <nav class="navbar navbar-default">
                     <div class="container-fluid">
                         <div class="navbar-header">
-                            <a class="navbar-brand">Goals</a>
+                            <a class="navbar-brand">Available Goals</a>
                         </div>
                     </div>
                 </nav>
 
-                <div class="row col-md-4" dragstart.trigger="drag($event)">
-                    <div class="col" id="button-div">
-                        <button class="current-buttons" click.delegate="removeDrop()" draggable="true" id="buttons">Hello</button>
-                        <button class="current-buttons" click.delegate="removeDrop()" draggable="true" id="buttons">Yo</button>
-                        <button class="current-buttons" click.delegate="removeDrop()" draggable="true" id="buttons">Hoola</button>
+                <div class="row col-md-4 col-md-push-4" dragstart.trigger="drag($event)">
+                    <div repeat.for="goal of user.personalInfo.goalsList" class="row">
+                        <div class="col-md-4">
+                            <button class="current-buttons btn btn-primary" draggable="true" id="buttons">${goal}</button>
+                        </div>
+                        <br> <br>
                     </div>
                 </div>
                 
             </div>
 
-            <div class="col-md-6" id="drop-box" drop.trigger="drop($event)" dragstart.trigger="drag($event)" dragover.trigger="allowDrop($event)">
+            <div style="height:500px; background-color: orange; border: solid 1px;" 
+                class="col-md-6" drop.trigger="drop($event)" dragstart.trigger="drag($event)" dragover.trigger="allowDrop($event)">
                 <nav class="navbar navbar-default">
                     <div class="container-fluid">
                         <div class="navbar-header">
                             <a class="navbar-brand">My Goals</a>
+                            <div show.bind="user.personalInfo.checkSchool">
+                                <h1>Private School</h1>
+                            </div>
+
+                            <div show.bind="user.personalInfo.checkBoat">
+                                <h1>Boat</h1>
+                            </div>
                         </div>
                     </div>
                 </nav>

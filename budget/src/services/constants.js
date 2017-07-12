@@ -1,0 +1,1 @@
+var goalzzz = ["Celebration", "Saving for College", "Buy a boat"];
