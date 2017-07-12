@@ -17,29 +17,56 @@ export class personalinfo {
     }
 
     drag(ev) {
-        ev.dataTransfer.setData("tonberry", ev.target.innerText);
-        ev.dataTransfer.setData("occu-name", ev.srcElement.textContent);
+        ev.dataTransfer.setData("goal-name", ev.target.innerText);
         return true;
     }
 
-    removeDrop(ev) {
-        ev.dataTransfer.set
-    }
-
     drop(ev) {
+        //GET NAME OF GOAL AND PUSH IT ONTO CURRENT GOALS ARRAY
         ev.preventDefault();
-        var current;
-        var data = ev.dataTransfer.getData("tonberry");
+        var data = ev.dataTransfer.getData("goal-name");
         var elements = document.getElementsByClassName("current-buttons");
-        var occupationName;
+        this.user.personalInfo.currentGoals.push(data);
+
         for(var i = 0; i < elements.length; i++) {
-            if((elements[i].textContent).trim() === data.trim()) {
-                current = elements[i];
-                occupationName = elements[i].textContent.trim();
+            if(elements[i].textContent === data) {
+                var current = elements[i];
+                ev.currentTarget.appendChild(current);
             }
         }
-        ev.currentTarget.appendChild(current);
+
+        //GET WHICH GOAL INPUT NEEDS TO BE SHOWN
+        data = data.split(" ");
+        var check = "check" + data[data.length - 1];
+        this.user.personalInfo[check] = !this.user.personalInfo[check];
     }
+
+    dropBack(ev) {
+        //GET NAME OF GOAL AND GET IT OUT OF CURRENT GOALS ARRAY
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("goal-name");
+        var elements = document.getElementsByClassName("current-buttons");
+
+        var arr = this.user.personalInfo.currentGoals;
+        for(var i = 0; i < arr.length; i++) {
+            if(arr[i] === data) {
+                this.user.personalInfo.currentGoals.splice(i, 1);
+            }
+        }
+
+        for(var i = 0; i < elements.length; i++) {
+            if(elements[i].textContent === data) {
+                var current = elements[i];
+                ev.currentTarget.appendChild(current);
+            }
+        }
+
+        //GET WHICH GOAL INPUT NEEDS TO BE SHOWN
+        data = data.split(" ");
+        var check = "check" + data[data.length - 1];
+        this.user.personalInfo[check] = !this.user.personalInfo[check];
+    }
+    //END DRAG AND DROP
 
     attached() {
         this.slider.createAgeSlider();
