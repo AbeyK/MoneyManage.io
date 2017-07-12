@@ -8,9 +8,12 @@
   },
   "license": "MIT",
   "dependencies": {
-    "aurelia-bootstrapper": "^2.1.0",
     "aurelia-animator-css": "^1.0.1",
+    "aurelia-bootstrapper": "^2.1.0",
     "bluebird": "^3.4.1",
+    "bootstrap": "^3.3.7",
+    "ion-rangeslider": "^2.2.0",
+    "jquery": "^3.2.1",
     "requirejs": "^2.3.2",
     "text": "github:requirejs/text#latest"
   },
