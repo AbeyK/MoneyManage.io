@@ -1,4 +1,56 @@
 <template>
-    <h1>Words</h1>
-    <h1>${user.personalInfo.age}</h1>
+    <div id="personalinfo">
+        <h2>Personal Info</h2>
+
+        <!--===================================AGE================================-->
+        <div class="form-group" >
+            <label for="age">Age:</label>
+            <input style="width: 400px;" id="age"></input>
+        </div>
+
+        <!--=================================INCOME================================-->
+        <div class="form-group">
+            <label for="salary">Income</label>
+            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                <div class="input-group-addon">$</div>
+                <input type="text" value.bind="user.personalInfo.income" class="form-control" id="inlineFormInputGroup">
+            </div>
+        </div>
+
+        <hr>
+
+        <h2>Goals</h2>
+         <!--==========================DRAG AND DROP=======================-->
+        <div id="drag-and-drop-container" style="clear:both">
+            <div class="col-md-6" drop.trigger="drop($event)" dragover.trigger="allowDrop($event)">
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <a class="navbar-brand">Goals</a>
+                        </div>
+                    </div>
+                </nav>
+
+                <div class="row col-md-4" dragstart.trigger="drag($event)">
+                    <div class="col" id="button-div">
+                        <button class="current-buttons" click.delegate="removeDrop()" draggable="true" id="buttons">Hello</button>
+                        <button class="current-buttons" click.delegate="removeDrop()" draggable="true" id="buttons">Yo</button>
+                        <button class="current-buttons" click.delegate="removeDrop()" draggable="true" id="buttons">Hoola</button>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="col-md-6" id="drop-box" drop.trigger="drop($event)" dragstart.trigger="drag($event)" dragover.trigger="allowDrop($event)">
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <a class="navbar-brand">My Goals</a>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!--======================END DRAG AND DROP=======================-->
+    </div>
 </template>
