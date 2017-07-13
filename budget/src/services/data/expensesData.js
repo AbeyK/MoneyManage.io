@@ -25,7 +25,6 @@ export class ExpensesData {
         this.publicTransport = 0;
         this.gas = 0;
         this.carMaintenance = 0;
-        this.utilities = 0;
 
         //HEALTH
         this.healthInsurance = 0;
@@ -33,7 +32,7 @@ export class ExpensesData {
         this.unexpectedMedicalProblems = 0;
         this.dentalInsurance = 0;
         this.cavities = 0;
-        this.eveCare = 0;
+        this.eyeCare = 0;
         this.braces = 0;
 
         //DISCRETIONARY
