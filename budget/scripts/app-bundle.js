@@ -669,12 +669,138 @@ define('utilities/calculateExpenses',['exports', 'aurelia-framework', '../servic
         return calculateExpenses;
     }()) || _class);
 });
+define('expenses/compose-home-expenses',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var ComposeHomeExpenses = exports.ComposeHomeExpenses = function ComposeHomeExpenses() {
+        _classCallCheck(this, ComposeHomeExpenses);
+    };
+});
+define('aboutyou/compose/compose-goals',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var ComposeGoals = exports.ComposeGoals = function ComposeGoals() {
+        _classCallCheck(this, ComposeGoals);
+    };
+});
+define('aboutyou/compose/compose-personal-info',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var ComposePersonalInfo = exports.ComposePersonalInfo = function ComposePersonalInfo() {
+        _classCallCheck(this, ComposePersonalInfo);
+    };
+});
+define('expenses/compose/compose-home-expenses',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var ComposeHomeExpenses = exports.ComposeHomeExpenses = function ComposeHomeExpenses() {
+        _classCallCheck(this, ComposeHomeExpenses);
+    };
+});
+define('expenses/compose/compose-car-expenses',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var ComposeCarExpenses = exports.ComposeCarExpenses = function ComposeCarExpenses() {
+        _classCallCheck(this, ComposeCarExpenses);
+    };
+});
+define('expenses/compose/compose-health-expenses',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var ComposeHealthExpenses = exports.ComposeHealthExpenses = function ComposeHealthExpenses() {
+        _classCallCheck(this, ComposeHealthExpenses);
+    };
+});
+define('expenses/compose/compose-discretionary-expenses',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var ComposeDiscretionaryExpenses = exports.ComposeDiscretionaryExpenses = function ComposeDiscretionaryExpenses() {
+        _classCallCheck(this, ComposeDiscretionaryExpenses);
+    };
+});
 define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"ion-rangeslider/css/ion.rangeSlider.css\"></require><require from=\"ion-rangeslider/css/ion.rangeSlider.skinHTML5.css\"></require><require from=\"ion-rangeslider/css/normalize.css\"></require><require from=\"highcharts/css/highcharts.css\"></require><require from=\"bootstrap/css/bootstrap.css\"></require><require from=\"css/style.css\"></require><nav class=\"navbar navbar-default\"><div class=\"container-fluid\"><div class=\"navbar-header\"><h4 style=\"padding-right:15px\">MyBudget</h4></div><div class=\"collapse navbar-collapse\"><ul class=\"nav navbar-nav\"><li repeat.for=\"row of router.navigation\" class=\"${row.isActive ? 'active' : ''}\"><a href.bind=\"row.href\">${row.title}</a></li></ul></div></div></nav><router-view></router-view></template>"; });
 define('text!css/style.css', ['module'], function(module) { module.exports = "#personalinfo, #expenses, #results {\r\n    margin: 0 auto;\r\n    text-align: center;\r\n    width: 60%;\r\n}\r\n"; });
-define('text!aboutyou/personalinfo.html', ['module'], function(module) { module.exports = "<template><div id=\"personalinfo\"><compose view-model=\"./compose-personal-info\"></compose><compose view-model=\"./compose-goals\"></compose></div></template>"; });
-define('text!expenses/expenses.html', ['module'], function(module) { module.exports = "<template><div id=\"expenses\"><h1>Expenses</h1></div><head><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\"><script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js\"></script><script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\"></script></head><body><div class=\"container\"><p><strong>Note:</strong> Get <strong>CA$H</strong> money evverydayy</p><div class=\"panel-group\" id=\"accordion\"><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse1\">Home<div style=\"float:right\">Total: $${user.expenses.totalHomeExpense}</div></a></h4></div><div id=\"collapse1\" class=\"panel-collapse collapse in\"><div class=\"panel-body\"><div class=\"form-group\"><label for=\"income\">Mortgage/Rent monthly payment:</label><input type=\"text\" value.bind=\"user.expenses.mortgage\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Property tax (per year):</label><input type=\"text\" value.bind=\"user.expenses.propertTax\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Phone payment:</label><input type=\"text\" value.bind=\"user.expenses.phone\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Internet:</label><input type=\"text\" value.bind=\"user.expenses.internet\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Cable:</label><input type=\"text\" value.bind=\"user.expenses.cable\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Netflix:</label><input type=\"text\" value.bind=\"user.expenses.netfix\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Groceries:</label><input type=\"text\" value.bind=\"user.expenses.groceries\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Utilities:</label><input type=\"text\" value.bind=\"user.expenses.utilities\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Maintenance:</label><input type=\"text\" value.bind=\"user.expenses.homeMaintenance\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Clothes (per year):</label><input type=\"text\" value.bind=\"user.expenses.clothes\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"></div></div></div><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse2\">Car/Transportation<div style=\"float:right\">Total: $${user.expenses.totalCarExpense}</div></a></h4></div><div id=\"collapse2\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><label for=\"income\">Car payment:</label><input type=\"text\" value.bind=\"user.expenses.carPayment\" change.delegate=\"calculateExpenses.carExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Car insurance:</label><input type=\"text\" value.bind=\"user.expenses.carInsurance\" change.delegate=\"calculateExpenses.carExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Public transport:</label><input type=\"text\" value.bind=\"user.expenses.publicTransport\" change.delegate=\"calculateExpenses.carExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Gas:</label><input type=\"text\" value.bind=\"user.expenses.gas\" change.delegate=\"calculateExpenses.carExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Maintenance:</label><input type=\"text\" value.bind=\"user.expenses.carMaintenance\" change.delegate=\"calculateExpenses.carExpenses()\" class=\"form-control\" placeholder=\"10\"></div></div></div><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse3\">Health<div style=\"float:right\">Total: $${user.expenses.totalHealthExpense}</div></a></h4></div><div id=\"collapse3\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><label for=\"income\">Health Insurance:</label><input type=\"text\" value.bind=\"user.expenses.healthInsurance\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Medication:</label><input type=\"text\" value.bind=\"user.expenses.medication\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Unexpected medical problems:</label><input type=\"text\" value.bind=\"user.expenses.unexpectedMedicalProblems\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Eye Care:</label><input type=\"text\" value.bind=\"user.expenses.eyeCare\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Dental Insurance:</label><input type=\"text\" value.bind=\"user.expenses.dentalInsurance\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Cavities/dental work:</label><input type=\"text\" value.bind=\"user.expenses.cavities\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Braces:</label><input type=\"text\" value.bind=\"user.expenses.braces\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\" placeholder=\"10\"></div></div></div><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse4\">Discretionary Expenses<div style=\"float:right\">Total: $${user.expenses.totalDiscretionaryExpense}</div></a></h4></div><div id=\"collapse4\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><label for=\"income\">Eating out:</label><input type=\"text\" value.bind=\"user.expenses.eatingOut\" change.delegate=\"calculateExpenses.discretionaryExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Bars/drinks:</label><input type=\"text\" value.bind=\"user.expenses.bars\" change.delegate=\"calculateExpenses.discretionaryExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Fun money (golf, movies, etc.):</label><input type=\"text\" value.bind=\"user.expenses.funMoney\" change.delegate=\"calculateExpenses.discretionaryExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Other:</label><input type=\"text\" value.bind=\"user.expenses.other\" change.delegate=\"calculateExpenses.discretionaryExpenses()\" class=\"form-control\" placeholder=\"10\"></div></div></div></div></div></div></body></template>"; });
+define('text!aboutyou/personalinfo.html', ['module'], function(module) { module.exports = "<template><div id=\"personalinfo\"><compose view-model=\"./compose/compose-personal-info\"></compose><compose view-model=\"./compose/compose-goals\"></compose></div></template>"; });
+define('text!expenses/expenses.html', ['module'], function(module) { module.exports = "<template><div id=\"expenses\"><h1>Expenses</h1></div><div class=\"container\"><p><strong>Note:</strong> Get <strong>CA$H</strong> money evverydayy</p><div class=\"panel-group\" id=\"accordion\"><compose view-model=\"./compose/compose-home-expenses\"></compose><compose view-model=\"./compose/compose-car-expenses\"></compose><compose view-model=\"./compose/compose-health-expenses\"></compose><compose view-model=\"./compose/compose-discretionary-expenses\"></compose></div></div></template>"; });
 define('text!results/results.html', ['module'], function(module) { module.exports = "<template><div id=\"results\"><h1>Results</h1><div id=\"resultsContainer\"></div></div></template>"; });
 define('text!aboutyou/compose-age.html', ['module'], function(module) { module.exports = "<template><p>Age Compose!!!</p></template>"; });
 define('text!aboutyou/compose-personal-info.html', ['module'], function(module) { module.exports = "<template><h2>Personal Info</h2><div class=\"form-group\"><label for=\"age\">Age:</label><input style=\"width:400px\" id=\"age\"></div><div class=\"form-group\"><label for=\"salary\">Income</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo.income\" class=\"form-control\" id=\"inlineFormInputGroup\"></div></div></template>"; });
 define('text!aboutyou/compose-goals.html', ['module'], function(module) { module.exports = "<template><hr><h2>Goals</h2><div id=\"drag-and-drop-container\" style=\"clear:both\"><div id=\"availableGoals\" style=\"height:500px;background-color:orange;border:solid 1px\" class=\"col-md-6\"><h1>Wishes</h1><hr><div class=\"row col-md-4 col-md-push-4\" dragstart.trigger=\"drag($event)\"><div repeat.for=\"goal of user.personalInfo.goalsList\" class=\"row\"><div class=\"current-buttons btn btn-primary\" draggable=\"true\">${goal}</div><br><br></div></div></div><div style=\"height:500px;background-color:orange;border:solid 1px;overflow-y:scroll\" class=\"col-md-6\" drop.trigger=\"drop($event)\" dragstart.trigger=\"drag($event)\" dragover.trigger=\"allowDrop($event)\"><h1>My Wishes</h1><hr><div repeat.for=\"wish of constants.wishes\"><div show.bind=\"user.personalInfo[wish.check]\"><h3>${wish.title}</h3><button click.delegate=\"remove(wish.title)\" class=\"btn btn-danger\">X</button><div class=\"form-group\"><label for=\"privateSchool\">Amount for ${wish.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo[wish.value]\" class=\"form-control\" id=\"inlineFormInputGroup\"></div></div></div></div><div id=\"myGoals\" style=\"width:100%;height:30%;background-color:gray\"><div id=\"myGoals\" style=\"text-align:center;vertical-align:middle;line-height:150px\">Add Wish Here</div></div><br></div></div></template>"; });
+define('text!expenses/compose-home-expenses.html', ['module'], function(module) { module.exports = "<template><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse1\">Home<div style=\"float:right\">Total: $${user.expenses.totalHomeExpense}</div></a></h4></div><div id=\"collapse1\" class=\"panel-collapse collapse in\"><div class=\"panel-body\"><div class=\"form-group\"><label for=\"income\">Mortgage/Rent monthly payment:</label><input type=\"text\" value.bind=\"user.expenses.mortgage\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Property tax (per year):</label><input type=\"text\" value.bind=\"user.expenses.propertTax\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Phone payment:</label><input type=\"text\" value.bind=\"user.expenses.phone\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Internet:</label><input type=\"text\" value.bind=\"user.expenses.internet\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Cable:</label><input type=\"text\" value.bind=\"user.expenses.cable\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Netflix:</label><input type=\"text\" value.bind=\"user.expenses.netfix\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Groceries:</label><input type=\"text\" value.bind=\"user.expenses.groceries\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Utilities:</label><input type=\"text\" value.bind=\"user.expenses.utilities\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Maintenance:</label><input type=\"text\" value.bind=\"user.expenses.homeMaintenance\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Clothes (per year):</label><input type=\"text\" value.bind=\"user.expenses.clothes\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"></div></div></div></div></template>"; });
+define('text!aboutyou/compose/compose-goals.html', ['module'], function(module) { module.exports = "<template><hr><h2>Goals</h2><div id=\"drag-and-drop-container\" style=\"clear:both\"><div id=\"availableGoals\" style=\"height:500px;background-color:orange;border:solid 1px\" class=\"col-md-6\"><h1>Wishes</h1><hr><div class=\"row col-md-4 col-md-push-4\" dragstart.trigger=\"drag($event)\"><div repeat.for=\"goal of user.personalInfo.goalsList\" class=\"row\"><div class=\"current-buttons btn btn-primary\" draggable=\"true\">${goal}</div><br><br></div></div></div><div style=\"height:500px;background-color:orange;border:solid 1px;overflow-y:scroll\" class=\"col-md-6\" drop.trigger=\"drop($event)\" dragstart.trigger=\"drag($event)\" dragover.trigger=\"allowDrop($event)\"><h1>My Wishes</h1><hr><div repeat.for=\"wish of constants.wishes\"><div show.bind=\"user.personalInfo[wish.check]\"><h3>${wish.title}</h3><button click.delegate=\"remove(wish.title)\" class=\"btn btn-danger\">X</button><div class=\"form-group\"><label for=\"privateSchool\">Amount for ${wish.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo[wish.value]\" class=\"form-control\" id=\"inlineFormInputGroup\"></div></div></div></div><div id=\"myGoals\" style=\"width:100%;height:30%;background-color:gray\"><div id=\"myGoals\" style=\"text-align:center;vertical-align:middle;line-height:150px\">Add Wish Here</div></div><br></div></div></template>"; });
+define('text!aboutyou/compose/compose-personal-info.html', ['module'], function(module) { module.exports = "<template><h2>Personal Info</h2><div class=\"form-group\"><label for=\"age\">Age:</label><input style=\"width:400px\" id=\"age\"></div><div class=\"form-group\"><label for=\"salary\">Income</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo.income\" class=\"form-control\" id=\"inlineFormInputGroup\"></div></div></template>"; });
+define('text!expenses/compose/compose-home-expenses.html', ['module'], function(module) { module.exports = "<template><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse1\">Home<div style=\"float:right\">Total: $${user.expenses.totalHomeExpense}</div></a></h4></div><div id=\"collapse1\" class=\"panel-collapse collapse in\"><div class=\"panel-body\"><div class=\"form-group\"><label for=\"income\">Mortgage/Rent monthly payment:</label><input type=\"text\" value.bind=\"user.expenses.mortgage\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Property tax (per year):</label><input type=\"text\" value.bind=\"user.expenses.propertTax\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Phone payment:</label><input type=\"text\" value.bind=\"user.expenses.phone\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Internet:</label><input type=\"text\" value.bind=\"user.expenses.internet\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Cable:</label><input type=\"text\" value.bind=\"user.expenses.cable\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Netflix:</label><input type=\"text\" value.bind=\"user.expenses.netfix\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Groceries:</label><input type=\"text\" value.bind=\"user.expenses.groceries\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Utilities:</label><input type=\"text\" value.bind=\"user.expenses.utilities\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Maintenance:</label><input type=\"text\" value.bind=\"user.expenses.homeMaintenance\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Clothes (per year):</label><input type=\"text\" value.bind=\"user.expenses.clothes\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"></div></div></div></div></template>"; });
+define('text!expenses/compose/compose-car-expenses.html', ['module'], function(module) { module.exports = "<template><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse2\">Car/Transportation<div style=\"float:right\">Total: $${user.expenses.totalCarExpense}</div></a></h4></div><div id=\"collapse2\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><label for=\"income\">Car payment:</label><input type=\"text\" value.bind=\"user.expenses.carPayment\" change.delegate=\"calculateExpenses.carExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Car insurance:</label><input type=\"text\" value.bind=\"user.expenses.carInsurance\" change.delegate=\"calculateExpenses.carExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Public transport:</label><input type=\"text\" value.bind=\"user.expenses.publicTransport\" change.delegate=\"calculateExpenses.carExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Gas:</label><input type=\"text\" value.bind=\"user.expenses.gas\" change.delegate=\"calculateExpenses.carExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Maintenance:</label><input type=\"text\" value.bind=\"user.expenses.carMaintenance\" change.delegate=\"calculateExpenses.carExpenses()\" class=\"form-control\" placeholder=\"10\"></div></div></div></template>"; });
+define('text!expenses/compose/compose-health-expenses.html', ['module'], function(module) { module.exports = "<template><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse3\">Health<div style=\"float:right\">Total: $${user.expenses.totalHealthExpense}</div></a></h4></div><div id=\"collapse3\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><label for=\"income\">Health Insurance:</label><input type=\"text\" value.bind=\"user.expenses.healthInsurance\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Medication:</label><input type=\"text\" value.bind=\"user.expenses.medication\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Unexpected medical problems:</label><input type=\"text\" value.bind=\"user.expenses.unexpectedMedicalProblems\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Eye Care:</label><input type=\"text\" value.bind=\"user.expenses.eyeCare\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Dental Insurance:</label><input type=\"text\" value.bind=\"user.expenses.dentalInsurance\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Cavities/dental work:</label><input type=\"text\" value.bind=\"user.expenses.cavities\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Braces:</label><input type=\"text\" value.bind=\"user.expenses.braces\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\" placeholder=\"10\"></div></div></div></template>"; });
+define('text!expenses/compose/compose-discretionary-expenses.html', ['module'], function(module) { module.exports = "<template><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse4\">Discretionary Expenses<div style=\"float:right\">Total: $${user.expenses.totalDiscretionaryExpense}</div></a></h4></div><div id=\"collapse4\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><label for=\"income\">Eating out:</label><input type=\"text\" value.bind=\"user.expenses.eatingOut\" change.delegate=\"calculateExpenses.discretionaryExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Bars/drinks:</label><input type=\"text\" value.bind=\"user.expenses.bars\" change.delegate=\"calculateExpenses.discretionaryExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Fun money (golf, movies, etc.):</label><input type=\"text\" value.bind=\"user.expenses.funMoney\" change.delegate=\"calculateExpenses.discretionaryExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Other:</label><input type=\"text\" value.bind=\"user.expenses.other\" change.delegate=\"calculateExpenses.discretionaryExpenses()\" class=\"form-control\" placeholder=\"10\"></div></div></div></template>"; });
 //# sourceMappingURL=app-bundle.js.map

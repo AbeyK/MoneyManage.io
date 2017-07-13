@@ -1,0 +1,29 @@
+<template>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">Discretionary Expenses
+                    <div style="float:right">
+                        Total: $${user.expenses.totalDiscretionaryExpense}
+                    </div>
+                </a>
+            </h4>
+        </div>
+        
+        <div id="collapse4" class="panel-collapse collapse">
+            <div class="panel-body">
+                <label for="income">Eating out:</label>
+                <input type="text" value.bind="user.expenses.eatingOut" change.delegate="calculateExpenses.discretionaryExpenses()" class="form-control" placeholder="10">
+                <br>
+                <label for="income">Bars/drinks:</label>
+                <input type="text" value.bind="user.expenses.bars" change.delegate="calculateExpenses.discretionaryExpenses()" class="form-control" placeholder="10">
+                <br>
+                <label for="income">Fun money (golf, movies, etc.):</label>
+                <input type="text" value.bind="user.expenses.funMoney" change.delegate="calculateExpenses.discretionaryExpenses()" class="form-control" placeholder="10">
+                <br>
+                <label for="income">Other:</label>
+                <input type="text" value.bind="user.expenses.other" change.delegate="calculateExpenses.discretionaryExpenses()" class="form-control" placeholder="10">
+            </div>
+        </div>
+    </div>
+</template>
