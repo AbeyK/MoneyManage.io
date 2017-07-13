@@ -171,7 +171,7 @@ define('aboutyou/personalinfo',['exports', 'aurelia-framework', 'aurelia-router'
         return personalinfo;
     }()) || _class);
 });
-define('expenses/expenses',['exports', 'aurelia-framework', 'aurelia-router', '../services/user'], function (exports, _aureliaFramework, _aureliaRouter, _user) {
+define('expenses/expenses',['exports', 'aurelia-framework', 'aurelia-router', '../services/user', '../utilities/calculateExpenses'], function (exports, _aureliaFramework, _aureliaRouter, _user, _calculateExpenses) {
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
@@ -187,11 +187,12 @@ define('expenses/expenses',['exports', 'aurelia-framework', 'aurelia-router', '.
 
     var _dec, _class;
 
-    var expenses = exports.expenses = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router, _user.User), _dec(_class = function expenses(router, user) {
+    var expenses = exports.expenses = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router, _user.User, _calculateExpenses.calculateExpenses), _dec(_class = function expenses(router, user, calculateExpenses) {
         _classCallCheck(this, expenses);
 
         this.router = router;
         this.user = user;
+        this.calculateExpenses = calculateExpenses;
     }) || _class);
 });
 define('resources/index',["exports"], function (exports) {
@@ -300,18 +301,13 @@ define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../
         return results;
     }()) || _class);
 });
-define('services/constants',[], function () {
-  "use strict";
-
-  var goalzzz = ["Celebration", "Saving for College", "Buy a boat"];
-});
-define('services/user',['exports', '../services/data/personalInfoData', '../services/data/goalsData', '../services/data/expensesData', '../services/data/resultsData'], function (exports, _personalInfoData, _goalsData, _expensesData, _resultsData) {
+define('utilities/calculateExpenses',['exports', 'aurelia-framework', '../services/user'], function (exports, _aureliaFramework, _user) {
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    exports.User = undefined;
+    exports.calculateExpenses = undefined;
 
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
@@ -319,14 +315,39 @@ define('services/user',['exports', '../services/data/personalInfoData', '../serv
         }
     }
 
-    var User = exports.User = function User() {
-        _classCallCheck(this, User);
+    var _dec, _class;
 
-        this.personalInfo = new _personalInfoData.PersonalInfoData();
-        this.goals = new _goalsData.GoalsData();
-        this.expenses = new _expensesData.ExpensesData();
-        this.results = new _resultsData.ResultsData();
-    };
+    var calculateExpenses = exports.calculateExpenses = (_dec = (0, _aureliaFramework.inject)(_user.User), _dec(_class = function () {
+        function calculateExpenses(user) {
+            _classCallCheck(this, calculateExpenses);
+
+            this.user = user;
+        }
+
+        calculateExpenses.prototype.homeExpenses = function homeExpenses() {
+            var tempHomeTotal = parseInt(this.user.expenses.mortgage) + parseInt(this.user.expenses.propertTax) + parseInt(this.user.expenses.phone) + parseInt(this.user.expenses.internet) + parseInt(this.user.expenses.cable) + parseInt(this.user.expenses.netfix) + parseInt(this.user.expenses.groceries) + parseInt(this.user.expenses.utilities) + parseInt(this.user.expenses.homeMaintenance) + parseInt(this.user.expenses.clothes);
+            console.log(tempHomeTotal);
+            if (isNaN(tempHomeTotal)) {
+                alert("Please input a number");
+            } else {
+                this.user.expenses.totalHomeExpense = tempHomeTotal;
+            }
+        };
+
+        calculateExpenses.prototype.carExpenses = function carExpenses(val) {
+            this.user.expenses.totalCarExpense += parseInt(val);
+        };
+
+        calculateExpenses.prototype.healthExpenses = function healthExpenses(val) {
+            this.user.expenses.totalHealthExpense += parseInt(val);
+        };
+
+        calculateExpenses.prototype.discretionaryExpenses = function discretionaryExpenses(val) {
+            this.user.expenses.totalDiscretionaryExpense += parseInt(val);
+        };
+
+        return calculateExpenses;
+    }()) || _class);
 });
 define('utilities/slider',['exports', 'aurelia-framework', '../services/user', 'ion-rangeslider'], function (exports, _aureliaFramework, _user, _ionRangeslider) {
     'use strict';
@@ -388,12 +409,18 @@ define('utilities/slider',['exports', 'aurelia-framework', '../services/user', '
         return Slider;
     }()) || _class);
 });
-define('services/data/expensesData',["exports"], function (exports) {
-    "use strict";
+define('services/constants',[], function () {
+  "use strict";
+
+  var goalzzz = ["Celebration", "Saving for College", "Buy a boat"];
+});
+define('services/user',['exports', '../services/data/personalInfoData', '../services/data/goalsData', '../services/data/expensesData', '../services/data/resultsData'], function (exports, _personalInfoData, _goalsData, _expensesData, _resultsData) {
+    'use strict';
 
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
+    exports.User = undefined;
 
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
@@ -401,11 +428,68 @@ define('services/data/expensesData',["exports"], function (exports) {
         }
     }
 
-    var ExpensesData = exports.ExpensesData = function ExpensesData() {
-        _classCallCheck(this, ExpensesData);
+    var User = exports.User = function User() {
+        _classCallCheck(this, User);
 
-        this.expense = 10;
+        this.personalInfo = new _personalInfoData.PersonalInfoData();
+        this.goals = new _goalsData.GoalsData();
+        this.expenses = new _expensesData.ExpensesData();
+        this.results = new _resultsData.ResultsData();
     };
+});
+define('services/data/expensesData',["exports"], function (exports) {
+        "use strict";
+
+        Object.defineProperty(exports, "__esModule", {
+                value: true
+        });
+
+        function _classCallCheck(instance, Constructor) {
+                if (!(instance instanceof Constructor)) {
+                        throw new TypeError("Cannot call a class as a function");
+                }
+        }
+
+        var ExpensesData = exports.ExpensesData = function ExpensesData() {
+                _classCallCheck(this, ExpensesData);
+
+                this.totalExpense = 0;
+                this.totalHomeExpense = 0;
+                this.totalCarExpense = 0;
+                this.totalHealthExpense = 0;
+                this.totalDiscretionaryExpense = 0;
+
+                this.mortgage = 0;
+                this.propertTax = 0;
+                this.phone = 0;
+                this.internet = 0;
+                this.cable = 0;
+                this.netfix = 0;
+                this.groceries = 0;
+                this.utilities = 0;
+                this.homeMaintenance = 0;
+                this.clothes = 0;
+
+                this.carPayment = 0;
+                this.carInsurance = 0;
+                this.publicTransport = 0;
+                this.gas = 0;
+                this.carMaintenance = 0;
+                this.utilities = 0;
+
+                this.healthInsurance = 0;
+                this.medication = 0;
+                this.unexpectedMedicalProblems = 0;
+                this.dentalInsurance = 0;
+                this.cavities = 0;
+                this.eveCare = 0;
+                this.braces = 0;
+
+                this.eatingOut = 0;
+                this.bars = 0;
+                this.funMoney = 0;
+                this.other = 0;
+        };
 });
 define('services/data/goalsData',["exports"], function (exports) {
     "use strict";
@@ -478,12 +562,7 @@ define('services/data/resultsData',["exports"], function (exports) {
 });
 define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"ion-rangeslider/css/ion.rangeSlider.css\"></require><require from=\"ion-rangeslider/css/ion.rangeSlider.skinHTML5.css\"></require><require from=\"ion-rangeslider/css/normalize.css\"></require><require from=\"highcharts/css/highcharts.css\"></require><require from=\"bootstrap/css/bootstrap.css\"></require><require from=\"css/style.css\"></require><nav class=\"navbar navbar-default\"><div class=\"container-fluid\"><div class=\"navbar-header\"><h4 style=\"padding-right:15px\">MyBudget</h4></div><div class=\"collapse navbar-collapse\"><ul class=\"nav navbar-nav\"><li repeat.for=\"row of router.navigation\" class=\"${row.isActive ? 'active' : ''}\"><a href.bind=\"row.href\">${row.title}</a></li></ul></div></div></nav><router-view></router-view></template>"; });
 define('text!css/style.css', ['module'], function(module) { module.exports = "#personalinfo, #expenses, #results {\r\n    margin: 0 auto;\r\n    text-align: center;\r\n    width: 40%;\r\n}\r\n"; });
-<<<<<<< HEAD
 define('text!aboutyou/personalinfo.html', ['module'], function(module) { module.exports = "<template><div id=\"personalinfo\"><h2>Personal Info</h2><div class=\"form-group\"><label for=\"age\">Age:</label><input style=\"width:400px\" id=\"age\"></div><div class=\"form-group\"><label for=\"salary\">Income</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo.income\" class=\"form-control\" id=\"inlineFormInputGroup\"></div></div><hr><h2>Goals</h2><div id=\"drag-and-drop-container\" style=\"clear:both\"><div style=\"height:500px;background-color:orange;border:solid 1px\" class=\"col-md-6\" drop.trigger=\"dropBack($event)\" dragover.trigger=\"allowDrop($event)\"><nav class=\"navbar navbar-default\"><div class=\"container-fluid\"><div class=\"navbar-header\"><a class=\"navbar-brand\">Available Goals</a></div></div></nav><div class=\"row col-md-4 col-md-push-4\" dragstart.trigger=\"drag($event)\"><div repeat.for=\"goal of user.personalInfo.goalsList\" class=\"row\"><div class=\"col-md-4\"><button class=\"current-buttons btn btn-primary\" draggable=\"true\" id=\"buttons\">${goal}</button></div><br><br></div></div></div><div style=\"height:500px;background-color:orange;border:solid 1px\" class=\"col-md-6\" drop.trigger=\"drop($event)\" dragstart.trigger=\"drag($event)\" dragover.trigger=\"allowDrop($event)\"><nav class=\"navbar navbar-default\"><div class=\"container-fluid\"><div class=\"navbar-header\"><a class=\"navbar-brand\">My Goals</a><div show.bind=\"user.personalInfo.checkSchool\"><h1>Private School</h1></div><div show.bind=\"user.personalInfo.checkBoat\"><h1>Boat</h1></div></div></div></nav></div></div></div></template>"; });
-define('text!expenses/expenses.html', ['module'], function(module) { module.exports = "<template><div id=\"expenses\"><h1>Expenses</h1></div></template>"; });
-=======
-define('text!aboutyou/personalinfo.html', ['module'], function(module) { module.exports = "<template><div id=\"personalinfo\"><h2>Personal Info</h2><div class=\"form-group\"><label for=\"age\">Age:</label><input style=\"width:400px\" id=\"age\"></div><div class=\"form-group\"><label for=\"salary\">Income</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo.income\" class=\"form-control\" id=\"inlineFormInputGroup\"></div></div><hr><h2>Goals</h2><div id=\"drag-and-drop-container\" style=\"clear:both\"><div class=\"col-md-6\" drop.trigger=\"drop($event)\" dragover.trigger=\"allowDrop($event)\"><nav class=\"navbar navbar-default\"><div class=\"container-fluid\"><div class=\"navbar-header\"><a class=\"navbar-brand\">Goals</a></div></div></nav><div class=\"row col-md-4\" dragstart.trigger=\"drag($event)\"><div class=\"col\" id=\"button-div\"><button class=\"current-buttons\" click.delegate=\"removeDrop()\" draggable=\"true\" id=\"buttons\">Hello</button> <button class=\"current-buttons\" click.delegate=\"removeDrop()\" draggable=\"true\" id=\"buttons\">Yo</button> <button class=\"current-buttons\" click.delegate=\"removeDrop()\" draggable=\"true\" id=\"buttons\">Hoola</button></div></div></div><div class=\"col-md-6\" id=\"drop-box\" drop.trigger=\"drop($event)\" dragstart.trigger=\"drag($event)\" dragover.trigger=\"allowDrop($event)\"><nav class=\"navbar navbar-default\"><div class=\"container-fluid\"><div class=\"navbar-header\"><a class=\"navbar-brand\">My Goals</a></div></div></nav></div></div></div></template>"; });
-define('text!expenses/expenses.html', ['module'], function(module) { module.exports = "<template><div id=\"expenses\"><h1>Expenses</h1></div><head><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\"><script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js\"></script><script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\"></script></head><body><div class=\"container\"><p><strong>Note:</strong> The <strong>data-parent</strong> attribute makes sure that all collapsible elements under the specified parent will be closed when one of the collapsible item is shown.</p><div class=\"panel-group\" id=\"accordion\"><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse1\">Home</a></h4></div><div id=\"collapse1\" class=\"panel-collapse collapse in\"><div class=\"panel-body\"><div class=\"form-group\"><label for=\"income\">Years since current marriage/cohabitation began:</label><input type=\"text\" value.bind=\"user.clientPersonalInfo.yearsOfMarriage\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Years since current marriage/cohabitation began:</label><input type=\"text\" value.bind=\"user.clientPersonalInfo.yearsOfMarriage\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Years since current marriage/cohabitation began:</label><input type=\"text\" value.bind=\"user.clientPersonalInfo.yearsOfMarriage\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Years since current marriage/cohabitation began:</label><input type=\"text\" value.bind=\"user.clientPersonalInfo.yearsOfMarriage\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Years since current marriage/cohabitation began:</label><input type=\"text\" value.bind=\"user.clientPersonalInfo.yearsOfMarriage\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Years since current marriage/cohabitation began:</label><input type=\"text\" value.bind=\"user.clientPersonalInfo.yearsOfMarriage\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Years since current marriage/cohabitation began:</label><input type=\"text\" value.bind=\"user.clientPersonalInfo.yearsOfMarriage\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Years since current marriage/cohabitation began:</label><input type=\"text\" value.bind=\"user.clientPersonalInfo.yearsOfMarriage\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Years since current marriage/cohabitation began:</label><input type=\"text\" value.bind=\"user.clientPersonalInfo.yearsOfMarriage\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Years since current marriage/cohabitation began:</label><input type=\"text\" value.bind=\"user.clientPersonalInfo.yearsOfMarriage\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Years since current marriage/cohabitation began:</label><input type=\"text\" value.bind=\"user.clientPersonalInfo.yearsOfMarriage\" class=\"form-control\" placeholder=\"10\"></div></div></div><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse2\">Car/Transportation</a></h4></div><div id=\"collapse2\" class=\"panel-collapse collapse\"><div class=\"panel-body\">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div></div></div><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse3\">Health</a></h4></div><div id=\"collapse3\" class=\"panel-collapse collapse\"><div class=\"panel-body\">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div></div></div><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse4\">Discretionary Expenses</a></h4></div><div id=\"collapse4\" class=\"panel-collapse collapse\"><div class=\"panel-body\">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div></div></div></div></div></div></body></template>"; });
->>>>>>> 0b1c57171935673414e3a6d3239476fe798f9468
+define('text!expenses/expenses.html', ['module'], function(module) { module.exports = "<template><div id=\"expenses\"><h1>Expenses</h1></div><head><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\"><script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js\"></script><script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\"></script></head><body><div class=\"container\"><p><strong>Note:</strong> Get <strong>CA$H</strong> money evverydayy</p><div class=\"panel-group\" id=\"accordion\"><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse1\">Home<div style=\"float:right\">Total: $${user.expenses.totalHomeExpense}</div></a></h4></div><div id=\"collapse1\" class=\"panel-collapse collapse in\"><div class=\"panel-body\"><div class=\"form-group\"><label for=\"income\">Mortgage/Rent monthly payment:</label><input type=\"text\" value.bind=\"user.expenses.mortgage\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Property tax (per year):</label><input type=\"text\" value.bind=\"user.expenses.propertTax\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Phone payment:</label><input type=\"text\" value.bind=\"user.expenses.phone\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Internet:</label><input type=\"text\" value.bind=\"user.expenses.internet\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Cable:</label><input type=\"text\" value.bind=\"user.expenses.cable\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Netflix:</label><input type=\"text\" value.bind=\"user.expenses.netfix\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Groceries:</label><input type=\"text\" value.bind=\"user.expenses.groceries\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Utilities:</label><input type=\"text\" value.bind=\"user.expenses.utilities\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Maintenance:</label><input type=\"text\" value.bind=\"user.expenses.homeMaintenance\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Clothes (per year):</label><input type=\"text\" value.bind=\"user.expenses.clothes\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"></div></div></div><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse2\">Car/Transportation<div style=\"float:right\">Total: $0</div></a></h4></div><div id=\"collapse2\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><label for=\"income\">Car payment:</label><input type=\"text\" value.bind=\"user.clientPersonalInfo.yearsOfMarriage\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Car insurance:</label><input type=\"text\" value.bind=\"user.clientPersonalInfo.yearsOfMarriage\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Public transport:</label><input type=\"text\" value.bind=\"user.clientPersonalInfo.yearsOfMarriage\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Gas:</label><input type=\"text\" value.bind=\"user.clientPersonalInfo.yearsOfMarriage\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Maintenance:</label><input type=\"text\" value.bind=\"user.clientPersonalInfo.yearsOfMarriage\" class=\"form-control\" placeholder=\"10\"></div></div></div><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse3\">Health<div style=\"float:right\">Total: $0</div></a></h4></div><div id=\"collapse3\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><label for=\"income\">Health Insurance:</label><input type=\"text\" value.bind=\"user.clientPersonalInfo.yearsOfMarriage\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Medication:</label><input type=\"text\" value.bind=\"user.clientPersonalInfo.yearsOfMarriage\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Unexpected medical problems:</label><input type=\"text\" value.bind=\"user.clientPersonalInfo.yearsOfMarriage\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Eye Care:</label><input type=\"text\" value.bind=\"user.clientPersonalInfo.yearsOfMarriage\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Dental Insurance:</label><input type=\"text\" value.bind=\"user.clientPersonalInfo.yearsOfMarriage\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Cavities/dental work:</label><input type=\"text\" value.bind=\"user.clientPersonalInfo.yearsOfMarriage\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Braces:</label><input type=\"text\" value.bind=\"user.clientPersonalInfo.yearsOfMarriage\" class=\"form-control\" placeholder=\"10\"></div></div></div><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse4\">Discretionary Expenses<div style=\"float:right\">Total: $0</div></a></h4></div><div id=\"collapse4\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><label for=\"income\">Eating out:</label><input type=\"text\" value.bind=\"user.clientPersonalInfo.yearsOfMarriage\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Bars/drinks:</label><input type=\"text\" value.bind=\"user.clientPersonalInfo.yearsOfMarriage\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Fun money (golf, movies, etc.):</label><input type=\"text\" value.bind=\"user.clientPersonalInfo.yearsOfMarriage\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Other:</label><input type=\"text\" value.bind=\"user.clientPersonalInfo.yearsOfMarriage\" class=\"form-control\" placeholder=\"10\"></div></div></div></div></div></div></body></template>"; });
 define('text!results/results.html', ['module'], function(module) { module.exports = "<template><div id=\"results\"><h1>Results</h1><div id=\"resultsContainer\"></div></div></template>"; });
 //# sourceMappingURL=app-bundle.js.map
