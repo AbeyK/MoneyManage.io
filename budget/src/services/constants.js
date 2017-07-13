@@ -1,5 +1,6 @@
 export class Constants {
     constructor() {
+        //PERSONAL INFO CONSTANTS
         this.wishes = [
             {
                 "title" : "Private School",
@@ -35,6 +36,123 @@ export class Constants {
                 "title" : "Other",
                 "check" : "checkOther",
                 "value" : "Other"
+            }
+        ];
+
+        //EXPENSES CONSTANTS
+        this.homeExpenses = [
+            {
+                "title" : "Mortgage/Rent Monthly Payment",
+                "value" : "mortgage"
+            },
+            {
+                "title" : "Property tax (per year)",
+                "value" : "propertyTax"
+            },
+            {
+                "title" : "Phone Payment",
+                "value" : "phone"
+            },
+            {
+                "title" : "Internet",
+                "value" : "internet"
+            },
+            {
+                "title" : "Cable",
+                "value" : "cable"
+            },
+            {
+                "title" : "Netflix",
+                "value" : "netfix"
+            },
+            {
+                "title" : "Groceries",
+                "value" : "groceries"
+            },
+            {
+                "title" : "Utilities",
+                "value" : "utilities"
+            },
+            {
+                "title" : "Maintenance",
+                "value" : "homeMaintenance"
+            },
+            {
+                "title" : "Clothes (per year)",
+                "value" : "clothes"
+            }
+        ];
+
+        this.carExpenses = [
+            {
+                "title" : "Car Payment",
+                "value" : "carPayment"
+            },
+            {
+                "title" : "Car Insurance",
+                "value" : "carInsurance"
+            },
+            {
+                "title" : "Public Transport",
+                "value" : "publicTransport"
+            },
+            {
+                "title" : "Gas",
+                "value" : "gas"
+            },
+            {
+                "title" : "Maintenance",
+                "value" : "carMaintenance"
+            }
+        ];
+
+        this.healthExpenses = [
+            {
+                "title" : "Health Insurance",
+                "value" : "healthInsurance"
+            },
+            {
+                "title" : "Medication",
+                "value" : "medication"
+            },
+            {
+                "title" : "Unexpected Medical Problems",
+                "value" : "unexpectedMedicalProblems"
+            },
+            {
+                "title" : "Eye Care",
+                "value" : "eyeCare"
+            },
+            {
+                "title" : "Dental Insurance",
+                "value" : "dentalInsurance"
+            },
+            {
+                "title" : "Cavities/Dental Work",
+                "value" : "cavities"
+            },
+            {
+                "title" : "Braces",
+                "value" : "braces"
+            }
+        ];
+
+        this.discretionaryExpenses = [
+            {
+                "title" : "Eating Out",
+                "value" : "eatingOut"
+            },
+            {
+                "title" : "Bars/Drinks",
+                "value" : "bars"
+            },
+            {
+                "title" : "Fun Money (golf, movies, etc.",
+                "value" : "funMoney"
+            },
+            {
+                "title" : "Other",
+                "value" : "other"
             }
         ];
     }

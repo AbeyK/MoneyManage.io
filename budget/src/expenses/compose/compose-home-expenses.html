@@ -2,7 +2,8 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Home
+                <a data-toggle="collapse" data-parent="#accordion" href="#homeExpenseCollapse">
+                    Home
                     <div style="float:right">
                         Total: $${user.expenses.totalHomeExpense}
                     </div>
@@ -10,38 +11,16 @@
             </h4>
         </div>
         
-        <div id="collapse1" class="panel-collapse collapse in">
+        <div id="homeExpenseCollapse" class="panel-collapse collapse">
             <div class="panel-body">
-                <div class="form-group">
-                    <label for="income">Mortgage/Rent monthly payment:</label>
-                    <input type="text" value.bind="user.expenses.mortgage" change.delegate="calculateExpenses.homeExpenses()" class="form-control" placeholder="10">
+                <div repeat.for="home of constants.homeExpenses" class="form-group">
+                    <label>${home.title}</label>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon">$</div>
+                        <input type="text" value.bind="user.expenses[home.value]" 
+                            change.delegate="calculateExpenses.homeExpenses()" class="form-control">
+                    </div>
                     <br>
-                    <label for="income">Property tax (per year):</label>
-                    <input type="text"value.bind="user.expenses.propertTax" change.delegate="calculateExpenses.homeExpenses()" class="form-control" placeholder="10">
-                    <br>
-                    <label for="income">Phone payment:</label>
-                    <input type="text" value.bind="user.expenses.phone" change.delegate="calculateExpenses.homeExpenses()"  class="form-control" placeholder="10">
-                    <br>
-                    <label for="income">Internet:</label>
-                    <input type="text" value.bind="user.expenses.internet" change.delegate="calculateExpenses.homeExpenses()" class="form-control" placeholder="10">
-                    <br>
-                    <label for="income">Cable:</label>
-                    <input type="text" value.bind="user.expenses.cable" change.delegate="calculateExpenses.homeExpenses()" class="form-control" placeholder="10">
-                    <br>
-                    <label for="income">Netflix:</label>
-                    <input type="text" value.bind="user.expenses.netfix" change.delegate="calculateExpenses.homeExpenses()" class="form-control" placeholder="10">
-                    <br>
-                    <label for="income">Groceries:</label>
-                    <input type="text" value.bind="user.expenses.groceries" change.delegate="calculateExpenses.homeExpenses()"  class="form-control" placeholder="10">
-                    <br>
-                    <label for="income">Utilities:</label>
-                    <input type="text" value.bind="user.expenses.utilities" change.delegate="calculateExpenses.homeExpenses()"  class="form-control" placeholder="10">
-                    <br>
-                    <label for="income">Maintenance:</label>
-                    <input type="text" value.bind="user.expenses.homeMaintenance" change.delegate="calculateExpenses.homeExpenses()"  class="form-control" placeholder="10">
-                    <br>
-                    <label for="income">Clothes (per year):</label>
-                    <input type="text" value.bind="user.expenses.clothes" change.delegate="calculateExpenses.homeExpenses()"  class="form-control" placeholder="10">
                 </div>
             </div>
         </div>

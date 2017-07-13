@@ -1,5 +1,5 @@
 export class ResultsData {
     constructor() {
-        this.result = 10;
+        this.expensesResults = [];
     }
 }
