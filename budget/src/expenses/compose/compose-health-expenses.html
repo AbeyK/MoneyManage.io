@@ -1,0 +1,38 @@
+<template>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Health
+                    <div style="float:right">
+                        Total: $${user.expenses.totalHealthExpense}
+                    </div>
+                </a>
+            </h4>
+        </div>
+        
+        <div id="collapse3" class="panel-collapse collapse">
+            <div class="panel-body">
+                <label for="income">Health Insurance:</label>
+                <input type="text" value.bind="user.expenses.healthInsurance" change.delegate="calculateExpenses.healthExpenses()" class="form-control" placeholder="10">
+                <br>
+                <label for="income">Medication:</label>
+                <input type="text" value.bind="user.expenses.medication" change.delegate="calculateExpenses.healthExpenses()" class="form-control" placeholder="10">
+                <br>
+                <label for="income">Unexpected medical problems:</label>
+                <input type="text" value.bind="user.expenses.unexpectedMedicalProblems" change.delegate="calculateExpenses.healthExpenses()" class="form-control" placeholder="10">
+                <br>
+                <label for="income">Eye Care:</label>
+                <input type="text" value.bind="user.expenses.eyeCare" change.delegate="calculateExpenses.healthExpenses()" class="form-control" placeholder="10">
+                <br>
+                <label for="income">Dental Insurance:</label>
+                <input type="text" value.bind="user.expenses.dentalInsurance" change.delegate="calculateExpenses.healthExpenses()" class="form-control" placeholder="10">
+                <br>
+                <label for="income">Cavities/dental work:</label>
+                <input type="text" value.bind="user.expenses.cavities" change.delegate="calculateExpenses.healthExpenses()" class="form-control" placeholder="10">
+                <br>
+                <label for="income">Braces:</label>
+                <input type="text" value.bind="user.expenses.braces" change.delegate="calculateExpenses.healthExpenses()"  class="form-control" placeholder="10">
+            </div>
+        </div>
+    </div>
+</template>

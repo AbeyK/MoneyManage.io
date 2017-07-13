@@ -1,0 +1,32 @@
+<template>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Car/Transportation
+                    <div style="float:right">
+                        Total: $${user.expenses.totalCarExpense}
+                    </div>
+                </a>
+            </h4>
+        </div>
+        
+        <div id="collapse2" class="panel-collapse collapse">
+            <div class="panel-body">
+                <label for="income">Car payment:</label>
+                <input type="text" value.bind="user.expenses.carPayment" change.delegate="calculateExpenses.carExpenses()" class="form-control" placeholder="10">
+                <br>
+                <label for="income">Car insurance:</label>
+                <input type="text" value.bind="user.expenses.carInsurance" change.delegate="calculateExpenses.carExpenses()" class="form-control" placeholder="10">
+                <br>
+                <label for="income">Public transport:</label>
+                <input type="text" value.bind="user.expenses.publicTransport" change.delegate="calculateExpenses.carExpenses()" class="form-control" placeholder="10">
+                <br>
+                <label for="income">Gas:</label>
+                <input type="text" value.bind="user.expenses.gas" change.delegate="calculateExpenses.carExpenses()" class="form-control" placeholder="10">
+                <br>
+                <label for="income">Maintenance:</label>
+                <input type="text" value.bind="user.expenses.carMaintenance" change.delegate="calculateExpenses.carExpenses()" class="form-control" placeholder="10">
+            </div>
+        </div>
+    </div>
+</template>
