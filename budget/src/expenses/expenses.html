@@ -2,14 +2,21 @@
     <div id="expenses">
         <h1>Expenses</h1>
     </div>
-    
-    <div class="container">
-        <p><strong>Note:</strong> Get <strong>CA$H</strong> money evverydayy</p>
-        <div class="panel-group" id="accordion">
-            <compose view-model="./compose/compose-home-expenses"></compose>
-            <compose view-model="./compose/compose-car-expenses"></compose>
-            <compose view-model="./compose/compose-health-expenses"></compose>
-            <compose view-model="./compose/compose-discretionary-expenses"></compose>
+
+    <form submit.delegate="next()">
+        <div class="container" style="width:60%">
+            <div class="panel-group" id="accordion">
+                <compose view-model="./compose/compose-home-expenses"></compose>
+                <compose view-model="./compose/compose-car-expenses"></compose>
+                <compose view-model="./compose/compose-health-expenses"></compose>
+                <compose view-model="./compose/compose-discretionary-expenses"></compose>
+            </div>
         </div>
-    </div>
+        
+        <div id="expenses">
+            <hr>
+            <button class="btn btn-secondary" click.delegate="back()" id="back">Back</button>
+            <button class="btn btn-primary" type="submit" id="next">Next</button>
+        </div>
+    </form>
 </template>

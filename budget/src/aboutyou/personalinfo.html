@@ -1,6 +1,11 @@
 <template>
     <div id="personalinfo">
-        <compose view-model="./compose/compose-personal-info"></compose>
-        <compose view-model="./compose/compose-goals"></compose>
+        <form submit.delegate="next()">
+            <compose view-model="./compose/compose-personal-info"></compose>
+            <compose view-model="./compose/compose-goals"></compose>
+
+            <hr style="margin-top: 90%;">
+            <button class="btn btn-primary" type="submit" id="next">Next</button>
+        </form>
     </div>
 </template>

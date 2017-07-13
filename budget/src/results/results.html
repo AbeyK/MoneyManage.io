@@ -1,6 +1,8 @@
 <template>
     <div id="results">
         <h1>Results</h1>
-        <div id="resultsContainer"></div>
+        <compose view-model="./compose/compose-chart"></compose>
+        <hr>
+        <button class="btn btn-secondary" click.delegate="back()" id="back">Back</button>
     </div>
 </template>

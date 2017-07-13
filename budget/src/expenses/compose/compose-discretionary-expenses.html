@@ -2,7 +2,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">Discretionary Expenses
+                <a data-toggle="collapse" data-parent="#accordion" href="#discretionaryExpenseCollapse">Discretionary Expenses
                     <div style="float:right">
                         Total: $${user.expenses.totalDiscretionaryExpense}
                     </div>
@@ -10,19 +10,17 @@
             </h4>
         </div>
         
-        <div id="collapse4" class="panel-collapse collapse">
+        <div id="discretionaryExpenseCollapse" class="panel-collapse collapse">
             <div class="panel-body">
-                <label for="income">Eating out:</label>
-                <input type="text" value.bind="user.expenses.eatingOut" change.delegate="calculateExpenses.discretionaryExpenses()" class="form-control" placeholder="10">
-                <br>
-                <label for="income">Bars/drinks:</label>
-                <input type="text" value.bind="user.expenses.bars" change.delegate="calculateExpenses.discretionaryExpenses()" class="form-control" placeholder="10">
-                <br>
-                <label for="income">Fun money (golf, movies, etc.):</label>
-                <input type="text" value.bind="user.expenses.funMoney" change.delegate="calculateExpenses.discretionaryExpenses()" class="form-control" placeholder="10">
-                <br>
-                <label for="income">Other:</label>
-                <input type="text" value.bind="user.expenses.other" change.delegate="calculateExpenses.discretionaryExpenses()" class="form-control" placeholder="10">
+                <div repeat.for="discretionary of constants.discretionaryExpenses" class="form-group">
+                    <label>${discretionary.title}</label>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon">$</div>
+                        <input type="text" value.bind="user.expenses[discretionary.value]" 
+                            change.delegate="calculateExpenses.discretionaryExpenses()" class="form-control">
+                    </div>
+                    <br>
+                </div>
             </div>
         </div>
     </div>
