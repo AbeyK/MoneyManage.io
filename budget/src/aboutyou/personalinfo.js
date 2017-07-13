@@ -1,14 +1,16 @@
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {User} from '../services/user';
+import {Constants} from '../services/constants';
 import {Slider} from '../utilities/slider';
 
-@inject(Router, User, Slider)
+@inject(Router, User, Slider, Constants)
 export class personalinfo {
-    constructor(router, user, slider) {
+    constructor(router, user, slider, constants) {
         this.router = router;
         this.user = user;
         this.slider = slider;
+        this.constants = constants;
     }
 
     //DRAG AND DROP
