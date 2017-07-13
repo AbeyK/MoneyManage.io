@@ -64,7 +64,7 @@
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Car/Transportation
-                                                                    <div style="float:right">Total: $0</div>
+                                                                    <div style="float:right">Total: $${user.expenses.totalCarExpense}</div>
 
                                 </a>
                             </h4>
@@ -73,19 +73,19 @@
                             <div class="panel-body">
 
                                 <label for="income">Car payment:</label>
-                                <input type="text" value.bind="user.clientPersonalInfo.yearsOfMarriage" class="form-control" placeholder="10">
+                                <input type="text" value.bind="user.expenses.carPayment" change.delegate="calculateExpenses.carExpenses()" class="form-control" placeholder="10">
                                 <br>
                                 <label for="income">Car insurance:</label>
-                                <input type="text" value.bind="user.clientPersonalInfo.yearsOfMarriage" class="form-control" placeholder="10">
+                                <input type="text" value.bind="user.expenses.carInsurance" change.delegate="calculateExpenses.carExpenses()" class="form-control" placeholder="10">
                                 <br>
                                 <label for="income">Public transport:</label>
-                                <input type="text" value.bind="user.clientPersonalInfo.yearsOfMarriage" class="form-control" placeholder="10">
+                                <input type="text" value.bind="user.expenses.publicTransport" change.delegate="calculateExpenses.carExpenses()" class="form-control" placeholder="10">
                                 <br>
                                 <label for="income">Gas:</label>
-                                <input type="text" value.bind="user.clientPersonalInfo.yearsOfMarriage" class="form-control" placeholder="10">
+                                <input type="text" value.bind="user.expenses.gas" change.delegate="calculateExpenses.carExpenses()" class="form-control" placeholder="10">
                                 <br>
                                 <label for="income">Maintenance:</label>
-                                <input type="text" value.bind="user.clientPersonalInfo.yearsOfMarriage" class="form-control" placeholder="10">
+                                <input type="text" value.bind="user.expenses.carMaintenance" change.delegate="calculateExpenses.carExpenses()" class="form-control" placeholder="10">
                             </div>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Health
-                                                                                                        <div style="float:right">Total: $0</div>
+                                                                                                        <div style="float:right">Total: $${user.expenses.totalHealthExpense}</div>
 
                                 </a>
                             </h4>
@@ -102,25 +102,25 @@
                             <div class="panel-body">
 
                                 <label for="income">Health Insurance:</label>
-                                <input type="text" value.bind="user.clientPersonalInfo.yearsOfMarriage" class="form-control" placeholder="10">
+                                <input type="text" value.bind="user.expenses.healthInsurance" change.delegate="calculateExpenses.healthExpenses()" class="form-control" placeholder="10">
                                 <br>
                                 <label for="income">Medication:</label>
-                                <input type="text" value.bind="user.clientPersonalInfo.yearsOfMarriage" class="form-control" placeholder="10">
+                                <input type="text" value.bind="user.expenses.medication" change.delegate="calculateExpenses.healthExpenses()" class="form-control" placeholder="10">
                                 <br>
                                 <label for="income">Unexpected medical problems:</label>
-                                <input type="text" value.bind="user.clientPersonalInfo.yearsOfMarriage" class="form-control" placeholder="10">
+                                <input type="text" value.bind="user.expenses.unexpectedMedicalProblems" change.delegate="calculateExpenses.healthExpenses()" class="form-control" placeholder="10">
                                 <br>
                                 <label for="income">Eye Care:</label>
-                                <input type="text" value.bind="user.clientPersonalInfo.yearsOfMarriage" class="form-control" placeholder="10">
+                                <input type="text" value.bind="user.expenses.eyeCare" change.delegate="calculateExpenses.healthExpenses()" class="form-control" placeholder="10">
                                 <br>
                                 <label for="income">Dental Insurance:</label>
-                                <input type="text" value.bind="user.clientPersonalInfo.yearsOfMarriage" class="form-control" placeholder="10">
+                                <input type="text" value.bind="user.expenses.dentalInsurance" change.delegate="calculateExpenses.healthExpenses()" class="form-control" placeholder="10">
                                 <br>
                                 <label for="income">Cavities/dental work:</label>
-                                <input type="text" value.bind="user.clientPersonalInfo.yearsOfMarriage" class="form-control" placeholder="10">
+                                <input type="text" value.bind="user.expenses.cavities" change.delegate="calculateExpenses.healthExpenses()" class="form-control" placeholder="10">
                                 <br>
                                 <label for="income">Braces:</label>
-                                <input type="text" value.bind="user.clientPersonalInfo.yearsOfMarriage" class="form-control" placeholder="10">
+                                <input type="text" value.bind="user.expenses.braces" change.delegate="calculateExpenses.healthExpenses()"  class="form-control" placeholder="10">
                             </div>
                         </div>
                     </div>
@@ -128,7 +128,7 @@
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">Discretionary Expenses
-                                                                                                        <div style="float:right">Total: $0</div>
+                                                                                                        <div style="float:right">Total: $${user.expenses.totalDiscretionaryExpense}</div>
                                 </a>
                             </h4>
                         </div>
@@ -138,16 +138,16 @@
 
 
                                 <label for="income">Eating out:</label>
-                                <input type="text" value.bind="user.clientPersonalInfo.yearsOfMarriage" class="form-control" placeholder="10">
+                                <input type="text" value.bind="user.expenses.eatingOut" change.delegate="calculateExpenses.discretionaryExpenses()" class="form-control" placeholder="10">
                                 <br>
                                 <label for="income">Bars/drinks:</label>
-                                <input type="text" value.bind="user.clientPersonalInfo.yearsOfMarriage" class="form-control" placeholder="10">
+                                <input type="text" value.bind="user.expenses.bars" change.delegate="calculateExpenses.discretionaryExpenses()" class="form-control" placeholder="10">
                                 <br>
                                 <label for="income">Fun money (golf, movies, etc.):</label>
-                                <input type="text" value.bind="user.clientPersonalInfo.yearsOfMarriage" class="form-control" placeholder="10">
+                                <input type="text" value.bind="user.expenses.funMoney" change.delegate="calculateExpenses.discretionaryExpenses()" class="form-control" placeholder="10">
                                 <br>
                                 <label for="income">Other:</label>
-                                <input type="text" value.bind="user.clientPersonalInfo.yearsOfMarriage" class="form-control" placeholder="10"></div>
+                                <input type="text" value.bind="user.expenses.other" change.delegate="calculateExpenses.discretionaryExpenses()" class="form-control" placeholder="10"></div>
                         </div>
                     </div>
                 </div>

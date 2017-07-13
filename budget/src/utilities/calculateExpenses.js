@@ -15,20 +15,44 @@ export class calculateExpenses {
         parseInt(this.user.expenses.homeMaintenance) + parseInt(this.user.expenses.clothes);
         console.log(tempHomeTotal);
         if(isNaN(tempHomeTotal)){
-            alert("Please input a number");
+            alert("Please enter a valid input");
         }else{
             this.user.expenses.totalHomeExpense = tempHomeTotal;
         }
     }
     carExpenses(val){
-        this.user.expenses.totalCarExpense+=parseInt(val);
-
+        var tempCarTotal = 
+        parseInt(this.user.expenses.carPayment) + parseInt(this.user.expenses.carInsurance) +
+        parseInt(this.user.expenses.publicTransport) + parseInt(this.user.expenses.gas) +        
+        parseInt(this.user.expenses.carMaintenance);
+        console.log(tempCarTotal);
+        if(isNaN(tempCarTotal)){
+            alert("Please enter a valid input");
+        }else{
+            this.user.expenses.totalCarExpense = tempCarTotal;
+        }
     }
     healthExpenses(val){
-        this.user.expenses.totalHealthExpense+=parseInt(val);
-
+        var tempHealthTotal = 
+        parseInt(this.user.expenses.healthInsurance) + parseInt(this.user.expenses.medication) +
+        parseInt(this.user.expenses.unexpectedMedicalProblems) + parseInt(this.user.expenses.dentalInsurance) +        
+        parseInt(this.user.expenses.cavities) + parseInt(this.user.expenses.eyeCare) +        
+        parseInt(this.user.expenses.braces);
+        console.log(tempHealthTotal);
+        if(isNaN(tempHealthTotal)){
+            alert("Please enter a valid input");
+        }else{
+            this.user.expenses.totalHealthExpense = tempHealthTotal;
+        }
     }
     discretionaryExpenses(val){
-        this.user.expenses.totalDiscretionaryExpense+=parseInt(val);
-    }
+        var tempDiscretionaryTotal = 
+        parseInt(this.user.expenses.eatingOut) + parseInt(this.user.expenses.bars) +
+        parseInt(this.user.expenses.funMoney) + parseInt(this.user.expenses.other);
+        console.log(tempDiscretionaryTotal);
+        if(isNaN(tempDiscretionaryTotal)){
+            alert("Please enter a valid input");
+        }else{
+            this.user.expenses.totalDiscretionaryExpense = tempDiscretionaryTotal;
+        }    }
 }
