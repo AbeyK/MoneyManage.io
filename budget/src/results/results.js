@@ -17,11 +17,11 @@ export class results {
 
     attached() {
         this.user.results.expensesResults = [];
-        this.user.results.expensesResults.push('Home', this.user.expenses.totalHomeExpense);
-        this.user.results.expensesResults.push('Car', this.user.expenses.totalCarExpense);
-        this.user.results.expensesResults.push('Health', this.user.expenses.totalHealthExpense);
-        this.user.results.expensesResults.push('Discretionary', this.user.expenses.totalDiscretionaryExpense);
-
+        this.user.results.expensesResults.push(['Home', this.user.expenses.totalHomeExpense]);
+        this.user.results.expensesResults.push(['Car', this.user.expenses.totalCarExpense]);
+        this.user.results.expensesResults.push(['Health', this.user.expenses.totalHealthExpense]);
+        this.user.results.expensesResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense]);
+        
         this.chart.createChart('resultsContainer', this.user.results);
     }
 }

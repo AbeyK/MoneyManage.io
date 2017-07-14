@@ -33,7 +33,7 @@ export class Chart {
             },
             series: [{
                 name: 'Delivered amount',
-                data: [results.expensesResults]
+                data: results.expensesResults
             }]
         });
     }
