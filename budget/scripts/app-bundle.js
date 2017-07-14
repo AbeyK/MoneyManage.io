@@ -902,12 +902,13 @@ define('services/data/resultsData',["exports"], function (exports) {
         this.recommendedResults = [];
     };
 });
-define('services/expensesConstants',["exports"], function (exports) {
+define('services/expensesConstants',["exports", "../services/user"], function (exports, _user) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
+    exports.ExpensesConstants = undefined;
 
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
@@ -915,9 +916,56 @@ define('services/expensesConstants',["exports"], function (exports) {
         }
     }
 
-    var ExpensesConstants = exports.ExpensesConstants = function ExpensesConstants() {
+    var _dec, _class;
+
+    var ExpensesConstants = exports.ExpensesConstants = (_dec = inject(_user.User), _dec(_class = function ExpensesConstants(user) {
         _classCallCheck(this, ExpensesConstants);
-    };
+
+        this.user = user;
+        this.homeExpenseConstants = [{
+            "title": "Eating out",
+            "value": Math.floor(this.user.personalInfo.squareFootHome / 12)
+        }, {
+            "title": "Clothes",
+            "value": Math.floor(this.user.personalInfo.income * .05)
+        }, {
+            "title": "Mortgage",
+            "20-30": 461,
+            "30-40": 493,
+            "40-50": 614,
+            "50-70": 678,
+            "70-80": 759,
+            "80-100": 939,
+            "100-120": 1037,
+            "120-150": 1211,
+            "150+": 1686
+        }];
+        this.cableConstants = [{}];
+        this.carExpenseConstants = [{
+            "title": "Car payment",
+            "value": 479
+        }, {
+            "title": "Gas",
+            "value": 250
+        }, {
+            "title": "Maintenance",
+            "value": 76
+        }];
+        this.healthExpenseConstants = [{
+            "title": "Single Emergency Fund",
+            "value": 275
+        }, {
+            "title": "Family Emergency Fund",
+            "value": 545
+        }];
+        this.discretionaryExpenseConstants = [{
+            "title": "Eating out",
+            "value": Math.floor(this.user.personalInfo.income * .045)
+        }, {
+            "title": "Club Goer",
+            "value": 702
+        }];
+    }) || _class);
 });
 define('results/compose/compose-table',["exports"], function (exports) {
     "use strict";
