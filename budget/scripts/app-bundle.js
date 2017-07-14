@@ -150,6 +150,10 @@ define('aboutyou/personalinfo',['exports', 'aurelia-framework', 'aurelia-router'
             this.user.personalInfo[check] = !this.user.personalInfo[check];
         };
 
+        personalinfo.prototype.next = function next() {
+            this.router.navigate('#/expenses');
+        };
+
         personalinfo.prototype.attached = function attached() {
             this.slider.createAgeSlider();
         };
@@ -157,7 +161,7 @@ define('aboutyou/personalinfo',['exports', 'aurelia-framework', 'aurelia-router'
         return personalinfo;
     }()) || _class);
 });
-define('expenses/expenses',['exports', 'aurelia-framework', 'aurelia-router', '../services/user', '../utilities/calculateExpenses'], function (exports, _aureliaFramework, _aureliaRouter, _user, _calculateExpenses) {
+define('expenses/expenses',['exports', 'aurelia-framework', 'aurelia-router', '../services/user', '../services/constants', '../utilities/calculateExpenses'], function (exports, _aureliaFramework, _aureliaRouter, _user, _constants, _calculateExpenses) {
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
@@ -173,13 +177,26 @@ define('expenses/expenses',['exports', 'aurelia-framework', 'aurelia-router', '.
 
     var _dec, _class;
 
-    var expenses = exports.expenses = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router, _user.User, _calculateExpenses.calculateExpenses), _dec(_class = function expenses(router, user, calculateExpenses) {
-        _classCallCheck(this, expenses);
+    var expenses = exports.expenses = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router, _user.User, _constants.Constants, _calculateExpenses.calculateExpenses), _dec(_class = function () {
+        function expenses(router, user, constants, calculateExpenses) {
+            _classCallCheck(this, expenses);
 
-        this.router = router;
-        this.user = user;
-        this.calculateExpenses = calculateExpenses;
-    }) || _class);
+            this.router = router;
+            this.user = user;
+            this.constants = constants;
+            this.calculateExpenses = calculateExpenses;
+        }
+
+        expenses.prototype.back = function back() {
+            this.router.navigate('#/personalinfo');
+        };
+
+        expenses.prototype.next = function next() {
+            this.router.navigate('#/results');
+        };
+
+        return expenses;
+    }()) || _class);
 });
 define('resources/index',["exports"], function (exports) {
   "use strict";
@@ -190,32 +207,13 @@ define('resources/index',["exports"], function (exports) {
   exports.configure = configure;
   function configure(config) {}
 });
-define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../services/user', 'highcharts'], function (exports, _aureliaFramework, _aureliaRouter, _user, _highcharts) {
+define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../services/user', '../utilities/chart'], function (exports, _aureliaFramework, _aureliaRouter, _user, _chart) {
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
     exports.results = undefined;
-
-    var HighCharts = _interopRequireWildcard(_highcharts);
-
-    function _interopRequireWildcard(obj) {
-        if (obj && obj.__esModule) {
-            return obj;
-        } else {
-            var newObj = {};
-
-            if (obj != null) {
-                for (var key in obj) {
-                    if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
-                }
-            }
-
-            newObj.default = obj;
-            return newObj;
-        }
-    }
 
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
@@ -225,63 +223,27 @@ define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../
 
     var _dec, _class;
 
-    var results = exports.results = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router, _user.User), _dec(_class = function () {
-        function results(router, user) {
+    var results = exports.results = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router, _user.User, _chart.Chart), _dec(_class = function () {
+        function results(router, user, chart) {
             _classCallCheck(this, results);
 
             this.router = router;
             this.user = user;
+            this.chart = chart;
         }
 
-        results.prototype.attached = function attached() {
-            this.createChart('resultsContainer');
+        results.prototype.back = function back() {
+            this.router.navigate('#/expenses');
         };
 
-        results.prototype.createChart = function createChart(containerID) {
-            Highcharts.chart(containerID, {
+        results.prototype.attached = function attached() {
+            this.user.results.expensesResults = [];
+            this.user.results.expensesResults.push(['Home', this.user.expenses.totalHomeExpense]);
+            this.user.results.expensesResults.push(['Car', this.user.expenses.totalCarExpense]);
+            this.user.results.expensesResults.push(['Health', this.user.expenses.totalHealthExpense]);
+            this.user.results.expensesResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense]);
 
-                title: {
-                    text: 'Solar Employment Growth by Sector, 2010-2016'
-                },
-
-                subtitle: {
-                    text: 'Source: thesolarfoundation.com'
-                },
-
-                yAxis: {
-                    title: {
-                        text: 'Number of Employees'
-                    }
-                },
-                legend: {
-                    layout: 'vertical',
-                    align: 'right',
-                    verticalAlign: 'middle'
-                },
-
-                plotOptions: {
-                    series: {
-                        pointStart: 2010
-                    }
-                },
-
-                series: [{
-                    name: 'Installation',
-                    data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
-                }, {
-                    name: 'Manufacturing',
-                    data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
-                }, {
-                    name: 'Sales & Distribution',
-                    data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
-                }, {
-                    name: 'Project Development',
-                    data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
-                }, {
-                    name: 'Other',
-                    data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
-                }]
-            });
+            this.chart.createChart('resultsContainer', this.user.results);
         };
 
         return results;
@@ -332,7 +294,158 @@ define('services/constants',["exports"], function (exports) {
             "check": "checkOther",
             "value": "Other"
         }];
+
+        this.homeExpenses = [{
+            "title": "Mortgage/Rent Monthly Payment",
+            "value": "mortgage"
+        }, {
+            "title": "Property tax (per year)",
+            "value": "propertyTax"
+        }, {
+            "title": "Phone Payment",
+            "value": "phone"
+        }, {
+            "title": "Internet",
+            "value": "internet"
+        }, {
+            "title": "Cable",
+            "value": "cable"
+        }, {
+            "title": "Netflix",
+            "value": "netfix"
+        }, {
+            "title": "Groceries",
+            "value": "groceries"
+        }, {
+            "title": "Utilities",
+            "value": "utilities"
+        }, {
+            "title": "Maintenance",
+            "value": "homeMaintenance"
+        }, {
+            "title": "Clothes (per year)",
+            "value": "clothes"
+        }];
+
+        this.carExpenses = [{
+            "title": "Car Payment",
+            "value": "carPayment"
+        }, {
+            "title": "Car Insurance",
+            "value": "carInsurance"
+        }, {
+            "title": "Public Transport",
+            "value": "publicTransport"
+        }, {
+            "title": "Gas",
+            "value": "gas"
+        }, {
+            "title": "Maintenance",
+            "value": "carMaintenance"
+        }];
+
+        this.healthExpenses = [{
+            "title": "Health Insurance",
+            "value": "healthInsurance"
+        }, {
+            "title": "Medication",
+            "value": "medication"
+        }, {
+            "title": "Unexpected Medical Problems",
+            "value": "unexpectedMedicalProblems"
+        }, {
+            "title": "Eye Care",
+            "value": "eyeCare"
+        }, {
+            "title": "Dental Insurance",
+            "value": "dentalInsurance"
+        }, {
+            "title": "Cavities/Dental Work",
+            "value": "cavities"
+        }, {
+            "title": "Braces",
+            "value": "braces"
+        }];
+
+        this.discretionaryExpenses = [{
+            "title": "Eating Out",
+            "value": "eatingOut"
+        }, {
+            "title": "Bars/Drinks",
+            "value": "bars"
+        }, {
+            "title": "Fun Money (golf, movies, etc.",
+            "value": "funMoney"
+        }, {
+            "title": "Other",
+            "value": "other"
+        }];
     };
+});
+define('services/expensesConstants',["exports", "../services/user"], function (exports, _user) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.ExpensesConstants = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _class;
+
+    var ExpensesConstants = exports.ExpensesConstants = (_dec = inject(_user.User), _dec(_class = function ExpensesConstants(user) {
+        _classCallCheck(this, ExpensesConstants);
+
+        this.user = user;
+        this.homeExpenseConstants = [{
+            "title": "Eating out",
+            "value": Math.floor(this.user.personalInfo.squareFootHome / 12)
+        }, {
+            "title": "Clothes",
+            "value": Math.floor(this.user.personalInfo.income * .05)
+        }, {
+            "title": "Mortgage",
+            "20-30": 461,
+            "30-40": 493,
+            "40-50": 614,
+            "50-70": 678,
+            "70-80": 759,
+            "80-100": 939,
+            "100-120": 1037,
+            "120-150": 1211,
+            "150+": 1686
+        }];
+        this.cableConstants = [{}];
+        this.carExpenseConstants = [{
+            "title": "Car payment",
+            "value": 479
+        }, {
+            "title": "Gas",
+            "value": 250
+        }, {
+            "title": "Maintenance",
+            "value": 76
+        }];
+        this.healthExpenseConstants = [{
+            "title": "Single Emergency Fund",
+            "value": 275
+        }, {
+            "title": "Family Emergency Fund",
+            "value": 545
+        }];
+        this.discretionaryExpenseConstants = [{
+            "title": "Eating out",
+            "value": Math.floor(this.user.personalInfo.income * .045)
+        }, {
+            "title": "Club Goer",
+            "value": 702
+        }];
+    }) || _class);
 });
 define('services/user',['exports', '../services/data/personalInfoData', '../services/data/goalsData', '../services/data/expensesData', '../services/data/resultsData'], function (exports, _personalInfoData, _goalsData, _expensesData, _resultsData) {
     'use strict';
@@ -381,46 +494,118 @@ define('utilities/calculateExpenses',['exports', 'aurelia-framework', '../servic
         }
 
         calculateExpenses.prototype.homeExpenses = function homeExpenses() {
-            var tempHomeTotal = parseInt(this.user.expenses.mortgage) + parseInt(this.user.expenses.propertTax) + parseInt(this.user.expenses.phone) + parseInt(this.user.expenses.internet) + parseInt(this.user.expenses.cable) + parseInt(this.user.expenses.netfix) + parseInt(this.user.expenses.groceries) + parseInt(this.user.expenses.utilities) + parseInt(this.user.expenses.homeMaintenance) + parseInt(this.user.expenses.clothes);
+            var tempHomeTotal = parseInt(this.user.expenses.mortgage) + parseInt(this.user.expenses.propertyTax) + parseInt(this.user.expenses.phone) + parseInt(this.user.expenses.internet) + parseInt(this.user.expenses.cable) + parseInt(this.user.expenses.netfix) + parseInt(this.user.expenses.groceries) + parseInt(this.user.expenses.utilities) + parseInt(this.user.expenses.homeMaintenance) + parseInt(this.user.expenses.clothes);
+
             console.log(tempHomeTotal);
-            if (isNaN(tempHomeTotal)) {
-                alert("Please enter a valid input");
-            } else {
-                this.user.expenses.totalHomeExpense = tempHomeTotal;
-            }
+
+            if (isNaN(tempHomeTotal)) alert("Please enter a valid input");else this.user.expenses.totalHomeExpense = tempHomeTotal;
         };
 
         calculateExpenses.prototype.carExpenses = function carExpenses(val) {
             var tempCarTotal = parseInt(this.user.expenses.carPayment) + parseInt(this.user.expenses.carInsurance) + parseInt(this.user.expenses.publicTransport) + parseInt(this.user.expenses.gas) + parseInt(this.user.expenses.carMaintenance);
+
             console.log(tempCarTotal);
-            if (isNaN(tempCarTotal)) {
-                alert("Please enter a valid input");
-            } else {
-                this.user.expenses.totalCarExpense = tempCarTotal;
-            }
+
+            if (isNaN(tempCarTotal)) alert("Please enter a valid input");else this.user.expenses.totalCarExpense = tempCarTotal;
         };
 
         calculateExpenses.prototype.healthExpenses = function healthExpenses(val) {
             var tempHealthTotal = parseInt(this.user.expenses.healthInsurance) + parseInt(this.user.expenses.medication) + parseInt(this.user.expenses.unexpectedMedicalProblems) + parseInt(this.user.expenses.dentalInsurance) + parseInt(this.user.expenses.cavities) + parseInt(this.user.expenses.eyeCare) + parseInt(this.user.expenses.braces);
+
             console.log(tempHealthTotal);
-            if (isNaN(tempHealthTotal)) {
-                alert("Please enter a valid input");
-            } else {
-                this.user.expenses.totalHealthExpense = tempHealthTotal;
-            }
+
+            if (isNaN(tempHealthTotal)) alert("Please enter a valid input");else this.user.expenses.totalHealthExpense = tempHealthTotal;
         };
 
         calculateExpenses.prototype.discretionaryExpenses = function discretionaryExpenses(val) {
             var tempDiscretionaryTotal = parseInt(this.user.expenses.eatingOut) + parseInt(this.user.expenses.bars) + parseInt(this.user.expenses.funMoney) + parseInt(this.user.expenses.other);
+
             console.log(tempDiscretionaryTotal);
-            if (isNaN(tempDiscretionaryTotal)) {
-                alert("Please enter a valid input");
-            } else {
-                this.user.expenses.totalDiscretionaryExpense = tempDiscretionaryTotal;
-            }
+            if (isNaN(tempDiscretionaryTotal)) alert("Please enter a valid input");else this.user.expenses.totalDiscretionaryExpense = tempDiscretionaryTotal;
         };
 
         return calculateExpenses;
+    }()) || _class);
+});
+define('utilities/chart',['exports', 'aurelia-framework', '../services/user', 'highcharts', 'node_modules/highcharts/modules/exporting.js'], function (exports, _aureliaFramework, _user, _highcharts, _exporting) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.Chart = undefined;
+
+    var HighCharts = _interopRequireWildcard(_highcharts);
+
+    var _exporting2 = _interopRequireDefault(_exporting);
+
+    function _interopRequireDefault(obj) {
+        return obj && obj.__esModule ? obj : {
+            default: obj
+        };
+    }
+
+    function _interopRequireWildcard(obj) {
+        if (obj && obj.__esModule) {
+            return obj;
+        } else {
+            var newObj = {};
+
+            if (obj != null) {
+                for (var key in obj) {
+                    if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+                }
+            }
+
+            newObj.default = obj;
+            return newObj;
+        }
+    }
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _class;
+
+    var Chart = exports.Chart = (_dec = (0, _aureliaFramework.inject)(_user.User), _dec(_class = function () {
+        function Chart(user) {
+            _classCallCheck(this, Chart);
+
+            this.user = user;
+        }
+
+        Chart.prototype.createChart = function createChart(containerID, results) {
+            Highcharts.chart(containerID, {
+                chart: {
+                    type: 'pie',
+                    options3d: {
+                        enabled: true,
+                        alpha: 45
+                    }
+                },
+                title: {
+                    text: 'Budget Plan'
+                },
+                subtitle: {
+                    text: 'Your Expenses'
+                },
+                plotOptions: {
+                    pie: {
+                        innerSize: 100,
+                        depth: 45
+                    }
+                },
+                series: [{
+                    name: 'Delivered amount',
+                    data: results.expensesResults
+                }]
+            });
+        };
+
+        return Chart;
     }()) || _class);
 });
 define('utilities/slider',['exports', 'aurelia-framework', '../services/user', 'ion-rangeslider'], function (exports, _aureliaFramework, _user, _ionRangeslider) {
@@ -483,6 +668,108 @@ define('utilities/slider',['exports', 'aurelia-framework', '../services/user', '
         return Slider;
     }()) || _class);
 });
+define('aboutyou/compose/compose-goals',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var ComposeGoals = exports.ComposeGoals = function ComposeGoals() {
+        _classCallCheck(this, ComposeGoals);
+    };
+});
+define('aboutyou/compose/compose-personal-info',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var ComposePersonalInfo = exports.ComposePersonalInfo = function ComposePersonalInfo() {
+        _classCallCheck(this, ComposePersonalInfo);
+    };
+});
+define('expenses/compose/compose-car-expenses',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var ComposeCarExpenses = exports.ComposeCarExpenses = function ComposeCarExpenses() {
+        _classCallCheck(this, ComposeCarExpenses);
+    };
+});
+define('expenses/compose/compose-discretionary-expenses',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var ComposeDiscretionaryExpenses = exports.ComposeDiscretionaryExpenses = function ComposeDiscretionaryExpenses() {
+        _classCallCheck(this, ComposeDiscretionaryExpenses);
+    };
+});
+define('expenses/compose/compose-health-expenses',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var ComposeHealthExpenses = exports.ComposeHealthExpenses = function ComposeHealthExpenses() {
+        _classCallCheck(this, ComposeHealthExpenses);
+    };
+});
+define('expenses/compose/compose-home-expenses',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var ComposeHomeExpenses = exports.ComposeHomeExpenses = function ComposeHomeExpenses() {
+        _classCallCheck(this, ComposeHomeExpenses);
+    };
+});
 define('services/data/expensesData',["exports"], function (exports) {
         "use strict";
 
@@ -506,7 +793,7 @@ define('services/data/expensesData',["exports"], function (exports) {
                 this.totalDiscretionaryExpense = 0;
 
                 this.mortgage = 0;
-                this.propertTax = 0;
+                this.propertyTax = 0;
                 this.phone = 0;
                 this.internet = 0;
                 this.cable = 0;
@@ -525,9 +812,9 @@ define('services/data/expensesData',["exports"], function (exports) {
                 this.healthInsurance = 0;
                 this.medication = 0;
                 this.unexpectedMedicalProblems = 0;
+                this.eyeCare = 0;
                 this.dentalInsurance = 0;
                 this.cavities = 0;
-                this.eyeCare = 0;
                 this.braces = 0;
 
                 this.eatingOut = 0;
@@ -615,10 +902,10 @@ define('services/data/resultsData',["exports"], function (exports) {
     var ResultsData = exports.ResultsData = function ResultsData() {
         _classCallCheck(this, ResultsData);
 
-        this.result = 10;
+        this.expensesResults = [];
     };
 });
-define('aboutyou/compose-goals',["exports"], function (exports) {
+define('results/compose/compose-chart',["exports"], function (exports) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
@@ -631,32 +918,21 @@ define('aboutyou/compose-goals',["exports"], function (exports) {
         }
     }
 
-    var ComposeGoals = exports.ComposeGoals = function ComposeGoals() {
-        _classCallCheck(this, ComposeGoals);
+    var ComposeChart = exports.ComposeChart = function ComposeChart() {
+        _classCallCheck(this, ComposeChart);
     };
 });
-define('aboutyou/compose-personal-info',["exports"], function (exports) {
-    "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var ComposePersonalInfo = exports.ComposePersonalInfo = function ComposePersonalInfo() {
-        _classCallCheck(this, ComposePersonalInfo);
-    };
-});
-define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"ion-rangeslider/css/ion.rangeSlider.css\"></require><require from=\"ion-rangeslider/css/ion.rangeSlider.skinHTML5.css\"></require><require from=\"ion-rangeslider/css/normalize.css\"></require><require from=\"highcharts/css/highcharts.css\"></require><require from=\"bootstrap/css/bootstrap.css\"></require><require from=\"css/style.css\"></require><nav class=\"navbar navbar-default\"><div class=\"container-fluid\"><div class=\"navbar-header\"><h4 style=\"padding-right:15px\">MyBudget</h4></div><div class=\"collapse navbar-collapse\"><ul class=\"nav navbar-nav\"><li repeat.for=\"row of router.navigation\" class=\"${row.isActive ? 'active' : ''}\"><a href.bind=\"row.href\">${row.title}</a></li></ul></div></div></nav><router-view></router-view></template>"; });
-define('text!css/style.css', ['module'], function(module) { module.exports = "#personalinfo, #expenses, #results {\r\n    margin: 0 auto;\r\n    text-align: center;\r\n    width: 60%;\r\n}\r\n"; });
-define('text!aboutyou/personalinfo.html', ['module'], function(module) { module.exports = "<template><div id=\"personalinfo\"><compose view-model=\"./compose-personal-info\"></compose><compose view-model=\"./compose-goals\"></compose></div></template>"; });
-define('text!expenses/expenses.html', ['module'], function(module) { module.exports = "<template><div id=\"expenses\"><h1>Expenses</h1></div><head><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\"><script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js\"></script><script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\"></script></head><body><div class=\"container\"><p><strong>Note:</strong> Get <strong>CA$H</strong> money evverydayy</p><div class=\"panel-group\" id=\"accordion\"><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse1\">Home<div style=\"float:right\">Total: $${user.expenses.totalHomeExpense}</div></a></h4></div><div id=\"collapse1\" class=\"panel-collapse collapse in\"><div class=\"panel-body\"><div class=\"form-group\"><label for=\"income\">Mortgage/Rent monthly payment:</label><input type=\"text\" value.bind=\"user.expenses.mortgage\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Property tax (per year):</label><input type=\"text\" value.bind=\"user.expenses.propertTax\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Phone payment:</label><input type=\"text\" value.bind=\"user.expenses.phone\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Internet:</label><input type=\"text\" value.bind=\"user.expenses.internet\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Cable:</label><input type=\"text\" value.bind=\"user.expenses.cable\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Netflix:</label><input type=\"text\" value.bind=\"user.expenses.netfix\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Groceries:</label><input type=\"text\" value.bind=\"user.expenses.groceries\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Utilities:</label><input type=\"text\" value.bind=\"user.expenses.utilities\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Maintenance:</label><input type=\"text\" value.bind=\"user.expenses.homeMaintenance\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Clothes (per year):</label><input type=\"text\" value.bind=\"user.expenses.clothes\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" placeholder=\"10\"></div></div></div><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse2\">Car/Transportation<div style=\"float:right\">Total: $${user.expenses.totalCarExpense}</div></a></h4></div><div id=\"collapse2\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><label for=\"income\">Car payment:</label><input type=\"text\" value.bind=\"user.expenses.carPayment\" change.delegate=\"calculateExpenses.carExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Car insurance:</label><input type=\"text\" value.bind=\"user.expenses.carInsurance\" change.delegate=\"calculateExpenses.carExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Public transport:</label><input type=\"text\" value.bind=\"user.expenses.publicTransport\" change.delegate=\"calculateExpenses.carExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Gas:</label><input type=\"text\" value.bind=\"user.expenses.gas\" change.delegate=\"calculateExpenses.carExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Maintenance:</label><input type=\"text\" value.bind=\"user.expenses.carMaintenance\" change.delegate=\"calculateExpenses.carExpenses()\" class=\"form-control\" placeholder=\"10\"></div></div></div><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse3\">Health<div style=\"float:right\">Total: $${user.expenses.totalHealthExpense}</div></a></h4></div><div id=\"collapse3\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><label for=\"income\">Health Insurance:</label><input type=\"text\" value.bind=\"user.expenses.healthInsurance\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Medication:</label><input type=\"text\" value.bind=\"user.expenses.medication\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Unexpected medical problems:</label><input type=\"text\" value.bind=\"user.expenses.unexpectedMedicalProblems\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Eye Care:</label><input type=\"text\" value.bind=\"user.expenses.eyeCare\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Dental Insurance:</label><input type=\"text\" value.bind=\"user.expenses.dentalInsurance\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Cavities/dental work:</label><input type=\"text\" value.bind=\"user.expenses.cavities\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Braces:</label><input type=\"text\" value.bind=\"user.expenses.braces\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\" placeholder=\"10\"></div></div></div><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse4\">Discretionary Expenses<div style=\"float:right\">Total: $${user.expenses.totalDiscretionaryExpense}</div></a></h4></div><div id=\"collapse4\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><label for=\"income\">Eating out:</label><input type=\"text\" value.bind=\"user.expenses.eatingOut\" change.delegate=\"calculateExpenses.discretionaryExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Bars/drinks:</label><input type=\"text\" value.bind=\"user.expenses.bars\" change.delegate=\"calculateExpenses.discretionaryExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Fun money (golf, movies, etc.):</label><input type=\"text\" value.bind=\"user.expenses.funMoney\" change.delegate=\"calculateExpenses.discretionaryExpenses()\" class=\"form-control\" placeholder=\"10\"><br><label for=\"income\">Other:</label><input type=\"text\" value.bind=\"user.expenses.other\" change.delegate=\"calculateExpenses.discretionaryExpenses()\" class=\"form-control\" placeholder=\"10\"></div></div></div></div></div></div></body></template>"; });
-define('text!results/results.html', ['module'], function(module) { module.exports = "<template><div id=\"results\"><h1>Results</h1><div id=\"resultsContainer\"></div></div></template>"; });
-define('text!aboutyou/compose-goals.html', ['module'], function(module) { module.exports = "<template><hr><h2>Goals</h2><div id=\"drag-and-drop-container\" style=\"clear:both\"><div id=\"availableGoals\" style=\"height:500px;background-color:orange;border:solid 1px\" class=\"col-md-6\"><h1>Wishes</h1><hr><div class=\"row col-md-4 col-md-push-4\" dragstart.trigger=\"drag($event)\"><div repeat.for=\"goal of user.personalInfo.goalsList\" class=\"row\"><div class=\"current-buttons btn btn-primary\" draggable=\"true\">${goal}</div><br><br></div></div></div><div style=\"height:500px;background-color:orange;border:solid 1px;overflow-y:scroll\" class=\"col-md-6\" drop.trigger=\"drop($event)\" dragstart.trigger=\"drag($event)\" dragover.trigger=\"allowDrop($event)\"><h1>My Wishes</h1><hr><div repeat.for=\"wish of constants.wishes\"><div show.bind=\"user.personalInfo[wish.check]\"><h3>${wish.title}</h3><button click.delegate=\"remove(wish.title)\" class=\"btn btn-danger\">X</button><div class=\"form-group\"><label for=\"privateSchool\">Amount for ${wish.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo[wish.value]\" class=\"form-control\" id=\"inlineFormInputGroup\"></div></div></div></div><div id=\"myGoals\" style=\"width:100%;height:30%;background-color:gray\"><div id=\"myGoals\" style=\"text-align:center;vertical-align:middle;line-height:150px\">Add Wish Here</div></div><br></div></div></template>"; });
-define('text!aboutyou/compose-personal-info.html', ['module'], function(module) { module.exports = "<template><h2>Personal Info</h2><div class=\"form-group\"><label for=\"age\">Age:</label><input style=\"width:400px\" id=\"age\"></div><div class=\"form-group\"><label for=\"salary\">Income</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo.income\" class=\"form-control\" id=\"inlineFormInputGroup\"></div></div></template>"; });
+define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"ion-rangeslider/css/ion.rangeSlider.css\"></require><require from=\"ion-rangeslider/css/ion.rangeSlider.skinHTML5.css\"></require><require from=\"ion-rangeslider/css/normalize.css\"></require><require from=\"highcharts/css/highcharts.css\"></require><require from=\"bootstrap/css/bootstrap.css\"></require><require from=\"css/style.css\"></require><div id=\"app\"><div id=\"content\"><nav class=\"navbar navbar-default\"><div class=\"container-fluid\"><div class=\"navbar-header\"><h4 style=\"padding-right:15px\">MyBudget</h4></div><div class=\"collapse navbar-collapse\"><ul class=\"nav navbar-nav\"><li repeat.for=\"row of router.navigation\" class=\"${row.isActive ? 'active' : ''}\"><a href.bind=\"row.href\">${row.title}</a></li></ul></div></div></nav><router-view></router-view></div><footer id=\"footer\"><div class=\"footer-copyright\"><div class=\"container-fluid\"><br>©2017, PIEtech, Inc. All rights reserved.</div></div></footer></div></template>"; });
+define('text!css/drag-and-drop.css', ['module'], function(module) { module.exports = ".goalOverflow {\r\n    height: 600px;\r\n    overflow-y:scroll;\r\n}\r\n\r\n#myGoals {\r\n    width: 100%; \r\n    height: 30%; \r\n    background-color: #428bca;\r\n    text-align: center; \r\n    color: white;\r\n    vertical-align: middle; \r\n    line-height: 150px;\r\n}"; });
+define('text!aboutyou/personalinfo.html', ['module'], function(module) { module.exports = "<template><div id=\"personalinfo\"><form submit.delegate=\"next()\"><compose view-model=\"./compose/compose-personal-info\"></compose><compose view-model=\"./compose/compose-goals\"></compose><hr style=\"margin-top:90%\"><button class=\"btn btn-primary\" type=\"submit\" id=\"next\">Next</button></form></div></template>"; });
+define('text!css/style.css', ['module'], function(module) { module.exports = "#personalinfo, #expenses, #results {\r\n    margin: 0 auto;\r\n    text-align: center;\r\n    width: 60%;\r\n}\r\n\r\nhtml, body {\r\n\tmargin:0;\r\n\tpadding:0;\r\n\theight:100%;\r\n}\r\n\r\n#app {\r\n\tmin-height:100%;\r\n\tposition:relative;\r\n}\r\n\r\n#content {\r\n\tpadding-bottom:100px; /* Height of the footer element */\r\n}\r\n\r\n#footer {\r\n\tbackground:#ededed;\r\n\twidth:100%;\r\n\theight:60px;\r\n\tposition:absolute;\r\n\tbottom:0;\r\n\tleft:0;\r\n    text-align: center;\r\n}"; });
+define('text!expenses/expenses.html', ['module'], function(module) { module.exports = "<template><div id=\"expenses\"><h1>Expenses</h1></div><form submit.delegate=\"next()\"><div class=\"container\" style=\"width:60%\"><div class=\"panel-group\" id=\"accordion\"><compose view-model=\"./compose/compose-home-expenses\"></compose><compose view-model=\"./compose/compose-car-expenses\"></compose><compose view-model=\"./compose/compose-health-expenses\"></compose><compose view-model=\"./compose/compose-discretionary-expenses\"></compose></div></div><div id=\"expenses\"><hr><button class=\"btn btn-secondary\" click.delegate=\"back()\" id=\"back\">Back</button> <button class=\"btn btn-primary\" type=\"submit\" id=\"next\">Next</button></div></form></template>"; });
+define('text!results/results.html', ['module'], function(module) { module.exports = "<template><div id=\"results\"><h1>Results</h1><compose view-model=\"./compose/compose-chart\"></compose><hr><button class=\"btn btn-secondary\" click.delegate=\"back()\" id=\"back\">Back</button></div></template>"; });
+define('text!aboutyou/compose/compose-goals.html', ['module'], function(module) { module.exports = "<template><require from=\"css/drag-and-drop.css\"></require><hr><h2>Goals</h2><div class=\"col-md-4 container\" id=\"availableGoals\"><div class=\"panel panel-default\"><div class=\"panel-heading\"><h2>Wishes</h2></div><div class=\"panel-body\" dragstart.trigger=\"drag($event)\"><div repeat.for=\"goal of user.personalInfo.goalsList\" class=\"row\"><div class=\"current-buttons btn btn-primary\" draggable=\"true\">${goal}</div><br><br></div></div></div></div><div class=\"col-md-8 container ${user.personalInfo.currentGoals.length >= 3 ? 'goalOverflow' : 'none'}\" id=\"currentGoals\" drop.trigger=\"drop($event)\" dragover.trigger=\"allowDrop($event)\"><div class=\"panel panel-default\"><div class=\"panel-heading\"><h2>My Wishes</h2></div><div class=\"panel-body\"><div repeat.for=\"wish of constants.wishes\"><div show.bind=\"user.personalInfo[wish.check]\"><div class=\"col-md-10\"><h3>${wish.title}</h3></div><div style=\"margin-top:5%\" class=\"col-md-2\"><button click.delegate=\"remove(wish.title)\" class=\"btn btn-danger\">X</button></div><div class=\"form-group\"><label for=\"privateSchool\">Amount for ${wish.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo[wish.value]\" class=\"form-control\" id=\"inlineFormInputGroup\"></div></div></div></div><div id=\"myGoals\"><span class=\"glyphicon glyphicon-plus\"></span> Add Wish Here</div><br></div></div></div></template>"; });
+define('text!aboutyou/compose/compose-personal-info.html', ['module'], function(module) { module.exports = "<template><h2>Personal Info</h2><div class=\"form-group\"><label for=\"age\">Age:</label><input style=\"width:400px\" id=\"age\"></div><div class=\"form-group\"><label for=\"salary\">Income</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo.income\" class=\"form-control\" id=\"inlineFormInputGroup\"></div></div></template>"; });
+define('text!expenses/compose/compose-car-expenses.html', ['module'], function(module) { module.exports = "<template><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#carExpenseCollapse\">Car/Transportation<div style=\"float:right\">Total: $${user.expenses.totalCarExpense}</div></a></h4></div><div id=\"carExpenseCollapse\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><div repeat.for=\"car of constants.carExpenses\" class=\"form-group\"><label>${car.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[car.value]\" change.delegate=\"calculateExpenses.carExpenses()\" class=\"form-control\"></div><br></div><br></div></div></div></template>"; });
+define('text!expenses/compose/compose-discretionary-expenses.html', ['module'], function(module) { module.exports = "<template><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#discretionaryExpenseCollapse\">Discretionary Expenses<div style=\"float:right\">Total: $${user.expenses.totalDiscretionaryExpense}</div></a></h4></div><div id=\"discretionaryExpenseCollapse\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><div repeat.for=\"discretionary of constants.discretionaryExpenses\" class=\"form-group\"><label>${discretionary.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[discretionary.value]\" change.delegate=\"calculateExpenses.discretionaryExpenses()\" class=\"form-control\"></div><br></div></div></div></div></template>"; });
+define('text!expenses/compose/compose-health-expenses.html', ['module'], function(module) { module.exports = "<template><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#healthExpenseCollapse\">Health<div style=\"float:right\">Total: $${user.expenses.totalHealthExpense}</div></a></h4></div><div id=\"healthExpenseCollapse\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><div repeat.for=\"health of constants.healthExpenses\" class=\"form-group\"><label>${health.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[health.value]\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\"></div><br></div></div></div></div></template>"; });
+define('text!expenses/compose/compose-home-expenses.html', ['module'], function(module) { module.exports = "<template><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#homeExpenseCollapse\">Home<div style=\"float:right\">Total: $${user.expenses.totalHomeExpense}</div></a></h4></div><div id=\"homeExpenseCollapse\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><div repeat.for=\"home of constants.homeExpenses\" class=\"form-group\"><label>${home.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[home.value]\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\"></div><br></div></div></div></div></template>"; });
+define('text!results/compose/compose-chart.html', ['module'], function(module) { module.exports = "<template><div id=\"resultsContainer\"></div></template>"; });
 //# sourceMappingURL=app-bundle.js.map

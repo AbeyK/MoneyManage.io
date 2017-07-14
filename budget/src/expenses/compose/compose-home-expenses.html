@@ -1,0 +1,28 @@
+<template>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#homeExpenseCollapse">
+                    Home
+                    <div style="float:right">
+                        Total: $${user.expenses.totalHomeExpense}
+                    </div>
+                </a>
+            </h4>
+        </div>
+        
+        <div id="homeExpenseCollapse" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div repeat.for="home of constants.homeExpenses" class="form-group">
+                    <label>${home.title}</label>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon">$</div>
+                        <input type="text" value.bind="user.expenses[home.value]" 
+                            change.delegate="calculateExpenses.homeExpenses()" class="form-control">
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

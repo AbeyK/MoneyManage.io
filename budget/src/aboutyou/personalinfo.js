@@ -53,6 +53,10 @@ export class personalinfo {
     }
     //END DRAG AND DROP
 
+    next() {
+        this.router.navigate('#/expenses');
+    }
+
     attached() {
         this.slider.createAgeSlider();
     }

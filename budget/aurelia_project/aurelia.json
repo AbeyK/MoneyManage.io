@@ -80,6 +80,10 @@
         "shim": {
           "highcharts": {
             "exports": "Highcharts"
+          },
+          "highcharts-exporting": {
+            "deps" : ["highcharts"],
+            "exports " : "Highcharts"
           }
         } 
       }

@@ -3,155 +3,20 @@
         <h1>Expenses</h1>
     </div>
 
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    </head>
-
-    <body>
-
-        <div class="container">
-            <p><strong>Note:</strong> Get <strong>CA$H</strong> money evverydayy</p>
+    <form submit.delegate="next()">
+        <div class="container" style="width:60%">
             <div class="panel-group" id="accordion">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-                                Home
-                                <div style="float:right">Total: $${user.expenses.totalHomeExpense}</div>
-                                </a>
-                        </h4>
-                    </div>
-                    <div id="collapse1" class="panel-collapse collapse in">
-
-                        <div class="panel-body">
-                            <div class="form-group">
-                                <label for="income">Mortgage/Rent monthly payment:</label>
-                                <input type="text" value.bind="user.expenses.mortgage" change.delegate="calculateExpenses.homeExpenses()" class="form-control" placeholder="10">
-                                <br>
-                                <label for="income">Property tax (per year):</label>
-                                <input type="text"value.bind="user.expenses.propertTax" change.delegate="calculateExpenses.homeExpenses()" class="form-control" placeholder="10">
-                                <br>
-                                <label for="income">Phone payment:</label>
-                                <input type="text" value.bind="user.expenses.phone" change.delegate="calculateExpenses.homeExpenses()"  class="form-control" placeholder="10">
-                                <br>
-                                <label for="income">Internet:</label>
-                                <input type="text" value.bind="user.expenses.internet" change.delegate="calculateExpenses.homeExpenses()" class="form-control" placeholder="10">
-                                <br>
-                                <label for="income">Cable:</label>
-                                <input type="text" value.bind="user.expenses.cable" change.delegate="calculateExpenses.homeExpenses()" class="form-control" placeholder="10">
-                                <br>
-                                <label for="income">Netflix:</label>
-                                <input type="text" value.bind="user.expenses.netfix" change.delegate="calculateExpenses.homeExpenses()" class="form-control" placeholder="10">
-                                <br>
-                                <label for="income">Groceries:</label>
-                                <input type="text" value.bind="user.expenses.groceries" change.delegate="calculateExpenses.homeExpenses()"  class="form-control" placeholder="10">
-                                <br>
-                                <label for="income">Utilities:</label>
-                                <input type="text" value.bind="user.expenses.utilities" change.delegate="calculateExpenses.homeExpenses()"  class="form-control" placeholder="10">
-                                <br>
-                                <label for="income">Maintenance:</label>
-                                <input type="text" value.bind="user.expenses.homeMaintenance" change.delegate="calculateExpenses.homeExpenses()"  class="form-control" placeholder="10">
-                                <br>
-                                <label for="income">Clothes (per year):</label>
-                                <input type="text" value.bind="user.expenses.clothes" change.delegate="calculateExpenses.homeExpenses()"  class="form-control" placeholder="10">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Car/Transportation
-                                                                    <div style="float:right">Total: $${user.expenses.totalCarExpense}</div>
-
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapse2" class="panel-collapse collapse">
-                            <div class="panel-body">
-
-                                <label for="income">Car payment:</label>
-                                <input type="text" value.bind="user.expenses.carPayment" change.delegate="calculateExpenses.carExpenses()" class="form-control" placeholder="10">
-                                <br>
-                                <label for="income">Car insurance:</label>
-                                <input type="text" value.bind="user.expenses.carInsurance" change.delegate="calculateExpenses.carExpenses()" class="form-control" placeholder="10">
-                                <br>
-                                <label for="income">Public transport:</label>
-                                <input type="text" value.bind="user.expenses.publicTransport" change.delegate="calculateExpenses.carExpenses()" class="form-control" placeholder="10">
-                                <br>
-                                <label for="income">Gas:</label>
-                                <input type="text" value.bind="user.expenses.gas" change.delegate="calculateExpenses.carExpenses()" class="form-control" placeholder="10">
-                                <br>
-                                <label for="income">Maintenance:</label>
-                                <input type="text" value.bind="user.expenses.carMaintenance" change.delegate="calculateExpenses.carExpenses()" class="form-control" placeholder="10">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Health
-                                                                                                        <div style="float:right">Total: $${user.expenses.totalHealthExpense}</div>
-
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapse3" class="panel-collapse collapse">
-                            <div class="panel-body">
-
-                                <label for="income">Health Insurance:</label>
-                                <input type="text" value.bind="user.expenses.healthInsurance" change.delegate="calculateExpenses.healthExpenses()" class="form-control" placeholder="10">
-                                <br>
-                                <label for="income">Medication:</label>
-                                <input type="text" value.bind="user.expenses.medication" change.delegate="calculateExpenses.healthExpenses()" class="form-control" placeholder="10">
-                                <br>
-                                <label for="income">Unexpected medical problems:</label>
-                                <input type="text" value.bind="user.expenses.unexpectedMedicalProblems" change.delegate="calculateExpenses.healthExpenses()" class="form-control" placeholder="10">
-                                <br>
-                                <label for="income">Eye Care:</label>
-                                <input type="text" value.bind="user.expenses.eyeCare" change.delegate="calculateExpenses.healthExpenses()" class="form-control" placeholder="10">
-                                <br>
-                                <label for="income">Dental Insurance:</label>
-                                <input type="text" value.bind="user.expenses.dentalInsurance" change.delegate="calculateExpenses.healthExpenses()" class="form-control" placeholder="10">
-                                <br>
-                                <label for="income">Cavities/dental work:</label>
-                                <input type="text" value.bind="user.expenses.cavities" change.delegate="calculateExpenses.healthExpenses()" class="form-control" placeholder="10">
-                                <br>
-                                <label for="income">Braces:</label>
-                                <input type="text" value.bind="user.expenses.braces" change.delegate="calculateExpenses.healthExpenses()"  class="form-control" placeholder="10">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">Discretionary Expenses
-                                                                                                        <div style="float:right">Total: $${user.expenses.totalDiscretionaryExpense}</div>
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapse4" class="panel-collapse collapse">
-                            <div class="panel-body">
-
-
-
-                                <label for="income">Eating out:</label>
-                                <input type="text" value.bind="user.expenses.eatingOut" change.delegate="calculateExpenses.discretionaryExpenses()" class="form-control" placeholder="10">
-                                <br>
-                                <label for="income">Bars/drinks:</label>
-                                <input type="text" value.bind="user.expenses.bars" change.delegate="calculateExpenses.discretionaryExpenses()" class="form-control" placeholder="10">
-                                <br>
-                                <label for="income">Fun money (golf, movies, etc.):</label>
-                                <input type="text" value.bind="user.expenses.funMoney" change.delegate="calculateExpenses.discretionaryExpenses()" class="form-control" placeholder="10">
-                                <br>
-                                <label for="income">Other:</label>
-                                <input type="text" value.bind="user.expenses.other" change.delegate="calculateExpenses.discretionaryExpenses()" class="form-control" placeholder="10"></div>
-                        </div>
-                    </div>
-                </div>
+                <compose view-model="./compose/compose-home-expenses"></compose>
+                <compose view-model="./compose/compose-car-expenses"></compose>
+                <compose view-model="./compose/compose-health-expenses"></compose>
+                <compose view-model="./compose/compose-discretionary-expenses"></compose>
             </div>
-
-    </body>
+        </div>
+        
+        <div id="expenses">
+            <hr>
+            <button class="btn btn-secondary" click.delegate="back()" id="back">Back</button>
+            <button class="btn btn-primary" type="submit" id="next">Next</button>
+        </div>
+    </form>
 </template>
