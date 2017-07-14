@@ -22,6 +22,13 @@ export class results {
         this.user.results.expensesResults.push(['Health', this.user.expenses.totalHealthExpense]);
         this.user.results.expensesResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense]);
         
+        this.user.results.recommendedResults = [];
+        this.user.results.recommendedResults.push(['Home', this.user.expenses.totalHomeExpense+30]);
+        this.user.results.recommendedResults.push(['Car', this.user.expenses.totalCarExpense+30]);
+        this.user.results.recommendedResults.push(['Health', this.user.expenses.totalHealthExpense+30]);
+        this.user.results.recommendedResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense+30]);
+
         this.chart.createChart('resultsContainer', this.user.results);
+        this.chart.createRecommendedChart('recommendedContainer', this.user.results);
     }
 }

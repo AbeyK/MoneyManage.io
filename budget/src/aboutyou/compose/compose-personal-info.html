@@ -2,16 +2,40 @@
     <h2>Personal Info</h2>
         <!--===================================AGE================================-->
         <div class="form-group" >
-            <label for="age">Age:</label>
+            <label for="age">Age</label>
             <input style="width: 400px;" id="age"></input>
         </div>
 
         <!--=================================INCOME================================-->
         <div class="form-group">
-            <label for="salary">Income</label>
+            <label for="salary">Income Per Year</label>
             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                 <div class="input-group-addon">$</div>
-                <input type="text" value.bind="user.personalInfo.income" class="form-control" id="inlineFormInputGroup">
+                <input type="text" value.bind="user.personalInfo.income" class="form-control">
             </div>
         </div>
+
+        <!--=================================SAVINGS================================-->
+        <div class="form-group">
+            <label for="savings">Savings Per Month
+            </label>
+            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                <div class="input-group-addon">$</div>
+                <input type="text" value.bind="user.personalInfo.savingsPerMonth" class="form-control">
+            </div>
+        </div>
+        <hr>
+
+        <!--=================================HOUSEHOLD================================-->
+        <h2>Household Info</h2>
+        <div class="form-group col-md-6">
+            <label for="householdSize">Household Size</label>
+            <input type="text" value.bind="user.personalInfo.householdSize" class="form-control">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="householdSize">Size of Home (in square feet)?</label>
+            <input type="text" value.bind="user.personalInfo.squareFootHome" class="form-control">
+        </div>
+
+        <br> <br> <br>
 </template>

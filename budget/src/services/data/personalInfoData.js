@@ -2,6 +2,9 @@ export class PersonalInfoData {
     constructor() {
         this.age = 30;
         this.income = 0;
+        this.savingsPerMonth = 0;
+        this.householdSize = 0;
+        this.squareFootHome = 0;
 
         this.goalsList=["Private School", "College", "Wedding", "Vacation",
             "Boat", "New Car", "Other"];
