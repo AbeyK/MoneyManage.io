@@ -4,47 +4,56 @@
     <h2>Goals</h2>
     
     <!--====================AVAILABLE GOALS=========================-->
-    <div class="col-md-6" id="availableGoals" >
-        <h2>Wishes</h2>
-        <hr>
+    <div class="col-md-4 container" id="availableGoals" >
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2>Wishes</h2>
+            </div>
 
-        <div class="row col-md-4 col-md-push-4" dragstart.trigger="drag($event)">
-            <div repeat.for="goal of user.personalInfo.goalsList" class="row">
-                <div class="current-buttons btn btn-primary" draggable="true">
-                    ${goal}
+            <div class="panel-body" dragstart.trigger="drag($event)">
+                <div repeat.for="goal of user.personalInfo.goalsList" class="row">
+                    <div class="current-buttons btn btn-primary" draggable="true">
+                        ${goal}
+                    </div>
+                    <br> <br>
                 </div>
-                <br> <br>
             </div>
         </div>
     </div>
 
     <!--========================MY GOALS============================-->
-    <div class="col-md-6" id="currentGoals" drop.trigger="drop($event)" dragover.trigger="allowDrop($event)">
-        <h2>My Wishes</h2>
-        <hr></hr>
+    <div class="col-md-8 container ${user.personalInfo.currentGoals.length >= 3 ? 'goalOverflow' : 'none'}" id="currentGoals" drop.trigger="drop($event)" dragover.trigger="allowDrop($event)">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2>My Wishes</h2>
+            </div>
 
-        <div repeat.for="wish of constants.wishes">
-            <div show.bind="user.personalInfo[wish.check]">
-                <div class="col-md-10">
-                    <h3>${wish.title}</h3>
-                </div>
-                <div class="col-md-2">
-                    <button click.delegate="remove(wish.title)" class="btn btn-danger">X</button>
-                </div>
-                
-                <div class="form-group">
-                    <label for="privateSchool">Amount for ${wish.title}</label>
-                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <div class="input-group-addon">$</div>
-                        <input type="text" value.bind="user.personalInfo[wish.value]" class="form-control" id="inlineFormInputGroup">
+            <div class="panel-body">
+                <div repeat.for="wish of constants.wishes">
+                    <div show.bind="user.personalInfo[wish.check]">
+                        <div class="col-md-10">
+                            <h3>${wish.title}</h3>
+                        </div>
+                        <div style="margin-top:5%;" class="col-md-2">
+                            <button click.delegate="remove(wish.title)" class="btn btn-danger">X</button>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="privateSchool">Amount for ${wish.title}</label>
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <div class="input-group-addon">$</div>
+                                <input type="text" value.bind="user.personalInfo[wish.value]" class="form-control" id="inlineFormInputGroup">
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <div id="myGoals">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    Add Wish Here
+                </div>
+                <br>
             </div>
         </div>
-
-        <div id="myGoals">
-            Add Wish Here
-        </div>
-        <br>
     </div>
 </template>
