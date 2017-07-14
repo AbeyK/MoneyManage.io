@@ -37,4 +37,38 @@ export class Chart {
             }]
         });
     }
+
+    createRecommendedChart(containerID, results) {
+        Highcharts.chart(containerID, {
+            chart: {
+                type: 'pie',
+                options3d: {
+                    enabled: true,
+                    alpha: 45
+                }
+            },
+            title: {
+                text: 'Budget Plan'
+            },
+            subtitle: {
+                text: 'Your Expenses'
+            },
+            plotOptions: {
+                pie: {
+                    innerSize: 100,
+                    depth: 45,
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>'
+                    }
+                }
+            },
+            series: [{
+                name: 'Expense amount',
+                data: results.recommendedResults
+            }]
+        });
+    }
 }
