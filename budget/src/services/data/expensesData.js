@@ -9,7 +9,7 @@ export class ExpensesData {
 
         //HOME EXPENSES
         this.mortgage = 0;
-        this.propertTax = 0;
+        this.propertyTax = 0;
         this.phone = 0;
         this.internet = 0;
         this.cable = 0;
@@ -30,9 +30,9 @@ export class ExpensesData {
         this.healthInsurance = 0;
         this.medication = 0;
         this.unexpectedMedicalProblems = 0;
+        this.eyeCare = 0;
         this.dentalInsurance = 0;
         this.cavities = 0;
-        this.eyeCare = 0;
         this.braces = 0;
 
         //DISCRETIONARY
