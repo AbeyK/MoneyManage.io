@@ -2,13 +2,15 @@ import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {User} from '../services/user';
 import {Chart} from '../utilities/chart';
+import {Constants} from '../services/constants';
 
-@inject(Router, User, Chart)
+@inject(Router, User, Chart, Constants)
 export class results {
-    constructor(router, user, chart) {
+    constructor(router, user, chart, constants) {
         this.router = router;
         this.user = user;
         this.chart = chart;
+        this.constants = constants;
     }
 
     back() {
@@ -24,9 +26,9 @@ export class results {
         
         this.user.results.recommendedResults = [];
         this.user.results.recommendedResults.push(['Home', this.user.expenses.totalHomeExpense+30]);
-        this.user.results.recommendedResults.push(['Car', this.user.expenses.totalCarExpense+30]);
-        this.user.results.recommendedResults.push(['Health', this.user.expenses.totalHealthExpense+30]);
-        this.user.results.recommendedResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense+30]);
+        this.user.results.recommendedResults.push(['Car', this.user.expenses.totalCarExpense+31]);
+        this.user.results.recommendedResults.push(['Health', this.user.expenses.totalHealthExpense+32]);
+        this.user.results.recommendedResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense+33]);
 
         this.chart.createChart('resultsContainer', this.user.results);
         this.chart.createRecommendedChart('recommendedContainer', this.user.results);

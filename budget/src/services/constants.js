@@ -40,9 +40,9 @@ export class Constants {
         ];
 
         //EXPENSES CONSTANTS
-        this.homeExpenses = [
+        this.HomeExpenses = [
             {
-                "title" : "Mortgage/Rent Monthly Payment",
+                "title" : "Mortgage/Rent (monthly)",
                 "value" : "mortgage"
             },
             {
@@ -83,7 +83,7 @@ export class Constants {
             }
         ];
 
-        this.carExpenses = [
+        this.CarExpenses = [
             {
                 "title" : "Car Payment",
                 "value" : "carPayment"
@@ -106,7 +106,7 @@ export class Constants {
             }
         ];
 
-        this.healthExpenses = [
+        this.HealthExpenses = [
             {
                 "title" : "Health Insurance",
                 "value" : "healthInsurance"
@@ -137,7 +137,7 @@ export class Constants {
             }
         ];
 
-        this.discretionaryExpenses = [
+        this.DiscretionaryExpenses = [
             {
                 "title" : "Eating Out",
                 "value" : "eatingOut"

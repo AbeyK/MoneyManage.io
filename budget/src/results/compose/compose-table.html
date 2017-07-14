@@ -5,14 +5,27 @@
         <table class="table table-hover table-bordered search-table">
             <thead>
                 <tr>
-                    <th>Probability to Reach Age</th>
-                    <th repeat.for="num of user.results.recommendedResults.length">${user.results.recommendedResults[num]}</th>
+                    <th>Expense</th>
+                    <th style="text-align: center;" repeat.for="expense of user.results.recommendedResults.length">
+                        ${user.results.recommendedResults[expense][0]}
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <th>Age</th>
-                    <td repeat.for="age of user.results.recommendedResults.length">${user.results.recommendedResults[age]}</th>
+                    <th>Amount</th>
+                    <td repeat.for="amount of user.results.recommendedResults.length">
+                        <input style="text-align: center;" value.bind="user.results.recommendedResults[amount][1]"></input>
+                        <hr>
+                        <div repeat.for="expense of constants[user.results.recommendedResults[amount][0] + 'Expenses']" class="form-group">
+                            <label>${expense.title}</label>
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <div class="input-group-addon">$</div>
+                                <input type="text" value.bind="user.expenses[expense.value]" class="form-control ${user.expenses[expense.value] < 0 ? 'btn-danger' : 'none'}">
+                            </div>
+                            <br>
+                        </div>
+                    </td>
                 </tr>
             </tbody>
         </table>
