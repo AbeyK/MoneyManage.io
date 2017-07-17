@@ -1,6 +1,6 @@
 <template>
     <hr style="clear:both;"> 
-    <h3 style="text-align:center;">Results</h3>
+    <h3 style="text-align:center;">Expenses Table</h3>
     <div style="width:1200px; margin: 0 auto;" class="table-outter">
         <table class="table table-bordered search-table">
             <thead>
@@ -9,29 +9,56 @@
                     <th style="text-align: center;" repeat.for="expense of user.results.recommendedResults.length">
                         ${user.results.recommendedResults[expense][0]}
                     </th>
-                    <th>Savings</th>
+                    <th style="text-align: center;">Yearly Savings & Goals</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
+                    <!--DISPLAY EACH EXPENSE COLUMNS-->
                     <th>Amount</th>
-                    <td repeat.for="amount of user.results.recommendedResults.length">
-                        <input style="text-align: center;" value.bind="user.results.recommendedResults[amount][1]"></input>
+                    <td style="" repeat.for="amount of user.results.recommendedResults.length">
+                        <div style="text-align: center;">${user.expenses['total' + user.results.recommendedResults[amount][0] + 'Expense']}</div>
                         <hr>
-                        <div repeat.for="expense of constants[user.results.recommendedResults[amount][0] + 'Expenses']" class="form-group">
-                            <label>${expense.title}</label>
+                        <div style="height: 300px; overflow-y:scroll;">
+                            <div repeat.for="expense of constants[user.results.recommendedResults[amount][0] + 'Expenses']" class="form-group">
+                                <label>${expense.title}</label>
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-addon">$</div>
+                                    <input type="text" value.bind="user.expenses[expense.value]" 
+                                        change.delegate="checkValue(user.expenses, user.expenses[expense.value], expense, user.results.recommendedResults[amount][0])"
+                                        class="form-control ${user.expenses[expense.value + 'check'] ? 'none' : 'btn-danger'}">
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                    </td>
+
+                    <!--DISPLAY SAVINGS AND GOALS-->
+                    <td>
+                        <div style="text-align: center;">${user.personalInfo.savingsPerMonth * 12}</div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="privateSchool">Savings Per Month</label>
                             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                 <div class="input-group-addon">$</div>
-                                <input type="text" value.bind="user.expenses[expense.value]" 
-                                    change.delegate="checkValue(user.expenses, user.expenses[expense.value], expense, user.results.recommendedResults[amount][0])"
-                                    class="form-control ${user.expenses[expense.value + 'check'] ? 'none' : 'btn-danger'}">
+                                <input type="text" value.bind="user.personalInfo.savingsPerMonth" class="form-control">
                             </div>
                             <br>
                         </div>
-                    </td>
-                    <td>
-                        <input style="text-align: center;" value.bind="user.personalInfo.savingsPerMonth">
-                        <hr>
+                        <div show.bind="user.results.showGoals" style="height: 200px; overflow-y:scroll;">
+                            <div repeat.for="wish of constants.wishes">
+                                <div show.bind="user.personalInfo[wish.check]">
+                                    <div class="form-group">
+                                        <label for="privateSchool">Amount for ${wish.title}</label>
+                                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                            <div class="input-group-addon">$</div>
+                                            <input type="text" value.bind="user.personalInfo[wish.value]" class="form-control">
+                                        </div>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
                     </td>
                 </tr>
             </tbody>
