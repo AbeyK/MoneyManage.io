@@ -19,12 +19,29 @@ export class ExpensesData {
         this.homeMaintenance = 0;
         this.clothes = 0;
 
+        this.mortgagecheck = true;
+        this.propertyTaxcheck = true;
+        this.phonecheck = true;
+        this.internetcheck = true;
+        this.cablecheck = true;
+        this.netfixcheck = true;
+        this.groceriescheck = true;
+        this.utilitiescheck = true;
+        this.homeMaintenancecheck = true;
+        this.clothescheck = true;
+
         //CAR EXPENSES
         this.carPayment = 0;
         this.carInsurance = 0;
         this.publicTransport = 0;
         this.gas = 0;
         this.carMaintenance = 0;
+
+        this.carPaymentcheck = true;
+        this.carInsurancecheck = true;
+        this.publicTransportcheck = true;
+        this.gascheck = true;
+        this.carMaintenancecheck = true;
 
         //HEALTH
         this.healthInsurance = 0;
@@ -35,10 +52,23 @@ export class ExpensesData {
         this.cavities = 0;
         this.braces = 0;
 
+        this.healthInsurancecheck = true;
+        this.medicationcheck = true;
+        this.unexpectedMedicalProblemscheck = true;
+        this.eyeCarecheck = true;
+        this.dentalInsurancecheck = true;
+        this.cavitiescheck = true;
+        this.bracescheck = true;
+
         //DISCRETIONARY
         this.eatingOut = 0;
         this.bars = 0;
         this.funMoney = 0;
         this.other = 0;
+
+        this.eatingOutcheck = true;
+        this.barscheck = true;
+        this.funMoneycheck = true;
+        this.othercheck = true;
     }
 }

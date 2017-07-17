@@ -13,6 +13,12 @@ export class results {
         this.constants = constants;
     }
 
+    checkValue(expenses, value, category) {
+        if(parseInt(value) < 0) console.log(value);
+        console.log();
+        console.log(expenses[category + 'check']);
+    }
+
     back() {
         this.router.navigate('#/expenses');
     }
