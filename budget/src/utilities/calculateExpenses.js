@@ -1,10 +1,12 @@
 import {inject} from 'aurelia-framework';
 import {User} from '../services/user';
+import {ExpensesConstants} from '../services/constants';
 
-@inject(User)
+@inject(User, expensesConstants)
 export class calculateExpenses {
-    constructor(user) {
+    constructor(user, expensesConstants) {
         this.user = user;
+        this.expensesConstants = expensesConstants;
     }
     
     homeExpenses(){
@@ -16,7 +18,12 @@ export class calculateExpenses {
             parseInt(this.user.expenses.homeMaintenance) + parseInt(this.user.expenses.clothes);
 
         if(isNaN(tempHomeTotal)) alert("Please enter a valid input");
-        else this.user.expenses.totalHomeExpense = tempHomeTotal;
+        else {
+            this.user.expenses.totalHomeExpense = tempHomeTotal;
+            if(this.user.expenses.mortgage>this.expensesConstants.homeExpenseConstants["Mortgage"]){
+                alert("I WORK");
+            }
+        }
     }
 
     carExpenses(){
