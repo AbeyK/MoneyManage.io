@@ -29,9 +29,32 @@ export class ExpensesConstants {
         ];
         this.cableConstants = [
             {
-                
-            }
-        ]
+                "title": "Streaming Services",
+                "value": 9
+            },
+            {
+                "title": "Basic Service",
+                "value": 24
+            },
+                        {
+                "title": "Expanded Basic",
+                "value": 69
+            },
+            {
+                "title": "Next Most Popular",
+                "value": 82
+            },
+        ];
+        this.grocery = [
+            {
+                "title": "1",
+                "USDA Thrifty Food Plan Average": 201,
+                "USDA Thrifty Food Plan Average": 201,
+                "USDA Thrifty Food Plan Average": 201,
+                "USDA Thrifty Food Plan Average": 201,
+                "USDA Thrifty Food Plan Average": 201
+            },
+        ];
         this.carExpenseConstants = [
             {
                 "title": "Car payment",

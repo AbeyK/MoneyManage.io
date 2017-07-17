@@ -198,6 +198,15 @@ define('expenses/expenses',['exports', 'aurelia-framework', 'aurelia-router', '.
         return expenses;
     }()) || _class);
 });
+define('resources/index',["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.configure = configure;
+  function configure(config) {}
+});
 define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../services/user', '../utilities/chart', '../services/constants'], function (exports, _aureliaFramework, _aureliaRouter, _user, _chart, _constants) {
     'use strict';
 
@@ -247,15 +256,6 @@ define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../
 
         return results;
     }()) || _class);
-});
-define('resources/index',["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.configure = configure;
-  function configure(config) {}
 });
 define('services/constants',["exports"], function (exports) {
     "use strict";
@@ -407,6 +407,8 @@ define('services/expensesConstants',["exports", "../services/user"], function (e
     var _dec, _class;
 
     var ExpensesConstants = exports.ExpensesConstants = (_dec = inject(_user.User), _dec(_class = function ExpensesConstants(user) {
+        var _ref;
+
         _classCallCheck(this, ExpensesConstants);
 
         this.user = user;
@@ -428,7 +430,23 @@ define('services/expensesConstants',["exports", "../services/user"], function (e
             "120-150": 1211,
             "150+": 1686
         }];
-        this.cableConstants = [{}];
+        this.cableConstants = [{
+            "title": "Streaming Services",
+            "value": 9
+        }, {
+            "title": "Basic Service",
+            "value": 24
+        }, {
+            "title": "Expanded Basic",
+            "value": 69
+        }, {
+            "title": "Next Most Popular",
+            "value": 82
+        }];
+        this.grocery = [(_ref = {
+            "title": "1",
+            "USDA Thrifty Food Plan Average": 201
+        }, _ref["USDA Thrifty Food Plan Average"] = 201, _ref["USDA Thrifty Food Plan Average"] = 201, _ref["USDA Thrifty Food Plan Average"] = 201, _ref["USDA Thrifty Food Plan Average"] = 201, _ref)];
         this.carExpenseConstants = [{
             "title": "Car payment",
             "value": 479
