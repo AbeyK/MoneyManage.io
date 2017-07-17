@@ -207,7 +207,7 @@ define('resources/index',["exports"], function (exports) {
   exports.configure = configure;
   function configure(config) {}
 });
-define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../services/user', '../utilities/chart', '../services/constants'], function (exports, _aureliaFramework, _aureliaRouter, _user, _chart, _constants) {
+define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../services/user', '../utilities/chart', '../services/constants', '../utilities/calculateExpenses'], function (exports, _aureliaFramework, _aureliaRouter, _user, _chart, _constants, _calculateExpenses) {
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
@@ -223,20 +223,23 @@ define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../
 
     var _dec, _class;
 
-    var results = exports.results = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router, _user.User, _chart.Chart, _constants.Constants), _dec(_class = function () {
-        function results(router, user, chart, constants) {
+    var results = exports.results = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router, _user.User, _chart.Chart, _constants.Constants, _calculateExpenses.calculateExpenses), _dec(_class = function () {
+        function results(router, user, chart, constants, calculateExpenses) {
             _classCallCheck(this, results);
 
             this.router = router;
             this.user = user;
             this.chart = chart;
             this.constants = constants;
+            this.calculateExpenses = calculateExpenses;
         }
 
-        results.prototype.checkValue = function checkValue(expenses, value, category) {
-            if (parseInt(value) < 0) console.log(value);
-            console.log();
-            console.log(expenses[category + 'check']);
+        results.prototype.checkValue = function checkValue(expenses, value, category, overallCategory) {
+            var val = parseInt(value);
+            if (val < 0) expenses[category.value + 'check'] = false;else if (val > 0) expenses[category.value + 'check'] = true;
+
+            var calculate = overallCategory.toLowerCase() + 'Expenses()';
+            this.calculateExpenses[calculate];
         };
 
         results.prototype.back = function back() {
@@ -574,19 +577,19 @@ define('utilities/calculateExpenses',['exports', 'aurelia-framework', '../servic
             if (isNaN(tempHomeTotal)) alert("Please enter a valid input");else this.user.expenses.totalHomeExpense = tempHomeTotal;
         };
 
-        calculateExpenses.prototype.carExpenses = function carExpenses(val) {
+        calculateExpenses.prototype.carExpenses = function carExpenses() {
             var tempCarTotal = parseInt(this.user.expenses.carPayment) + parseInt(this.user.expenses.carInsurance) + parseInt(this.user.expenses.publicTransport) + parseInt(this.user.expenses.gas) + parseInt(this.user.expenses.carMaintenance);
 
             if (isNaN(tempCarTotal)) alert("Please enter a valid input");else this.user.expenses.totalCarExpense = tempCarTotal;
         };
 
-        calculateExpenses.prototype.healthExpenses = function healthExpenses(val) {
+        calculateExpenses.prototype.healthExpenses = function healthExpenses() {
             var tempHealthTotal = parseInt(this.user.expenses.healthInsurance) + parseInt(this.user.expenses.medication) + parseInt(this.user.expenses.unexpectedMedicalProblems) + parseInt(this.user.expenses.dentalInsurance) + parseInt(this.user.expenses.cavities) + parseInt(this.user.expenses.eyeCare) + parseInt(this.user.expenses.braces);
 
             if (isNaN(tempHealthTotal)) alert("Please enter a valid input");else this.user.expenses.totalHealthExpense = tempHealthTotal;
         };
 
-        calculateExpenses.prototype.discretionaryExpenses = function discretionaryExpenses(val) {
+        calculateExpenses.prototype.discretionaryExpenses = function discretionaryExpenses() {
             var tempDiscretionaryTotal = parseInt(this.user.expenses.eatingOut) + parseInt(this.user.expenses.bars) + parseInt(this.user.expenses.funMoney) + parseInt(this.user.expenses.other);
 
             if (isNaN(tempDiscretionaryTotal)) alert("Please enter a valid input");else this.user.expenses.totalDiscretionaryExpense = tempDiscretionaryTotal;
@@ -1088,5 +1091,5 @@ define('text!expenses/compose/compose-discretionary-expenses.html', ['module'], 
 define('text!expenses/compose/compose-health-expenses.html', ['module'], function(module) { module.exports = "<template><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#healthExpenseCollapse\">Health<div style=\"float:right\">Total: $${user.expenses.totalHealthExpense}</div></a></h4></div><div id=\"healthExpenseCollapse\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><div repeat.for=\"health of constants.HealthExpenses\" class=\"form-group\"><label>${health.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[health.value]\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\"></div><br></div></div></div></div></template>"; });
 define('text!expenses/compose/compose-home-expenses.html', ['module'], function(module) { module.exports = "<template><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#homeExpenseCollapse\">Home<div style=\"float:right\">Total: $${user.expenses.totalHomeExpense}</div></a></h4></div><div id=\"homeExpenseCollapse\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><div repeat.for=\"home of constants.HomeExpenses\" class=\"form-group\"><label>${home.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[home.value]\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\"></div><br></div></div></div></div></template>"; });
 define('text!results/compose/compose-chart.html', ['module'], function(module) { module.exports = "<template><div id=\"resultsContainer\"></div><div id=\"recommendedContainer\"></div></template>"; });
-define('text!results/compose/compose-table.html', ['module'], function(module) { module.exports = "<template><hr><h3 style=\"text-align:center\">Results</h3><div class=\"table-outter\"><table class=\"table table-bordered search-table\"><thead><tr><th>Expense</th><th style=\"text-align:center\" repeat.for=\"expense of user.results.recommendedResults.length\">${user.results.recommendedResults[expense][0]}</th></tr></thead><tbody><tr><th>Amount</th><td repeat.for=\"amount of user.results.recommendedResults.length\"><input style=\"text-align:center\" value.bind=\"user.results.recommendedResults[amount][1]\"><hr><div repeat.for=\"expense of constants[user.results.recommendedResults[amount][0] + 'Expenses']\" class=\"form-group\"><label>${expense.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[expense.value]\" change.delegate=\"checkValue(user.expenses, user.expenses[expense.value])\" class=\"form-control ${user.expenses[expense.value + 'check'] ? 'none' : 'btn-danger'}\"></div><br></div></td></tr></tbody></table></div></template>"; });
+define('text!results/compose/compose-table.html', ['module'], function(module) { module.exports = "<template><hr><h3 style=\"text-align:center\">Results</h3><div class=\"table-outter\"><table class=\"table table-bordered search-table\"><thead><tr><th>Expense</th><th style=\"text-align:center\" repeat.for=\"expense of user.results.recommendedResults.length\">${user.results.recommendedResults[expense][0]}</th></tr></thead><tbody><tr><th>Amount</th><td repeat.for=\"amount of user.results.recommendedResults.length\"><input style=\"text-align:center\" value.bind=\"user.results.recommendedResults[amount][1]\"><hr><div repeat.for=\"expense of constants[user.results.recommendedResults[amount][0] + 'Expenses']\" class=\"form-group\"><label>${expense.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[expense.value]\" change.delegate=\"checkValue(user.expenses, user.expenses[expense.value], expense, user.results.recommendedResults[amount][0])\" class=\"form-control ${user.expenses[expense.value + 'check'] ? 'none' : 'btn-danger'}\"></div><br></div></td></tr></tbody></table></div></template>"; });
 //# sourceMappingURL=app-bundle.js.map
