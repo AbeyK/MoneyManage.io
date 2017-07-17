@@ -45,7 +45,12 @@ export class results {
         this.user.results.recommendedResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense+33]);
 
         this.chart.createChart('resultsContainer', this.user.results);
+        this.chart.createAdvancedChart('resultsContainerAdvanced');
         this.chart.createRecommendedChart('recommendedContainer', this.user.results);
+    }
+
+    checkAdvanced() {
+        this.user.results.showAdvanced = !this.user.results.showAdvanced;
     }
 
     back() {

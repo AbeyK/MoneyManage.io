@@ -259,7 +259,12 @@ define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../
             this.user.results.recommendedResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense + 33]);
 
             this.chart.createChart('resultsContainer', this.user.results);
+            this.chart.createAdvancedChart('resultsContainerAdvanced');
             this.chart.createRecommendedChart('recommendedContainer', this.user.results);
+        };
+
+        results.prototype.checkAdvanced = function checkAdvanced() {
+            this.user.results.showAdvanced = !this.user.results.showAdvanced;
         };
 
         results.prototype.back = function back() {
@@ -676,6 +681,34 @@ define('utilities/chart',['exports', 'aurelia-framework', '../services/user', 'h
         }
 
         Chart.prototype.createChart = function createChart(containerID, results) {
+            Highcharts.chart(containerID, {
+                chart: {
+                    type: 'pie',
+                    options3d: {
+                        enabled: true,
+                        alpha: 45
+                    }
+                },
+                title: {
+                    text: 'Your Budget Plan'
+                },
+                subtitle: {
+                    text: 'Your Expenses'
+                },
+                plotOptions: {
+                    pie: {
+                        innerSize: 100,
+                        depth: 45
+                    }
+                },
+                series: [{
+                    name: 'Delivered amount',
+                    data: results.expensesResults
+                }]
+            });
+        };
+
+        Chart.prototype.createAdvancedChart = function createAdvancedChart(containerID) {
             var categories = ['Home', 'Car', 'Health', 'Discretionary'],
                 data = [{
                 y: this.user.results.homePercentage,
@@ -735,7 +768,7 @@ define('utilities/chart',['exports', 'aurelia-framework', '../services/user', 'h
                     type: 'pie'
                 },
                 title: {
-                    text: 'My Budet Plan'
+                    text: 'My Advanced Budet Plan'
                 },
                 subtitle: {
                     text: 'My Expenses'
@@ -752,7 +785,8 @@ define('utilities/chart',['exports', 'aurelia-framework', '../services/user', 'h
                     }
                 },
                 tooltip: {
-                    valueSuffix: '%'
+                    valueSuffix: '%',
+                    valueDecimals: 2
                 },
                 series: [{
                     name: 'Percentage of Total Expense',
@@ -1196,6 +1230,7 @@ define('services/data/resultsData',["exports"], function (exports) {
                 this.expensesResults = [];
                 this.recommendedResults = [];
                 this.showGoals = false;
+                this.showAdvanced = false;
 
                 this.homePercentage = 0;
                 this.mortgagePercentage = 0;
@@ -1336,6 +1371,6 @@ define('text!expenses/compose/compose-car-expenses.html', ['module'], function(m
 define('text!expenses/compose/compose-discretionary-expenses.html', ['module'], function(module) { module.exports = "<template><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#discretionaryExpenseCollapse\">Discretionary Expenses<div style=\"float:right\">Total: $${user.expenses.totalDiscretionaryExpense}</div></a></h4></div><div id=\"discretionaryExpenseCollapse\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><div repeat.for=\"discretionary of constants.DiscretionaryExpenses\" class=\"form-group\"><label>${discretionary.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[discretionary.value]\" change.delegate=\"calculateExpenses.discretionaryExpenses()\" class=\"form-control\"></div><br></div></div></div></div></template>"; });
 define('text!expenses/compose/compose-health-expenses.html', ['module'], function(module) { module.exports = "<template><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#healthExpenseCollapse\">Health<div style=\"float:right\">Total: $${user.expenses.totalHealthExpense}</div></a></h4></div><div id=\"healthExpenseCollapse\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><div repeat.for=\"health of constants.HealthExpenses\" class=\"form-group\"><label>${health.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[health.value]\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\"></div><br></div></div></div></div></template>"; });
 define('text!expenses/compose/compose-home-expenses.html', ['module'], function(module) { module.exports = "<template><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#homeExpenseCollapse\">Home<div style=\"float:right\">Total: $${user.expenses.totalHomeExpense}</div></a></h4></div><div id=\"homeExpenseCollapse\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><div repeat.for=\"home of constants.HomeExpenses\" class=\"form-group\"><label>${home.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[home.value]\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\"></div><br></div></div></div></div></template>"; });
-define('text!results/compose/compose-chart.html', ['module'], function(module) { module.exports = "<template><div style=\"float:left;margin-left:20%\" id=\"resultsContainer\"></div><div style=\"float:left\" id=\"recommendedContainer\"></div></template>"; });
+define('text!results/compose/compose-chart.html', ['module'], function(module) { module.exports = "<template><div style=\"margin-left:31%\"><div class=\"btn-group\" click.delegate=\"checkAdvanced()\" data-toggle=\"buttons\"><label class=\"btn ${!user.results.showAdvanced ? 'active btn-primary' : 'btn-secondary'}\"><input type=\"radio\">Simple Budget</label><label class=\"btn ${user.results.showAdvanced ? 'active btn-primary' : 'btn-secondary'}\"><input type=\"radio\">Advanced Budget</label></div></div><div show.bind=\"!user.results.showAdvanced\" style=\"float:left;margin-left:20%\" id=\"resultsContainer\"></div><div show.bind=\"user.results.showAdvanced\" style=\"float:left;margin-left:20%\" id=\"resultsContainerAdvanced\"></div><div style=\"float:left\" id=\"recommendedContainer\"></div></template>"; });
 define('text!results/compose/compose-table.html', ['module'], function(module) { module.exports = "<template><hr style=\"clear:both\"><h3 style=\"text-align:center\">Expenses Table</h3><div style=\"width:1500px;margin:0 auto\" class=\"table-outter\"><table class=\"table table-bordered search-table\"><thead><tr><th>Expense</th><th style=\"text-align:center\" repeat.for=\"expense of user.results.recommendedResults.length\">${user.results.recommendedResults[expense][0]}</th><th style=\"text-align:center\">Yearly Savings & Goals</th></tr></thead><tbody><tr><th>Amount</th><td style=\"\" repeat.for=\"amount of user.results.recommendedResults.length\"><div style=\"text-align:center\">${user.expenses['total' + user.results.recommendedResults[amount][0] + 'Expense']}</div><hr><div style=\"height:300px;overflow-y:scroll\"><div repeat.for=\"expense of constants[user.results.recommendedResults[amount][0] + 'Expenses']\" class=\"form-group\"><label>${expense.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[expense.value]\" change.delegate=\"checkValue(user.expenses, user.expenses[expense.value], expense, user.results.recommendedResults[amount][0])\" class=\"form-control ${user.expenses[expense.value + 'check'] ? 'none' : 'btn-danger'}\"></div><br></div></div></td><td><div style=\"text-align:center\">${user.personalInfo.savingsPerMonth * 12}</div><hr><div class=\"form-group\"><label for=\"privateSchool\">Savings Per Month</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo.savingsPerMonth\" class=\"form-control\"></div><br></div><div show.bind=\"user.results.showGoals\" style=\"height:200px;overflow-y:scroll\"><div repeat.for=\"wish of constants.wishes\"><div show.bind=\"user.personalInfo[wish.check]\"><div class=\"form-group\"><label for=\"privateSchool\">Amount for ${wish.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo[wish.value]\" class=\"form-control\"></div></div><br></div></div></div></td></tr></tbody></table></div></template>"; });
 //# sourceMappingURL=app-bundle.js.map

@@ -12,6 +12,34 @@ export class Chart {
     }
 
     createChart(containerID, results) {
+        Highcharts.chart(containerID, {
+            chart: {
+                type: 'pie',
+                options3d: {
+                    enabled: true,
+                    alpha: 45
+                }
+            },
+            title: {
+                text: 'Your Budget Plan'
+            },
+            subtitle: {
+                text: 'Your Expenses'
+            },
+            plotOptions: {
+                pie: {
+                    innerSize: 100,
+                    depth: 45
+                }
+            },
+            series: [{
+                name: 'Delivered amount',
+                data: results.expensesResults
+            }]
+        });
+    }
+
+    createAdvancedChart(containerID) {
         var categories = ['Home', 'Car', 'Health', 'Discretionary'],
             data = [{
                 y: this.user.results.homePercentage,
@@ -77,7 +105,7 @@ export class Chart {
                 type: 'pie'
             },
             title: {
-                text: 'My Budet Plan'
+                text: 'My Advanced Budet Plan'
             },
             subtitle: {
                 text: 'My Expenses'
@@ -94,7 +122,8 @@ export class Chart {
                 }
             },
             tooltip: {
-                valueSuffix: '%'
+                valueSuffix: '%',
+                valueDecimals: 2
             },
             series: [{
                 name: 'Percentage of Total Expense',
@@ -140,33 +169,7 @@ export class Chart {
     }
 
 
-    // createChart(containerID, results) {
-    //     Highcharts.chart(containerID, {
-    //         chart: {
-    //             type: 'pie',
-    //             options3d: {
-    //                 enabled: true,
-    //                 alpha: 45
-    //             }
-    //         },
-    //         title: {
-    //             text: 'Your Budget Plan'
-    //         },
-    //         subtitle: {
-    //             text: 'Your Expenses'
-    //         },
-    //         plotOptions: {
-    //             pie: {
-    //                 innerSize: 100,
-    //                 depth: 45
-    //             }
-    //         },
-    //         series: [{
-    //             name: 'Delivered amount',
-    //             data: results.expensesResults
-    //         }]
-    //     });
-    // }
+    
 
     createRecommendedChart(containerID, results) {
         Highcharts.chart(containerID, {

@@ -3,6 +3,7 @@ export class ResultsData {
         this.expensesResults = [];
         this.recommendedResults = [];
         this.showGoals = false;
+        this.showAdvanced = false;
 
         //HOME PERCENTAGES
         this.homePercentage = 0;
