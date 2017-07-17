@@ -2,7 +2,7 @@
     <hr> 
     <h3 style="text-align:center;">Results</h3>
     <div class="table-outter">
-        <table class="table table-hover table-bordered search-table">
+        <table class="table table-bordered search-table">
             <thead>
                 <tr>
                     <th>Expense</th>
@@ -21,7 +21,8 @@
                             <label>${expense.title}</label>
                             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                 <div class="input-group-addon">$</div>
-                                <input type="text" value.bind="user.expenses[expense.value]" class="form-control ${user.expenses[expense.value] < 0 ? 'btn-danger' : 'none'}">
+                                <input type="text" value.bind="user.expenses[expense.value]" change.delegate="checkValue(user.expenses, user.expenses[expense.value])"
+                                    class="form-control ${user.expenses[expense.value + 'check'] ? 'none' : 'btn-danger'}">
                             </div>
                             <br>
                         </div>

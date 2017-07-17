@@ -233,6 +233,12 @@ define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../
             this.constants = constants;
         }
 
+        results.prototype.checkValue = function checkValue(expenses, value, category) {
+            if (parseInt(value) < 0) console.log(value);
+            console.log();
+            console.log(expenses[category + 'check']);
+        };
+
         results.prototype.back = function back() {
             this.router.navigate('#/expenses');
         };
@@ -407,8 +413,6 @@ define('services/expensesConstants',["exports", "../services/user"], function (e
     var _dec, _class;
 
     var ExpensesConstants = exports.ExpensesConstants = (_dec = inject(_user.User), _dec(_class = function ExpensesConstants(user) {
-        var _ref;
-
         _classCallCheck(this, ExpensesConstants);
 
         this.user = user;
@@ -443,10 +447,55 @@ define('services/expensesConstants',["exports", "../services/user"], function (e
             "title": "Next Most Popular",
             "value": 82
         }];
-        this.grocery = [(_ref = {
+        this.grocery = [{
             "title": "1",
-            "USDA Thrifty Food Plan Average": 201
-        }, _ref["USDA Thrifty Food Plan Average"] = 201, _ref["USDA Thrifty Food Plan Average"] = 201, _ref["USDA Thrifty Food Plan Average"] = 201, _ref["USDA Thrifty Food Plan Average"] = 201, _ref)];
+            "USDA Thrifty Food Plan Average": 201,
+            "USDA Low-Cost Food Plan Average": 267,
+            "USDA Moderate-Cost Food Plan Average": 332,
+            "Liberal Plan Average": 414
+        }, {
+            "title": "2",
+            "USDA Thrifty Food Plan Average": 382,
+            "USDA Low-Cost Food Plan Average": 488,
+            "USDA Moderate-Cost Food Plan Average": 607,
+            "Liberal Plan Average": 759
+        }, {
+            "title": "3",
+            "USDA Thrifty Food Plan Average": 504,
+            "USDA Low-Cost Food Plan Average": 657,
+            "USDA Moderate-Cost Food Plan Average": 814,
+            "Liberal Plan Average": 999
+        }, {
+            "title": "4",
+            "USDA Thrifty Food Plan Average": 618,
+            "USDA Low-Cost Food Plan Average": 811,
+            "USDA Moderate-Cost Food Plan Average": 1006,
+            "Liberal Plan Average": 1222
+        }, {
+            "title": "5",
+            "USDA Thrifty Food Plan Average": 717,
+            "USDA Low-Cost Food Plan Average": 947,
+            "USDA Moderate-Cost Food Plan Average": 1176,
+            "Liberal Plan Average": 1423
+        }, {
+            "title": "6",
+            "USDA Thrifty Food Plan Average": 855,
+            "USDA Low-Cost Food Plan Average": 1134,
+            "USDA Moderate-Cost Food Plan Average": 1412,
+            "Liberal Plan Average": 1698
+        }, {
+            "title": "7",
+            "USDA Thrifty Food Plan Average": 949,
+            "USDA Low-Cost Food Plan Average": 1259,
+            "USDA Moderate-Cost Food Plan Average": 1577,
+            "Liberal Plan Average": 1887
+        }, {
+            "title": "8",
+            "USDA Thrifty Food Plan Average": 1080,
+            "USDA Low-Cost Food Plan Average": 1436,
+            "USDA Moderate-Cost Food Plan Average": 1799,
+            "Liberal Plan Average": 2148
+        }];
         this.carExpenseConstants = [{
             "title": "Car payment",
             "value": 479
@@ -890,11 +939,28 @@ define('services/data/expensesData',["exports"], function (exports) {
                 this.homeMaintenance = 0;
                 this.clothes = 0;
 
+                this.mortgagecheck = true;
+                this.propertyTaxcheck = true;
+                this.phonecheck = true;
+                this.internetcheck = true;
+                this.cablecheck = true;
+                this.netfixcheck = true;
+                this.groceriescheck = true;
+                this.utilitiescheck = true;
+                this.homeMaintenancecheck = true;
+                this.clothescheck = true;
+
                 this.carPayment = 0;
                 this.carInsurance = 0;
                 this.publicTransport = 0;
                 this.gas = 0;
                 this.carMaintenance = 0;
+
+                this.carPaymentcheck = true;
+                this.carInsurancecheck = true;
+                this.publicTransportcheck = true;
+                this.gascheck = true;
+                this.carMaintenancecheck = true;
 
                 this.healthInsurance = 0;
                 this.medication = 0;
@@ -904,10 +970,23 @@ define('services/data/expensesData',["exports"], function (exports) {
                 this.cavities = 0;
                 this.braces = 0;
 
+                this.healthInsurancecheck = true;
+                this.medicationcheck = true;
+                this.unexpectedMedicalProblemscheck = true;
+                this.eyeCarecheck = true;
+                this.dentalInsurancecheck = true;
+                this.cavitiescheck = true;
+                this.bracescheck = true;
+
                 this.eatingOut = 0;
                 this.bars = 0;
                 this.funMoney = 0;
                 this.other = 0;
+
+                this.eatingOutcheck = true;
+                this.barscheck = true;
+                this.funMoneycheck = true;
+                this.othercheck = true;
         };
 });
 define('services/data/goalsData',["exports"], function (exports) {
@@ -1009,5 +1088,5 @@ define('text!expenses/compose/compose-discretionary-expenses.html', ['module'], 
 define('text!expenses/compose/compose-health-expenses.html', ['module'], function(module) { module.exports = "<template><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#healthExpenseCollapse\">Health<div style=\"float:right\">Total: $${user.expenses.totalHealthExpense}</div></a></h4></div><div id=\"healthExpenseCollapse\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><div repeat.for=\"health of constants.HealthExpenses\" class=\"form-group\"><label>${health.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[health.value]\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\"></div><br></div></div></div></div></template>"; });
 define('text!expenses/compose/compose-home-expenses.html', ['module'], function(module) { module.exports = "<template><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#homeExpenseCollapse\">Home<div style=\"float:right\">Total: $${user.expenses.totalHomeExpense}</div></a></h4></div><div id=\"homeExpenseCollapse\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><div repeat.for=\"home of constants.HomeExpenses\" class=\"form-group\"><label>${home.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[home.value]\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\"></div><br></div></div></div></div></template>"; });
 define('text!results/compose/compose-chart.html', ['module'], function(module) { module.exports = "<template><div id=\"resultsContainer\"></div><div id=\"recommendedContainer\"></div></template>"; });
-define('text!results/compose/compose-table.html', ['module'], function(module) { module.exports = "<template><hr><h3 style=\"text-align:center\">Results</h3><div class=\"table-outter\"><table class=\"table table-hover table-bordered search-table\"><thead><tr><th>Expense</th><th style=\"text-align:center\" repeat.for=\"expense of user.results.recommendedResults.length\">${user.results.recommendedResults[expense][0]}</th></tr></thead><tbody><tr><th>Amount</th><td repeat.for=\"amount of user.results.recommendedResults.length\"><input style=\"text-align:center\" value.bind=\"user.results.recommendedResults[amount][1]\"><hr><div repeat.for=\"expense of constants[user.results.recommendedResults[amount][0] + 'Expenses']\" class=\"form-group\"><label>${expense.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[expense.value]\" class=\"form-control ${user.expenses[expense.value] < 0 ? 'btn-danger' : 'none'}\"></div><br></div></td></tr></tbody></table></div></template>"; });
+define('text!results/compose/compose-table.html', ['module'], function(module) { module.exports = "<template><hr><h3 style=\"text-align:center\">Results</h3><div class=\"table-outter\"><table class=\"table table-bordered search-table\"><thead><tr><th>Expense</th><th style=\"text-align:center\" repeat.for=\"expense of user.results.recommendedResults.length\">${user.results.recommendedResults[expense][0]}</th></tr></thead><tbody><tr><th>Amount</th><td repeat.for=\"amount of user.results.recommendedResults.length\"><input style=\"text-align:center\" value.bind=\"user.results.recommendedResults[amount][1]\"><hr><div repeat.for=\"expense of constants[user.results.recommendedResults[amount][0] + 'Expenses']\" class=\"form-group\"><label>${expense.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[expense.value]\" change.delegate=\"checkValue(user.expenses, user.expenses[expense.value])\" class=\"form-control ${user.expenses[expense.value + 'check'] ? 'none' : 'btn-danger'}\"></div><br></div></td></tr></tbody></table></div></template>"; });
 //# sourceMappingURL=app-bundle.js.map
