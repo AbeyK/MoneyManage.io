@@ -161,7 +161,7 @@ define('aboutyou/personalinfo',['exports', 'aurelia-framework', 'aurelia-router'
         return personalinfo;
     }()) || _class);
 });
-define('expenses/expenses',['exports', 'aurelia-framework', 'aurelia-router', '../services/user', '../services/constants', '../utilities/calculateExpenses'], function (exports, _aureliaFramework, _aureliaRouter, _user, _constants, _calculateExpenses) {
+define('expenses/expenses',['exports', 'aurelia-framework', 'aurelia-router', '../services/user', '../services/constants', '../services/expensesConstants', '../utilities/calculateExpenses'], function (exports, _aureliaFramework, _aureliaRouter, _user, _constants, _expensesConstants, _calculateExpenses) {
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
@@ -177,14 +177,15 @@ define('expenses/expenses',['exports', 'aurelia-framework', 'aurelia-router', '.
 
     var _dec, _class;
 
-    var expenses = exports.expenses = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router, _user.User, _constants.Constants, _calculateExpenses.calculateExpenses), _dec(_class = function () {
-        function expenses(router, user, constants, calculateExpenses) {
+    var expenses = exports.expenses = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router, _user.User, _constants.Constants, _calculateExpenses.calculateExpenses, _expensesConstants.ExpensesConstants), _dec(_class = function () {
+        function expenses(router, user, constants, calculateExpenses, expensesConstants) {
             _classCallCheck(this, expenses);
 
             this.router = router;
             this.user = user;
             this.constants = constants;
             this.calculateExpenses = calculateExpenses;
+            this.expensesConstants = expensesConstants;
         }
 
         expenses.prototype.back = function back() {
@@ -417,8 +418,8 @@ define('services/constants',["exports"], function (exports) {
         this.discretionaryCategories = ['Eating Out', 'Bars/Drinks', 'Fun Money (golf, movies, etc.)', 'Other'];
     };
 });
-define('services/expensesConstants',["exports", "../services/user"], function (exports, _user) {
-    "use strict";
+define('services/expensesConstants',['exports', 'aurelia-framework', '../services/user'], function (exports, _aureliaFramework, _user) {
+    'use strict';
 
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -433,28 +434,16 @@ define('services/expensesConstants',["exports", "../services/user"], function (e
 
     var _dec, _class;
 
-    var ExpensesConstants = exports.ExpensesConstants = (_dec = inject(_user.User), _dec(_class = function ExpensesConstants(user) {
+    var ExpensesConstants = exports.ExpensesConstants = (_dec = (0, _aureliaFramework.inject)(_user.User), _dec(_class = function ExpensesConstants(user) {
         _classCallCheck(this, ExpensesConstants);
 
         this.user = user;
-        this.homeExpenseConstants = [{
-            "title": "Eating out",
-            "value": Math.floor(this.user.personalInfo.squareFootHome / 12)
-        }, {
-            "title": "Clothes",
-            "value": Math.floor(this.user.personalInfo.income * .05)
-        }, {
-            "title": "Mortgage",
-            "20-30": 461,
-            "30-40": 493,
-            "40-50": 614,
-            "50-70": 678,
-            "70-80": 759,
-            "80-100": 939,
-            "100-120": 1037,
-            "120-150": 1211,
-            "150+": 1686
-        }];
+        this.homeExpenseConstants = {
+            "Eating out": this.user.personalInfo.squareFootHome / 12,
+            "Clothes": Math.floor(this.user.personalInfo.income * .05),
+            "Mortgage": [461, 461, 461, 493, 614, 678, 678, 759, 939, 939, 1037, 1037, 1211, 1211, 1211, 1686][Math.min(15, Math.floor(this.user.personalInfo.income / 10000))]
+        };
+
         this.cableConstants = [{
             "title": "Streaming Services",
             "value": 9
@@ -579,7 +568,7 @@ define('services/user',['exports', '../services/data/personalInfoData', '../serv
         this.results = new _resultsData.ResultsData();
     };
 });
-define('utilities/calculateExpenses',['exports', 'aurelia-framework', '../services/user'], function (exports, _aureliaFramework, _user) {
+define('utilities/calculateExpenses',['exports', 'aurelia-framework', '../services/user', '../services/expensesConstants'], function (exports, _aureliaFramework, _user, _expensesConstants) {
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
@@ -595,17 +584,23 @@ define('utilities/calculateExpenses',['exports', 'aurelia-framework', '../servic
 
     var _dec, _class;
 
-    var calculateExpenses = exports.calculateExpenses = (_dec = (0, _aureliaFramework.inject)(_user.User), _dec(_class = function () {
-        function calculateExpenses(user) {
+    var calculateExpenses = exports.calculateExpenses = (_dec = (0, _aureliaFramework.inject)(_user.User, _expensesConstants.ExpensesConstants), _dec(_class = function () {
+        function calculateExpenses(user, expensesConstants) {
             _classCallCheck(this, calculateExpenses);
 
             this.user = user;
+            this.expensesConstants = expensesConstants;
         }
 
         calculateExpenses.prototype.homeExpenses = function homeExpenses() {
             var tempHomeTotal = parseInt(this.user.expenses.mortgage) + parseInt(this.user.expenses.propertyTax) + parseInt(this.user.expenses.phone) + parseInt(this.user.expenses.internet) + parseInt(this.user.expenses.cable) + parseInt(this.user.expenses.netfix) + parseInt(this.user.expenses.groceries) + parseInt(this.user.expenses.utilities) + parseInt(this.user.expenses.homeMaintenance) + parseInt(this.user.expenses.clothes);
 
-            if (isNaN(tempHomeTotal)) alert("Please enter a valid input");else this.user.expenses.totalHomeExpense = tempHomeTotal;
+            if (isNaN(tempHomeTotal)) alert("Please enter a valid input");else {
+                this.user.expenses.totalHomeExpense = tempHomeTotal;
+                if (this.user.expenses.mortgage > this.expensesConstants.homeExpenseConstants["Mortgage"]) {
+                    alert("I WORK");
+                }
+            }
         };
 
         calculateExpenses.prototype.carExpenses = function carExpenses() {
