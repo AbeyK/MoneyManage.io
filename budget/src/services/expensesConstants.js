@@ -1,4 +1,7 @@
+import {inject} from 'aurelia-framework';
+
 import { User } from '../services/user';
+
 @inject(User)
 
 export class ExpensesConstants {
@@ -9,7 +12,7 @@ export class ExpensesConstants {
                 "Clothes": Math.floor(this.user.personalInfo.income * .05),
                 "Mortgage": [461,461,461,493,614,678,678,759,939,939,1037,1037,1211,1211,1211,1686][Math.min(15,Math.floor(this.user.personalInfo.income/10000))]
         };
-        
+
         this.cableConstants = [
             {
                 "title": "Streaming Services",

@@ -20,20 +20,18 @@ export class results {
         if(val < 0) expenses[category.value + 'check'] = false;
         else if(val > 0) expenses[category.value + 'check'] = true;
 
-        var calculate = overallCategory.toLowerCase() + 'Expenses()';
-        this.calculateExpenses[calculate];
+        if(overallCategory == 'Home') this.calculateExpenses.homeExpenses();
+        else if(overallCategory == 'Car') this.calculateExpenses.carExpenses();
+        else if(overallCategory == 'Health') this.calculateExpenses.healthExpenses();
+        else if(overallCategory == 'Discretionary') this.calculateExpenses.discretionaryExpenses();
     }
 
-    back() {
-        this.router.navigate('#/expenses');
-    }
-
-    attached() {
+    getChartData() {
         this.user.results.expensesResults = [];
-        this.user.results.expensesResults.push(['Home', this.user.expenses.totalHomeExpense]);
-        this.user.results.expensesResults.push(['Car', this.user.expenses.totalCarExpense]);
-        this.user.results.expensesResults.push(['Health', this.user.expenses.totalHealthExpense]);
-        this.user.results.expensesResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense]);
+        this.user.results.expensesResults.push(['Home', this.user.expenses.totalHomeExpense+1]);
+        this.user.results.expensesResults.push(['Car', this.user.expenses.totalCarExpense+1]);
+        this.user.results.expensesResults.push(['Health', this.user.expenses.totalHealthExpense+1]);
+        this.user.results.expensesResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense+1]);
         
         this.user.results.recommendedResults = [];
         this.user.results.recommendedResults.push(['Home', this.user.expenses.totalHomeExpense+30]);
@@ -43,5 +41,16 @@ export class results {
 
         this.chart.createChart('resultsContainer', this.user.results);
         this.chart.createRecommendedChart('recommendedContainer', this.user.results);
+    }
+
+    back() {
+        this.router.navigate('#/expenses');
+    }
+
+    attached() {
+        this.getChartData();
+
+        if(this.user.personalInfo.currentGoals.length > 0) this.user.results.showGoals = true;
+        else this.user.results.showGoals = false;
     }
 }

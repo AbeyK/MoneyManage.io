@@ -1,8 +1,8 @@
 import {inject} from 'aurelia-framework';
 import {User} from '../services/user';
-import {ExpensesConstants} from '../services/constants';
+import {ExpensesConstants} from '../services/expensesConstants';
 
-@inject(User, expensesConstants)
+@inject(User, ExpensesConstants)
 export class calculateExpenses {
     constructor(user, expensesConstants) {
         this.user = user;
