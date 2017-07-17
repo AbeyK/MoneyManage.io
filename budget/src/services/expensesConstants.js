@@ -25,7 +25,6 @@ export class ExpensesConstants {
                 "120-150": 1211,
                 "150+": 1686,
             }
-
         ];
         this.cableConstants = [
             {
@@ -104,6 +103,25 @@ export class ExpensesConstants {
                 "USDA Moderate-Cost Food Plan Average": 1799,
                 "Liberal Plan Average": 2148
             },
+        ];
+        this.braces = [
+            {
+                "title": "Metal",
+                "value": 5000
+            },
+            {
+                "title": "Ceramic",
+                "value": 6000
+            },
+            {
+                "title": "Lingual",
+                "value": 2000
+            },
+            {
+                "title": "Invisalign",
+                "value": 3400
+            },
+
         ];
         this.carExpenseConstants = [
             {
