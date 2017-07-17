@@ -276,6 +276,7 @@ define('services/constants',["exports"], function (exports) {
             "title": "Clothes (per year)",
             "value": "clothes"
         }];
+        this.homeCategories = ['Mortgage/Rent (monthly)', 'Property tax (per year)', 'Phone Payment', 'Internet', 'Cable', 'Netflix', 'Groceries', 'Utilities', 'Maintenance', 'Clothes (per year)'];
 
         this.CarExpenses = [{
             "title": "Car Payment",
@@ -293,6 +294,7 @@ define('services/constants',["exports"], function (exports) {
             "title": "Maintenance",
             "value": "carMaintenance"
         }];
+        this.carCategories = ['Car Payment', 'Car Insurance', 'Public Transport', 'Gas', 'Maintenance'];
 
         this.HealthExpenses = [{
             "title": "Health Insurance",
@@ -316,6 +318,7 @@ define('services/constants',["exports"], function (exports) {
             "title": "Braces",
             "value": "braces"
         }];
+        this.healthCategories = ['Health Insurance', 'Medication', 'Unexpected Medical Problems', 'Eye Care', 'Dental Insurance', 'Cavities/Dental Work', 'Braces'];
 
         this.DiscretionaryExpenses = [{
             "title": "Eating Out",
@@ -324,12 +327,13 @@ define('services/constants',["exports"], function (exports) {
             "title": "Bars/Drinks",
             "value": "bars"
         }, {
-            "title": "Fun Money (golf, movies, etc.",
+            "title": "Fun Money (golf, movies, etc.)",
             "value": "funMoney"
         }, {
             "title": "Other",
             "value": "other"
         }];
+        this.discretionaryCategories = ['Eating Out', 'Bars/Drinks', 'Fun Money (golf, movies, etc.)', 'Other'];
     };
 });
 define('services/expensesConstants',['exports', 'aurelia-framework', '../services/user'], function (exports, _aureliaFramework, _user) {
@@ -491,7 +495,7 @@ define('resources/index',["exports"], function (exports) {
   exports.configure = configure;
   function configure(config) {}
 });
-define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../services/user', '../utilities/chart', '../services/constants', '../utilities/calculateExpenses'], function (exports, _aureliaFramework, _aureliaRouter, _user, _chart, _constants, _calculateExpenses) {
+define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../services/user', '../utilities/chart', '../services/constants', '../utilities/calculateExpenses', '../utilities/calculatePercentages'], function (exports, _aureliaFramework, _aureliaRouter, _user, _chart, _constants, _calculateExpenses, _calculatePercentages) {
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
@@ -507,8 +511,8 @@ define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../
 
     var _dec, _class;
 
-    var results = exports.results = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router, _user.User, _chart.Chart, _constants.Constants, _calculateExpenses.calculateExpenses), _dec(_class = function () {
-        function results(router, user, chart, constants, calculateExpenses) {
+    var results = exports.results = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router, _user.User, _chart.Chart, _constants.Constants, _calculateExpenses.calculateExpenses, _calculatePercentages.calculatePercentages), _dec(_class = function () {
+        function results(router, user, chart, constants, calculateExpenses, calculatePercentages) {
             _classCallCheck(this, results);
 
             this.router = router;
@@ -516,6 +520,7 @@ define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../
             this.chart = chart;
             this.constants = constants;
             this.calculateExpenses = calculateExpenses;
+            this.calculatePercentages = calculatePercentages;
         }
 
         results.prototype.checkValue = function checkValue(expenses, value, category, overallCategory) {
@@ -526,6 +531,9 @@ define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../
         };
 
         results.prototype.getChartData = function getChartData() {
+            this.calculatePercentages.calculateAllPercentages();
+            console.log(this.user.results);
+
             this.user.results.expensesResults = [];
             this.user.results.expensesResults.push(['Home', this.user.expenses.totalHomeExpense + 1]);
             this.user.results.expensesResults.push(['Car', this.user.expenses.totalCarExpense + 1]);
@@ -611,7 +619,7 @@ define('utilities/calculateExpenses',['exports', 'aurelia-framework', '../servic
         return calculateExpenses;
     }()) || _class);
 });
-define('utilities/chart',['exports', 'aurelia-framework', '../services/user', 'highcharts', 'node_modules/highcharts/modules/exporting.js'], function (exports, _aureliaFramework, _user, _highcharts, _exporting) {
+define('utilities/chart',['exports', 'aurelia-framework', '../services/user', 'highcharts', 'node_modules/highcharts/modules/exporting.js', '../services/constants'], function (exports, _aureliaFramework, _user, _highcharts, _exporting, _constants) {
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
@@ -654,38 +662,131 @@ define('utilities/chart',['exports', 'aurelia-framework', '../services/user', 'h
 
     var _dec, _class;
 
-    var Chart = exports.Chart = (_dec = (0, _aureliaFramework.inject)(_user.User), _dec(_class = function () {
-        function Chart(user) {
+    var Chart = exports.Chart = (_dec = (0, _aureliaFramework.inject)(_user.User, _constants.Constants), _dec(_class = function () {
+        function Chart(user, constants) {
             _classCallCheck(this, Chart);
 
             this.user = user;
+            this.constants = constants;
         }
 
         Chart.prototype.createChart = function createChart(containerID, results) {
+            var categories = ['Home', 'Car', 'Health', 'Discretionary'],
+                data = [{
+                y: this.user.results.homePercentage,
+                drilldown: {
+                    name: 'Home Expenses',
+                    categories: this.constants.homeCategories,
+                    data: this.user.results.homePercentageArray
+                }
+            }, {
+                y: this.user.results.carPercentage,
+                drilldown: {
+                    name: 'Car Expenses',
+                    categories: this.constants.carCategories,
+                    data: this.user.results.carPercentageArray
+                }
+            }, {
+                y: this.user.results.healthPercentage,
+                drilldown: {
+                    name: 'Health Expenses',
+                    categories: this.constants.healthCategories,
+                    data: this.user.results.healthPercentageArray
+                }
+            }, {
+                y: this.user.results.discretionaryPercentage,
+                drilldown: {
+                    name: 'Discretionary Expenses',
+                    categories: this.constants.discretionaryCategories,
+                    data: this.user.results.discretionaryPercentageArray
+                }
+            }],
+                browserData = [],
+                versionsData = [],
+                i,
+                j,
+                dataLen = data.length,
+                drillDataLen,
+                brightness;
+
+            for (i = 0; i < dataLen; i += 1) {
+                browserData.push({
+                    name: categories[i],
+                    y: data[i].y
+                });
+
+                drillDataLen = data[i].drilldown.data.length;
+                for (j = 0; j < drillDataLen; j += 1) {
+                    brightness = 0.2 - j / drillDataLen / 5;
+                    versionsData.push({
+                        name: data[i].drilldown.categories[j],
+                        y: data[i].drilldown.data[j]
+                    });
+                }
+            }
+
             Highcharts.chart(containerID, {
                 chart: {
-                    type: 'pie',
-                    options3d: {
-                        enabled: true,
-                        alpha: 45
-                    }
+                    type: 'pie'
                 },
                 title: {
-                    text: 'Your Budget Plan'
+                    text: 'My Budet Plan'
                 },
                 subtitle: {
-                    text: 'Your Expenses'
+                    text: 'My Expenses'
+                },
+                yAxis: {
+                    title: {
+                        text: 'Total percent of budget'
+                    }
                 },
                 plotOptions: {
                     pie: {
-                        innerSize: 100,
-                        depth: 45
+                        shadow: false,
+                        center: ['50%', '50%']
                     }
                 },
+                tooltip: {
+                    valueSuffix: '%'
+                },
                 series: [{
-                    name: 'Delivered amount',
-                    data: results.expensesResults
-                }]
+                    name: 'Percentage of Total Expense',
+                    data: browserData,
+                    size: '50%',
+                    dataLabels: {
+                        formatter: function formatter() {
+                            return this.y > 5 ? this.point.name : null;
+                        },
+                        color: '#ffffff',
+                        distance: -30
+                    }
+                }, {
+                    name: 'Amount',
+                    data: versionsData,
+                    size: '80%',
+                    innerSize: '60%',
+                    dataLabels: {
+                        formatter: function formatter() {
+                            return this.y > 1 ? '<b>' + this.point.name + ':</b> ' + this.y + '%' : null;
+                        }
+                    },
+                    id: 'versions'
+                }],
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 400
+                        },
+                        chartOptions: {
+                            series: [{
+                                id: 'versions',
+                                dataLabels: {
+                                    enabled: false
+                                }
+                            }]
+                        }
+                    }]
+                }
             });
         };
 
@@ -1038,25 +1139,63 @@ define('services/data/personalInfoData',["exports"], function (exports) {
         };
 });
 define('services/data/resultsData',["exports"], function (exports) {
-    "use strict";
+        "use strict";
 
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
+        Object.defineProperty(exports, "__esModule", {
+                value: true
+        });
 
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
+        function _classCallCheck(instance, Constructor) {
+                if (!(instance instanceof Constructor)) {
+                        throw new TypeError("Cannot call a class as a function");
+                }
         }
-    }
 
-    var ResultsData = exports.ResultsData = function ResultsData() {
-        _classCallCheck(this, ResultsData);
+        var ResultsData = exports.ResultsData = function ResultsData() {
+                _classCallCheck(this, ResultsData);
 
-        this.expensesResults = [];
-        this.recommendedResults = [];
-        this.showGoals = false;
-    };
+                this.expensesResults = [];
+                this.recommendedResults = [];
+                this.showGoals = false;
+
+                this.homePercentage = 0;
+                this.mortgagePercentage = 0;
+                this.propertyTaxPercentage = 0;
+                this.phonePercentage = 0;
+                this.internetPercentage = 0;
+                this.cablePercentage = 0;
+                this.netflixPercentage = 0;
+                this.groceriesPercentage = 0;
+                this.utilitiesPercentage = 0;
+                this.homeMaintenancePercentage = 0;
+                this.clothesPercentage = 0;
+                this.homePercentageArray = [];
+
+                this.carPercentage = 0;
+                this.carPaymentPercentage = 0;
+                this.carInsurancePercentage = 0;
+                this.publicTransportPercentage = 0;
+                this.gasPercentage = 0;
+                this.carMaintenancePercentage = 0;
+                this.carPercentageArray = [];
+
+                this.healthPercentage = 0;
+                this.healthInsurancePercentage = 0;
+                this.medicationPercentage = 0;
+                this.unexpectedMedicalProblemsPercentage = 0;
+                this.eyeCarePercentage = 0;
+                this.dentalInsurancePercentage = 0;
+                this.cavitiesPercentage = 0;
+                this.bracesPercentage = 0;
+                this.healthPercentageArray = [];
+
+                this.discretionaryPercentage = 0;
+                this.eatingOutPercentage = 0;
+                this.barsPercentage = 0;
+                this.funMoneyPercentage = 0;
+                this.otherPercentage = 0;
+                this.discretionaryPercentageArray = [];
+        };
 });
 define('results/compose/compose-chart',["exports"], function (exports) {
     "use strict";
@@ -1092,6 +1231,94 @@ define('results/compose/compose-table',["exports"], function (exports) {
         _classCallCheck(this, ComposeTable);
     };
 });
+define('utilities/calculatePercentages',['exports', 'aurelia-framework', '../services/user'], function (exports, _aureliaFramework, _user) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.calculatePercentages = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _class;
+
+    var calculatePercentages = exports.calculatePercentages = (_dec = (0, _aureliaFramework.inject)(_user.User), _dec(_class = function () {
+        function calculatePercentages(user) {
+            _classCallCheck(this, calculatePercentages);
+
+            this.user = user;
+        }
+
+        calculatePercentages.prototype.calculateAllPercentages = function calculateAllPercentages() {
+            var home = this.user.expenses.totalHomeExpense;
+            var car = this.user.expenses.totalCarExpense;
+            var health = this.user.expenses.totalHealthExpense;
+            var discretionary = this.user.expenses.totalDiscretionaryExpense;
+
+            this.user.expenses.totalExpense = home + car + health + discretionary;
+            var total = this.user.expenses.totalExpense;
+            console.log(total);
+
+            this.calculateHomePercentages(home, total);
+            this.calculateCarPercentages(car, total);
+            this.calculateHealthPercentages(health, total);
+            this.calculateDiscretionaryPercentages(discretionary, total);
+        };
+
+        calculatePercentages.prototype.calculateHomePercentages = function calculateHomePercentages(home, total) {
+            this.user.results.homePercentageArray = [];
+            this.user.results.homePercentage = home / total * 100;
+            this.user.results.homePercentageArray.push(this.user.results.mortgagePercentage = this.user.expenses.mortgage / home * this.user.results.homePercentage);
+            this.user.results.homePercentageArray.push(this.user.results.propertyTaxPercentage = this.user.expenses.propertyTax / home * this.user.results.homePercentage);
+            this.user.results.homePercentageArray.push(this.user.results.phonePercentage = this.user.expenses.phone / home * this.user.results.homePercentage);
+            this.user.results.homePercentageArray.push(this.user.results.internetPercentage = this.user.expenses.internet / home * this.user.results.homePercentage);
+            this.user.results.homePercentageArray.push(this.user.results.cablePercentage = this.user.expenses.cable / home * this.user.results.homePercentage);
+            this.user.results.homePercentageArray.push(this.user.results.netflixPercentage = this.user.expenses.netfix / home * this.user.results.homePercentage);
+            this.user.results.homePercentageArray.push(this.user.results.groceriesPercentage = this.user.expenses.groceries / home * this.user.results.homePercentage);
+            this.user.results.homePercentageArray.push(this.user.results.utilitiesPercentage = this.user.expenses.utilities / home * this.user.results.homePercentage);
+            this.user.results.homePercentageArray.push(this.user.results.homeMaintenancePercentage = this.user.expenses.homeMaintenance / home * this.user.results.homePercentage);
+            this.user.results.homePercentageArray.push(this.user.results.clothesPercentage = this.user.expenses.clothes / home * this.user.results.homePercentage);
+        };
+
+        calculatePercentages.prototype.calculateCarPercentages = function calculateCarPercentages(car, total) {
+            this.user.results.carPercentageArray = [];
+            this.user.results.carPercentage = car / total * 100;
+            this.user.results.carPercentageArray.push(this.user.results.carPaymentPercentage = this.user.expenses.carPayment / car * this.user.results.carPercentage);
+            this.user.results.carPercentageArray.push(this.user.results.carInsurancePercentage = this.user.expenses.carInsurance / car * this.user.results.carPercentage);
+            this.user.results.carPercentageArray.push(this.user.results.publicTransportPercentage = this.user.expenses.publicTransport / car * this.user.results.carPercentage);
+            this.user.results.carPercentageArray.push(this.user.results.gasPercentage = this.user.expenses.gas / car * this.user.results.carPercentage);
+            this.user.results.carPercentageArray.push(this.user.results.carMaintenancePercentage = this.user.expenses.carMaintenance / car * this.user.results.carPercentage);
+        };
+
+        calculatePercentages.prototype.calculateHealthPercentages = function calculateHealthPercentages(health, total) {
+            this.user.results.healthPercentageArray = [];
+            this.user.results.healthPercentage = health / total * 100;
+            this.user.results.healthPercentageArray.push(this.user.results.healthInsurancePercentage = this.user.expenses.healthInsurance / health * this.user.results.healthPercentage);
+            this.user.results.healthPercentageArray.push(this.user.results.medicationPercentage = this.user.expenses.medication / health * this.user.results.healthPercentage);
+            this.user.results.healthPercentageArray.push(this.user.results.unexpectedMedicalProblemsPercentage = this.user.expenses.unexpectedMedicalProblems / health * this.user.results.healthPercentage);
+            this.user.results.healthPercentageArray.push(this.user.results.eyeCarePercentage = this.user.expenses.eyeCare / health * this.user.results.healthPercentage);
+            this.user.results.healthPercentageArray.push(this.user.results.dentalInsurancePercentage = this.user.expenses.dentalInsurance / health * this.user.results.healthPercentage);
+            this.user.results.healthPercentageArray.push(this.user.results.cavitiesPercentage = this.user.expenses.cavities / health * this.user.results.healthPercentage);
+            this.user.results.healthPercentageArray.push(this.user.results.bracesPercentage = this.user.expenses.braces / health * this.user.results.healthPercentage);
+        };
+
+        calculatePercentages.prototype.calculateDiscretionaryPercentages = function calculateDiscretionaryPercentages(discretionary, total) {
+            this.user.results.discretionaryPercentageArray = [];
+            this.user.results.discretionaryPercentage = discretionary / total * 100;
+            this.user.results.discretionaryPercentageArray.push(this.user.results.eatingOutPercentage = this.user.expenses.eatingOut / discretionary * this.user.results.discretionaryPercentage);
+            this.user.results.discretionaryPercentageArray.push(this.user.results.barsPercentage = this.user.expenses.bars / discretionary * this.user.results.discretionaryPercentage);
+            this.user.results.discretionaryPercentageArray.push(this.user.results.funMoneyPercentage = this.user.expenses.funMoney / discretionary * this.user.results.discretionaryPercentage);
+            this.user.results.discretionaryPercentageArray.push(this.user.results.otherPercentage = this.user.expenses.other / discretionary * this.user.results.discretionaryPercentage);
+        };
+
+        return calculatePercentages;
+    }()) || _class);
+});
 define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"ion-rangeslider/css/ion.rangeSlider.css\"></require><require from=\"ion-rangeslider/css/ion.rangeSlider.skinHTML5.css\"></require><require from=\"ion-rangeslider/css/normalize.css\"></require><require from=\"highcharts/css/highcharts.css\"></require><require from=\"bootstrap/css/bootstrap.css\"></require><require from=\"css/style.css\"></require><div id=\"app\"><div id=\"content\"><nav class=\"navbar navbar-default\"><div class=\"container-fluid\"><div class=\"navbar-header\"><h4 style=\"padding-right:15px\">MyBudget</h4></div><div class=\"collapse navbar-collapse\"><ul class=\"nav navbar-nav\"><li repeat.for=\"row of router.navigation\" class=\"${row.isActive ? 'active' : ''}\"><a href.bind=\"row.href\">${row.title}</a></li></ul></div></div></nav><router-view></router-view></div><footer id=\"footer\"><div class=\"footer-copyright\"><div class=\"container-fluid\"><br>©2017, PIEtech, Inc. All rights reserved.</div></div></footer></div></template>"; });
 define('text!css/drag-and-drop.css', ['module'], function(module) { module.exports = ".goalOverflow {\r\n    height: 600px;\r\n    overflow-y:scroll;\r\n}\r\n\r\n#myGoals {\r\n    width: 100%; \r\n    height: 30%; \r\n    background-color: #428bca;\r\n    text-align: center; \r\n    color: white;\r\n    vertical-align: middle; \r\n    line-height: 150px;\r\n}"; });
 define('text!aboutyou/personalinfo.html', ['module'], function(module) { module.exports = "<template><div id=\"personalinfo\"><form submit.delegate=\"next()\"><compose view-model=\"./compose/compose-personal-info\"></compose><compose view-model=\"./compose/compose-goals\"></compose><hr style=\"margin-top:90%\"><button class=\"btn btn-primary\" type=\"submit\" id=\"next\">Next</button></form></div></template>"; });
@@ -1105,5 +1332,5 @@ define('text!expenses/compose/compose-discretionary-expenses.html', ['module'], 
 define('text!expenses/compose/compose-health-expenses.html', ['module'], function(module) { module.exports = "<template><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#healthExpenseCollapse\">Health<div style=\"float:right\">Total: $${user.expenses.totalHealthExpense}</div></a></h4></div><div id=\"healthExpenseCollapse\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><div repeat.for=\"health of constants.HealthExpenses\" class=\"form-group\"><label>${health.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[health.value]\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\"></div><br></div></div></div></div></template>"; });
 define('text!expenses/compose/compose-home-expenses.html', ['module'], function(module) { module.exports = "<template><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#homeExpenseCollapse\">Home<div style=\"float:right\">Total: $${user.expenses.totalHomeExpense}</div></a></h4></div><div id=\"homeExpenseCollapse\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><div repeat.for=\"home of constants.HomeExpenses\" class=\"form-group\"><label>${home.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[home.value]\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\"></div><br></div></div></div></div></template>"; });
 define('text!results/compose/compose-chart.html', ['module'], function(module) { module.exports = "<template><div style=\"float:left;margin-left:20%\" id=\"resultsContainer\"></div><div style=\"float:left\" id=\"recommendedContainer\"></div></template>"; });
-define('text!results/compose/compose-table.html', ['module'], function(module) { module.exports = "<template><hr style=\"clear:both\"><h3 style=\"text-align:center\">Expenses Table</h3><div style=\"width:1200px;margin:0 auto\" class=\"table-outter\"><table class=\"table table-bordered search-table\"><thead><tr><th>Expense</th><th style=\"text-align:center\" repeat.for=\"expense of user.results.recommendedResults.length\">${user.results.recommendedResults[expense][0]}</th><th style=\"text-align:center\">Yearly Savings & Goals</th></tr></thead><tbody><tr><th>Amount</th><td style=\"\" repeat.for=\"amount of user.results.recommendedResults.length\"><div style=\"text-align:center\">${user.expenses['total' + user.results.recommendedResults[amount][0] + 'Expense']}</div><hr><div style=\"height:300px;overflow-y:scroll\"><div repeat.for=\"expense of constants[user.results.recommendedResults[amount][0] + 'Expenses']\" class=\"form-group\"><label>${expense.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[expense.value]\" change.delegate=\"checkValue(user.expenses, user.expenses[expense.value], expense, user.results.recommendedResults[amount][0])\" class=\"form-control ${user.expenses[expense.value + 'check'] ? 'none' : 'btn-danger'}\"></div><br></div></div></td><td><div style=\"text-align:center\">${user.personalInfo.savingsPerMonth * 12}</div><hr><div class=\"form-group\"><label for=\"privateSchool\">Savings Per Month</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo.savingsPerMonth\" class=\"form-control\"></div><br></div><div show.bind=\"user.results.showGoals\" style=\"height:200px;overflow-y:scroll\"><div repeat.for=\"wish of constants.wishes\"><div show.bind=\"user.personalInfo[wish.check]\"><div class=\"form-group\"><label for=\"privateSchool\">Amount for ${wish.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo[wish.value]\" class=\"form-control\"></div></div><br></div></div></div></td></tr></tbody></table></div></template>"; });
+define('text!results/compose/compose-table.html', ['module'], function(module) { module.exports = "<template><hr style=\"clear:both\"><h3 style=\"text-align:center\">Expenses Table</h3><div style=\"width:1500px;margin:0 auto\" class=\"table-outter\"><table class=\"table table-bordered search-table\"><thead><tr><th>Expense</th><th style=\"text-align:center\" repeat.for=\"expense of user.results.recommendedResults.length\">${user.results.recommendedResults[expense][0]}</th><th style=\"text-align:center\">Yearly Savings & Goals</th></tr></thead><tbody><tr><th>Amount</th><td style=\"\" repeat.for=\"amount of user.results.recommendedResults.length\"><div style=\"text-align:center\">${user.expenses['total' + user.results.recommendedResults[amount][0] + 'Expense']}</div><hr><div style=\"height:300px;overflow-y:scroll\"><div repeat.for=\"expense of constants[user.results.recommendedResults[amount][0] + 'Expenses']\" class=\"form-group\"><label>${expense.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[expense.value]\" change.delegate=\"checkValue(user.expenses, user.expenses[expense.value], expense, user.results.recommendedResults[amount][0])\" class=\"form-control ${user.expenses[expense.value + 'check'] ? 'none' : 'btn-danger'}\"></div><br></div></div></td><td><div style=\"text-align:center\">${user.personalInfo.savingsPerMonth * 12}</div><hr><div class=\"form-group\"><label for=\"privateSchool\">Savings Per Month</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo.savingsPerMonth\" class=\"form-control\"></div><br></div><div show.bind=\"user.results.showGoals\" style=\"height:200px;overflow-y:scroll\"><div repeat.for=\"wish of constants.wishes\"><div show.bind=\"user.personalInfo[wish.check]\"><div class=\"form-group\"><label for=\"privateSchool\">Amount for ${wish.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo[wish.value]\" class=\"form-control\"></div></div><br></div></div></div></td></tr></tbody></table></div></template>"; });
 //# sourceMappingURL=app-bundle.js.map

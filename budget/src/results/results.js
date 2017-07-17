@@ -4,15 +4,17 @@ import {User} from '../services/user';
 import {Chart} from '../utilities/chart';
 import {Constants} from '../services/constants';
 import {calculateExpenses} from '../utilities/calculateExpenses';
+import {calculatePercentages} from '../utilities/calculatePercentages';
 
-@inject(Router, User, Chart, Constants, calculateExpenses)
+@inject(Router, User, Chart, Constants, calculateExpenses, calculatePercentages)
 export class results {
-    constructor(router, user, chart, constants, calculateExpenses) {
+    constructor(router, user, chart, constants, calculateExpenses, calculatePercentages) {
         this.router = router;
         this.user = user;
         this.chart = chart;
         this.constants = constants;
         this.calculateExpenses = calculateExpenses;
+        this.calculatePercentages = calculatePercentages;
     }
 
     checkValue(expenses, value, category, overallCategory) {
@@ -27,6 +29,9 @@ export class results {
     }
 
     getChartData() {
+        this.calculatePercentages.calculateAllPercentages();
+        console.log(this.user.results);
+
         this.user.results.expensesResults = [];
         this.user.results.expensesResults.push(['Home', this.user.expenses.totalHomeExpense+1]);
         this.user.results.expensesResults.push(['Car', this.user.expenses.totalCarExpense+1]);
