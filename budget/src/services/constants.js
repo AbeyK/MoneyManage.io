@@ -82,6 +82,9 @@ export class Constants {
                 "value" : "clothes"
             }
         ];
+        this.homeCategories = ['Mortgage/Rent (monthly)', 'Property tax (per year)',
+            'Phone Payment', 'Internet', 'Cable', 'Netflix', 'Groceries',
+            'Utilities', 'Maintenance', 'Clothes (per year)'];
 
         this.CarExpenses = [
             {
@@ -105,6 +108,8 @@ export class Constants {
                 "value" : "carMaintenance"
             }
         ];
+        this.carCategories = ['Car Payment', 'Car Insurance', 'Public Transport',
+            'Gas', 'Maintenance'];
 
         this.HealthExpenses = [
             {
@@ -136,6 +141,8 @@ export class Constants {
                 "value" : "braces"
             }
         ];
+        this.healthCategories = ['Health Insurance', 'Medication', 'Unexpected Medical Problems',
+            'Eye Care', 'Dental Insurance', 'Cavities/Dental Work', 'Braces'];
 
         this.DiscretionaryExpenses = [
             {
@@ -147,7 +154,7 @@ export class Constants {
                 "value" : "bars"
             },
             {
-                "title" : "Fun Money (golf, movies, etc.",
+                "title" : "Fun Money (golf, movies, etc.)",
                 "value" : "funMoney"
             },
             {
@@ -155,5 +162,7 @@ export class Constants {
                 "value" : "other"
             }
         ];
+        this.discretionaryCategories = ['Eating Out', 'Bars/Drinks', 'Fun Money (golf, movies, etc.)',
+            'Other'];
     }
 }

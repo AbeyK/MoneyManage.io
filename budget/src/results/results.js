@@ -27,6 +27,25 @@ export class results {
     }
 
     getChartData() {
+        var home = this.user.expenses.totalHomeExpense;
+        var car = this.user.expenses.totalCarExpense;
+        var health = this.user.expenses.totalHealthExpense;
+        var discretionary = this.user.expenses.totalDiscretionaryExpense;
+
+        this.user.expenses.totalExpense = home + car + health + discretionary;
+        var total = this.user.expenses.totalExpense;
+        console.log(total); 
+
+        this.user.results.homePercentage = (home / total) * 100;
+        this.user.results.carPercentage = (car / total) * 100;
+        this.user.results.healthPercentage = (health / total) * 100;
+        this.user.results.discretionaryPercentage = (discretionary / total) * 100;
+        console.log(this.user.results.homePercentage);
+        console.log( this.user.results.carPercentage);
+        console.log(this.user.results.healthPercentage);
+        console.log(this.user.results.discretionaryPercentage);
+
+
         this.user.results.expensesResults = [];
         this.user.results.expensesResults.push(['Home', this.user.expenses.totalHomeExpense+1]);
         this.user.results.expensesResults.push(['Car', this.user.expenses.totalCarExpense+1]);
