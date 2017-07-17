@@ -19,7 +19,7 @@ export class calculateExpenses {
         else this.user.expenses.totalHomeExpense = tempHomeTotal;
     }
 
-    carExpenses(val){
+    carExpenses(){
         var tempCarTotal = 
             parseInt(this.user.expenses.carPayment) + parseInt(this.user.expenses.carInsurance) +
             parseInt(this.user.expenses.publicTransport) + parseInt(this.user.expenses.gas) +        
@@ -29,7 +29,7 @@ export class calculateExpenses {
         else this.user.expenses.totalCarExpense = tempCarTotal;
     }
 
-    healthExpenses(val){
+    healthExpenses(){
         var tempHealthTotal = 
             parseInt(this.user.expenses.healthInsurance) + parseInt(this.user.expenses.medication) +
             parseInt(this.user.expenses.unexpectedMedicalProblems) + parseInt(this.user.expenses.dentalInsurance) +        
@@ -40,7 +40,7 @@ export class calculateExpenses {
         else this.user.expenses.totalHealthExpense = tempHealthTotal;
     }
 
-    discretionaryExpenses(val){
+    discretionaryExpenses(){
         var tempDiscretionaryTotal = 
             parseInt(this.user.expenses.eatingOut) + parseInt(this.user.expenses.bars) +
             parseInt(this.user.expenses.funMoney) + parseInt(this.user.expenses.other);

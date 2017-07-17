@@ -3,20 +3,25 @@ import {Router} from 'aurelia-router';
 import {User} from '../services/user';
 import {Chart} from '../utilities/chart';
 import {Constants} from '../services/constants';
+import {calculateExpenses} from '../utilities/calculateExpenses';
 
-@inject(Router, User, Chart, Constants)
+@inject(Router, User, Chart, Constants, calculateExpenses)
 export class results {
-    constructor(router, user, chart, constants) {
+    constructor(router, user, chart, constants, calculateExpenses) {
         this.router = router;
         this.user = user;
         this.chart = chart;
         this.constants = constants;
+        this.calculateExpenses = calculateExpenses;
     }
 
-    checkValue(expenses, value, category) {
-        if(parseInt(value) < 0) console.log(value);
-        console.log();
-        console.log(expenses[category + 'check']);
+    checkValue(expenses, value, category, overallCategory) {
+        var val = parseInt(value);
+        if(val < 0) expenses[category.value + 'check'] = false;
+        else if(val > 0) expenses[category.value + 'check'] = true;
+
+        var calculate = overallCategory.toLowerCase() + 'Expenses()';
+        this.calculateExpenses[calculate];
     }
 
     back() {
