@@ -21,7 +21,8 @@
                             <label>${expense.title}</label>
                             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                 <div class="input-group-addon">$</div>
-                                <input type="text" value.bind="user.expenses[expense.value]" change.delegate="checkValue(user.expenses, user.expenses[expense.value])"
+                                <input type="text" value.bind="user.expenses[expense.value]" 
+                                    change.delegate="checkValue(user.expenses, user.expenses[expense.value], expense, user.results.recommendedResults[amount][0])"
                                     class="form-control ${user.expenses[expense.value + 'check'] ? 'none' : 'btn-danger'}">
                             </div>
                             <br>
