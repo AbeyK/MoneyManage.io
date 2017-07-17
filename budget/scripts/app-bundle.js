@@ -460,110 +460,26 @@ define('services/expensesConstants',['exports', 'aurelia-framework', '../service
 
         this.user = user;
         this.homeExpenseConstants = {
-            "Eating out": this.user.personalInfo.squareFootHome / 12,
+            "Maintenance": this.user.personalInfo.squareFootHome / 12,
             "Clothes": Math.floor(this.user.personalInfo.income * .05),
-            "Mortgage": [461, 461, 461, 493, 614, 678, 678, 759, 939, 939, 1037, 1037, 1211, 1211, 1211, 1686][Math.min(15, Math.floor(this.user.personalInfo.income / 10000))]
+            "Mortgage": [461, 461, 461, 493, 614, 678, 678, 759, 939, 939, 1037, 1037, 1211, 1211, 1211, 1686][Math.min(15, Math.floor(this.user.personalInfo.income / 10000))],
+            "Grocery": [332, 332, 607, 814, 1006, 1176, 1412, 1577, 1799, 1985, 2286, 2341][Math.min(11, Math.floor(this.user.personalInfo.householdSize))],
+            "Netflix": 9,
+            "Cable": 50
         };
-
-        this.cableConstants = [{
-            "title": "Streaming Services",
-            "value": 9
-        }, {
-            "title": "Basic Service",
-            "value": 24
-        }, {
-            "title": "Expanded Basic",
-            "value": 69
-        }, {
-            "title": "Next Most Popular",
-            "value": 82
-        }];
-        this.grocery = [{
-            "title": "1",
-            "USDA Thrifty Food Plan Average": 201,
-            "USDA Low-Cost Food Plan Average": 267,
-            "USDA Moderate-Cost Food Plan Average": 332,
-            "Liberal Plan Average": 414
-        }, {
-            "title": "2",
-            "USDA Thrifty Food Plan Average": 382,
-            "USDA Low-Cost Food Plan Average": 488,
-            "USDA Moderate-Cost Food Plan Average": 607,
-            "Liberal Plan Average": 759
-        }, {
-            "title": "3",
-            "USDA Thrifty Food Plan Average": 504,
-            "USDA Low-Cost Food Plan Average": 657,
-            "USDA Moderate-Cost Food Plan Average": 814,
-            "Liberal Plan Average": 999
-        }, {
-            "title": "4",
-            "USDA Thrifty Food Plan Average": 618,
-            "USDA Low-Cost Food Plan Average": 811,
-            "USDA Moderate-Cost Food Plan Average": 1006,
-            "Liberal Plan Average": 1222
-        }, {
-            "title": "5",
-            "USDA Thrifty Food Plan Average": 717,
-            "USDA Low-Cost Food Plan Average": 947,
-            "USDA Moderate-Cost Food Plan Average": 1176,
-            "Liberal Plan Average": 1423
-        }, {
-            "title": "6",
-            "USDA Thrifty Food Plan Average": 855,
-            "USDA Low-Cost Food Plan Average": 1134,
-            "USDA Moderate-Cost Food Plan Average": 1412,
-            "Liberal Plan Average": 1698
-        }, {
-            "title": "7",
-            "USDA Thrifty Food Plan Average": 949,
-            "USDA Low-Cost Food Plan Average": 1259,
-            "USDA Moderate-Cost Food Plan Average": 1577,
-            "Liberal Plan Average": 1887
-        }, {
-            "title": "8",
-            "USDA Thrifty Food Plan Average": 1080,
-            "USDA Low-Cost Food Plan Average": 1436,
-            "USDA Moderate-Cost Food Plan Average": 1799,
-            "Liberal Plan Average": 2148
-        }];
-        this.braces = [{
-            "title": "Metal",
-            "value": 5000
-        }, {
-            "title": "Ceramic",
-            "value": 6000
-        }, {
-            "title": "Lingual",
-            "value": 2000
-        }, {
-            "title": "Invisalign",
-            "value": 3400
-        }];
-        this.carExpenseConstants = [{
-            "title": "Car payment",
-            "value": 479
-        }, {
-            "title": "Gas",
-            "value": 250
-        }, {
-            "title": "Maintenance",
-            "value": 76
-        }];
-        this.healthExpenseConstants = [{
-            "title": "Single Emergency Fund",
-            "value": 275
-        }, {
-            "title": "Family Emergency Fund",
-            "value": 545
-        }];
-        this.discretionaryExpenseConstants = [{
-            "title": "Eating out",
-            "value": Math.floor(this.user.personalInfo.income * .045)
-        }, {
-            "title": "Club Goer",
-            "value": 702
-        }];
+        this.healthExpenseConstants = {
+            "Emergency": this.user.personalInfo.householdSize * 250,
+            "Braces": 6000
+        };
+        this.carExpenseConstants = {
+            "Payment": 479,
+            "Gas": 250,
+            "Maintenance": 76
+        };
+        this.discretionaryExpenseConstants = {
+            "Eating": Math.floor(this.user.personalInfo.income * .045),
+            "Club": 300
+        };
     }) || _class);
 });
 define('services/user',['exports', '../services/data/personalInfoData', '../services/data/goalsData', '../services/data/expensesData', '../services/data/resultsData'], function (exports, _personalInfoData, _goalsData, _expensesData, _resultsData) {
@@ -618,8 +534,21 @@ define('utilities/calculateExpenses',['exports', 'aurelia-framework', '../servic
 
             if (isNaN(tempHomeTotal)) alert("Please enter a valid input");else {
                 this.user.expenses.totalHomeExpense = tempHomeTotal;
+                console.log(this.expensesConstants.homeExpenseConstants["Mortgage"]);
                 if (this.user.expenses.mortgage > this.expensesConstants.homeExpenseConstants["Mortgage"]) {
-                    alert("I WORK");
+                    this.user.expenses.mortgagecheck = false;
+                }
+                if (this.user.expenses.clothes > this.expensesConstants.homeExpenseConstants["Clothes"]) {
+                    this.user.expenses.clothescheck = false;
+                }
+                if (this.user.expenses.homeMaintenance > this.expensesConstants.homeExpenseConstants["Maintenance"]) {
+                    this.user.expenses.homeMaintenancecheck = false;
+                }
+                if (this.user.expenses.netfix > this.expensesConstants.homeExpenseConstants["Netflix"]) {
+                    this.user.expenses.netfixcheck = false;
+                }
+                if (this.user.expenses.cable > this.expensesConstants.homeExpenseConstants["Cable"]) {
+                    this.user.expenses.cablecheck = false;
                 }
             }
         };
@@ -627,19 +556,46 @@ define('utilities/calculateExpenses',['exports', 'aurelia-framework', '../servic
         calculateExpenses.prototype.carExpenses = function carExpenses() {
             var tempCarTotal = parseInt(this.user.expenses.carPayment) + parseInt(this.user.expenses.carInsurance) + parseInt(this.user.expenses.publicTransport) + parseInt(this.user.expenses.gas) + parseInt(this.user.expenses.carMaintenance);
 
-            if (isNaN(tempCarTotal)) alert("Please enter a valid input");else this.user.expenses.totalCarExpense = tempCarTotal;
+            if (isNaN(tempCarTotal)) alert("Please enter a valid input");else {
+                this.user.expenses.totalCarExpense = tempCarTotal;
+                if (this.user.expenses.carPayment > this.expensesConstants.carExpenseConstants["Payment"]) {
+                    this.user.expenses.carPaymentcheck = false;
+                }
+                if (this.user.expenses.gas > this.expensesConstants.carExpenseConstants["Gas"]) {
+                    this.user.expenses.gascheck = false;
+                }
+                if (this.user.expenses.carMaintenance > this.expensesConstants.carExpenseConstants["Maintenance"]) {
+                    this.user.expenses.carMaintenancecheck = false;
+                }
+            }
         };
 
         calculateExpenses.prototype.healthExpenses = function healthExpenses() {
             var tempHealthTotal = parseInt(this.user.expenses.healthInsurance) + parseInt(this.user.expenses.medication) + parseInt(this.user.expenses.unexpectedMedicalProblems) + parseInt(this.user.expenses.dentalInsurance) + parseInt(this.user.expenses.cavities) + parseInt(this.user.expenses.eyeCare) + parseInt(this.user.expenses.braces);
 
-            if (isNaN(tempHealthTotal)) alert("Please enter a valid input");else this.user.expenses.totalHealthExpense = tempHealthTotal;
+            if (isNaN(tempHealthTotal)) alert("Please enter a valid input");else {
+                this.user.expenses.totalHealthExpense = tempHealthTotal;
+                if (this.user.expenses.unexpectedMedicalProblems > this.expensesConstants.healthExpenseConstants["Emergency"]) {
+                    this.user.expenses.unexpectedMedicalProblemscheck = false;
+                }
+                if (this.user.expenses.braces > this.expensesConstants.healthExpenseConstants["Braces"]) {
+                    this.user.expenses.bracescheck = false;
+                }
+            }
         };
 
         calculateExpenses.prototype.discretionaryExpenses = function discretionaryExpenses() {
             var tempDiscretionaryTotal = parseInt(this.user.expenses.eatingOut) + parseInt(this.user.expenses.bars) + parseInt(this.user.expenses.funMoney) + parseInt(this.user.expenses.other);
 
-            if (isNaN(tempDiscretionaryTotal)) alert("Please enter a valid input");else this.user.expenses.totalDiscretionaryExpense = tempDiscretionaryTotal;
+            if (isNaN(tempDiscretionaryTotal)) alert("Please enter a valid input");else {
+                this.user.expenses.totalDiscretionaryExpense = tempDiscretionaryTotal;
+                if (this.user.expenses.eatingOut > this.expensesConstants.discretionaryExpenseConstants["Eating"]) {
+                    this.user.expenses.eatingOutcheck = false;
+                }
+                if (this.user.expenses.bars > this.expensesConstants.discretionaryExpenseConstants["Club"]) {
+                    this.user.expenses.barscheck = false;
+                }
+            }
         };
 
         return calculateExpenses;
