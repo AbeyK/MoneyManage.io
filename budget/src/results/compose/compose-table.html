@@ -1,7 +1,7 @@
 <template>
-    <hr> 
+    <hr style="clear:both;"> 
     <h3 style="text-align:center;">Results</h3>
-    <div class="table-outter">
+    <div style="width:1200px; margin: 0 auto;" class="table-outter">
         <table class="table table-bordered search-table">
             <thead>
                 <tr>
@@ -9,6 +9,7 @@
                     <th style="text-align: center;" repeat.for="expense of user.results.recommendedResults.length">
                         ${user.results.recommendedResults[expense][0]}
                     </th>
+                    <th>Savings</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,6 +28,10 @@
                             </div>
                             <br>
                         </div>
+                    </td>
+                    <td>
+                        <input style="text-align: center;" value.bind="user.personalInfo.savingsPerMonth">
+                        <hr>
                     </td>
                 </tr>
             </tbody>
