@@ -14,32 +14,32 @@ export class Chart {
     createChart(containerID, results) {
         var categories = ['Home', 'Car', 'Health', 'Discretionary'],
             data = [{
-                y: 56.33,
+                y: this.user.results.homePercentage,
                 drilldown: {
                     name: 'Home Expenses',
                     categories: this.constants.homeCategories,
-                    data: [1.06, 0.5, 17.2, 8.11, 5.33, 12.13, 3, 3, 3, 3],
+                    data: this.user.results.homePercentageArray,
                 }
             }, {
-                y: 10.38,
+                y: this.user.results.carPercentage,
                 drilldown: {
                     name: 'Car Expenses',
                     categories: this.constants.carCategories,
-                    data: [0.33, 0.15, 3.56, 3.58, 2.76],
+                    data: this.user.results.carPercentageArray,
                 }
             }, {
-                y: 24.03,
+                y: this.user.results.healthPercentage,
                 drilldown: {
                     name: 'Health Expenses',
                     categories: this.constants.healthCategories,
-                    data: [1.56, 4.8, 4.87, 3.87, 5.14, 1.23, 2.53],
+                    data: this.user.results.healthPercentageArray,
                 }
             }, {
-                y: 4.77,
+                y: this.user.results.discretionaryPercentage,
                 drilldown: {
                     name: 'Discretionary Expenses',
                     categories: this.constants.discretionaryCategories,
-                    data: [2.86, 0.68, 0.29, 0.94],
+                    data: this.user.results.discretionaryPercentageArray,
                 }
             }],
             browserData = [],
@@ -84,7 +84,7 @@ export class Chart {
             },
             yAxis: {
                 title: {
-                    text: 'Total percent market share'
+                    text: 'Total percent of budget'
                 }
             },
             plotOptions: {

@@ -4,15 +4,17 @@ import {User} from '../services/user';
 import {Chart} from '../utilities/chart';
 import {Constants} from '../services/constants';
 import {calculateExpenses} from '../utilities/calculateExpenses';
+import {calculatePercentages} from '../utilities/calculatePercentages';
 
-@inject(Router, User, Chart, Constants, calculateExpenses)
+@inject(Router, User, Chart, Constants, calculateExpenses, calculatePercentages)
 export class results {
-    constructor(router, user, chart, constants, calculateExpenses) {
+    constructor(router, user, chart, constants, calculateExpenses, calculatePercentages) {
         this.router = router;
         this.user = user;
         this.chart = chart;
         this.constants = constants;
         this.calculateExpenses = calculateExpenses;
+        this.calculatePercentages = calculatePercentages;
     }
 
     checkValue(expenses, value, category, overallCategory) {
@@ -27,24 +29,8 @@ export class results {
     }
 
     getChartData() {
-        var home = this.user.expenses.totalHomeExpense;
-        var car = this.user.expenses.totalCarExpense;
-        var health = this.user.expenses.totalHealthExpense;
-        var discretionary = this.user.expenses.totalDiscretionaryExpense;
-
-        this.user.expenses.totalExpense = home + car + health + discretionary;
-        var total = this.user.expenses.totalExpense;
-        console.log(total); 
-
-        this.user.results.homePercentage = (home / total) * 100;
-        this.user.results.carPercentage = (car / total) * 100;
-        this.user.results.healthPercentage = (health / total) * 100;
-        this.user.results.discretionaryPercentage = (discretionary / total) * 100;
-        console.log(this.user.results.homePercentage);
-        console.log( this.user.results.carPercentage);
-        console.log(this.user.results.healthPercentage);
-        console.log(this.user.results.discretionaryPercentage);
-
+        this.calculatePercentages.calculateAllPercentages();
+        console.log(this.user.results);
 
         this.user.results.expensesResults = [];
         this.user.results.expensesResults.push(['Home', this.user.expenses.totalHomeExpense+1]);
