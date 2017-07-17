@@ -4,6 +4,7 @@ export class ResultsData {
         this.recommendedResults = [];
         this.showGoals = false;
         this.showAdvanced = false;
+        this.showAdvancedRecommended = false;
 
         //HOME PERCENTAGES
         this.homePercentage = 0;

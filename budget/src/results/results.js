@@ -47,10 +47,15 @@ export class results {
         this.chart.createChart('resultsContainer', this.user.results);
         this.chart.createAdvancedChart('resultsContainerAdvanced');
         this.chart.createRecommendedChart('recommendedContainer', this.user.results);
+        this.chart.createAdvancedRecommendedChart('recommendedContainerAdvanced');
     }
 
     checkAdvanced() {
         this.user.results.showAdvanced = !this.user.results.showAdvanced;
+    }
+
+    checkAdvancedRecommended() {
+        this.user.results.showAdvancedRecommended = !this.user.results.showAdvancedRecommended ;
     }
 
     back() {

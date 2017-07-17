@@ -53,8 +53,33 @@ export class personalinfo {
     }
     //END DRAG AND DROP
 
+    checkIncome() {
+        if(this.user.personalInfo.income < 0 || isNaN(this.user.personalInfo.income)) this.user.personalInfo.validIncome = false;
+        else this.user.personalInfo.validIncome = true;
+    }
+
+    checkSavings() {
+        if(this.user.personalInfo.savingsPerMonth < 0 || isNaN(this.user.personalInfo.savingsPerMonth)) this.user.personalInfo.validSavings = false;
+        else this.user.personalInfo.validSavings = true;
+    }
+
+    checkHouseholdSize() {
+        if(this.user.personalInfo.householdSize <= 0 || isNaN(this.user.personalInfo.householdSize)) this.user.personalInfo.validHouseholdSize = false;
+        else this.user.personalInfo.validHouseholdSize = true;
+    }
+
+    checkHomeSize() {
+        if(this.user.personalInfo.squareFootHome <= 0 || isNaN(this.user.personalInfo.squareFootHome)) this.user.personalInfo.validHomeSize = false;
+        else this.user.personalInfo.validHomeSize = true;
+    }
+
     next() {
-        this.router.navigate('#/expenses');
+        if(this.user.personalInfo.income < 0 || isNaN(this.user.personalInfo.income)) alert('Enter valid income');
+        else if(this.user.personalInfo.savingsPerMonth < 0 || isNaN(this.user.personalInfo.savingsPerMonth)) alert('Enter valid income');
+        else if(this.user.personalInfo.householdSize < 0 || isNaN(this.user.personalInfo.householdSize)) alert('Enter valid household size');
+        else if(this.user.personalInfo.householdSize == 0) alert('Household size must be greater than 0');
+        else if(this.user.personalInfo.squareFootHome < 0 || isNaN(this.user.personalInfo.squareFootHome)) alert('Enter valid size of home');
+        else this.router.navigate('#/expenses');
     }
 
     attached() {

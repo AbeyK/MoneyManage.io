@@ -11,7 +11,7 @@ export class Slider {
     createAgeSlider() {
         $("#age").ionRangeSlider({
             grid: true,
-            min: 0,
+            min: 18,
             max: 100,
             from: this.user.personalInfo.age,
             step: 1,
