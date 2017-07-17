@@ -20,7 +20,7 @@ export class Chart {
                 }
             },
             title: {
-                text: 'Budget Plan'
+                text: 'Your Budget Plan'
             },
             subtitle: {
                 text: 'Your Expenses'
@@ -48,10 +48,10 @@ export class Chart {
                 }
             },
             title: {
-                text: 'Budget Plan'
+                text: 'Recommended Budget Plan'
             },
             subtitle: {
-                text: 'Your Expenses'
+                text: 'Recommended Expenses'
             },
             plotOptions: {
                 pie: {
