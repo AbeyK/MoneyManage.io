@@ -199,88 +199,6 @@ define('expenses/expenses',['exports', 'aurelia-framework', 'aurelia-router', '.
         return expenses;
     }()) || _class);
 });
-define('resources/index',["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.configure = configure;
-  function configure(config) {}
-});
-define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../services/user', '../utilities/chart', '../services/constants', '../utilities/calculateExpenses', '../utilities/calculatePercentages'], function (exports, _aureliaFramework, _aureliaRouter, _user, _chart, _constants, _calculateExpenses, _calculatePercentages) {
-    'use strict';
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.results = undefined;
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var _dec, _class;
-
-    var results = exports.results = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router, _user.User, _chart.Chart, _constants.Constants, _calculateExpenses.calculateExpenses, _calculatePercentages.calculatePercentages), _dec(_class = function () {
-        function results(router, user, chart, constants, calculateExpenses, calculatePercentages) {
-            _classCallCheck(this, results);
-
-            this.router = router;
-            this.user = user;
-            this.chart = chart;
-            this.constants = constants;
-            this.calculateExpenses = calculateExpenses;
-            this.calculatePercentages = calculatePercentages;
-        }
-
-        results.prototype.checkValue = function checkValue(expenses, value, category, overallCategory) {
-            var val = parseInt(value);
-            if (val < 0) expenses[category.value + 'check'] = false;else if (val > 0) expenses[category.value + 'check'] = true;
-
-            if (overallCategory == 'Home') this.calculateExpenses.homeExpenses();else if (overallCategory == 'Car') this.calculateExpenses.carExpenses();else if (overallCategory == 'Health') this.calculateExpenses.healthExpenses();else if (overallCategory == 'Discretionary') this.calculateExpenses.discretionaryExpenses();
-        };
-
-        results.prototype.getChartData = function getChartData() {
-            this.calculatePercentages.calculateAllPercentages();
-            console.log(this.user.results);
-
-            this.user.results.expensesResults = [];
-            this.user.results.expensesResults.push(['Home', this.user.expenses.totalHomeExpense + 1]);
-            this.user.results.expensesResults.push(['Car', this.user.expenses.totalCarExpense + 1]);
-            this.user.results.expensesResults.push(['Health', this.user.expenses.totalHealthExpense + 1]);
-            this.user.results.expensesResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense + 1]);
-
-            this.user.results.recommendedResults = [];
-            this.user.results.recommendedResults.push(['Home', this.user.expenses.totalHomeExpense + 30]);
-            this.user.results.recommendedResults.push(['Car', this.user.expenses.totalCarExpense + 31]);
-            this.user.results.recommendedResults.push(['Health', this.user.expenses.totalHealthExpense + 32]);
-            this.user.results.recommendedResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense + 33]);
-
-            this.chart.createChart('resultsContainer', this.user.results);
-            this.chart.createAdvancedChart('resultsContainerAdvanced');
-            this.chart.createRecommendedChart('recommendedContainer', this.user.results);
-        };
-
-        results.prototype.checkAdvanced = function checkAdvanced() {
-            this.user.results.showAdvanced = !this.user.results.showAdvanced;
-        };
-
-        results.prototype.back = function back() {
-            this.router.navigate('#/expenses');
-        };
-
-        results.prototype.attached = function attached() {
-            this.getChartData();
-
-            if (this.user.personalInfo.currentGoals.length > 0) this.user.results.showGoals = true;else this.user.results.showGoals = false;
-        };
-
-        return results;
-    }()) || _class);
-});
 define('services/constants',["exports"], function (exports) {
     "use strict";
 
@@ -439,110 +357,26 @@ define('services/expensesConstants',['exports', 'aurelia-framework', '../service
 
         this.user = user;
         this.homeExpenseConstants = {
-            "Eating out": this.user.personalInfo.squareFootHome / 12,
+            "Maintenance": this.user.personalInfo.squareFootHome / 12,
             "Clothes": Math.floor(this.user.personalInfo.income * .05),
-            "Mortgage": [461, 461, 461, 493, 614, 678, 678, 759, 939, 939, 1037, 1037, 1211, 1211, 1211, 1686][Math.min(15, Math.floor(this.user.personalInfo.income / 10000))]
+            "Mortgage": [461, 461, 461, 493, 614, 678, 678, 759, 939, 939, 1037, 1037, 1211, 1211, 1211, 1686][Math.min(15, Math.floor(this.user.personalInfo.income / 10000))],
+            "Grocery": [332, 332, 607, 814, 1006, 1176, 1412, 1577, 1799, 1985, 2286, 2341][Math.min(11, Math.floor(this.user.personalInfo.householdSize))],
+            "Netflix": 9,
+            "Cable": 50
         };
-
-        this.cableConstants = [{
-            "title": "Streaming Services",
-            "value": 9
-        }, {
-            "title": "Basic Service",
-            "value": 24
-        }, {
-            "title": "Expanded Basic",
-            "value": 69
-        }, {
-            "title": "Next Most Popular",
-            "value": 82
-        }];
-        this.grocery = [{
-            "title": "1",
-            "USDA Thrifty Food Plan Average": 201,
-            "USDA Low-Cost Food Plan Average": 267,
-            "USDA Moderate-Cost Food Plan Average": 332,
-            "Liberal Plan Average": 414
-        }, {
-            "title": "2",
-            "USDA Thrifty Food Plan Average": 382,
-            "USDA Low-Cost Food Plan Average": 488,
-            "USDA Moderate-Cost Food Plan Average": 607,
-            "Liberal Plan Average": 759
-        }, {
-            "title": "3",
-            "USDA Thrifty Food Plan Average": 504,
-            "USDA Low-Cost Food Plan Average": 657,
-            "USDA Moderate-Cost Food Plan Average": 814,
-            "Liberal Plan Average": 999
-        }, {
-            "title": "4",
-            "USDA Thrifty Food Plan Average": 618,
-            "USDA Low-Cost Food Plan Average": 811,
-            "USDA Moderate-Cost Food Plan Average": 1006,
-            "Liberal Plan Average": 1222
-        }, {
-            "title": "5",
-            "USDA Thrifty Food Plan Average": 717,
-            "USDA Low-Cost Food Plan Average": 947,
-            "USDA Moderate-Cost Food Plan Average": 1176,
-            "Liberal Plan Average": 1423
-        }, {
-            "title": "6",
-            "USDA Thrifty Food Plan Average": 855,
-            "USDA Low-Cost Food Plan Average": 1134,
-            "USDA Moderate-Cost Food Plan Average": 1412,
-            "Liberal Plan Average": 1698
-        }, {
-            "title": "7",
-            "USDA Thrifty Food Plan Average": 949,
-            "USDA Low-Cost Food Plan Average": 1259,
-            "USDA Moderate-Cost Food Plan Average": 1577,
-            "Liberal Plan Average": 1887
-        }, {
-            "title": "8",
-            "USDA Thrifty Food Plan Average": 1080,
-            "USDA Low-Cost Food Plan Average": 1436,
-            "USDA Moderate-Cost Food Plan Average": 1799,
-            "Liberal Plan Average": 2148
-        }];
-        this.braces = [{
-            "title": "Metal",
-            "value": 5000
-        }, {
-            "title": "Ceramic",
-            "value": 6000
-        }, {
-            "title": "Lingual",
-            "value": 2000
-        }, {
-            "title": "Invisalign",
-            "value": 3400
-        }];
-        this.carExpenseConstants = [{
-            "title": "Car payment",
-            "value": 479
-        }, {
-            "title": "Gas",
-            "value": 250
-        }, {
-            "title": "Maintenance",
-            "value": 76
-        }];
-        this.healthExpenseConstants = [{
-            "title": "Single Emergency Fund",
-            "value": 275
-        }, {
-            "title": "Family Emergency Fund",
-            "value": 545
-        }];
-        this.discretionaryExpenseConstants = [{
-            "title": "Eating out",
-            "value": Math.floor(this.user.personalInfo.income * .045)
-        }, {
-            "title": "Club Goer",
-            "value": 702
-        }];
+        this.healthExpenseConstants = {
+            "Emergency": this.user.personalInfo.householdSize * 250,
+            "Braces": 6000
+        };
+        this.carExpenseConstants = {
+            "Payment": 479,
+            "Gas": 250,
+            "Maintenance": 76
+        };
+        this.discretionaryExpenseConstants = {
+            "Eating": Math.floor(this.user.personalInfo.income * .045),
+            "Club": 300
+        };
     }) || _class);
 });
 define('services/user',['exports', '../services/data/personalInfoData', '../services/data/goalsData', '../services/data/expensesData', '../services/data/resultsData'], function (exports, _personalInfoData, _goalsData, _expensesData, _resultsData) {
@@ -567,6 +401,88 @@ define('services/user',['exports', '../services/data/personalInfoData', '../serv
         this.expenses = new _expensesData.ExpensesData();
         this.results = new _resultsData.ResultsData();
     };
+});
+define('resources/index',["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.configure = configure;
+  function configure(config) {}
+});
+define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../services/user', '../utilities/chart', '../services/constants', '../utilities/calculateExpenses', '../utilities/calculatePercentages'], function (exports, _aureliaFramework, _aureliaRouter, _user, _chart, _constants, _calculateExpenses, _calculatePercentages) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.results = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _class;
+
+    var results = exports.results = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router, _user.User, _chart.Chart, _constants.Constants, _calculateExpenses.calculateExpenses, _calculatePercentages.calculatePercentages), _dec(_class = function () {
+        function results(router, user, chart, constants, calculateExpenses, calculatePercentages) {
+            _classCallCheck(this, results);
+
+            this.router = router;
+            this.user = user;
+            this.chart = chart;
+            this.constants = constants;
+            this.calculateExpenses = calculateExpenses;
+            this.calculatePercentages = calculatePercentages;
+        }
+
+        results.prototype.checkValue = function checkValue(expenses, value, category, overallCategory) {
+            var val = parseInt(value);
+            if (val < 0) expenses[category.value + 'check'] = false;else if (val > 0) expenses[category.value + 'check'] = true;
+
+            if (overallCategory == 'Home') this.calculateExpenses.homeExpenses();else if (overallCategory == 'Car') this.calculateExpenses.carExpenses();else if (overallCategory == 'Health') this.calculateExpenses.healthExpenses();else if (overallCategory == 'Discretionary') this.calculateExpenses.discretionaryExpenses();
+        };
+
+        results.prototype.getChartData = function getChartData() {
+            this.calculatePercentages.calculateAllPercentages();
+            console.log(this.user.results);
+
+            this.user.results.expensesResults = [];
+            this.user.results.expensesResults.push(['Home', this.user.expenses.totalHomeExpense + 1]);
+            this.user.results.expensesResults.push(['Car', this.user.expenses.totalCarExpense + 1]);
+            this.user.results.expensesResults.push(['Health', this.user.expenses.totalHealthExpense + 1]);
+            this.user.results.expensesResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense + 1]);
+
+            this.user.results.recommendedResults = [];
+            this.user.results.recommendedResults.push(['Home', this.user.expenses.totalHomeExpense + 30]);
+            this.user.results.recommendedResults.push(['Car', this.user.expenses.totalCarExpense + 31]);
+            this.user.results.recommendedResults.push(['Health', this.user.expenses.totalHealthExpense + 32]);
+            this.user.results.recommendedResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense + 33]);
+
+            this.chart.createChart('resultsContainer', this.user.results);
+            this.chart.createAdvancedChart('resultsContainerAdvanced');
+            this.chart.createRecommendedChart('recommendedContainer', this.user.results);
+        };
+
+        results.prototype.checkAdvanced = function checkAdvanced() {
+            this.user.results.showAdvanced = !this.user.results.showAdvanced;
+        };
+
+        results.prototype.back = function back() {
+            this.router.navigate('#/expenses');
+        };
+
+        results.prototype.attached = function attached() {
+            this.getChartData();
+
+            if (this.user.personalInfo.currentGoals.length > 0) this.user.results.showGoals = true;else this.user.results.showGoals = false;
+        };
+
+        return results;
+    }()) || _class);
 });
 define('utilities/calculateExpenses',['exports', 'aurelia-framework', '../services/user', '../services/expensesConstants'], function (exports, _aureliaFramework, _user, _expensesConstants) {
     'use strict';
@@ -597,8 +513,21 @@ define('utilities/calculateExpenses',['exports', 'aurelia-framework', '../servic
 
             if (isNaN(tempHomeTotal)) alert("Please enter a valid input");else {
                 this.user.expenses.totalHomeExpense = tempHomeTotal;
+                console.log(this.expensesConstants.homeExpenseConstants["Mortgage"]);
                 if (this.user.expenses.mortgage > this.expensesConstants.homeExpenseConstants["Mortgage"]) {
-                    alert("I WORK");
+                    this.user.expenses.mortgagecheck = false;
+                }
+                if (this.user.expenses.clothes > this.expensesConstants.homeExpenseConstants["Clothes"]) {
+                    this.user.expenses.clothescheck = false;
+                }
+                if (this.user.expenses.homeMaintenance > this.expensesConstants.homeExpenseConstants["Maintenance"]) {
+                    this.user.expenses.homeMaintenancecheck = false;
+                }
+                if (this.user.expenses.netfix > this.expensesConstants.homeExpenseConstants["Netflix"]) {
+                    this.user.expenses.netfixcheck = false;
+                }
+                if (this.user.expenses.cable > this.expensesConstants.homeExpenseConstants["Cable"]) {
+                    this.user.expenses.cablecheck = false;
                 }
             }
         };
@@ -606,19 +535,46 @@ define('utilities/calculateExpenses',['exports', 'aurelia-framework', '../servic
         calculateExpenses.prototype.carExpenses = function carExpenses() {
             var tempCarTotal = parseInt(this.user.expenses.carPayment) + parseInt(this.user.expenses.carInsurance) + parseInt(this.user.expenses.publicTransport) + parseInt(this.user.expenses.gas) + parseInt(this.user.expenses.carMaintenance);
 
-            if (isNaN(tempCarTotal)) alert("Please enter a valid input");else this.user.expenses.totalCarExpense = tempCarTotal;
+            if (isNaN(tempCarTotal)) alert("Please enter a valid input");else {
+                this.user.expenses.totalCarExpense = tempCarTotal;
+                if (this.user.expenses.carPayment > this.expensesConstants.carExpenseConstants["Payment"]) {
+                    this.user.expenses.carPaymentcheck = false;
+                }
+                if (this.user.expenses.gas > this.expensesConstants.carExpenseConstants["Gas"]) {
+                    this.user.expenses.gascheck = false;
+                }
+                if (this.user.expenses.carMaintenance > this.expensesConstants.carExpenseConstants["Maintenance"]) {
+                    this.user.expenses.carMaintenancecheck = false;
+                }
+            }
         };
 
         calculateExpenses.prototype.healthExpenses = function healthExpenses() {
             var tempHealthTotal = parseInt(this.user.expenses.healthInsurance) + parseInt(this.user.expenses.medication) + parseInt(this.user.expenses.unexpectedMedicalProblems) + parseInt(this.user.expenses.dentalInsurance) + parseInt(this.user.expenses.cavities) + parseInt(this.user.expenses.eyeCare) + parseInt(this.user.expenses.braces);
 
-            if (isNaN(tempHealthTotal)) alert("Please enter a valid input");else this.user.expenses.totalHealthExpense = tempHealthTotal;
+            if (isNaN(tempHealthTotal)) alert("Please enter a valid input");else {
+                this.user.expenses.totalHealthExpense = tempHealthTotal;
+                if (this.user.expenses.unexpectedMedicalProblems > this.expensesConstants.healthExpenseConstants["Emergency"]) {
+                    this.user.expenses.unexpectedMedicalProblemscheck = false;
+                }
+                if (this.user.expenses.braces > this.expensesConstants.healthExpenseConstants["Braces"]) {
+                    this.user.expenses.bracescheck = false;
+                }
+            }
         };
 
         calculateExpenses.prototype.discretionaryExpenses = function discretionaryExpenses() {
             var tempDiscretionaryTotal = parseInt(this.user.expenses.eatingOut) + parseInt(this.user.expenses.bars) + parseInt(this.user.expenses.funMoney) + parseInt(this.user.expenses.other);
 
-            if (isNaN(tempDiscretionaryTotal)) alert("Please enter a valid input");else this.user.expenses.totalDiscretionaryExpense = tempDiscretionaryTotal;
+            if (isNaN(tempDiscretionaryTotal)) alert("Please enter a valid input");else {
+                this.user.expenses.totalDiscretionaryExpense = tempDiscretionaryTotal;
+                if (this.user.expenses.eatingOut > this.expensesConstants.discretionaryExpenseConstants["Eating"]) {
+                    this.user.expenses.eatingOutcheck = false;
+                }
+                if (this.user.expenses.bars > this.expensesConstants.discretionaryExpenseConstants["Club"]) {
+                    this.user.expenses.barscheck = false;
+                }
+            }
         };
 
         return calculateExpenses;
@@ -1023,40 +979,6 @@ define('expenses/compose/compose-home-expenses',["exports"], function (exports) 
         _classCallCheck(this, ComposeHomeExpenses);
     };
 });
-define('results/compose/compose-chart',["exports"], function (exports) {
-    "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var ComposeChart = exports.ComposeChart = function ComposeChart() {
-        _classCallCheck(this, ComposeChart);
-    };
-});
-define('results/compose/compose-table',["exports"], function (exports) {
-    "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var ComposeTable = exports.ComposeTable = function ComposeTable() {
-        _classCallCheck(this, ComposeTable);
-    };
-});
 define('services/data/expensesData',["exports"], function (exports) {
         "use strict";
 
@@ -1265,6 +1187,40 @@ define('services/data/resultsData',["exports"], function (exports) {
                 this.otherPercentage = 0;
                 this.discretionaryPercentageArray = [];
         };
+});
+define('results/compose/compose-chart',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var ComposeChart = exports.ComposeChart = function ComposeChart() {
+        _classCallCheck(this, ComposeChart);
+    };
+});
+define('results/compose/compose-table',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var ComposeTable = exports.ComposeTable = function ComposeTable() {
+        _classCallCheck(this, ComposeTable);
+    };
 });
 define('utilities/calculatePercentages',['exports', 'aurelia-framework', '../services/user'], function (exports, _aureliaFramework, _user) {
     'use strict';
