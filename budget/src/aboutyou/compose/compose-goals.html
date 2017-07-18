@@ -24,26 +24,37 @@
     <div class="col-md-8 container ${user.personalInfo.currentGoals.length >= 3 ? 'goalOverflow' : 'none'}" id="currentGoals" drop.trigger="drop($event)" dragover.trigger="allowDrop($event)">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h2>My Wishes</h2>
+                <h2>
+                    My Wishes 
+                    <span id="wishesTooltip" title="" class="glyphicon glyphicon-question-sign"></span>
+                </h2>
             </div>
 
             <div class="panel-body">
                 <div repeat.for="wish of constants.wishes">
                     <div show.bind="user.personalInfo[wish.check]">
-                        <div class="col-md-10">
+                        <div class="form-group col-md-2 col-md-push-2">
+                            <label for="rank">Rank </label>
+                            <select class="form-control" value.bind="user.personalInfo['rank' + wish.value]">
+                                <option repeat.for="rank of user.personalInfo.currentGoals.length">${rank + 1} </option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 col-md-push-1">
                             <h3>${wish.title}</h3>
                         </div>
-                        <div style="margin-top:5%;" class="col-md-2">
+                        <div style="margin-top:2%;" class="col-md-2 col-md-pull-1">
                             <button click.delegate="remove(wish.title)" class="btn btn-danger">X</button>
                         </div>
                         
                         <div class="form-group">
-                            <label for="privateSchool">Amount for ${wish.title}</label>
+                            <br> <br> <br> <br>
+                            <label style="left:100%" for="wish">Amount for ${wish.title}</label>
                             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                 <div class="input-group-addon">$</div>
                                 <input type="text" value.bind="user.personalInfo[wish.value]" class="form-control">
                             </div>
                         </div>
+                        <hr>
                     </div>
                 </div>
 

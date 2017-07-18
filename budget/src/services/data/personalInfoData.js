@@ -15,25 +15,33 @@ export class PersonalInfoData {
             "Boat", "New Car", "Other"];
         this.checkSchool = false;
         this.PrivateSchool = 0;
+        this.rankPrivateSchool = 0;
 
         this.checkCollege = false;
         this.College = 0;
+        this.rankCollege = 0;
 
         this.checkWedding = false;
         this.Wedding = 0;
+        this.rankWedding = 0;
 
         this.checkVacation = false;
         this.Vacation = 0;
+        this.rankVacation = 0;
 
         this.checkBoat = false;
         this.Boat = 0;
+        this.rankBoat = 0;
 
         this.checkCar = false;
         this.NewCar = 0;
+        this.rankNewCar = 0;
 
         this.checkOther = false;
         this.Other = 0;
+        this.rankOther = 0;
         
         this.currentGoals = [];
+        this.currentGoalsRanks = [];
     }
 }

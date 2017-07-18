@@ -28,6 +28,7 @@ html, body {
 	left:0;
     text-align: center;
 }
+<<<<<<< HEAD
 .btn-sample:active {
   color: blue; 
 }
@@ -38,4 +39,9 @@ i{
 .expensesInput{
 	width:90%;
 	 margin: 0 auto;
+=======
+
+.glyphicon-question-sign {
+	color: #006dcc;
+>>>>>>> 0aea37146c5f1da511d9071f52db5ee160d5e2f5
 }

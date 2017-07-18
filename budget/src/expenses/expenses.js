@@ -20,6 +20,7 @@ export class expenses {
     }
 
     next() {
+        console.log(this.user.expenses);
         this.router.navigate('#/results');
     }
 

@@ -15,7 +15,6 @@ export class calculatePercentages {
 
         this.user.expenses.totalExpense = home + car + health + discretionary;
         var total = this.user.expenses.totalExpense;
-        console.log(total); 
 
         this.calculateHomePercentages(home, total);
         this.calculateCarPercentages(car, total);

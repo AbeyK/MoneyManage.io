@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import 'jquery-ui-dist';
 import 'bootstrap';
 
 export class App {
