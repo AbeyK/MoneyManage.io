@@ -1,21 +1,21 @@
 <template>
+    <br style="clear:both;"> <br style="clear:both;"> <br style="clear:both;">
     <hr style="clear:both;"> 
-    <h3 style="text-align:center;">Expenses Table</h3>
     <div style="width:1500px; margin: 0 auto;" class="table-outter">
-        <table class="table table-bordered search-table">
-            <thead>
-                <tr>
-                    <th>Expense</th>
+        <table class="table table-bordered box-shadow--6dp">
+            <thead class="bg-primary">
+                <tr style="font-size:20px;">
+                    <th style="text-align: center;">Expense</th>
                     <th style="text-align: center;" repeat.for="expense of user.results.recommendedResults.length">
                         ${user.results.recommendedResults[expense][0]}
                     </th>
                     <th style="text-align: center;">Yearly Savings & Goals</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody >
                 <tr>
                     <!--DISPLAY EACH EXPENSE COLUMNS-->
-                    <th>Amount</th>
+                    <th style="font-size:20px; text-align: center;">Amount</th>
                     <td style="" repeat.for="amount of user.results.recommendedResults.length">
                         <div style="text-align: center;">${user.expenses['total' + user.results.recommendedResults[amount][0] + 'Expense']}</div>
                         <hr>
@@ -24,9 +24,9 @@
                                 <label>${expense.title}</label>
                                 <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                     <div class="input-group-addon">$</div>
-                                    <input type="text" value.bind="user.expenses[expense.value]" 
+                                    <input type="text" value.bind="user.expenses[expense.value]" disabled.bind = "!user.expenses[expense.value + 'lock']" 
                                         change.delegate="checkValue(user.expenses, user.expenses[expense.value], expense, user.results.recommendedResults[amount][0])"
-                                        class="form-control ${user.expenses[expense.value + 'check'] ? 'none' : 'btn-danger'}">
+                                        class="form-control ${user.expenses[expense.value + 'check'] ? 'none' : 'alert-danger'}">
                                 </div>
                                 <br>
                             </div>

@@ -25,12 +25,7 @@ export class expenses {
     }
 
     lockStateChange(myElement) {
-        if (this.user.expenses[myElement + 'lock']){
-            this.user.expenses[myElement + 'lock']=false
-        }else{
-            this.user.expenses[myElement + 'lock']=true
-        }
-        // document.getElementById(id);
-        console.log(myElement);
+        if(this.user.expenses[myElement + 'lock']) this.user.expenses[myElement + 'lock'] = false;
+        else this.user.expenses[myElement + 'lock'] = true;
     }
 }

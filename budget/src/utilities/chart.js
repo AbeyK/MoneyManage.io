@@ -18,10 +18,6 @@ export class Chart {
                 text: 'Your Expenses Over the Next 5 Years'
             },
 
-            subtitle: {
-                text: 'Your Expenses'
-            },
-
             yAxis: {
                 title: {
                     text: 'Expenses'
@@ -67,9 +63,6 @@ export class Chart {
             },
             title: {
                 text: 'Your Budget Plan'
-            },
-            subtitle: {
-                text: 'Your Expenses'
             },
             plotOptions: {
                 pie: {
@@ -152,9 +145,6 @@ export class Chart {
             title: {
                 text: 'Your Advanced Budet Plan'
             },
-            subtitle: {
-                text: 'Your Expenses'
-            },
             yAxis: {
                 title: {
                     text: 'Total percent of budget'
@@ -220,13 +210,11 @@ export class Chart {
                 options3d: {
                     enabled: true,
                     alpha: 45
-                }
+                },
+                shadow: true
             },
             title: {
                 text: 'Recommended Budget Plan'
-            },
-            subtitle: {
-                text: 'Recommended Expenses'
             },
             plotOptions: {
                 pie: {
@@ -314,9 +302,6 @@ export class Chart {
             },
             title: {
                 text: 'Your Advanced Budet Plan'
-            },
-            subtitle: {
-                text: 'Your Expenses'
             },
             yAxis: {
                 title: {

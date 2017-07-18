@@ -42,17 +42,17 @@ export class results {
         this.calculatePercentages.calculateAllPercentages();
         console.log(this.user.results);
 
-        this.user.results.homeFiveYears[0] = this.user.expenses.totalHomeExpense * 1.025;
-        this.user.results.carFiveYears[0] = this.user.expenses.totalCarExpense * 1.025;
-        this.user.results.healthFiveYears[0] = this.user.expenses.totalHealthExpense * 1.025;
-        this.user.results.discretionaryFiveYears[0] = this.user.expenses.totalDiscretionaryExpense * 1.025;
+        // this.user.results.homeFiveYears[0] = this.user.expenses.totalHomeExpense * 1.025;
+        // this.user.results.carFiveYears[0] = this.user.expenses.totalCarExpense * 1.025;
+        // this.user.results.healthFiveYears[0] = this.user.expenses.totalHealthExpense * 1.025;
+        // this.user.results.discretionaryFiveYears[0] = this.user.expenses.totalDiscretionaryExpense * 1.025;
 
-        for(var i = 1; i < 5; i++) {
-            this.user.results.homeFiveYears[i] = this.user.results.homeFiveYears[i-1] * 1.025;
-            this.user.results.carFiveYears[i] = this.user.results.carFiveYears[i-1] * 1.025;
-            this.user.results.healthFiveYears[i] = this.user.results.healthFiveYears[i-1] * 1.025;
-            this.user.results.discretionaryFiveYears[i] = this.user.results.discretionaryFiveYears[i-1] * 1.025;
-        }
+        // for(var i = 1; i < 5; i++) {
+        //     this.user.results.homeFiveYears[i] = this.user.results.homeFiveYears[i-1] * 1.025;
+        //     this.user.results.carFiveYears[i] = this.user.results.carFiveYears[i-1] * 1.025;
+        //     this.user.results.healthFiveYears[i] = this.user.results.healthFiveYears[i-1] * 1.025;
+        //     this.user.results.discretionaryFiveYears[i] = this.user.results.discretionaryFiveYears[i-1] * 1.025;
+        // }
 
         this.user.results.expensesResults = [];
         this.user.results.expensesResults.push(['Home', this.user.expenses.totalHomeExpense+1]);

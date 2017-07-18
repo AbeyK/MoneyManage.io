@@ -28,7 +28,6 @@ html, body {
 	left:0;
     text-align: center;
 }
-<<<<<<< HEAD
 .btn-sample:active {
   color: blue; 
 }
@@ -39,9 +38,16 @@ i{
 .expensesInput{
 	width:90%;
 	 margin: 0 auto;
-=======
+}
 
 .glyphicon-question-sign {
 	color: #006dcc;
->>>>>>> 0aea37146c5f1da511d9071f52db5ee160d5e2f5
+}
+
+.box-shadow--6dp {
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12), 0 3px 5px -1px rgba(0, 0, 0, .2)
+}
+
+.highcharts-series-group {
+	box-shadow: 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12), 0 3px 5px -1px rgba(0, 0, 0, .2)
 }
