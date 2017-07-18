@@ -22,4 +22,8 @@ export class expenses {
     next() {
         this.router.navigate('#/results');
     }
+
+    lockStateChange(){
+        alert("Hello!");
+    }
 }

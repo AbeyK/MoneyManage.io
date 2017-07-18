@@ -9,17 +9,32 @@
                 </a>
             </h4>
         </div>
-        
+
         <div id="discretionaryExpenseCollapse" class="panel-collapse collapse">
             <div class="panel-body">
-                <div repeat.for="discretionary of constants.DiscretionaryExpenses" class="form-group">
-                    <label>${discretionary.title}</label>
+                <div repeat.for="discretionary of constants.DiscretionaryExpenses" class="form-group col-md-6">
+                    <label>${discretionary.title} </label>
+
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+
                         <div class="input-group-addon">$</div>
-                        <input type="text" value.bind="user.expenses[discretionary.value]" 
-                            change.delegate="calculateExpenses.discretionaryExpenses()" class="form-control">
+
+                        <input disabled type="text" id="${discretionary.value}" value.bind="user.expenses[discretionary.value]" change.delegate="calculateExpenses.discretionaryExpenses()"
+                            class="form-control">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-primary" click.delegate="lockStateChange()">
+                                
+                                <span class="glyphicon">&#xe033;</span>
+                                
+                                </button>
+
+
+
+                        </div>
+
                     </div>
                     <br>
+
                 </div>
             </div>
         </div>
