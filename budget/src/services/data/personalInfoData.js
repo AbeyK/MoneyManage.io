@@ -42,5 +42,6 @@ export class PersonalInfoData {
         this.rankOther = 0;
         
         this.currentGoals = [];
+        this.currentGoalsRanks = [];
     }
 }

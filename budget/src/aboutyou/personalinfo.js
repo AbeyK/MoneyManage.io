@@ -53,6 +53,7 @@ export class personalinfo {
     }
     //END DRAG AND DROP
 
+    //INPUT VALIDATION
     checkIncome() {
         if(this.user.personalInfo.income < 0 || isNaN(this.user.personalInfo.income)) this.user.personalInfo.validIncome = false;
         else this.user.personalInfo.validIncome = true;
@@ -72,8 +73,31 @@ export class personalinfo {
         if(this.user.personalInfo.squareFootHome <= 0 || isNaN(this.user.personalInfo.squareFootHome)) this.user.personalInfo.validHomeSize = false;
         else this.user.personalInfo.validHomeSize = true;
     }
+    //END INPUT VALIDATION
 
     next() {
+        //GET GOAL RANKINGS
+        var arr = [];
+        for(var i = 0; i < this.user.personalInfo.currentGoals.length; i++) {
+            var str = this.user.personalInfo.currentGoals[i];
+            str = str.replace(/\s/g, '');
+            arr.push([parseInt(this.user.personalInfo['rank' + str]), str]);
+        }
+
+        arr.sort(sortFunction);
+        function sortFunction(a, b) {
+            if (a[0] === b[0]) {
+                return 0;
+            }
+            else {
+                return (a[0] < b[0]) ? -1 : 1;
+            }
+        }
+
+        this.user.personalInfo.currentGoalsRanks = arr;
+        
+        //INPUT VALIDATION
+        console.log(this.user.personalInfo);
         if(this.user.personalInfo.income < 0 || isNaN(this.user.personalInfo.income)) alert('Enter valid income');
         else if(this.user.personalInfo.savingsPerMonth < 0 || isNaN(this.user.personalInfo.savingsPerMonth)) alert('Enter valid income');
         else if(this.user.personalInfo.householdSize < 0 || isNaN(this.user.personalInfo.householdSize)) alert('Enter valid household size');

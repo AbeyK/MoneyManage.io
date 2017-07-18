@@ -20,7 +20,6 @@ export class calculateExpenses {
         if (isNaN(tempHomeTotal)) alert("Please enter a valid input");
         else {
             this.user.expenses.totalHomeExpense = tempHomeTotal;
-            console.log(this.expensesConstants.homeExpenseConstants["Mortgage"]);
             if (this.user.expenses.mortgage > this.expensesConstants.homeExpenseConstants["Mortgage"]) {
                 this.user.expenses.mortgagecheck = false;
             }
@@ -29,7 +28,6 @@ export class calculateExpenses {
             }
             if (this.user.expenses.homeMaintenance > this.expensesConstants.homeExpenseConstants["Maintenance"]) {
                 this.user.expenses.homeMaintenancecheck = false;
-
             }
             if (this.user.expenses.netfix > this.expensesConstants.homeExpenseConstants["Netflix"]) {
                 this.user.expenses.netfixcheck = false;
