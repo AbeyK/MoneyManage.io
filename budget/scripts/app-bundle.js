@@ -591,8 +591,15 @@ define('utilities/calculateExpenses',['exports', 'aurelia-framework', '../servic
         }
 
         calculateExpenses.prototype.makeChartArry = function makeChartArry() {
-            for (var i = 1; i < 5; i++) {
-                var tempHomeTotal = parseInt(this.user.expenses.mortgage) * Math.pow(1.01, i) + parseInt(this.user.expenses.propertyTax) + parseInt(this.user.expenses.phone) * Math.pow(1 - 8.60, i) + parseInt(this.user.expenses.internet) * Math.pow(1 - .004, i) + parseInt(this.user.expenses.cable) * Math.pow(1.028, i) + parseInt(this.user.expenses.netfix) + parseInt(this.user.expenses.groceries) * Math.pow(1 - 1.002, i) + parseInt(this.user.expenses.utilities * Math.pow(1.046, i)) + parseInt(this.user.expenses.homeMaintenance) + parseInt(this.user.expenses.clothes) * Math.pow(1 - 0.009);
+            this.user.results.homeFiveYears = [];
+            this.user.results.carFiveYears = [];
+            this.user.results.healthFiveYears = [];
+            this.user.results.discretionaryFiveYears = [];
+
+            for (var i = 0; i < 5; i++) {
+                console.log(parseInt(this.user.expenses.mortgage) + parseInt(this.user.expenses.propertyTax) + parseInt(this.user.expenses.phone) + parseInt(this.user.expenses.internet) + parseInt(this.user.expenses.cable) + parseInt(this.user.expenses.netfix) + parseInt(this.user.expenses.groceries) + parseInt(this.user.expenses.utilities) + parseInt(this.user.expenses.homeMaintenance) + parseInt(this.user.expenses.clothes));
+
+                var tempHomeTotal = parseInt(this.user.expenses.mortgage) + parseInt(this.user.expenses.propertyTax) + parseInt(this.user.expenses.phone) * Math.pow(1 - .0860, i) + parseInt(this.user.expenses.internet) * Math.pow(1 - .004, i) + parseInt(this.user.expenses.cable) * Math.pow(1.028, i) + parseInt(this.user.expenses.netfix) + parseInt(this.user.expenses.groceries) * Math.pow(1 - 0.002, i) + parseInt(this.user.expenses.utilities) * Math.pow(1.046, i) + parseInt(this.user.expenses.homeMaintenance) + parseInt(this.user.expenses.clothes) * Math.pow(1 - 0.009, i);
                 this.user.results.homeFiveYears.push(tempHomeTotal);
 
                 var tempCarTotal = parseInt(this.user.expenses.carPayment) + parseInt(this.user.expenses.carInsurance) * Math.pow(1.07, i) + parseInt(this.user.expenses.publicTransport) * Math.pow(1.05, i) + parseInt(this.user.expenses.gas) * Math.pow(1 - 0.058, i) + parseInt(this.user.expenses.carMaintenance);
@@ -604,6 +611,7 @@ define('utilities/calculateExpenses',['exports', 'aurelia-framework', '../servic
                 var tempDiscretionaryTotal = parseInt(this.user.expenses.eatingOut) * Math.pow(1.023, i) + parseInt(this.user.expenses.bars) * Math.pow(1.02, i) + parseInt(this.user.expenses.funMoney) * Math.pow(1.009, i) + parseInt(this.user.expenses.other);
                 this.user.results.discretionaryFiveYears.push(tempDiscretionaryTotal);
             }
+            console.log(this.user.results.homeFiveYears);
         };
 
         calculateExpenses.prototype.homeExpenses = function homeExpenses() {
