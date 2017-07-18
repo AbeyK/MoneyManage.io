@@ -28,3 +28,7 @@ html, body {
 	left:0;
     text-align: center;
 }
+
+.glyphicon-question-sign {
+	color: #006dcc;
+}
