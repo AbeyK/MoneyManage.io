@@ -1,9 +1,9 @@
-import {inject} from 'aurelia-framework';
-import {Router} from 'aurelia-router';
-import {User} from '../services/user';
-import {Constants} from '../services/constants';
-import {ExpensesConstants} from '../services/expensesConstants';
-import {calculateExpenses} from '../utilities/calculateExpenses';
+import { inject } from 'aurelia-framework';
+import { Router } from 'aurelia-router';
+import { User } from '../services/user';
+import { Constants } from '../services/constants';
+import { ExpensesConstants } from '../services/expensesConstants';
+import { calculateExpenses } from '../utilities/calculateExpenses';
 
 @inject(Router, User, Constants, calculateExpenses, ExpensesConstants)
 export class expenses {
@@ -23,7 +23,8 @@ export class expenses {
         this.router.navigate('#/results');
     }
 
-    lockStateChange(){
-        alert("Hello!");
+    lockStateChange(myElement) {
+        // document.getElementById(id);
+
     }
 }

@@ -30,6 +30,18 @@ export class ExpensesData {
         this.homeMaintenancecheck = true;
         this.clothescheck = true;
 
+        this.mortgagelock = true;
+        this.propertyTaxlock = true;
+        this.phonelock = true;
+        this.internetlock = true;
+        this.cablelock = true;
+        this.netfixlock = true;
+        this.grocerieslock = true;
+        this.utilitieslock = true;
+        this.homeMaintenancelock = true;
+        this.clotheslock = true;
+
+        
         //CAR EXPENSES
         this.carPayment = 0;
         this.carInsurance = 0;
@@ -42,6 +54,12 @@ export class ExpensesData {
         this.publicTransportcheck = true;
         this.gascheck = true;
         this.carMaintenancecheck = true;
+
+        this.carPaymentlock = true;
+        this.carInsurancelock = true;
+        this.publicTransportlock = true;
+        this.gaslock = true;
+        this.carMaintenancelock = true;
 
         //HEALTH
         this.healthInsurance = 0;
@@ -60,6 +78,15 @@ export class ExpensesData {
         this.cavitiescheck = true;
         this.bracescheck = true;
 
+
+        this.healthInsurancelock = true;
+        this.medicationlock = true;
+        this.unexpectedMedicalProblemslock = true;
+        this.eyeCarelock = true;
+        this.dentalInsurancelock = true;
+        this.cavitieslock = true;
+        this.braceslock = true;
+
         //DISCRETIONARY
         this.eatingOut = 0;
         this.bars = 0;
@@ -70,5 +97,10 @@ export class ExpensesData {
         this.barscheck = true;
         this.funMoneycheck = true;
         this.othercheck = true;
+
+        this.eatingOutlock = true;
+        this.barslock = true;
+        this.funMoneylock = true;
+        this.otherlock = true;
     }
 }

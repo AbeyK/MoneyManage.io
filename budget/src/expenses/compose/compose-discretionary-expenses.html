@@ -19,10 +19,10 @@
 
                         <div class="input-group-addon">$</div>
 
-                        <input disabled type="text" id="${discretionary.value}" value.bind="user.expenses[discretionary.value]" change.delegate="calculateExpenses.discretionaryExpenses()"
-                            class="form-control">
+                        <input type="text" id="${discretionary.value}" value.bind="user.expenses[discretionary.value]" change.delegate="calculateExpenses.discretionaryExpenses()"
+                            class="form-control ${user.expenses[discretionary.value + 'lock'] ? 'disabled' : 'enabled'}">
                         <div class="input-group-btn">
-                            <button type="button" class="btn btn-primary" click.delegate="lockStateChange()">
+                            <button type="button" class="btn btn-primary" click.delegate="lockStateChange(discretionary.value)">
                                 
                                 <span class="glyphicon">&#xe033;</span>
                                 
