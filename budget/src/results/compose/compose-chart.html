@@ -1,23 +1,24 @@
 <template>
-    <div class="col-md-4" style="margin-left: 30%;">
-        <div class="btn-group" click.delegate="checkAdvanced()" data-toggle="buttons">
-            <label class="btn ${!user.results.showAdvanced ? 'active btn-primary' : 'btn-secondary'}">
-                <input type="radio">Simple Budget</label>
-            <label class="btn ${user.results.showAdvanced ? 'active btn-primary' : 'btn-secondary'}">
-                <input type="radio">Advanced Budget</label>
+    <div class="col-md-4" style="margin-left: 25%;">
+        <div class="btn-group" data-toggle="buttons">
+            <label repeat.for="option of someOptions" class="btn btn-primary" click.delegate="test(option.text)">
+                <input type="radio" autocomplete="off" model.bind="option" checked.bind="$parent.selectedOptions"/>
+                ${option.text}
+            </label>
         </div>
     </div>
 
     <div class="col-md-4">
         <div class="btn-group" click.delegate="checkAdvancedRecommended()" data-toggle="buttons">
             <label class="btn ${!user.results.showAdvancedRecommended ? 'active btn-primary' : 'btn-secondary'}">
-                <input type="radio">Simple Budget</label>
+                <input type="radio">Recommended Simple Budget</label>
             <label class="btn ${user.results.showAdvancedRecommended ? 'active btn-primary' : 'btn-secondary'}">
-                <input type="radio">Advanced Budget</label>
+                <input type="radio">Recommended Advanced Budget</label>
         </div>
     </div>
     
-    <div show.bind="!user.results.showAdvanced" style="float: left; margin-left: 20%;" id="resultsContainer"></div>
+    <div show.bind="user.results.showExpenses" style="float: left; margin-left: 20%;" id="fiveYearContainer"></div>
+    <div show.bind="user.results.showBudget" style="float: left; margin-left: 20%;" id="resultsContainer"></div>
     <div show.bind="user.results.showAdvanced" style="float: left; margin-left: 20%;" id="resultsContainerAdvanced"></div>
     
     <div show.bind="!user.results.showAdvancedRecommended" style="float: left;" id="recommendedContainer"></div>

@@ -3,6 +3,9 @@ export class ResultsData {
         this.expensesResults = [];
         this.recommendedResults = [];
         this.showGoals = false;
+
+        this.showExpenses = true;
+        this.showChart = false;
         this.showAdvanced = false;
         this.showAdvancedRecommended = false;
 
@@ -19,6 +22,7 @@ export class ResultsData {
         this.homeMaintenancePercentage = 0;
         this.clothesPercentage = 0;
         this.homePercentageArray = [];
+        this.homeFiveYears = [];
 
         //CAR PERCENTAGES
         this.carPercentage = 0;
@@ -28,6 +32,7 @@ export class ResultsData {
         this.gasPercentage = 0;
         this.carMaintenancePercentage = 0;
         this.carPercentageArray = [];
+        this.carFiveYears = [];
 
         //HEALTH PERCENTAGES
         this.healthPercentage = 0;
@@ -39,6 +44,7 @@ export class ResultsData {
         this.cavitiesPercentage = 0;
         this.bracesPercentage = 0;
         this.healthPercentageArray = [];
+        this.healthFiveYears = [];
 
         //DISCRETIONARY PERCENTAGES
         this.discretionaryPercentage = 0;
@@ -47,5 +53,6 @@ export class ResultsData {
         this.funMoneyPercentage = 0;
         this.otherPercentage = 0;
         this.discretionaryPercentageArray = [];
+        this.discretionaryFiveYears = [];
     }
 }

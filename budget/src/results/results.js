@@ -8,6 +8,9 @@ import {calculatePercentages} from '../utilities/calculatePercentages';
 
 @inject(Router, User, Chart, Constants, calculateExpenses, calculatePercentages)
 export class results {
+    selectedOptions = {};
+    someOptions = [];
+
     constructor(router, user, chart, constants, calculateExpenses, calculatePercentages) {
         this.router = router;
         this.user = user;
@@ -15,6 +18,13 @@ export class results {
         this.constants = constants;
         this.calculateExpenses = calculateExpenses;
         this.calculatePercentages = calculatePercentages;
+        this.selectedOptions = [];
+        this.someOptions = [
+            {"text" : "Expenses Over 5 Years"}, 
+            {"text" : "Simple Budget"}, 
+            {"text" : "Advanced Budget"}
+        ];
+        this.selectedOption = {"text" : "Expenses Over 5 Years"};
     }
 
     checkValue(expenses, value, category, overallCategory) {
@@ -32,6 +42,18 @@ export class results {
         this.calculatePercentages.calculateAllPercentages();
         console.log(this.user.results);
 
+        this.user.results.homeFiveYears[0] = this.user.expenses.totalHomeExpense * 1.025;
+        this.user.results.carFiveYears[0] = this.user.expenses.totalCarExpense * 1.025;
+        this.user.results.healthFiveYears[0] = this.user.expenses.totalHealthExpense * 1.025;
+        this.user.results.discretionaryFiveYears[0] = this.user.expenses.totalDiscretionaryExpense * 1.025;
+
+        for(var i = 1; i < 5; i++) {
+            this.user.results.homeFiveYears[i] = this.user.results.homeFiveYears[i-1] * 1.025;
+            this.user.results.carFiveYears[i] = this.user.results.carFiveYears[i-1] * 1.025;
+            this.user.results.healthFiveYears[i] = this.user.results.healthFiveYears[i-1] * 1.025;
+            this.user.results.discretionaryFiveYears[i] = this.user.results.discretionaryFiveYears[i-1] * 1.025;
+        }
+
         this.user.results.expensesResults = [];
         this.user.results.expensesResults.push(['Home', this.user.expenses.totalHomeExpense+1]);
         this.user.results.expensesResults.push(['Car', this.user.expenses.totalCarExpense+1]);
@@ -44,10 +66,32 @@ export class results {
         this.user.results.recommendedResults.push(['Health', this.user.expenses.totalHealthExpense+32]);
         this.user.results.recommendedResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense+33]);
 
+        this.chart.createFiveYearChart('fiveYearContainer', this.user.results);
         this.chart.createChart('resultsContainer', this.user.results);
         this.chart.createAdvancedChart('resultsContainerAdvanced');
         this.chart.createRecommendedChart('recommendedContainer', this.user.results);
         this.chart.createAdvancedRecommendedChart('recommendedContainerAdvanced');
+    }
+
+    test(option) {
+        if(option == "Expenses Over 5 Years") {
+            this.user.results.showExpenses = true;
+            this.user.results.showBudget = false;
+            this.user.results.showAdvanced = false;
+        }
+        else if(option == "Simple Budget") {
+            this.user.results.showBudget = true;
+            this.user.results.showExpenses = false;
+            this.user.results.showAdvanced = false;
+        }
+        else if(option == "Advanced Budget") {
+            this.user.results.showAdvanced = true;
+            this.user.results.showExpenses = false;
+            this.user.results.showBudget = false;
+        }
+        
+        this.selectedOption.text = option;
+        return true;
     }
 
     checkAdvanced() {

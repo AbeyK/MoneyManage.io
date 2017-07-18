@@ -11,6 +11,51 @@ export class Chart {
         this.constants = constants;
     }
 
+    createFiveYearChart(containerID, results) {
+        Highcharts.chart(containerID, {
+
+            title: {
+                text: 'Your Expenses Over the Next 5 Years'
+            },
+
+            subtitle: {
+                text: 'Your Expenses'
+            },
+
+            yAxis: {
+                title: {
+                    text: 'Expenses'
+                }
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+
+            plotOptions: {
+                series: {
+                    pointStart: 2017
+                }
+            },
+
+            series: [{
+                name: 'Home',
+                data: this.user.results.homeFiveYears
+            }, {
+                name: 'Car',
+                data: this.user.results.carFiveYears
+            }, {
+                name: 'Health',
+                data: this.user.results.healthFiveYears
+            }, {
+                name: 'Discretionary',
+                data: this.user.results.discretionaryFiveYears
+            }]
+
+        });
+    }
+
     createChart(containerID, results) {
         Highcharts.chart(containerID, {
             chart: {
