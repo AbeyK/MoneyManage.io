@@ -1,4 +1,5 @@
 <template>
+
     <div class="panel panel-default">
         <div class="panel-heading">
             <h4 class="panel-title">
@@ -13,23 +14,19 @@
         <div id="discretionaryExpenseCollapse" class="panel-collapse collapse">
             <div class="panel-body">
                 <div repeat.for="discretionary of constants.DiscretionaryExpenses" class="form-group col-md-6">
-                    <label>${discretionary.title} </label>
+                    <label style="padding-left:5%">${discretionary.title} </label>
 
-                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0 expensesInput">
 
                         <div class="input-group-addon">$</div>
 
-                        <input type="text" id="${discretionary.value}" value.bind="user.expenses[discretionary.value]" change.delegate="calculateExpenses.discretionaryExpenses()"
-                            class="form-control ${user.expenses[discretionary.value + 'lock'] ? 'disabled' : 'enabled'}">
-                        <div class="input-group-btn">
-                            <button type="button" class="btn btn-primary" click.delegate="lockStateChange(discretionary.value)">
-                                
-                                <span class="glyphicon">&#xe033;</span>
-                                
+                        <input type="text" value.bind="user.expenses[discretionary.value]" change.delegate="calculateExpenses.discretionaryExpenses()"
+                            class="form-control" id="${discretionary.value}" disabled.bind="!user.expenses[discretionary.value + 'lock']">
+                        <div class="input-group-btn" >
+                            <button type="button" class="btn ${user.expenses[discretionary.value + 'lock'] ? 'btn-default' : 'btn-primary'}" click.delegate="lockStateChange(discretionary.value)">
+                                <i class="fa fa-unlock" show.bind="!user.expenses[discretionary.value + 'lock']"></i>
+                                <i class="fa fa-lock" show.bind="user.expenses[discretionary.value + 'lock']"></i>
                                 </button>
-
-
-
                         </div>
 
                     </div>
