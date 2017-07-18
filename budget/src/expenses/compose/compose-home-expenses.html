@@ -13,12 +13,18 @@
         
         <div id="homeExpenseCollapse" class="panel-collapse collapse">
             <div class="panel-body">
-                <div repeat.for="home of constants.HomeExpenses" class="form-group">
+                <div repeat.for="home of constants.HomeExpenses" class="form-group col-md-6">
                     <label>${home.title}</label>
-                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0 expensesInput">
                         <div class="input-group-addon">$</div>
                         <input type="text" value.bind="user.expenses[home.value]" 
-                            change.delegate="calculateExpenses.homeExpenses()" class="form-control">
+                            change.delegate="calculateExpenses.homeExpenses()" class="form-control"id="${home.value}" disabled.bind = "!user.expenses[home.value + 'lock']">
+                        <div class="input-group-btn">
+                            <button type="button"  class="btn ${user.expenses[home.value + 'lock'] ? 'btn-default' : 'btn-primary'}" click.delegate="lockStateChange(home.value)">
+                                <i class="fa fa-unlock" show.bind="!user.expenses[home.value + 'lock']"></i>
+                                <i class="fa fa-lock" show.bind="user.expenses[home.value + 'lock']"></i>
+                                </button>
+                        </div>
                     </div>
                     <br>
                 </div>

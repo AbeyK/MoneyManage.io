@@ -13,12 +13,19 @@
         
         <div id="healthExpenseCollapse" class="panel-collapse collapse">
             <div class="panel-body">
-                <div repeat.for="health of constants.HealthExpenses" class="form-group">
+                <div repeat.for="health of constants.HealthExpenses" class="form-group col-md-6">
                     <label>${health.title}</label>
-                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0 expensesInput">
                         <div class="input-group-addon">$</div>
                         <input type="text" value.bind="user.expenses[health.value]" 
-                            change.delegate="calculateExpenses.healthExpenses()" class="form-control">
+                            change.delegate="calculateExpenses.healthExpenses()" class="form-control"id="${health.value}" disabled.bind = "!user.expenses[health.value + 'lock']">
+                        <div class="input-group-btn">
+                            <button type="button"  class="btn ${user.expenses[health.value + 'lock'] ? 'btn-default' : 'btn-primary'}" click.delegate="lockStateChange(health.value)">
+                                <i class="fa fa-unlock" show.bind="!user.expenses[health.value + 'lock']"></i>
+                                <i class="fa fa-lock" show.bind="user.expenses[health.value + 'lock']"></i>
+                                </button>
+                        </div>
+                    </div>
                     </div>
                     <br>
                 </div>
