@@ -20,11 +20,12 @@ export class results {
         this.calculatePercentages = calculatePercentages;
         this.selectedOptions = [];
         this.someOptions = [
+            {"text" : "Goals"},
             {"text" : "Projected Expenses"}, 
             {"text" : "Simple Budget"}, 
             {"text" : "Advanced Budget"}
         ];
-        this.selectedOption = {"text" : "Projected Expenses"};
+        this.selectedOption = {"text" : "Goals"};
     }
 
     checkValue(expenses, value, category, overallCategory) {
@@ -44,6 +45,11 @@ export class results {
 
         this.calculateExpenses.get5YearEstimates();
 
+        var chartGoals = {
+            name: 'Hello',
+            data: [2, 2, 2, 2, 2]
+        }
+
         this.user.results.simpleChartResults = [];
         this.user.results.simpleChartResults.push(['Home', this.user.expenses.totalHomeExpense+1]);
         this.user.results.simpleChartResults.push(['Car', this.user.expenses.totalCarExpense+1]);
@@ -56,7 +62,8 @@ export class results {
         this.user.results.recommendedResults.push(['Health', this.user.expenses.totalHealthExpense+32]);
         this.user.results.recommendedResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense+33]);
 
-        this.chart.createFiveYearChart('fiveYearContainer', this.user.results);
+        this.chart.createFiveYearGoalsChart('fiveYearGoalsContainer', this.user.results, chartGoals);
+        this.chart.createFiveYearExpensesChart('fiveYearExpensesContainer', this.user.results);
         this.chart.createSimpleChart('resultsContainerSimple', this.user.results);
         this.chart.createAdvancedChart('resultsContainerAdvanced', this.user.results);
         this.chart.createRecommendedChart('recommendedContainer', this.user.results);
@@ -64,18 +71,27 @@ export class results {
     }
 
     test(option) {
-        if(option == "Projected Expenses") {
+        if(option == "Goals") {
+            this.user.results.showGoalsChart = true;
+            this.user.results.showExpenses = false;
+            this.user.results.showBudget = false;
+            this.user.results.showAdvanced = false;
+        }
+        else if(option == "Projected Expenses") {
             this.user.results.showExpenses = true;
+            this.user.results.showGoalsChart = false;
             this.user.results.showBudget = false;
             this.user.results.showAdvanced = false;
         }
         else if(option == "Simple Budget") {
             this.user.results.showBudget = true;
+            this.user.results.showGoalsChart = false;
             this.user.results.showExpenses = false;
             this.user.results.showAdvanced = false;
         }
         else if(option == "Advanced Budget") {
             this.user.results.showAdvanced = true;
+            this.user.results.showGoalsChart = false;
             this.user.results.showExpenses = false;
             this.user.results.showBudget = false;
         }

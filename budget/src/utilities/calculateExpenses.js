@@ -16,8 +16,19 @@ export class calculateExpenses {
         this.user.results.healthFiveYears = [];
         this.user.results.discretionaryFiveYears = [];
         this.user.results.fiveYearEarnings = [];
+        this.user.results.fiveYearExpenses = [];
         this.user.results.fiveYearIncome = [];
         this.user.results.fiveYearSavings = [];
+
+        this.user.results.fiveYearPrivateSchoolGoal = [];
+        this.user.results.fiveYearCollegeGoal = [];
+        this.user.results.fiveYearWeddingGoal = [];
+        this.user.results.fiveYearVacationGoal = [];
+        this.user.results.fiveYearBoatGoal = [];
+        this.user.results.fiveYearNewCarGoal = [];
+        this.user.results.fiveYearOtherGoal = [];
+
+        this.user.results.chartGoals = [];
 
         for (var i = 0; i < 5; i++) {
             //HOME 5 YEAR ESTIMATES
@@ -63,6 +74,9 @@ export class calculateExpenses {
                 parseInt(this.user.expenses.other);
             this.user.results.discretionaryFiveYears.push(tempDiscretionaryTotal);
 
+            //TOTAL EXPENSES
+            var tempTotalExpense = tempHomeTotal + tempCarTotal + tempHealthTotal + tempDiscretionaryTotal;
+            this.user.results.fiveYearExpenses.push(tempTotalExpense);
             
             //INCOME
             var tempIncome = parseInt(this.user.personalInfo.income) * Math.pow(1.025, i);
@@ -77,13 +91,25 @@ export class calculateExpenses {
 
             //EARNINGS
             var tempEarnings = 0;
-            var tempTotalExpense = tempHomeTotal + tempCarTotal + tempHealthTotal + tempDiscretionaryTotal;
             if(i > 0) tempEarnings = parseFloat(this.user.results.fiveYearEarnings[i-1]);
             tempEarnings += tempIncome;
             tempEarnings += tempSavings;
             tempEarnings -= tempTotalExpense;
 
             this.user.results.fiveYearEarnings.push(tempEarnings);
+
+            var tempGoal = 0;
+            var temp = [];
+            
+            for(var j = this.user.personalInfo.currentGoalsRanks.length; j > 0; j--) {
+                tempGoal += parseInt(this.user.personalInfo[this.user.personalInfo.currentGoalsRanks[j-1][1]]);
+                this.user.results['fiveYear' + this.user.personalInfo.currentGoalsRanks[j-1][1] + 'Goal'] = tempGoal;
+                temp.push({
+                    name: this.user.personalInfo.currentGoalsRanks[j-1][1],
+                    data: tempGoal
+                });
+            }
+            this.user.results.chartGoals.push(temp);
         }
     }
 
