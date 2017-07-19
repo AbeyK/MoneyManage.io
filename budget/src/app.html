@@ -10,18 +10,26 @@
 
   <div id="app">
     <div id="content">
-      <nav>
-        <ul style="margin-left: 15%;" class="dropdown">
-          <li>
-            <a><span class="glyphicon glyphicon-home"></span></a>
-          </li>
-          <li repeat.for="row of router.navigation" class="${row.isActive ? 'active' : ''}">
-              <a href.bind="row.href">${row.title}</a>
-          </li>
-        </ul>
-      </nav> 
 
-      <br> <br> <br> <br>
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header" style="margin-left: 4%; margin-right: 22%;">
+            <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-home"></span></a>
+          </div>
+
+          <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+              <li repeat.for="row of router.navigation" class="${row.isActive ? 'active' : ''}">
+                  <a id="navtitles" href.bind="row.href">${row.title}</a>
+              </li>
+            </ul>
+            <div class="navbar-header" style="margin-left: 24%;">
+              <a class="navbar-brand" href="#/logout"><span class="glyphicon glyphicon-log-out"></span></a>
+            </div>
+          </div>  
+        </div>
+      </nav>
+
       <hr>
 
       <router-view></router-view>
@@ -30,7 +38,7 @@
     <footer id="footer">
       <div class="footer-copyright">
           <div class="container-fluid"> <br>
-              ©2017, PIEtech, Inc. All rights reserved.
+              Built with <span class="glyphicon glyphicon-heart"></span>
           </div>
       </div>
     </footer>
