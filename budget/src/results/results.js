@@ -41,7 +41,8 @@ export class results {
     getChartData() {
         this.calculatePercentages.calculateAllPercentages();
         console.log(this.user.results);
-        this.calculateExpenses.makeChartArry();
+
+        this.calculateExpenses.get5YearEstimates();
 
         this.user.results.expensesResults = [];
         this.user.results.expensesResults.push(['Home', this.user.expenses.totalHomeExpense+1]);

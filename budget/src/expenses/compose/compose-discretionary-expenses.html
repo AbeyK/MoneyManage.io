@@ -15,11 +15,8 @@
             <div class="panel-body">
                 <div repeat.for="discretionary of constants.DiscretionaryExpenses" class="form-group col-md-6">
                     <label style="padding-left:5%">${discretionary.title} </label>
-
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0 expensesInput">
-
                         <div class="input-group-addon">$</div>
-
                         <input type="text" value.bind="user.expenses[discretionary.value]" change.delegate="calculateExpenses.discretionaryExpenses()"
                             class="form-control" id="${discretionary.value}" disabled.bind="!user.expenses[discretionary.value + 'lock']">
                         <div class="input-group-btn" >
@@ -28,7 +25,6 @@
                                 <i class="fa fa-lock" show.bind="user.expenses[discretionary.value + 'lock']"></i>
                                 </button>
                         </div>
-
                     </div>
                     <br>
 

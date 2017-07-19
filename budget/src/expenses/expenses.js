@@ -15,17 +15,22 @@ export class expenses {
         this.expensesConstants = expensesConstants;
     }
 
+    lockStateChange(myElement) {
+        if(this.user.expenses[myElement + 'lock']) this.user.expenses[myElement + 'lock'] = false;
+        else this.user.expenses[myElement + 'lock'] = true;
+    }
+
     back() {
         this.router.navigate('#/personalinfo');
     }
 
     next() {
         console.log(this.user.expenses);
-        this.router.navigate('#/results');
-    }
 
-    lockStateChange(myElement) {
-        if(this.user.expenses[myElement + 'lock']) this.user.expenses[myElement + 'lock'] = false;
-        else this.user.expenses[myElement + 'lock'] = true;
+        if(!this.user.expenses.homeCanGoToNext) alert('Please enter valid home expenses');
+        else if(!this.user.expenses.carCanGoToNext) alert('Please enter valid car expenses');
+        else if(!this.user.expenses.healthCanGoToNext) alert('Please enter valid health expenses');
+        else if(!this.user.expenses.discretionaryCanGoToNext) alert('Please enter valid discretionary expenses');
+        else this.router.navigate('#/results');
     }
 }
