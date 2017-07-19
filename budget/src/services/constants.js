@@ -50,6 +50,10 @@ export class Constants {
                 "value" : "propertyTax"
             },
             {
+                "title" : "Homeowner's Insurance",
+                "value" : "homeownerInsurance"
+            },
+            {
                 "title" : "Phone Payment",
                 "value" : "phone"
             },
@@ -82,7 +86,7 @@ export class Constants {
                 "value" : "clothes"
             }
         ];
-        this.homeCategories = ['Mortgage/Rent (monthly)', 'Property tax (per year)',
+        this.homeCategories = ['Mortgage/Rent (monthly)', 'Property tax (per year)', "Homeowner's Insurace",
             'Phone Payment', 'Internet', 'Cable', 'Netflix', 'Groceries',
             'Utilities', 'Maintenance', 'Clothes (per year)'];
 

@@ -233,17 +233,18 @@ define('expenses/expenses',['exports', 'aurelia-framework', 'aurelia-router', '.
             this.expensesConstants = expensesConstants;
         }
 
+        expenses.prototype.lockStateChange = function lockStateChange(myElement) {
+            if (this.user.expenses[myElement + 'lock']) this.user.expenses[myElement + 'lock'] = false;else this.user.expenses[myElement + 'lock'] = true;
+        };
+
         expenses.prototype.back = function back() {
             this.router.navigate('#/personalinfo');
         };
 
         expenses.prototype.next = function next() {
             console.log(this.user.expenses);
-            this.router.navigate('#/results');
-        };
 
-        expenses.prototype.lockStateChange = function lockStateChange(myElement) {
-            if (this.user.expenses[myElement + 'lock']) this.user.expenses[myElement + 'lock'] = false;else this.user.expenses[myElement + 'lock'] = true;
+            if (!this.user.expenses.homeCanGoToNext) alert('Please enter valid home expenses');else if (!this.user.expenses.carCanGoToNext) alert('Please enter valid car expenses');else if (!this.user.expenses.healthCanGoToNext) alert('Please enter valid health expenses');else if (!this.user.expenses.discretionaryCanGoToNext) alert('Please enter valid discretionary expenses');else this.router.navigate('#/results');
         };
 
         return expenses;
@@ -446,7 +447,8 @@ define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../
         results.prototype.getChartData = function getChartData() {
             this.calculatePercentages.calculateAllPercentages();
             console.log(this.user.results);
-            this.calculateExpenses.makeChartArry();
+
+            this.calculateExpenses.get5YearEstimates();
 
             this.user.results.expensesResults = [];
             this.user.results.expensesResults.push(['Home', this.user.expenses.totalHomeExpense + 1]);
@@ -560,6 +562,9 @@ define('services/constants',["exports"], function (exports) {
             "title": "Property tax (per year)",
             "value": "propertyTax"
         }, {
+            "title": "Homeowner's Insurance",
+            "value": "homeownerInsurance"
+        }, {
             "title": "Phone Payment",
             "value": "phone"
         }, {
@@ -584,7 +589,7 @@ define('services/constants',["exports"], function (exports) {
             "title": "Clothes (per year)",
             "value": "clothes"
         }];
-        this.homeCategories = ['Mortgage/Rent (monthly)', 'Property tax (per year)', 'Phone Payment', 'Internet', 'Cable', 'Netflix', 'Groceries', 'Utilities', 'Maintenance', 'Clothes (per year)'];
+        this.homeCategories = ['Mortgage/Rent (monthly)', 'Property tax (per year)', "Homeowner's Insurace", 'Phone Payment', 'Internet', 'Cable', 'Netflix', 'Groceries', 'Utilities', 'Maintenance', 'Clothes (per year)'];
 
         this.CarExpenses = [{
             "title": "Car Payment",
@@ -664,23 +669,29 @@ define('services/expensesConstants',['exports', 'aurelia-framework', '../service
         _classCallCheck(this, ExpensesConstants);
 
         this.user = user;
+
         this.homeExpenseConstants = {
             "Maintenance": this.user.personalInfo.squareFootHome / 12,
             "Clothes": Math.floor(this.user.personalInfo.income * .05),
+
             "Mortgage": [461, 461, 461, 493, 614, 678, 678, 759, 939, 939, 1037, 1037, 1211, 1211, 1211, 1686][Math.min(15, Math.floor(this.user.personalInfo.income / 10000))],
+
             "Grocery": [332, 332, 607, 814, 1006, 1176, 1412, 1577, 1799, 1985, 2286, 2341][Math.min(11, Math.floor(this.user.personalInfo.householdSize))],
             "Netflix": 9,
             "Cable": 50
         };
+
         this.healthExpenseConstants = {
             "Emergency": this.user.personalInfo.householdSize * 250,
             "Braces": 6000
         };
+
         this.carExpenseConstants = {
             "Payment": 479,
             "Gas": 250,
             "Maintenance": 76
         };
+
         this.discretionaryExpenseConstants = {
             "Eating": Math.floor(this.user.personalInfo.income * .045),
             "Club": 300
@@ -734,95 +745,96 @@ define('utilities/calculateExpenses',['exports', 'aurelia-framework', '../servic
             this.expensesConstants = expensesConstants;
         }
 
-        calculateExpenses.prototype.makeChartArry = function makeChartArry() {
+        calculateExpenses.prototype.get5YearEstimates = function get5YearEstimates() {
             this.user.results.homeFiveYears = [];
             this.user.results.carFiveYears = [];
             this.user.results.healthFiveYears = [];
             this.user.results.discretionaryFiveYears = [];
 
             for (var i = 0; i < 5; i++) {
-                console.log(parseInt(this.user.expenses.mortgage) + parseInt(this.user.expenses.propertyTax) + parseInt(this.user.expenses.phone) + parseInt(this.user.expenses.internet) + parseInt(this.user.expenses.cable) + parseInt(this.user.expenses.netfix) + parseInt(this.user.expenses.groceries) + parseInt(this.user.expenses.utilities) + parseInt(this.user.expenses.homeMaintenance) + parseInt(this.user.expenses.clothes));
-
-                var tempHomeTotal = parseInt(this.user.expenses.mortgage) + parseInt(this.user.expenses.propertyTax) + parseInt(this.user.expenses.phone) * Math.pow(1 - .0860, i) + parseInt(this.user.expenses.internet) * Math.pow(1 - .004, i) + parseInt(this.user.expenses.cable) * Math.pow(1.028, i) + parseInt(this.user.expenses.netfix) + parseInt(this.user.expenses.groceries) * Math.pow(1 - 0.002, i) + parseInt(this.user.expenses.utilities) * Math.pow(1.046, i) + parseInt(this.user.expenses.homeMaintenance) + parseInt(this.user.expenses.clothes) * Math.pow(1 - 0.009, i);
+                var tempHomeTotal = parseInt(this.user.expenses.mortgage) + parseInt(this.user.expenses.propertyTax) + parseInt(this.user.expenses.homeownerInsurance) * Math.pow(1 + .0250, i) + parseInt(this.user.expenses.phone) * Math.pow(1 - .012, i) + parseInt(this.user.expenses.internet) * Math.pow(1 - .018, i) + parseInt(this.user.expenses.cable) * Math.pow(1 + .029, i) + parseInt(this.user.expenses.netfix) + parseInt(this.user.expenses.groceries) * Math.pow(1 + 0.01, i) + parseInt(this.user.expenses.utilities) * Math.pow(1 + .018, i) + parseInt(this.user.expenses.homeMaintenance) + parseInt(this.user.expenses.clothes) * Math.pow(1 - 0.001, i);
                 this.user.results.homeFiveYears.push(tempHomeTotal);
 
-                var tempCarTotal = parseInt(this.user.expenses.carPayment) + parseInt(this.user.expenses.carInsurance) * Math.pow(1.07, i) + parseInt(this.user.expenses.publicTransport) * Math.pow(1.05, i) + parseInt(this.user.expenses.gas) * Math.pow(1 - 0.058, i) + parseInt(this.user.expenses.carMaintenance);
+                var tempCarTotal = parseInt(this.user.expenses.carPayment) + parseInt(this.user.expenses.carInsurance) * Math.pow(1 + .052, i) + parseInt(this.user.expenses.publicTransport) * Math.pow(1 - .003, i) + parseInt(this.user.expenses.gas) * Math.pow(1 + 0.026, i) + parseInt(this.user.expenses.carMaintenance);
                 this.user.results.carFiveYears.push(tempCarTotal);
 
-                var tempHealthTotal = parseInt(this.user.expenses.healthInsurance) * Math.pow(1.02, i) + parseInt(this.user.expenses.medication) * Math.pow(1.033, i) + parseInt(this.user.expenses.unexpectedMedicalProblems) + parseInt(this.user.expenses.dentalInsurance) * Math.pow(1.02, i) + parseInt(this.user.expenses.cavities) * Math.pow(1.014, i) + parseInt(this.user.expenses.eyeCare) + parseInt(this.user.expenses.braces) * Math.pow(1.022, i);
+                var tempHealthTotal = parseInt(this.user.expenses.healthInsurance) * Math.pow(1 + .035, i) + parseInt(this.user.expenses.medication) * Math.pow(1 + .025, i) + parseInt(this.user.expenses.unexpectedMedicalProblems) + parseInt(this.user.expenses.dentalInsurance) * Math.pow(1 + .02, i) + parseInt(this.user.expenses.cavities) * Math.pow(1 + .027, i) + parseInt(this.user.expenses.eyeCare) + parseInt(this.user.expenses.braces) * Math.pow(1 + .011, i);
                 this.user.results.healthFiveYears.push(tempHealthTotal);
 
-                var tempDiscretionaryTotal = parseInt(this.user.expenses.eatingOut) * Math.pow(1.023, i) + parseInt(this.user.expenses.bars) * Math.pow(1.02, i) + parseInt(this.user.expenses.funMoney) * Math.pow(1.009, i) + parseInt(this.user.expenses.other);
+                var tempDiscretionaryTotal = parseInt(this.user.expenses.eatingOut) * Math.pow(1 + .024, i) + parseInt(this.user.expenses.bars) * Math.pow(1 + .02, i) + parseInt(this.user.expenses.funMoney) * Math.pow(1 + .003, i) + parseInt(this.user.expenses.other);
                 this.user.results.discretionaryFiveYears.push(tempDiscretionaryTotal);
             }
-            console.log(this.user.results.homeFiveYears);
         };
 
         calculateExpenses.prototype.homeExpenses = function homeExpenses() {
-            var tempHomeTotal = parseInt(this.user.expenses.mortgage) + parseInt(this.user.expenses.propertyTax) + parseInt(this.user.expenses.phone) + parseInt(this.user.expenses.internet) + parseInt(this.user.expenses.cable) + parseInt(this.user.expenses.netfix) + parseInt(this.user.expenses.groceries) + parseInt(this.user.expenses.utilities) + parseInt(this.user.expenses.homeMaintenance) + parseInt(this.user.expenses.clothes);
+            var tempHomeTotal = parseInt(this.user.expenses.mortgage) + parseInt(this.user.expenses.propertyTax) + parseInt(this.user.expenses.homeownerInsurance) + parseInt(this.user.expenses.phone) + parseInt(this.user.expenses.internet) + parseInt(this.user.expenses.cable) + parseInt(this.user.expenses.netfix) + parseInt(this.user.expenses.groceries) + parseInt(this.user.expenses.utilities) + parseInt(this.user.expenses.homeMaintenance) + parseInt(this.user.expenses.clothes);
 
-            if (isNaN(tempHomeTotal)) alert("Please enter a valid input");else {
+            if (isNaN(tempHomeTotal)) {
+                alert("Please enter a valid input");
+                this.user.expenses.homeCanGoToNext = false;
+            } else {
+                if (this.user.expenses.mortgage > this.expensesConstants.homeExpenseConstants["Mortgage"]) this.user.expenses.mortgagecheck = false;else this.user.expenses.mortgagecheck = true;
+
+                if (this.user.expenses.cable > this.expensesConstants.homeExpenseConstants["Cable"]) this.user.expenses.cablecheck = false;else this.user.expenses.cablecheck = true;
+
+                if (this.user.expenses.netfix > this.expensesConstants.homeExpenseConstants["Netflix"]) this.user.expenses.netfixcheck = false;else this.user.expenses.netfixcheck = true;
+
+                if (this.user.expenses.homeMaintenance > this.expensesConstants.homeExpenseConstants["Maintenance"]) this.user.expenses.homeMaintenancecheck = false;else this.user.expenses.homeMaintenancecheck = true;
+
+                if (this.user.expenses.clothes > this.expensesConstants.homeExpenseConstants["Clothes"]) this.user.expenses.clothescheck = false;else this.user.expenses.clothescheck = true;
+
+                this.user.expenses.homeCanGoToNext = true;
                 this.user.expenses.totalHomeExpense = tempHomeTotal;
-                if (this.user.expenses.mortgage > this.expensesConstants.homeExpenseConstants["Mortgage"]) {
-                    this.user.expenses.mortgagecheck = false;
-                }
-                if (this.user.expenses.clothes > this.expensesConstants.homeExpenseConstants["Clothes"]) {
-                    this.user.expenses.clothescheck = false;
-                }
-                if (this.user.expenses.homeMaintenance > this.expensesConstants.homeExpenseConstants["Maintenance"]) {
-                    this.user.expenses.homeMaintenancecheck = false;
-                }
-                if (this.user.expenses.netfix > this.expensesConstants.homeExpenseConstants["Netflix"]) {
-                    this.user.expenses.netfixcheck = false;
-                }
-                if (this.user.expenses.cable > this.expensesConstants.homeExpenseConstants["Cable"]) {
-                    this.user.expenses.cablecheck = false;
-                }
             }
         };
 
         calculateExpenses.prototype.carExpenses = function carExpenses() {
             var tempCarTotal = parseInt(this.user.expenses.carPayment) + parseInt(this.user.expenses.carInsurance) + parseInt(this.user.expenses.publicTransport) + parseInt(this.user.expenses.gas) + parseInt(this.user.expenses.carMaintenance);
 
-            if (isNaN(tempCarTotal)) alert("Please enter a valid input");else {
+            if (isNaN(tempCarTotal)) {
+                alert("Please enter a valid input");
+                this.user.expenses.carCanGoToNext = false;
+            } else {
+                if (this.user.expenses.carPayment > this.expensesConstants.carExpenseConstants["Payment"]) this.user.expenses.carPaymentcheck = false;else this.user.expenses.carPaymentcheck = true;
+
+                if (this.user.expenses.gas > this.expensesConstants.carExpenseConstants["Gas"]) this.user.expenses.gascheck = false;else this.user.expenses.gascheck = true;
+
+                if (this.user.expenses.carMaintenance > this.expensesConstants.carExpenseConstants["Maintenance"]) this.user.expenses.carMaintenancecheck = false;else this.user.expenses.carMaintenancecheck = true;
+
+                this.user.expenses.carCanGoToNext = true;
                 this.user.expenses.totalCarExpense = tempCarTotal;
-                if (this.user.expenses.carPayment > this.expensesConstants.carExpenseConstants["Payment"]) {
-                    this.user.expenses.carPaymentcheck = false;
-                }
-                if (this.user.expenses.gas > this.expensesConstants.carExpenseConstants["Gas"]) {
-                    this.user.expenses.gascheck = false;
-                }
-                if (this.user.expenses.carMaintenance > this.expensesConstants.carExpenseConstants["Maintenance"]) {
-                    this.user.expenses.carMaintenancecheck = false;
-                }
             }
         };
 
         calculateExpenses.prototype.healthExpenses = function healthExpenses() {
             var tempHealthTotal = parseInt(this.user.expenses.healthInsurance) + parseInt(this.user.expenses.medication) + parseInt(this.user.expenses.unexpectedMedicalProblems) + parseInt(this.user.expenses.dentalInsurance) + parseInt(this.user.expenses.cavities) + parseInt(this.user.expenses.eyeCare) + parseInt(this.user.expenses.braces);
 
-            if (isNaN(tempHealthTotal)) alert("Please enter a valid input");else {
+            if (isNaN(tempHealthTotal)) {
+                alert("Please enter a valid input");
+                this.user.expenses.healthCanGoToNext = false;
+            } else {
+                if (this.user.expenses.unexpectedMedicalProblems > this.expensesConstants.healthExpenseConstants["Emergency"]) this.user.expenses.unexpectedMedicalProblemscheck = false;else this.user.expenses.unexpectedMedicalProblemscheck = true;
+
+                if (this.user.expenses.braces > this.expensesConstants.healthExpenseConstants["Braces"]) this.user.expenses.bracescheck = false;else this.user.expenses.bracescheck = true;
+
+                this.user.expenses.healthCanGoToNext = true;
                 this.user.expenses.totalHealthExpense = tempHealthTotal;
-                if (this.user.expenses.unexpectedMedicalProblems > this.expensesConstants.healthExpenseConstants["Emergency"]) {
-                    this.user.expenses.unexpectedMedicalProblemscheck = false;
-                }
-                if (this.user.expenses.braces > this.expensesConstants.healthExpenseConstants["Braces"]) {
-                    this.user.expenses.bracescheck = false;
-                }
             }
         };
 
         calculateExpenses.prototype.discretionaryExpenses = function discretionaryExpenses() {
             var tempDiscretionaryTotal = parseInt(this.user.expenses.eatingOut) + parseInt(this.user.expenses.bars) + parseInt(this.user.expenses.funMoney) + parseInt(this.user.expenses.other);
 
-            if (isNaN(tempDiscretionaryTotal)) alert("Please enter a valid input");else {
+            if (isNaN(tempDiscretionaryTotal)) {
+                alert("Please enter a valid input");
+                this.user.expenses.discretionaryCanGoToNext = false;
+            } else {
+                if (this.user.expenses.eatingOut > this.expensesConstants.discretionaryExpenseConstants["Eating"]) this.user.expenses.eatingOutcheck = false;else this.user.expenses.eatingOutcheck = true;
+
+                if (this.user.expenses.bars > this.expensesConstants.discretionaryExpenseConstants["Club"]) this.user.expenses.barscheck = false;else this.user.expenses.barscheck = true;
+
+                this.user.expenses.discretionaryCanGoToNext = true;
                 this.user.expenses.totalDiscretionaryExpense = tempDiscretionaryTotal;
-                if (this.user.expenses.eatingOut > this.expensesConstants.discretionaryExpenseConstants["Eating"]) {
-                    this.user.expenses.eatingOutcheck = false;
-                }
-                if (this.user.expenses.bars > this.expensesConstants.discretionaryExpenseConstants["Club"]) {
-                    this.user.expenses.barscheck = false;
-                }
             }
         };
 
@@ -1488,8 +1500,14 @@ define('services/data/expensesData',["exports"], function (exports) {
                 this.totalHealthExpense = 0;
                 this.totalDiscretionaryExpense = 0;
 
+                this.homeCanGoToNext = true;
+                this.carCanGoToNext = true;
+                this.healthCanGoToNext = true;
+                this.discretionaryCanGoToNext = true;
+
                 this.mortgage = 0;
                 this.propertyTax = 0;
+                this.homeownerInsurance = 0;
                 this.phone = 0;
                 this.internet = 0;
                 this.cable = 0;
@@ -1501,6 +1519,7 @@ define('services/data/expensesData',["exports"], function (exports) {
 
                 this.mortgagecheck = true;
                 this.propertyTaxcheck = true;
+                this.homeownerInsurancecheck = true;
                 this.phonecheck = true;
                 this.internetcheck = true;
                 this.cablecheck = true;
@@ -1512,6 +1531,7 @@ define('services/data/expensesData',["exports"], function (exports) {
 
                 this.mortgagelock = true;
                 this.propertyTaxlock = true;
+                this.homeownerInsurancelock = true;
                 this.phonelock = true;
                 this.internetlock = true;
                 this.cablelock = true;
@@ -1726,6 +1746,7 @@ define('services/data/resultsData',["exports"], function (exports) {
                 this.discretionaryFiveYears = [];
         };
 });
+<<<<<<< HEAD
 define('results/compose/compose-chart',["exports"], function (exports) {
     "use strict";
 
@@ -1761,6 +1782,9 @@ define('results/compose/compose-table',["exports"], function (exports) {
     };
 });
 define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"ion-rangeslider/css/ion.rangeSlider.css\"></require><require from=\"ion-rangeslider/css/ion.rangeSlider.skinHTML5.css\"></require><require from=\"ion-rangeslider/css/normalize.css\"></require><require from=\"highcharts/css/highcharts.css\"></require><require from=\"jquery-ui-dist/jquery-ui.css\"></require><require from=\"bootstrap/css/bootstrap.css\"></require><require from=\"css/style.css\"></require><require from=\"css/navbar.css\"></require><div id=\"app\"><div id=\"content\"><nav><ul style=\"margin-left:0\" class=\"dropdown\"><li repeat.for=\"row of router.navigation\" class=\"${row.isActive ? 'active' : ''}\"><a href.bind=\"row.href\">${row.title}</a></li></ul></nav><br><br><br><br><hr><router-view></router-view></div><footer id=\"footer\"><div class=\"footer-copyright\"><div class=\"container-fluid\"><br>©2017, PIEtech, Inc. All rights reserved.</div></div></footer></div></template>"; });
+=======
+define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"ion-rangeslider/css/ion.rangeSlider.css\"></require><require from=\"ion-rangeslider/css/ion.rangeSlider.skinHTML5.css\"></require><require from=\"ion-rangeslider/css/normalize.css\"></require><require from=\"highcharts/css/highcharts.css\"></require><require from=\"jquery-ui-dist/jquery-ui.css\"></require><require from=\"bootstrap/css/bootstrap.css\"></require><require from=\"css/style.css\"></require><require from=\"css/navbar.css\"></require><div id=\"app\"><div id=\"content\"><nav><ul style=\"margin-left:15%\" class=\"dropdown\"><li><a><span class=\"glyphicon glyphicon-home\"></span></a></li><li repeat.for=\"row of router.navigation\" class=\"${row.isActive ? 'active' : ''}\"><a href.bind=\"row.href\">${row.title}</a></li></ul></nav><br><br><br><br><hr><router-view></router-view></div><footer id=\"footer\"><div class=\"footer-copyright\"><div class=\"container-fluid\"><br>©2017, PIEtech, Inc. All rights reserved.</div></div></footer></div></template>"; });
+>>>>>>> 36ca68a5c3207bf149703475bb0ba63e972d68e0
 define('text!css/drag-and-drop.css', ['module'], function(module) { module.exports = ".goalOverflow {\r\n    height: 600px;\r\n    overflow-y:scroll;\r\n}\r\n\r\n#myGoals {\r\n    width: 100%; \r\n    height: 30%; \r\n    background-color: #337ab7;\r\n    text-align: center; \r\n    color: white;\r\n    vertical-align: middle; \r\n    line-height: 150px;\r\n}"; });
 define('text!aboutyou/personalinfo.html', ['module'], function(module) { module.exports = "<template><div id=\"personalinfo\"><form submit.delegate=\"next()\"><compose view-model=\"./compose/compose-personal-info\"></compose><compose view-model=\"./compose/compose-goals\"></compose><hr style=\"margin-top:60%\"><button class=\"btn btn-primary\" type=\"submit\" id=\"next\">Next</button></form></div></template>"; });
 define('text!css/navbar.css', ['module'], function(module) { module.exports = "\r\nnav{\r\n  width: 750px;\r\n  margin: 1em auto;\r\n}\r\n\r\nul{\r\n  margin: 0px;\r\n  padding: 0px;\r\n  list-style: none;\r\n}\r\n\r\nul.dropdown{ \r\n  position: relative; \r\n  width: 100%; \r\n}\r\n\r\nul.dropdown li{ \r\n  font-weight: bold; \r\n  float: left; \r\n  width: 180px; \r\n  position: relative;\r\n  background: #ecf0f1;\r\n}\r\n\r\nul.dropdown a:hover{ \r\n  color: #000; \r\n}\r\n\r\nul.dropdown li a { \r\n  display: block; \r\n  padding: 20px 8px;\r\n  color: #34495e; \r\n  position: relative; \r\n  z-index: 2000; \r\n  text-align: center;\r\n  text-decoration: none;\r\n  font-weight: 300;\r\n}\r\n\r\nul.dropdown li a:hover,\r\nul.dropdown li a.hover{ \r\n  background: #337ab7;\r\n  position: relative;\r\n  color: #fff;\r\n}\r\n\r\n\r\nul.dropdown ul{ \r\n display: none;\r\n position: absolute; \r\n  top: 0; \r\n  left: 0; \r\n  width: 180px; \r\n  z-index: 1000;\r\n}\r\n\r\nul.dropdown ul li { \r\n  font-weight: normal; \r\n  background: #f6f6f6; \r\n  color: #000; \r\n  border-bottom: 1px solid #ccc; \r\n}\r\n\r\nul.dropdown ul li a{ \r\n  display: block; \r\n  color: #34495e !important;\r\n  background: #eee !important;\r\n} \r\n\r\nul.dropdown ul li a:hover{\r\n  display: block; \r\n  background: #3498db !important;\r\n  color: #fff !important;\r\n} \r\n\r\n.drop > a{\r\n  position: relative;\r\n}\r\n\r\n.drop > a:after{\r\n  content:\"\";\r\n  position: absolute;\r\n  right: 10px;\r\n  top: 40%;\r\n  border-left: 5px solid transparent;\r\n  border-top: 5px solid #333;\r\n  border-right: 5px solid transparent;\r\n  z-index: 999;\r\n}\r\n\r\n.drop > a:hover:after{\r\n  content:\"\";\r\n   border-left: 5px solid transparent;\r\n  border-top: 5px solid #fff;\r\n  border-right: 5px solid transparent;\r\n}\r\n\r\n"; });
@@ -1771,11 +1795,16 @@ define('text!home/home.html', ['module'], function(module) { module.exports = "<
 define('text!results/results.html', ['module'], function(module) { module.exports = "<template><div id=\"results\"><h1>Results</h1></div><compose view-model=\"./compose/compose-chart\"></compose><compose view-model=\"./compose/compose-table\"></compose><hr><div id=\"results\"><button class=\"btn btn-secondary\" click.delegate=\"back()\" id=\"back\">Back</button> <button class=\"btn btn-primary\" click.delegate=\"getChartData()\">Make New Chart</button></div></template>"; });
 define('text!aboutyou/compose/compose-goals.html', ['module'], function(module) { module.exports = "<template><require from=\"css/drag-and-drop.css\"></require><hr><div class=\"col-md-4 container\" id=\"availableGoals\"><div class=\"panel panel-default\"><div class=\"panel-heading\"><h2>Wishes</h2></div><div class=\"panel-body\" dragstart.trigger=\"drag($event)\"><div repeat.for=\"goal of user.personalInfo.goalsList\" class=\"row\"><div class=\"current-buttons btn btn-primary\" draggable=\"true\">${goal}</div><br><br></div></div></div></div><div class=\"col-md-8 container ${user.personalInfo.currentGoals.length >= 3 ? 'goalOverflow' : 'none'}\" id=\"currentGoals\" drop.trigger=\"drop($event)\" dragover.trigger=\"allowDrop($event)\"><div class=\"panel panel-default\"><div class=\"panel-heading\"><h2>My Wishes <span id=\"wishesTooltip\" title=\"\" class=\"glyphicon glyphicon-question-sign\"></span></h2></div><div class=\"panel-body\"><div repeat.for=\"wish of constants.wishes\"><div show.bind=\"user.personalInfo[wish.check]\"><div class=\"form-group col-md-2 col-md-push-2\"><label for=\"rank\">Rank</label><select class=\"form-control\" value.bind=\"user.personalInfo['rank' + wish.value]\"><option repeat.for=\"rank of user.personalInfo.currentGoals.length\">${rank + 1}</option></select></div><div class=\"col-md-6 col-md-push-1\"><h3>${wish.title}</h3></div><div style=\"margin-top:2%\" class=\"col-md-2 col-md-pull-1\"><button click.delegate=\"remove(wish.title)\" class=\"btn btn-danger\">X</button></div><div class=\"form-group\"><br><br><br><br><label style=\"left:100%\" for=\"wish\">Amount for ${wish.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo[wish.value]\" class=\"form-control\"></div></div><hr></div></div><div id=\"myGoals\"><span class=\"glyphicon glyphicon-plus\"></span> Add Wish Here</div><br></div></div></div></template>"; });
 define('text!aboutyou/compose/compose-personal-info.html', ['module'], function(module) { module.exports = "<template><h2>Personal Info</h2><div class=\"form-group\"><label for=\"age\">Age</label><input style=\"width:400px\" id=\"age\"></div><div class=\"form-group col-md-6\"><label for=\"salary\">Income Per Year</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo.income\" change.delegate=\"checkIncome()\" class=\"form-control ${user.personalInfo.validIncome ? 'none' : 'btn-danger'}\"></div></div><div class=\"form-group col-md-6\"><label for=\"savings\">Savings Per Month</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo.savingsPerMonth\" change.delegate=\"checkSavings()\" class=\"form-control ${user.personalInfo.validSavings ? 'none' : 'btn-danger'}\"></div></div><br><br><br><hr><h2>Household Info</h2><div class=\"form-group col-md-6\"><label for=\"householdSize\">Household Size</label><input type=\"text\" value.bind=\"user.personalInfo.householdSize\" change.delegate=\"checkHouseholdSize()\" class=\"form-control ${user.personalInfo.validHouseholdSize ? 'none' : 'btn-danger'}\"></div><div class=\"form-group col-md-6\"><label for=\"householdSize\">Size of Home (in square feet)?</label><input type=\"text\" value.bind=\"user.personalInfo.squareFootHome\" change.delegate=\"checkHomeSize()\" class=\"form-control ${user.personalInfo.validHomeSize ? 'none' : 'btn-danger'}\"></div><br><br><br></template>"; });
-define('text!expenses/compose/compose-car-expenses.html', ['module'], function(module) { module.exports = "<template><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#carExpenseCollapse\">Car/Transportation<div style=\"float:right\">Total: $${user.expenses.totalCarExpense}</div></a></h4></div><div id=\"carExpenseCollapse\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><div repeat.for=\"car of constants.CarExpenses\" class=\"form-group col-md-6\"><label>${car.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0 expensesInput\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[car.value]\" change.delegate=\"calculateExpenses.carExpenses()\" class=\"form-control\" id=\"${car.value}\" disabled.bind=\"!user.expenses[car.value + 'lock']\"><div class=\"input-group-btn\"><button type=\"button\" class=\"btn ${user.expenses[car.value + 'lock'] ? 'btn-default' : 'btn-primary'}\" click.delegate=\"lockStateChange(car.value)\"><i class=\"fa fa-unlock\" show.bind=\"!user.expenses[car.value + 'lock']\"></i> <i class=\"fa fa-lock\" show.bind=\"user.expenses[car.value + 'lock']\"></i></button></div></div><br></div><br></div></div></div></template>"; });
+define('text!expenses/compose/compose-car-expenses.html', ['module'], function(module) { module.exports = "<template><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#carExpenseCollapse\">Car/Transportation<div style=\"float:right\">Total: $${user.expenses.totalCarExpense}</div></a></h4></div><div id=\"carExpenseCollapse\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><div repeat.for=\"car of constants.CarExpenses\" class=\"form-group col-md-6\"><label style=\"padding-left:5%\">${car.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0 expensesInput\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[car.value]\" change.delegate=\"calculateExpenses.carExpenses()\" class=\"form-control\" id=\"${car.value}\" disabled.bind=\"!user.expenses[car.value + 'lock']\"><div class=\"input-group-btn\"><button type=\"button\" class=\"btn ${user.expenses[car.value + 'lock'] ? 'btn-default' : 'btn-primary'}\" click.delegate=\"lockStateChange(car.value)\"><i class=\"fa fa-unlock\" show.bind=\"!user.expenses[car.value + 'lock']\"></i> <i class=\"fa fa-lock\" show.bind=\"user.expenses[car.value + 'lock']\"></i></button></div></div><br></div><br></div></div></div></template>"; });
 define('text!expenses/compose/compose-discretionary-expenses.html', ['module'], function(module) { module.exports = "<template><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#discretionaryExpenseCollapse\">Discretionary Expenses<div style=\"float:right\">Total: $${user.expenses.totalDiscretionaryExpense}</div></a></h4></div><div id=\"discretionaryExpenseCollapse\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><div repeat.for=\"discretionary of constants.DiscretionaryExpenses\" class=\"form-group col-md-6\"><label style=\"padding-left:5%\">${discretionary.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0 expensesInput\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[discretionary.value]\" change.delegate=\"calculateExpenses.discretionaryExpenses()\" class=\"form-control\" id=\"${discretionary.value}\" disabled.bind=\"!user.expenses[discretionary.value + 'lock']\"><div class=\"input-group-btn\"><button type=\"button\" class=\"btn ${user.expenses[discretionary.value + 'lock'] ? 'btn-default' : 'btn-primary'}\" click.delegate=\"lockStateChange(discretionary.value)\"><i class=\"fa fa-unlock\" show.bind=\"!user.expenses[discretionary.value + 'lock']\"></i> <i class=\"fa fa-lock\" show.bind=\"user.expenses[discretionary.value + 'lock']\"></i></button></div></div><br></div></div></div></div></template>"; });
-define('text!expenses/compose/compose-health-expenses.html', ['module'], function(module) { module.exports = "<template><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#healthExpenseCollapse\">Health<div style=\"float:right\">Total: $${user.expenses.totalHealthExpense}</div></a></h4></div><div id=\"healthExpenseCollapse\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><div repeat.for=\"health of constants.HealthExpenses\" class=\"form-group col-md-6\"><label>${health.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0 expensesInput\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[health.value]\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\" id=\"${health.value}\" disabled.bind=\"!user.expenses[health.value + 'lock']\"><div class=\"input-group-btn\"><button type=\"button\" class=\"btn ${user.expenses[health.value + 'lock'] ? 'btn-default' : 'btn-primary'}\" click.delegate=\"lockStateChange(health.value)\"><i class=\"fa fa-unlock\" show.bind=\"!user.expenses[health.value + 'lock']\"></i> <i class=\"fa fa-lock\" show.bind=\"user.expenses[health.value + 'lock']\"></i></button></div></div></div><br></div></div></div></template>"; });
-define('text!expenses/compose/compose-home-expenses.html', ['module'], function(module) { module.exports = "<template><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#homeExpenseCollapse\">Home<div style=\"float:right\">Total: $${user.expenses.totalHomeExpense}</div></a></h4></div><div id=\"homeExpenseCollapse\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><div repeat.for=\"home of constants.HomeExpenses\" class=\"form-group col-md-6\"><label>${home.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0 expensesInput\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[home.value]\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" id=\"${home.value}\" disabled.bind=\"!user.expenses[home.value + 'lock']\"><div class=\"input-group-btn\"><button type=\"button\" class=\"btn ${user.expenses[home.value + 'lock'] ? 'btn-default' : 'btn-primary'}\" click.delegate=\"lockStateChange(home.value)\"><i class=\"fa fa-unlock\" show.bind=\"!user.expenses[home.value + 'lock']\"></i> <i class=\"fa fa-lock\" show.bind=\"user.expenses[home.value + 'lock']\"></i></button></div></div><br></div></div></div></div></template>"; });
+define('text!expenses/compose/compose-health-expenses.html', ['module'], function(module) { module.exports = "<template><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#healthExpenseCollapse\">Health<div style=\"float:right\">Total: $${user.expenses.totalHealthExpense}</div></a></h4></div><div id=\"healthExpenseCollapse\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><div repeat.for=\"health of constants.HealthExpenses\" class=\"form-group col-md-6\"><label style=\"padding-left:5%\">${health.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0 expensesInput\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[health.value]\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\" id=\"${health.value}\" disabled.bind=\"!user.expenses[health.value + 'lock']\"><div class=\"input-group-btn\"><button type=\"button\" class=\"btn ${user.expenses[health.value + 'lock'] ? 'btn-default' : 'btn-primary'}\" click.delegate=\"lockStateChange(health.value)\"><i class=\"fa fa-unlock\" show.bind=\"!user.expenses[health.value + 'lock']\"></i> <i class=\"fa fa-lock\" show.bind=\"user.expenses[health.value + 'lock']\"></i></button></div></div></div><br></div></div></div></template>"; });
+define('text!expenses/compose/compose-home-expenses.html', ['module'], function(module) { module.exports = "<template><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#homeExpenseCollapse\">Home<div style=\"float:right\">Total: $${user.expenses.totalHomeExpense}</div></a></h4></div><div id=\"homeExpenseCollapse\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><div repeat.for=\"home of constants.HomeExpenses\" class=\"form-group col-md-6\"><label style=\"padding-left:5%\">${home.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0 expensesInput\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[home.value]\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" id=\"${home.value}\" disabled.bind=\"!user.expenses[home.value + 'lock']\"><div class=\"input-group-btn\"><button type=\"button\" class=\"btn ${user.expenses[home.value + 'lock'] ? 'btn-default' : 'btn-primary'}\" click.delegate=\"lockStateChange(home.value)\"><i class=\"fa fa-unlock\" show.bind=\"!user.expenses[home.value + 'lock']\"></i> <i class=\"fa fa-lock\" show.bind=\"user.expenses[home.value + 'lock']\"></i></button></div></div><br></div></div></div></div></template>"; });
 define('text!results/compose/compose-chart.html', ['module'], function(module) { module.exports = "<template><div class=\"col-md-4\" style=\"margin-left:21%;margin-right:5%\"><div class=\"btn-group\" data-toggle=\"buttons\"><label repeat.for=\"option of someOptions\" class=\"btn btn-primary\" click.delegate=\"test(option.text)\"><input type=\"radio\" autocomplete=\"off\" model.bind=\"option\" checked.bind=\"$parent.selectedOptions\"> ${option.text}</label></div><br><br></div><div class=\"col-md-4\"><div class=\"btn-group\" click.delegate=\"checkAdvancedRecommended()\" data-toggle=\"buttons\"><label class=\"btn btn-primary ${!user.results.showAdvancedRecommended ? 'active btn-primary' : 'btn-secondary'}\"><input type=\"radio\">Recommended Simple Budget</label><label class=\"btn btn-primary ${user.results.showAdvancedRecommended ? 'active btn-primary' : 'btn-secondary'}\"><input type=\"radio\">Recommended Advanced Budget</label></div></div><div class=\"box-shadow--6dp\" show.bind=\"user.results.showExpenses\" style=\"float:left;margin-left:17%;margin-right:10%\" id=\"fiveYearContainer\"></div><div class=\"box-shadow--6dp\" show.bind=\"user.results.showBudget\" style=\"float:left;margin-left:17%;margin-right:10%\" id=\"resultsContainer\"></div><div class=\"box-shadow--6dp\" show.bind=\"user.results.showAdvanced\" style=\"float:left;margin-left:17%;margin-right:10%\" id=\"resultsContainerAdvanced\"></div><div class=\"box-shadow--6dp\" show.bind=\"!user.results.showAdvancedRecommended\" style=\"float:left\" id=\"recommendedContainer\"></div><div class=\"box-shadow--6dp\" show.bind=\"user.results.showAdvancedRecommended\" style=\"float:left\" id=\"recommendedContainerAdvanced\"></div></template>"; });
+<<<<<<< HEAD
 define('text!results/compose/compose-table.html', ['module'], function(module) { module.exports = "<template><br style=\"clear:both\"><br style=\"clear:both\"><br style=\"clear:both\"><hr style=\"clear:both\"><div style=\"width:1500px;margin:0 auto\" class=\"table-outter\"><table class=\"table table-bordered box-shadow--6dp\"><thead class=\"bg-primary\"><tr style=\"font-size:20px\"><th style=\"text-align:center\">Expense</th><th style=\"text-align:center\" repeat.for=\"expense of user.results.recommendedResults.length\">${user.results.recommendedResults[expense][0]}</th><th style=\"text-align:center\">Yearly Savings & Goals</th></tr></thead><tbody><tr><th style=\"font-size:20px;text-align:center\">Amount</th><td style=\"\" repeat.for=\"amount of user.results.recommendedResults.length\"><div style=\"text-align:center\">${user.expenses['total' + user.results.recommendedResults[amount][0] + 'Expense']}</div><hr><div style=\"height:300px;overflow-y:scroll\"><div repeat.for=\"expense of constants[user.results.recommendedResults[amount][0] + 'Expenses']\" class=\"form-group\"><label>${expense.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[expense.value]\" disabled.bind=\"!user.expenses[expense.value + 'lock']\" change.delegate=\"checkValue(user.expenses, user.expenses[expense.value], expense, user.results.recommendedResults[amount][0])\" class=\"form-control ${user.expenses[expense.value + 'check'] ? 'none' : 'alert-danger'}\"></div><br></div></div></td><td><div style=\"text-align:center\">${user.personalInfo.savingsPerMonth * 12}</div><hr><div class=\"form-group\"><label for=\"privateSchool\">Savings Per Month</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo.savingsPerMonth\" class=\"form-control\"></div><br></div><div show.bind=\"user.results.showGoals\" style=\"height:200px;overflow-y:scroll\"><div repeat.for=\"wish of constants.wishes\"><div show.bind=\"user.personalInfo[wish.check]\"><div class=\"form-group\"><label for=\"privateSchool\">Amount for ${wish.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo[wish.value]\" class=\"form-control\"></div></div><br></div></div></div></td></tr></tbody></table></div></template>"; });
 define('text!home/home.css', ['module'], function(module) { module.exports = ".bg {\r\n  background:#337ab7;\r\n  text-align: center;\r\n  padding: 50px;\r\n}\r\n\r\n.zigzag {\r\n  stroke-dasharray: 480;\r\n  stroke-dashoffset: 480;\r\n  -webkit-animation: zigzag 4s linear forwards infinite;\r\n          animation: zigzag 4s linear forwards infinite;\r\n}\r\n\r\n@-webkit-keyframes zigzag {\r\n  from {\r\n    stroke-dashoffset: 980;\r\n  }\r\n  to {\r\n    stroke-dashoffset: 0;\r\n  }\r\n}\r\n\r\n@keyframes zigzag {\r\n  from {\r\n    stroke-dashoffset: 980;\r\n  }\r\n  to {\r\n    stroke-dashoffset: 0;\r\n  }\r\n}\r\n.dash {\r\n  stroke-dasharray: 280;\r\n  stroke-dashoffset: 280;\r\n  -webkit-animation: month 4s linear backwards infinite;\r\n          animation: month 4s linear backwards infinite;\r\n}\r\n.dash:nth-child(1) {\r\n  -webkit-animation-delay: 0s;\r\n          animation-delay: 0s;\r\n}\r\n.dash:nth-child(2) {\r\n  -webkit-animation-delay: 0.05s;\r\n          animation-delay: 0.05s;\r\n}\r\n.dash:nth-child(3) {\r\n  -webkit-animation-delay: 0.10s;\r\n          animation-delay: 0.10s;\r\n}\r\n.dash:nth-child(4) {\r\n  -webkit-animation-delay: 0.15s;\r\n          animation-delay: 0.15s;\r\n}\r\n.dash:nth-child(5) {\r\n  -webkit-animation-delay: 0.20s;\r\n          animation-delay: 0.20s;\r\n}\r\n.dash:nth-child(6) {\r\n  -webkit-animation-delay: 0.25s;\r\n          animation-delay: 0.25s;\r\n}\r\n.dash:nth-child(7) {\r\n  -webkit-animation-delay: 0.30s;\r\n          animation-delay: 0.30s;\r\n}\r\n.dash:nth-child(8) {\r\n  -webkit-animation-delay: 0.35s;\r\n          animation-delay: 0.35s;\r\n}\r\n.dash:nth-child(9) {\r\n  -webkit-animation-delay: 0.40s;\r\n          animation-delay: 0.40s;\r\n}\r\n.dash:nth-child(10) {\r\n  -webkit-animation-delay: 0.45s;\r\n          animation-delay: 0.45s;\r\n}\r\n\r\n@-webkit-keyframes month {\r\n  from {\r\n    stroke-dashoffset: 380;\r\n  }\r\n  to {\r\n    stroke-dashoffset: 0;\r\n  }\r\n}\r\n\r\n@keyframes month {\r\n  from {\r\n    stroke-dashoffset: 380;\r\n  }\r\n  to {\r\n    stroke-dashoffset: 0;\r\n  }\r\n}\r\n"; });
+=======
+define('text!results/compose/compose-table.html', ['module'], function(module) { module.exports = "<template><br style=\"clear:both\"><br style=\"clear:both\"><br style=\"clear:both\"><hr style=\"clear:both\"><div style=\"width:1500px;margin:0 auto\" class=\"table-outter\"><table class=\"table table-bordered box-shadow--6dp\"><thead class=\"bg-primary\"><tr style=\"font-size:20px\"><th style=\"text-align:center\">Expense</th><th style=\"text-align:center\" repeat.for=\"expense of user.results.recommendedResults.length\">${user.results.recommendedResults[expense][0]}</th><th style=\"text-align:center\">Yearly Savings & Goals</th></tr></thead><tbody><tr><th style=\"font-size:20px;text-align:center\">Amount</th><td style=\"\" repeat.for=\"amount of user.results.recommendedResults.length\"><div style=\"text-align:center\"><strong>${user.expenses['total' + user.results.recommendedResults[amount][0] + 'Expense']}</strong></div><hr><div style=\"height:300px;overflow-y:scroll\"><div repeat.for=\"expense of constants[user.results.recommendedResults[amount][0] + 'Expenses']\" class=\"form-group\"><label>${expense.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[expense.value]\" disabled.bind=\"!user.expenses[expense.value + 'lock']\" change.delegate=\"checkValue(user.expenses, user.expenses[expense.value], expense, user.results.recommendedResults[amount][0])\" class=\"form-control ${user.expenses[expense.value + 'check'] ? 'alert-success' : 'alert-danger'}\"></div><br></div></div></td><td><div style=\"text-align:center\"><strong>${user.personalInfo.savingsPerMonth * 12}</strong></div><hr><div class=\"form-group\"><label for=\"privateSchool\">Savings Per Month</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo.savingsPerMonth\" class=\"form-control\"></div><br></div><div show.bind=\"user.results.showGoals\" style=\"height:200px;overflow-y:scroll\"><div repeat.for=\"wish of constants.wishes\"><div show.bind=\"user.personalInfo[wish.check]\"><div class=\"form-group\"><label for=\"privateSchool\">Amount for ${wish.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo[wish.value]\" class=\"form-control\"></div></div><br></div></div></div></td></tr></tbody></table></div><div style=\"width:20%;margin:0 auto;text-align:center\" class=\"alert alert-success\" role=\"alert\"><strong>This means your expense is lower than average</strong></div><div style=\"width:20%;margin:0 auto;text-align:center\" class=\"alert alert-danger\" role=\"alert\"><strong>This means your expense is higher than average</strong></div></template>"; });
+define('text!css/navbar.css', ['module'], function(module) { module.exports = "nav{\r\n  width: 750px;\r\n  margin: 1em auto;\r\n}\r\n\r\nul{\r\n  margin: 0px;\r\n  padding: 0px;\r\n  list-style: none;\r\n}\r\n\r\nul.dropdown{ \r\n  position: relative; \r\n  width: 100%; \r\n}\r\n\r\nul.dropdown li{ \r\n  font-weight: bold; \r\n  float: left; \r\n  width: 180px; \r\n  position: relative;\r\n  background: #f5f5f5;\r\n}\r\n\r\nul.dropdown a:hover{ \r\n  color: #000; \r\n}\r\n\r\nul.dropdown li a { \r\n  display: block; \r\n  padding: 20px 8px;\r\n  color: #34495e; \r\n  position: relative; \r\n  z-index: 2000; \r\n  text-align: center;\r\n  text-decoration: none;\r\n  font-weight: 300;\r\n}\r\n\r\nul.dropdown li a:hover,\r\nul.dropdown li a.hover{ \r\n  background: #337ab7;\r\n  position: relative;\r\n  color: #fff;\r\n}\r\n\r\n\r\nul.dropdown ul{ \r\n display: none;\r\n position: absolute; \r\n  top: 0; \r\n  left: 0; \r\n  width: 180px; \r\n  z-index: 1000;\r\n}\r\n\r\nul.dropdown ul li { \r\n  font-weight: normal; \r\n  background: #f5f5f5; \r\n  color: #000; \r\n  border-bottom: 1px solid #ccc; \r\n}\r\n\r\nul.dropdown ul li a{ \r\n  display: block; \r\n  color: #34495e !important;\r\n  background: #eee !important;\r\n} \r\n\r\nul.dropdown ul li a:hover{\r\n  display: block; \r\n  background: #3498db !important;\r\n  color: #fff !important;\r\n} \r\n\r\n.drop > a{\r\n  position: relative;\r\n}\r\n\r\n.drop > a:after{\r\n  content:\"\";\r\n  position: absolute;\r\n  right: 10px;\r\n  top: 40%;\r\n  border-left: 5px solid transparent;\r\n  border-top: 5px solid #333;\r\n  border-right: 5px solid transparent;\r\n  z-index: 999;\r\n}\r\n\r\n.drop > a:hover:after{\r\n  content:\"\";\r\n   border-left: 5px solid transparent;\r\n  border-top: 5px solid #fff;\r\n  border-right: 5px solid transparent;\r\n}\r\n\r\n"; });
+>>>>>>> 36ca68a5c3207bf149703475bb0ba63e972d68e0
 //# sourceMappingURL=app-bundle.js.map

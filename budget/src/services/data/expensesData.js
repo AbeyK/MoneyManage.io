@@ -7,9 +7,15 @@ export class ExpensesData {
         this.totalHealthExpense = 0;
         this.totalDiscretionaryExpense = 0;
 
+        this.homeCanGoToNext = true;
+        this.carCanGoToNext = true;
+        this.healthCanGoToNext = true;
+        this.discretionaryCanGoToNext = true;
+
         //HOME EXPENSES
         this.mortgage = 0;
         this.propertyTax = 0;
+        this.homeownerInsurance = 0;
         this.phone = 0;
         this.internet = 0;
         this.cable = 0;
@@ -21,6 +27,7 @@ export class ExpensesData {
 
         this.mortgagecheck = true;
         this.propertyTaxcheck = true;
+        this.homeownerInsurancecheck = true;
         this.phonecheck = true;
         this.internetcheck = true;
         this.cablecheck = true;
@@ -32,6 +39,7 @@ export class ExpensesData {
 
         this.mortgagelock = true;
         this.propertyTaxlock = true;
+        this.homeownerInsurancelock = true;
         this.phonelock = true;
         this.internetlock = true;
         this.cablelock = true;

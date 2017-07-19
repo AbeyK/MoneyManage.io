@@ -14,7 +14,7 @@
         <div id="healthExpenseCollapse" class="panel-collapse collapse">
             <div class="panel-body">
                 <div repeat.for="health of constants.HealthExpenses" class="form-group col-md-6">
-                    <label>${health.title}</label>
+                    <label style="padding-left:5%">${health.title}</label>
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0 expensesInput">
                         <div class="input-group-addon">$</div>
                         <input type="text" value.bind="user.expenses[health.value]" 

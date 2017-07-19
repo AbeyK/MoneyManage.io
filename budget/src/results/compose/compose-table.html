@@ -17,7 +17,7 @@
                     <!--DISPLAY EACH EXPENSE COLUMNS-->
                     <th style="font-size:20px; text-align: center;">Amount</th>
                     <td style="" repeat.for="amount of user.results.recommendedResults.length">
-                        <div style="text-align: center;">${user.expenses['total' + user.results.recommendedResults[amount][0] + 'Expense']}</div>
+                        <div style="text-align: center;"><strong>${user.expenses['total' + user.results.recommendedResults[amount][0] + 'Expense']}</strong></div>
                         <hr>
                         <div style="height: 300px; overflow-y:scroll;">
                             <div repeat.for="expense of constants[user.results.recommendedResults[amount][0] + 'Expenses']" class="form-group">
@@ -26,7 +26,7 @@
                                     <div class="input-group-addon">$</div>
                                     <input type="text" value.bind="user.expenses[expense.value]" disabled.bind = "!user.expenses[expense.value + 'lock']" 
                                         change.delegate="checkValue(user.expenses, user.expenses[expense.value], expense, user.results.recommendedResults[amount][0])"
-                                        class="form-control ${user.expenses[expense.value + 'check'] ? 'none' : 'alert-danger'}">
+                                        class="form-control ${user.expenses[expense.value + 'check'] ? 'alert-success' : 'alert-danger'}">
                                 </div>
                                 <br>
                             </div>
@@ -35,7 +35,7 @@
 
                     <!--DISPLAY SAVINGS AND GOALS-->
                     <td>
-                        <div style="text-align: center;">${user.personalInfo.savingsPerMonth * 12}</div>
+                        <div style="text-align: center;"><strong>${user.personalInfo.savingsPerMonth * 12}</strong></div>
                         <hr>
                         <div class="form-group">
                             <label for="privateSchool">Savings Per Month</label>
@@ -64,4 +64,12 @@
             </tbody>
         </table>
     </div>  
+
+    <div style="width: 20%; margin: 0 auto; text-align:center;" class="alert alert-success" role="alert">
+        <strong>This means your expense is lower than average</strong>
+    </div>
+
+    <div style="width: 20%; margin: 0 auto; text-align:center;" class="alert alert-danger" role="alert">
+        <strong>This means your expense is higher than average</strong>
+    </div>
 </template>
