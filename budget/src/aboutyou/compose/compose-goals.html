@@ -6,12 +6,12 @@
     <div class="col-md-4 container" id="availableGoals" >
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h2>Wishes</h2>
+                <h2>Goals</h2>
             </div>
 
-            <div class="panel-body" dragstart.trigger="drag($event)">
+            <div style="height: 425px;"  class="panel-body" dragstart.trigger="drag($event)">
                 <div repeat.for="goal of user.personalInfo.goalsList" class="row">
-                    <div class="current-buttons btn btn-primary" draggable="true">
+                    <div class="current-buttons btn btn-primary" style="width: 40%; height: 50%;" draggable="true">
                         ${goal}
                     </div>
                     <br> <br>
@@ -21,12 +21,12 @@
     </div>
 
     <!--========================MY GOALS============================-->
-    <div class="col-md-8 container ${user.personalInfo.currentGoals.length >= 3 ? 'goalOverflow' : 'none'}" 
+    <div class="col-md-8 container" 
         id="currentGoals" drop.trigger="drop($event)" dragover.trigger="allowDrop($event)">
-        <div class="panel panel-default">
+        <div style="height: 512px;" class="panel panel-default ${user.personalInfo.currentGoals.length >= 2 ? 'goalOverflow' : 'none'}" >
             <div class="panel-heading">
                 <h2>
-                    My Wishes 
+                    My Goals 
                     <span id="wishesTooltip" title="" class="glyphicon glyphicon-question-sign"></span>
                 </h2>
             </div>

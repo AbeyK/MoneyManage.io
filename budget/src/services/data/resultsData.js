@@ -4,14 +4,26 @@ export class ResultsData {
         this.recommendedResults = [];
         this.showGoals = false;
 
-        this.showExpenses = true;
+        this.showGoalsChart = true;
+        this.showExpenses = false;
         this.showChart = false;
         this.showAdvanced = false;
         this.showAdvancedRecommended = false;
 
+        this.fiveYearExpenses = [];
         this.fiveYearIncome = [];
         this.fiveYearSavings = [];
         this.fiveYearEarnings = [];
+
+        this.fiveYearPrivateSchoolGoal = [];
+        this.fiveYearCollegeGoal = [];
+        this.fiveYearWeddingGoal = [];
+        this.fiveYearVacationGoal = [];
+        this.fiveYearBoatGoal = [];
+        this.fiveYearNewCarGoal = [];
+        this.fiveYearOtherGoal = [];
+
+        this.chartGoals = [];
 
         //HOME PERCENTAGES
         this.homePercentage = 0;
