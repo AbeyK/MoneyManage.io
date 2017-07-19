@@ -1,0 +1,50 @@
+body {
+  background:#5bb12f;
+}
+#emojiAnimation {
+  display:none;
+}
+.emoji-container {
+  background: #fff;
+  width:64px;
+  height:64px;
+  padding:16px;
+  border-radius:50%;
+  position:absolute;
+  top:50%;
+  left:50%;
+  margin-top:-64px;
+  margin-left:-40px;
+  overflow:hidden;
+}
+.emoji-car {
+  position:relative;
+  top:-16px;
+  left:-4px;
+  width:72px;
+}
+#sliderWrapper {
+  position:absolute;
+  left: 10%;
+  bottom:0;
+  width:80%;
+}
+#emojiExplosion1,#emojiExplosion2,#emojiExplosion3 {
+  width:32px;
+  height:32px;
+  margin-top:-36px;
+  padding:8px;
+}
+#jailbars {
+    position: absolute;
+    top: -20px;
+    left: 3px;
+    width: 100%;
+}
+.jailbar {
+    width: 6px;
+    height: 120px;
+    background: #666;
+    float: left;
+    margin: 6px;
+}

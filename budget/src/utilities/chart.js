@@ -16,7 +16,7 @@ export class Chart {
         Highcharts.chart(containerID, {
 
             title: {
-                text: 'Your Expenses Over the Next 5 Years'
+                text: 'Projected Expenses'
             },
 
             yAxis: {
