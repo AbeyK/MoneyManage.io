@@ -9,6 +9,9 @@ export class ResultsData {
         this.showAdvanced = false;
         this.showAdvancedRecommended = false;
 
+        this.fiveYearIncome = [];
+        this.fiveYearEarnings = [];
+
         //HOME PERCENTAGES
         this.homePercentage = 0;
         this.mortgagePercentage = 0;

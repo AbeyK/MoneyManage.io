@@ -20,11 +20,11 @@ export class results {
         this.calculatePercentages = calculatePercentages;
         this.selectedOptions = [];
         this.someOptions = [
-            {"text" : "Expenses Over 5 Years"}, 
+            {"text" : "Projected Expenses"}, 
             {"text" : "Simple Budget"}, 
             {"text" : "Advanced Budget"}
         ];
-        this.selectedOption = {"text" : "Expenses Over 5 Years"};
+        this.selectedOption = {"text" : "Projected Expenses"};
     }
 
     checkValue(expenses, value, category, overallCategory) {
