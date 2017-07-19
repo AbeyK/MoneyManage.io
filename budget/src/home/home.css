@@ -1,0 +1,94 @@
+.bg {
+  background:#337ab7;
+  text-align: center;
+  padding: 50px;
+}
+
+.zigzag {
+  stroke-dasharray: 480;
+  stroke-dashoffset: 480;
+  -webkit-animation: zigzag 4s linear forwards infinite;
+          animation: zigzag 4s linear forwards infinite;
+}
+
+@-webkit-keyframes zigzag {
+  from {
+    stroke-dashoffset: 980;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes zigzag {
+  from {
+    stroke-dashoffset: 980;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.dash {
+  stroke-dasharray: 280;
+  stroke-dashoffset: 280;
+  -webkit-animation: month 4s linear backwards infinite;
+          animation: month 4s linear backwards infinite;
+}
+.dash:nth-child(1) {
+  -webkit-animation-delay: 0s;
+          animation-delay: 0s;
+}
+.dash:nth-child(2) {
+  -webkit-animation-delay: 0.05s;
+          animation-delay: 0.05s;
+}
+.dash:nth-child(3) {
+  -webkit-animation-delay: 0.10s;
+          animation-delay: 0.10s;
+}
+.dash:nth-child(4) {
+  -webkit-animation-delay: 0.15s;
+          animation-delay: 0.15s;
+}
+.dash:nth-child(5) {
+  -webkit-animation-delay: 0.20s;
+          animation-delay: 0.20s;
+}
+.dash:nth-child(6) {
+  -webkit-animation-delay: 0.25s;
+          animation-delay: 0.25s;
+}
+.dash:nth-child(7) {
+  -webkit-animation-delay: 0.30s;
+          animation-delay: 0.30s;
+}
+.dash:nth-child(8) {
+  -webkit-animation-delay: 0.35s;
+          animation-delay: 0.35s;
+}
+.dash:nth-child(9) {
+  -webkit-animation-delay: 0.40s;
+          animation-delay: 0.40s;
+}
+.dash:nth-child(10) {
+  -webkit-animation-delay: 0.45s;
+          animation-delay: 0.45s;
+}
+
+@-webkit-keyframes month {
+  from {
+    stroke-dashoffset: 380;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes month {
+  from {
+    stroke-dashoffset: 380;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
