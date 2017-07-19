@@ -6,11 +6,12 @@
   <require from="jquery-ui-dist/jquery-ui.css"></require>
   <require from="bootstrap/css/bootstrap.css"></require>
   <require from="css/style.css"></require>
+  <require from="css/navbar.css"></require>
 
   <div id="app">
     <div id="content">
       <nav>
-        <ul style="margin-left: 15%;" class="dropdown">
+        <ul style="margin-left:0;" class="dropdown">
           <li repeat.for="row of router.navigation" class="${row.isActive ? 'active' : ''}">
               <a href.bind="row.href">${row.title}</a>
           </li>

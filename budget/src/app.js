@@ -11,10 +11,13 @@ export class App {
     config.title = "Budget Calculator";
     config.map([
       {
-        route: ['', 'personalinfo'], moduleId: 'aboutyou/personalinfo',
+        route: ['', 'home'], moduleId: 'home/home',
+        name: 'home', title: 'Welcome', nav: true
+      },
+      {
+        route: 'personalinfo', moduleId: 'aboutyou/personalinfo',
         name: 'personalinfo', title: 'Personal Info', nav: true
       },
-
       {
         route: 'expenses', moduleId: 'expenses/expenses',
         name: 'expenses', title: 'Expenses', nav: true
@@ -23,6 +26,10 @@ export class App {
       {
         route: 'results', moduleId: 'results/results',
         name: 'results', title: 'Results', nav: true
+      },
+      {
+        route: 'logout', moduleId: 'logout/logout',
+        name: 'logout', title: 'Logout', nav: true
       }
     ]);
   }
