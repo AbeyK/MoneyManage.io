@@ -17,6 +17,7 @@ export class calculateExpenses {
         this.user.results.discretionaryFiveYears = [];
         this.user.results.fiveYearEarnings = [];
         this.user.results.fiveYearIncome = [];
+        this.user.results.fiveYearSavings = [];
 
         for (var i = 0; i < 5; i++) {
             //HOME 5 YEAR ESTIMATES
@@ -62,15 +63,26 @@ export class calculateExpenses {
                 parseInt(this.user.expenses.other);
             this.user.results.discretionaryFiveYears.push(tempDiscretionaryTotal);
 
-            var tempTotalExpense = tempHomeTotal + tempCarTotal + tempHealthTotal + tempDiscretionaryTotal;
+            
+            //INCOME
             var tempIncome = parseInt(this.user.personalInfo.income) * Math.pow(1.025, i);
             this.user.results.fiveYearIncome.push(tempIncome);
 
+            //SAVINGS
+            var tempSavings = 0;
+            if(i > 0) tempSavings = parseFloat(this.user.results.fiveYearSavings[i-1]);
+            tempSavings += parseInt(this.user.personalInfo.savingsPerMonth) * 12;
+            tempSavings *= 1.0199;
+            this.user.results.fiveYearSavings.push(tempSavings);
+
+            //EARNINGS
             var tempEarnings = 0;
+            var tempTotalExpense = tempHomeTotal + tempCarTotal + tempHealthTotal + tempDiscretionaryTotal;
             if(i > 0) tempEarnings = parseFloat(this.user.results.fiveYearEarnings[i-1]);
             tempEarnings += tempIncome;
-            tempEarnings += parseInt(this.user.personalInfo.savingsPerMonth) * 12;
+            tempEarnings += tempSavings;
             tempEarnings -= tempTotalExpense;
+
             this.user.results.fiveYearEarnings.push(tempEarnings);
         }
     }
