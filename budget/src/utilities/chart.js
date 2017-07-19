@@ -11,6 +11,7 @@ export class Chart {
         this.constants = constants;
     }
 
+    //CHART OF EXPENSES FOR FIVE YEARS
     createFiveYearChart(containerID, results) {
         Highcharts.chart(containerID, {
 
@@ -37,22 +38,24 @@ export class Chart {
 
             series: [{
                 name: 'Home',
-                data: this.user.results.homeFiveYears
+                data: results.homeFiveYears
             }, {
                 name: 'Car',
-                data: this.user.results.carFiveYears
+                data: results.carFiveYears
             }, {
                 name: 'Health',
-                data: this.user.results.healthFiveYears
+                data: results.healthFiveYears
             }, {
                 name: 'Discretionary',
-                data: this.user.results.discretionaryFiveYears
+                data: results.discretionaryFiveYears
             }]
 
         });
     }
 
-    createChart(containerID, results) {
+
+    //USER CHART RESULTS
+    createSimpleChart(containerID, results) {
         Highcharts.chart(containerID, {
             chart: {
                 type: 'pie',
@@ -72,40 +75,40 @@ export class Chart {
             },
             series: [{
                 name: 'Delivered amount',
-                data: results.expensesResults
+                data: results.simpleChartResults
             }]
         });
     }
 
-    createAdvancedChart(containerID) {
+    createAdvancedChart(containerID, results) {
         var categories = ['Home', 'Car', 'Health', 'Discretionary'],
             data = [{
-                y: this.user.results.homePercentage,
+                y: results.homePercentage,
                 drilldown: {
                     name: 'Home Expenses',
                     categories: this.constants.homeCategories,
-                    data: this.user.results.homePercentageArray,
+                    data: results.homePercentageArray,
                 }
             }, {
-                y: this.user.results.carPercentage,
+                y: results.carPercentage,
                 drilldown: {
                     name: 'Car Expenses',
                     categories: this.constants.carCategories,
-                    data: this.user.results.carPercentageArray,
+                    data: results.carPercentageArray,
                 }
             }, {
-                y: this.user.results.healthPercentage,
+                y: results.healthPercentage,
                 drilldown: {
                     name: 'Health Expenses',
                     categories: this.constants.healthCategories,
-                    data: this.user.results.healthPercentageArray,
+                    data: results.healthPercentageArray,
                 }
             }, {
-                y: this.user.results.discretionaryPercentage,
+                y: results.discretionaryPercentage,
                 drilldown: {
                     name: 'Discretionary Expenses',
                     categories: this.constants.discretionaryCategories,
-                    data: this.user.results.discretionaryPercentageArray,
+                    data: results.discretionaryPercentageArray,
                 }
             }],
             browserData = [],
@@ -203,6 +206,8 @@ export class Chart {
         });
     }
 
+
+    //RECOMMENDED CHARTS
     createRecommendedChart(containerID, results) {
         Highcharts.chart(containerID, {
             chart: {
@@ -235,35 +240,35 @@ export class Chart {
         });
     }
 
-    createAdvancedRecommendedChart(containerID) {
+    createAdvancedRecommendedChart(containerID, results) {
         var categories = ['Home', 'Car', 'Health', 'Discretionary'],
             data = [{
-                y: this.user.results.homePercentage,
+                y: results.homePercentage,
                 drilldown: {
                     name: 'Home Expenses',
                     categories: this.constants.homeCategories,
-                    data: this.user.results.homePercentageArray,
+                    data: results.homePercentageArray,
                 }
             }, {
-                y: this.user.results.carPercentage,
+                y: results.carPercentage,
                 drilldown: {
                     name: 'Car Expenses',
                     categories: this.constants.carCategories,
-                    data: this.user.results.carPercentageArray,
+                    data: results.carPercentageArray,
                 }
             }, {
-                y: this.user.results.healthPercentage,
+                y: results.healthPercentage,
                 drilldown: {
                     name: 'Health Expenses',
                     categories: this.constants.healthCategories,
-                    data: this.user.results.healthPercentageArray,
+                    data: results.healthPercentageArray,
                 }
             }, {
-                y: this.user.results.discretionaryPercentage,
+                y: results.discretionaryPercentage,
                 drilldown: {
                     name: 'Discretionary Expenses',
                     categories: this.constants.discretionaryCategories,
-                    data: this.user.results.discretionaryPercentageArray,
+                    data: results.discretionaryPercentageArray,
                 }
             }],
             browserData = [],

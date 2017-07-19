@@ -44,11 +44,11 @@ export class results {
 
         this.calculateExpenses.get5YearEstimates();
 
-        this.user.results.expensesResults = [];
-        this.user.results.expensesResults.push(['Home', this.user.expenses.totalHomeExpense+1]);
-        this.user.results.expensesResults.push(['Car', this.user.expenses.totalCarExpense+1]);
-        this.user.results.expensesResults.push(['Health', this.user.expenses.totalHealthExpense+1]);
-        this.user.results.expensesResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense+1]);
+        this.user.results.simpleChartResults = [];
+        this.user.results.simpleChartResults.push(['Home', this.user.expenses.totalHomeExpense+1]);
+        this.user.results.simpleChartResults.push(['Car', this.user.expenses.totalCarExpense+1]);
+        this.user.results.simpleChartResults.push(['Health', this.user.expenses.totalHealthExpense+1]);
+        this.user.results.simpleChartResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense+1]);
         
         this.user.results.recommendedResults = [];
         this.user.results.recommendedResults.push(['Home', this.user.expenses.totalHomeExpense+30]);
@@ -57,10 +57,10 @@ export class results {
         this.user.results.recommendedResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense+33]);
 
         this.chart.createFiveYearChart('fiveYearContainer', this.user.results);
-        this.chart.createChart('resultsContainer', this.user.results);
-        this.chart.createAdvancedChart('resultsContainerAdvanced');
+        this.chart.createSimpleChart('resultsContainerSimple', this.user.results);
+        this.chart.createAdvancedChart('resultsContainerAdvanced', this.user.results);
         this.chart.createRecommendedChart('recommendedContainer', this.user.results);
-        this.chart.createAdvancedRecommendedChart('recommendedContainerAdvanced');
+        this.chart.createAdvancedRecommendedChart('recommendedContainerAdvanced', this.user.results);
     }
 
     test(option) {

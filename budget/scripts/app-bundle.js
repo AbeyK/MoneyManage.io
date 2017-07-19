@@ -241,6 +241,12 @@ define('expenses/expenses',['exports', 'aurelia-framework', 'aurelia-router', '.
             if (!this.user.expenses.homeCanGoToNext) alert('Please enter valid home expenses');else if (!this.user.expenses.carCanGoToNext) alert('Please enter valid car expenses');else if (!this.user.expenses.healthCanGoToNext) alert('Please enter valid health expenses');else if (!this.user.expenses.discretionaryCanGoToNext) alert('Please enter valid discretionary expenses');else this.router.navigate('#/results');
         };
 
+        expenses.prototype.attached = function attached() {
+            $('#expensesTooltip').tooltip({
+                content: "Enter all expenses as monthly amounts unless stated otherwise.<br>" + "Lock values you don't want changed."
+            });
+        };
+
         return expenses;
     }()) || _class);
 });
@@ -300,11 +306,11 @@ define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../
 
             this.calculateExpenses.get5YearEstimates();
 
-            this.user.results.expensesResults = [];
-            this.user.results.expensesResults.push(['Home', this.user.expenses.totalHomeExpense + 1]);
-            this.user.results.expensesResults.push(['Car', this.user.expenses.totalCarExpense + 1]);
-            this.user.results.expensesResults.push(['Health', this.user.expenses.totalHealthExpense + 1]);
-            this.user.results.expensesResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense + 1]);
+            this.user.results.simpleChartResults = [];
+            this.user.results.simpleChartResults.push(['Home', this.user.expenses.totalHomeExpense + 1]);
+            this.user.results.simpleChartResults.push(['Car', this.user.expenses.totalCarExpense + 1]);
+            this.user.results.simpleChartResults.push(['Health', this.user.expenses.totalHealthExpense + 1]);
+            this.user.results.simpleChartResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense + 1]);
 
             this.user.results.recommendedResults = [];
             this.user.results.recommendedResults.push(['Home', this.user.expenses.totalHomeExpense + 30]);
@@ -313,10 +319,10 @@ define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../
             this.user.results.recommendedResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense + 33]);
 
             this.chart.createFiveYearChart('fiveYearContainer', this.user.results);
-            this.chart.createChart('resultsContainer', this.user.results);
-            this.chart.createAdvancedChart('resultsContainerAdvanced');
+            this.chart.createSimpleChart('resultsContainerSimple', this.user.results);
+            this.chart.createAdvancedChart('resultsContainerAdvanced', this.user.results);
             this.chart.createRecommendedChart('recommendedContainer', this.user.results);
-            this.chart.createAdvancedRecommendedChart('recommendedContainerAdvanced');
+            this.chart.createAdvancedRecommendedChart('recommendedContainerAdvanced', this.user.results);
         };
 
         results.prototype.test = function test(option) {
@@ -855,22 +861,22 @@ define('utilities/chart',['exports', 'aurelia-framework', '../services/user', 'h
 
                 series: [{
                     name: 'Home',
-                    data: this.user.results.homeFiveYears
+                    data: results.homeFiveYears
                 }, {
                     name: 'Car',
-                    data: this.user.results.carFiveYears
+                    data: results.carFiveYears
                 }, {
                     name: 'Health',
-                    data: this.user.results.healthFiveYears
+                    data: results.healthFiveYears
                 }, {
                     name: 'Discretionary',
-                    data: this.user.results.discretionaryFiveYears
+                    data: results.discretionaryFiveYears
                 }]
 
             });
         };
 
-        Chart.prototype.createChart = function createChart(containerID, results) {
+        Chart.prototype.createSimpleChart = function createSimpleChart(containerID, results) {
             Highcharts.chart(containerID, {
                 chart: {
                     type: 'pie',
@@ -890,40 +896,40 @@ define('utilities/chart',['exports', 'aurelia-framework', '../services/user', 'h
                 },
                 series: [{
                     name: 'Delivered amount',
-                    data: results.expensesResults
+                    data: results.simpleChartResults
                 }]
             });
         };
 
-        Chart.prototype.createAdvancedChart = function createAdvancedChart(containerID) {
+        Chart.prototype.createAdvancedChart = function createAdvancedChart(containerID, results) {
             var categories = ['Home', 'Car', 'Health', 'Discretionary'],
                 data = [{
-                y: this.user.results.homePercentage,
+                y: results.homePercentage,
                 drilldown: {
                     name: 'Home Expenses',
                     categories: this.constants.homeCategories,
-                    data: this.user.results.homePercentageArray
+                    data: results.homePercentageArray
                 }
             }, {
-                y: this.user.results.carPercentage,
+                y: results.carPercentage,
                 drilldown: {
                     name: 'Car Expenses',
                     categories: this.constants.carCategories,
-                    data: this.user.results.carPercentageArray
+                    data: results.carPercentageArray
                 }
             }, {
-                y: this.user.results.healthPercentage,
+                y: results.healthPercentage,
                 drilldown: {
                     name: 'Health Expenses',
                     categories: this.constants.healthCategories,
-                    data: this.user.results.healthPercentageArray
+                    data: results.healthPercentageArray
                 }
             }, {
-                y: this.user.results.discretionaryPercentage,
+                y: results.discretionaryPercentage,
                 drilldown: {
                     name: 'Discretionary Expenses',
                     categories: this.constants.discretionaryCategories,
-                    data: this.user.results.discretionaryPercentageArray
+                    data: results.discretionaryPercentageArray
                 }
             }],
                 browserData = [],
@@ -1045,35 +1051,35 @@ define('utilities/chart',['exports', 'aurelia-framework', '../services/user', 'h
             });
         };
 
-        Chart.prototype.createAdvancedRecommendedChart = function createAdvancedRecommendedChart(containerID) {
+        Chart.prototype.createAdvancedRecommendedChart = function createAdvancedRecommendedChart(containerID, results) {
             var categories = ['Home', 'Car', 'Health', 'Discretionary'],
                 data = [{
-                y: this.user.results.homePercentage,
+                y: results.homePercentage,
                 drilldown: {
                     name: 'Home Expenses',
                     categories: this.constants.homeCategories,
-                    data: this.user.results.homePercentageArray
+                    data: results.homePercentageArray
                 }
             }, {
-                y: this.user.results.carPercentage,
+                y: results.carPercentage,
                 drilldown: {
                     name: 'Car Expenses',
                     categories: this.constants.carCategories,
-                    data: this.user.results.carPercentageArray
+                    data: results.carPercentageArray
                 }
             }, {
-                y: this.user.results.healthPercentage,
+                y: results.healthPercentage,
                 drilldown: {
                     name: 'Health Expenses',
                     categories: this.constants.healthCategories,
-                    data: this.user.results.healthPercentageArray
+                    data: results.healthPercentageArray
                 }
             }, {
-                y: this.user.results.discretionaryPercentage,
+                y: results.discretionaryPercentage,
                 drilldown: {
                     name: 'Discretionary Expenses',
                     categories: this.constants.discretionaryCategories,
-                    data: this.user.results.discretionaryPercentageArray
+                    data: results.discretionaryPercentageArray
                 }
             }],
                 browserData = [],
@@ -1578,7 +1584,7 @@ define('services/data/resultsData',["exports"], function (exports) {
         var ResultsData = exports.ResultsData = function ResultsData() {
                 _classCallCheck(this, ResultsData);
 
-                this.expensesResults = [];
+                this.simpleChartResults = [];
                 this.recommendedResults = [];
                 this.showGoals = false;
 
@@ -1634,7 +1640,7 @@ define('text!app.html', ['module'], function(module) { module.exports = "<templa
 define('text!css/drag-and-drop.css', ['module'], function(module) { module.exports = ".goalOverflow {\r\n    height: 600px;\r\n    overflow-y:scroll;\r\n}\r\n\r\n#myGoals {\r\n    width: 100%; \r\n    height: 30%; \r\n    background-color: #337ab7;\r\n    text-align: center; \r\n    color: white;\r\n    vertical-align: middle; \r\n    line-height: 150px;\r\n}"; });
 define('text!aboutyou/personalinfo.html', ['module'], function(module) { module.exports = "<template><div id=\"personalinfo\"><form submit.delegate=\"next()\"><compose view-model=\"./compose/compose-personal-info\"></compose><compose view-model=\"./compose/compose-goals\"></compose><hr style=\"margin-top:60%\"><button class=\"btn btn-primary\" type=\"submit\" id=\"next\">Next</button></form></div></template>"; });
 define('text!css/style.css', ['module'], function(module) { module.exports = "#personalinfo, #expenses, #results {\r\n    margin: 0 auto;\r\n    text-align: center;\r\n    width: 60%;\r\n}\r\n\r\nhtml, body {\r\n\tmargin:0;\r\n\tpadding:0;\r\n\theight:100%;\r\n}\r\n\r\n#app {\r\n\tmin-height:100%;\r\n\tposition:relative;\r\n}\r\n\r\n#content {\r\n\tpadding-bottom:100px; /* Height of the footer element */\r\n}\r\n\r\n#footer {\r\n\tbackground:#ededed;\r\n\twidth:100%;\r\n\theight:60px;\r\n\tposition:absolute;\r\n\tbottom:0;\r\n\tleft:0;\r\n    text-align: center;\r\n}\r\n.btn-sample:active {\r\n  color: blue; \r\n}\r\ni{\r\n\twidth:10px;\r\n}\r\n\r\n.expensesInput{\r\n\twidth:90%;\r\n\t margin: 0 auto;\r\n}\r\n\r\n.glyphicon-question-sign {\r\n\tcolor: #337ab7;\r\n}\r\n\r\n.box-shadow--6dp {\r\n    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12), 0 3px 5px -1px rgba(0, 0, 0, .2)\r\n}\r\n\r\n.highcharts-series-group {\r\n\tbox-shadow: 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12), 0 3px 5px -1px rgba(0, 0, 0, .2)\r\n}\r\n"; });
-define('text!expenses/expenses.html', ['module'], function(module) { module.exports = "<template><link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css\"><div id=\"expenses\"><h1>Expenses</h1></div><form submit.delegate=\"next()\"><div class=\"container\" style=\"width:60%\"><div class=\"panel-group\" id=\"accordion\"><compose view-model=\"./compose/compose-home-expenses\"></compose><compose view-model=\"./compose/compose-car-expenses\"></compose><compose view-model=\"./compose/compose-health-expenses\"></compose><compose view-model=\"./compose/compose-discretionary-expenses\"></compose></div></div><div id=\"expenses\"><hr><button class=\"btn btn-secondary\" click.delegate=\"back()\" id=\"back\">Back</button> <button class=\"btn btn-primary\" type=\"submit\" id=\"next\">Next</button></div></form></template>"; });
+define('text!expenses/expenses.html', ['module'], function(module) { module.exports = "<template><link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css\"><div id=\"expenses\"><h1>Expenses <span id=\"expensesTooltip\" title=\"\" class=\"glyphicon glyphicon-question-sign\"></span></h1></div><form submit.delegate=\"next()\"><div class=\"container\" style=\"width:60%\"><div class=\"panel-group\" id=\"accordion\"><compose view-model=\"./compose/compose-home-expenses\"></compose><compose view-model=\"./compose/compose-car-expenses\"></compose><compose view-model=\"./compose/compose-health-expenses\"></compose><compose view-model=\"./compose/compose-discretionary-expenses\"></compose></div></div><div id=\"expenses\"><hr><button class=\"btn btn-secondary\" click.delegate=\"back()\" id=\"back\">Back</button> <button class=\"btn btn-primary\" type=\"submit\" id=\"next\">Next</button></div></form></template>"; });
 define('text!results/results.html', ['module'], function(module) { module.exports = "<template><div id=\"results\"><h1>Results</h1></div><compose view-model=\"./compose/compose-chart\"></compose><compose view-model=\"./compose/compose-table\"></compose><hr><div id=\"results\"><button class=\"btn btn-secondary\" click.delegate=\"back()\" id=\"back\">Back</button> <button class=\"btn btn-primary\" click.delegate=\"getChartData()\">Make New Chart</button></div></template>"; });
 define('text!aboutyou/compose/compose-goals.html', ['module'], function(module) { module.exports = "<template><require from=\"css/drag-and-drop.css\"></require><hr><div class=\"col-md-4 container\" id=\"availableGoals\"><div class=\"panel panel-default\"><div class=\"panel-heading\"><h2>Wishes</h2></div><div class=\"panel-body\" dragstart.trigger=\"drag($event)\"><div repeat.for=\"goal of user.personalInfo.goalsList\" class=\"row\"><div class=\"current-buttons btn btn-primary\" draggable=\"true\">${goal}</div><br><br></div></div></div></div><div class=\"col-md-8 container ${user.personalInfo.currentGoals.length >= 3 ? 'goalOverflow' : 'none'}\" id=\"currentGoals\" drop.trigger=\"drop($event)\" dragover.trigger=\"allowDrop($event)\"><div class=\"panel panel-default\"><div class=\"panel-heading\"><h2>My Wishes <span id=\"wishesTooltip\" title=\"\" class=\"glyphicon glyphicon-question-sign\"></span></h2></div><div class=\"panel-body\"><div repeat.for=\"wish of constants.wishes\"><div show.bind=\"user.personalInfo[wish.check]\"><div class=\"form-group col-md-2 col-md-push-2\"><label for=\"rank\">Rank</label><select class=\"form-control\" value.bind=\"user.personalInfo['rank' + wish.value]\"><option repeat.for=\"rank of user.personalInfo.currentGoals.length\">${rank + 1}</option></select></div><div class=\"col-md-6 col-md-push-1\"><h3>${wish.title}</h3></div><div style=\"margin-top:2%\" class=\"col-md-2 col-md-pull-1\"><button click.delegate=\"remove(wish.title)\" class=\"btn btn-danger\">X</button></div><div class=\"form-group\"><br><br><br><br><label style=\"left:100%\" for=\"wish\">Amount for ${wish.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo[wish.value]\" class=\"form-control\"></div></div><hr></div></div><div id=\"myGoals\"><span class=\"glyphicon glyphicon-plus\"></span> Add Wish Here</div><br></div></div></div></template>"; });
 define('text!aboutyou/compose/compose-personal-info.html', ['module'], function(module) { module.exports = "<template><h2>Personal Info</h2><div class=\"form-group\"><label for=\"age\">Age</label><input style=\"width:400px\" id=\"age\"></div><div class=\"form-group col-md-6\"><label for=\"salary\">Income Per Year</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo.income\" change.delegate=\"checkIncome()\" class=\"form-control ${user.personalInfo.validIncome ? 'none' : 'btn-danger'}\"></div></div><div class=\"form-group col-md-6\"><label for=\"savings\">Savings Per Month</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo.savingsPerMonth\" change.delegate=\"checkSavings()\" class=\"form-control ${user.personalInfo.validSavings ? 'none' : 'btn-danger'}\"></div></div><br><br><br><hr><h2>Household Info</h2><div class=\"form-group col-md-6\"><label for=\"householdSize\">Household Size</label><input type=\"text\" value.bind=\"user.personalInfo.householdSize\" change.delegate=\"checkHouseholdSize()\" class=\"form-control ${user.personalInfo.validHouseholdSize ? 'none' : 'btn-danger'}\"></div><div class=\"form-group col-md-6\"><label for=\"householdSize\">Size of Home (in square feet)?</label><input type=\"text\" value.bind=\"user.personalInfo.squareFootHome\" change.delegate=\"checkHomeSize()\" class=\"form-control ${user.personalInfo.validHomeSize ? 'none' : 'btn-danger'}\"></div><br><br><br></template>"; });
@@ -1642,7 +1648,7 @@ define('text!expenses/compose/compose-car-expenses.html', ['module'], function(m
 define('text!expenses/compose/compose-discretionary-expenses.html', ['module'], function(module) { module.exports = "<template><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#discretionaryExpenseCollapse\">Discretionary Expenses<div style=\"float:right\">Total: $${user.expenses.totalDiscretionaryExpense}</div></a></h4></div><div id=\"discretionaryExpenseCollapse\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><div repeat.for=\"discretionary of constants.DiscretionaryExpenses\" class=\"form-group col-md-6\"><label style=\"padding-left:5%\">${discretionary.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0 expensesInput\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[discretionary.value]\" change.delegate=\"calculateExpenses.discretionaryExpenses()\" class=\"form-control\" id=\"${discretionary.value}\" disabled.bind=\"!user.expenses[discretionary.value + 'lock']\"><div class=\"input-group-btn\"><button type=\"button\" class=\"btn ${user.expenses[discretionary.value + 'lock'] ? 'btn-default' : 'btn-primary'}\" click.delegate=\"lockStateChange(discretionary.value)\"><i class=\"fa fa-unlock\" show.bind=\"!user.expenses[discretionary.value + 'lock']\"></i> <i class=\"fa fa-lock\" show.bind=\"user.expenses[discretionary.value + 'lock']\"></i></button></div></div><br></div></div></div></div></template>"; });
 define('text!expenses/compose/compose-health-expenses.html', ['module'], function(module) { module.exports = "<template><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#healthExpenseCollapse\">Health<div style=\"float:right\">Total: $${user.expenses.totalHealthExpense}</div></a></h4></div><div id=\"healthExpenseCollapse\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><div repeat.for=\"health of constants.HealthExpenses\" class=\"form-group col-md-6\"><label style=\"padding-left:5%\">${health.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0 expensesInput\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[health.value]\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\" id=\"${health.value}\" disabled.bind=\"!user.expenses[health.value + 'lock']\"><div class=\"input-group-btn\"><button type=\"button\" class=\"btn ${user.expenses[health.value + 'lock'] ? 'btn-default' : 'btn-primary'}\" click.delegate=\"lockStateChange(health.value)\"><i class=\"fa fa-unlock\" show.bind=\"!user.expenses[health.value + 'lock']\"></i> <i class=\"fa fa-lock\" show.bind=\"user.expenses[health.value + 'lock']\"></i></button></div></div></div><br></div></div></div></template>"; });
 define('text!expenses/compose/compose-home-expenses.html', ['module'], function(module) { module.exports = "<template><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#homeExpenseCollapse\">Home<div style=\"float:right\">Total: $${user.expenses.totalHomeExpense}</div></a></h4></div><div id=\"homeExpenseCollapse\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><div repeat.for=\"home of constants.HomeExpenses\" class=\"form-group col-md-6\"><label style=\"padding-left:5%\">${home.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0 expensesInput\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[home.value]\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" id=\"${home.value}\" disabled.bind=\"!user.expenses[home.value + 'lock']\"><div class=\"input-group-btn\"><button type=\"button\" class=\"btn ${user.expenses[home.value + 'lock'] ? 'btn-default' : 'btn-primary'}\" click.delegate=\"lockStateChange(home.value)\"><i class=\"fa fa-unlock\" show.bind=\"!user.expenses[home.value + 'lock']\"></i> <i class=\"fa fa-lock\" show.bind=\"user.expenses[home.value + 'lock']\"></i></button></div></div><br></div></div></div></div></template>"; });
-define('text!results/compose/compose-chart.html', ['module'], function(module) { module.exports = "<template><div class=\"col-md-4\" style=\"margin-left:21%;margin-right:5%\"><div class=\"btn-group\" data-toggle=\"buttons\"><label repeat.for=\"option of someOptions\" class=\"btn btn-primary\" click.delegate=\"test(option.text)\"><input type=\"radio\" autocomplete=\"off\" model.bind=\"option\" checked.bind=\"$parent.selectedOptions\"> ${option.text}</label></div><br><br></div><div class=\"col-md-4\"><div class=\"btn-group\" click.delegate=\"checkAdvancedRecommended()\" data-toggle=\"buttons\"><label class=\"btn btn-primary ${!user.results.showAdvancedRecommended ? 'active btn-primary' : 'btn-secondary'}\"><input type=\"radio\">Recommended Simple Budget</label><label class=\"btn btn-primary ${user.results.showAdvancedRecommended ? 'active btn-primary' : 'btn-secondary'}\"><input type=\"radio\">Recommended Advanced Budget</label></div></div><div class=\"box-shadow--6dp\" show.bind=\"user.results.showExpenses\" style=\"float:left;margin-left:17%;margin-right:10%\" id=\"fiveYearContainer\"></div><div class=\"box-shadow--6dp\" show.bind=\"user.results.showBudget\" style=\"float:left;margin-left:17%;margin-right:10%\" id=\"resultsContainer\"></div><div class=\"box-shadow--6dp\" show.bind=\"user.results.showAdvanced\" style=\"float:left;margin-left:17%;margin-right:10%\" id=\"resultsContainerAdvanced\"></div><div class=\"box-shadow--6dp\" show.bind=\"!user.results.showAdvancedRecommended\" style=\"float:left\" id=\"recommendedContainer\"></div><div class=\"box-shadow--6dp\" show.bind=\"user.results.showAdvancedRecommended\" style=\"float:left\" id=\"recommendedContainerAdvanced\"></div></template>"; });
+define('text!results/compose/compose-chart.html', ['module'], function(module) { module.exports = "<template><div class=\"col-md-4\" style=\"margin-left:21%;margin-right:5%\"><div class=\"btn-group\" data-toggle=\"buttons\"><label repeat.for=\"option of someOptions\" class=\"btn btn-primary\" click.delegate=\"test(option.text)\"><input type=\"radio\" autocomplete=\"off\" model.bind=\"option\" checked.bind=\"$parent.selectedOptions\"> ${option.text}</label></div><br><br></div><div class=\"col-md-4\"><div class=\"btn-group\" click.delegate=\"checkAdvancedRecommended()\" data-toggle=\"buttons\"><label class=\"btn btn-primary ${!user.results.showAdvancedRecommended ? 'active btn-primary' : 'btn-secondary'}\"><input type=\"radio\">Recommended Simple Budget</label><label class=\"btn btn-primary ${user.results.showAdvancedRecommended ? 'active btn-primary' : 'btn-secondary'}\"><input type=\"radio\">Recommended Advanced Budget</label></div></div><div class=\"box-shadow--6dp\" show.bind=\"user.results.showExpenses\" style=\"float:left;margin-left:17%;margin-right:10%\" id=\"fiveYearContainer\"></div><div class=\"box-shadow--6dp\" show.bind=\"user.results.showBudget\" style=\"float:left;margin-left:17%;margin-right:10%\" id=\"resultsContainerSimple\"></div><div class=\"box-shadow--6dp\" show.bind=\"user.results.showAdvanced\" style=\"float:left;margin-left:17%;margin-right:10%\" id=\"resultsContainerAdvanced\"></div><div class=\"box-shadow--6dp\" show.bind=\"!user.results.showAdvancedRecommended\" style=\"float:left\" id=\"recommendedContainer\"></div><div class=\"box-shadow--6dp\" show.bind=\"user.results.showAdvancedRecommended\" style=\"float:left\" id=\"recommendedContainerAdvanced\"></div></template>"; });
 define('text!results/compose/compose-table.html', ['module'], function(module) { module.exports = "<template><br style=\"clear:both\"><br style=\"clear:both\"><br style=\"clear:both\"><hr style=\"clear:both\"><div style=\"width:1500px;margin:0 auto\" class=\"table-outter\"><table class=\"table table-bordered box-shadow--6dp\"><thead class=\"bg-primary\"><tr style=\"font-size:20px\"><th style=\"text-align:center\">Expense</th><th style=\"text-align:center\" repeat.for=\"expense of user.results.recommendedResults.length\">${user.results.recommendedResults[expense][0]}</th><th style=\"text-align:center\">Yearly Savings & Goals</th></tr></thead><tbody><tr><th style=\"font-size:20px;text-align:center\">Amount</th><td style=\"\" repeat.for=\"amount of user.results.recommendedResults.length\"><div style=\"text-align:center\"><strong>${user.expenses['total' + user.results.recommendedResults[amount][0] + 'Expense']}</strong></div><hr><div style=\"height:300px;overflow-y:scroll\"><div repeat.for=\"expense of constants[user.results.recommendedResults[amount][0] + 'Expenses']\" class=\"form-group\"><label>${expense.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[expense.value]\" disabled.bind=\"!user.expenses[expense.value + 'lock']\" change.delegate=\"checkValue(user.expenses, user.expenses[expense.value], expense, user.results.recommendedResults[amount][0])\" class=\"form-control ${user.expenses[expense.value + 'check'] ? 'alert-success' : 'alert-danger'}\"></div><br></div></div></td><td><div style=\"text-align:center\"><strong>${user.personalInfo.savingsPerMonth * 12}</strong></div><hr><div class=\"form-group\"><label for=\"privateSchool\">Savings Per Month</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo.savingsPerMonth\" class=\"form-control\"></div><br></div><div show.bind=\"user.results.showGoals\" style=\"height:200px;overflow-y:scroll\"><div repeat.for=\"wish of constants.wishes\"><div show.bind=\"user.personalInfo[wish.check]\"><div class=\"form-group\"><label for=\"privateSchool\">Amount for ${wish.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo[wish.value]\" class=\"form-control\"></div></div><br></div></div></div></td></tr></tbody></table></div><div style=\"width:20%;margin:0 auto;text-align:center\" class=\"alert alert-success\" role=\"alert\"><strong>This means your expense is lower than average</strong></div><div style=\"width:20%;margin:0 auto;text-align:center\" class=\"alert alert-danger\" role=\"alert\"><strong>This means your expense is higher than average</strong></div></template>"; });
 define('text!css/navbar.css', ['module'], function(module) { module.exports = "nav{\r\n  width: 750px;\r\n  margin: 1em auto;\r\n}\r\n\r\nul{\r\n  margin: 0px;\r\n  padding: 0px;\r\n  list-style: none;\r\n}\r\n\r\nul.dropdown{ \r\n  position: relative; \r\n  width: 100%; \r\n}\r\n\r\nul.dropdown li{ \r\n  font-weight: bold; \r\n  float: left; \r\n  width: 180px; \r\n  position: relative;\r\n  background: #f5f5f5;\r\n}\r\n\r\nul.dropdown a:hover{ \r\n  color: #000; \r\n}\r\n\r\nul.dropdown li a { \r\n  display: block; \r\n  padding: 20px 8px;\r\n  color: #34495e; \r\n  position: relative; \r\n  z-index: 2000; \r\n  text-align: center;\r\n  text-decoration: none;\r\n  font-weight: 300;\r\n}\r\n\r\nul.dropdown li a:hover,\r\nul.dropdown li a.hover{ \r\n  background: #337ab7;\r\n  position: relative;\r\n  color: #fff;\r\n}\r\n\r\n\r\nul.dropdown ul{ \r\n display: none;\r\n position: absolute; \r\n  top: 0; \r\n  left: 0; \r\n  width: 180px; \r\n  z-index: 1000;\r\n}\r\n\r\nul.dropdown ul li { \r\n  font-weight: normal; \r\n  background: #f5f5f5; \r\n  color: #000; \r\n  border-bottom: 1px solid #ccc; \r\n}\r\n\r\nul.dropdown ul li a{ \r\n  display: block; \r\n  color: #34495e !important;\r\n  background: #eee !important;\r\n} \r\n\r\nul.dropdown ul li a:hover{\r\n  display: block; \r\n  background: #3498db !important;\r\n  color: #fff !important;\r\n} \r\n\r\n.drop > a{\r\n  position: relative;\r\n}\r\n\r\n.drop > a:after{\r\n  content:\"\";\r\n  position: absolute;\r\n  right: 10px;\r\n  top: 40%;\r\n  border-left: 5px solid transparent;\r\n  border-top: 5px solid #333;\r\n  border-right: 5px solid transparent;\r\n  z-index: 999;\r\n}\r\n\r\n.drop > a:hover:after{\r\n  content:\"\";\r\n   border-left: 5px solid transparent;\r\n  border-top: 5px solid #fff;\r\n  border-right: 5px solid transparent;\r\n}\r\n\r\n"; });
 //# sourceMappingURL=app-bundle.js.map

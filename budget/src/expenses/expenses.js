@@ -33,4 +33,11 @@ export class expenses {
         else if(!this.user.expenses.discretionaryCanGoToNext) alert('Please enter valid discretionary expenses');
         else this.router.navigate('#/results');
     }
+
+    attached() {
+         $('#expensesTooltip').tooltip({
+            content: "Enter all expenses as monthly amounts unless stated otherwise.<br>" +
+                "Lock values you don't want changed."
+        });
+    }
 }

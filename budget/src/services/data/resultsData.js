@@ -1,6 +1,6 @@
 export class ResultsData {
     constructor() {
-        this.expensesResults = [];
+        this.simpleChartResults = [];
         this.recommendedResults = [];
         this.showGoals = false;
 

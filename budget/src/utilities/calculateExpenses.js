@@ -139,6 +139,7 @@ export class calculateExpenses {
         }
 
     }
+    
     healthExpenses() {
         var tempHealthTotal =
             parseInt(this.user.expenses.healthInsurance) + 
