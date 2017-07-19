@@ -12,20 +12,20 @@ export class App {
     config.map([
       {
         route: ['', 'home'], moduleId: 'home/home',
-        name: 'home', title: 'Welcome', nav: false
+        name: 'home', title: ' &#xe021', nav: false
       },
       {
         route: 'personalinfo', moduleId: 'aboutyou/personalinfo',
-        name: 'personalinfo', title: 'Personal Info', nav: true
+        name: 'personalinfo', title: 'PERSONAL', nav: true
       },
       {
         route: 'expenses', moduleId: 'expenses/expenses',
-        name: 'expenses', title: 'Expenses', nav: true
+        name: 'expenses', title: 'EXPENSES', nav: true
       },
 
       {
         route: 'results', moduleId: 'results/results',
-        name: 'results', title: 'Results', nav: true
+        name: 'results', title: 'RESULTS', nav: true
       },
       {
         route: 'logout', moduleId: 'logout/logout',
