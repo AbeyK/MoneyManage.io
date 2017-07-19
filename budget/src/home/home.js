@@ -1,5 +1,23 @@
-export class results {
+import { inject } from 'aurelia-framework';
+import { Router } from 'aurelia-router';
+import { User } from '../services/user';
+import { Constants } from '../services/constants';
+import { ExpensesConstants } from '../services/expensesConstants';
+import { calculateExpenses } from '../utilities/calculateExpenses';
 
+@inject(Router, User, Constants, calculateExpenses, ExpensesConstants)
+export class results {
+        constructor(router, user, constants, calculateExpenses, expensesConstants) {
+        this.router = router;
+        this.user = user;
+        this.constants = constants;
+        this.calculateExpenses = calculateExpenses;
+        this.expensesConstants = expensesConstants;
+    }
+
+start(){
+     this.router.navigate('#/personalinfo');
+}
  attached(){
      var header = $('.stats__header');
 var bar  = $('.stats__item-bar');
