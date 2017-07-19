@@ -12,7 +12,7 @@ export class App {
     config.map([
       {
         route: ['', 'home'], moduleId: 'home/home',
-        name: 'home', title: 'Welcome', nav: true
+        name: 'home', title: 'Welcome', nav: false
       },
       {
         route: 'personalinfo', moduleId: 'aboutyou/personalinfo',
@@ -29,7 +29,7 @@ export class App {
       },
       {
         route: 'logout', moduleId: 'logout/logout',
-        name: 'logout', title: 'Logout', nav: true
+        name: 'logout', title: 'Logout', nav: false
       }
     ]);
   }

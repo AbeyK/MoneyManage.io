@@ -17,7 +17,7 @@ ul.dropdown{
 ul.dropdown li{ 
   font-weight: bold; 
   float: left; 
-  width: 180px; 
+  width: 125px; 
   position: relative;
   background: #f5f5f5;
 }
@@ -50,7 +50,7 @@ ul.dropdown ul{
  position: absolute; 
   top: 0; 
   left: 0; 
-  width: 180px; 
+  width: 1000px; 
   z-index: 1000;
 }
 
