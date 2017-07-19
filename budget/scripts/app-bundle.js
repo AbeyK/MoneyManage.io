@@ -243,6 +243,15 @@ define('expenses/expenses',['exports', 'aurelia-framework', 'aurelia-router', '.
         return expenses;
     }()) || _class);
 });
+define('resources/index',["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.configure = configure;
+  function configure(config) {}
+});
 define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../services/user', '../utilities/chart', '../services/constants', '../utilities/calculateExpenses', '../utilities/calculatePercentages'], function (exports, _aureliaFramework, _aureliaRouter, _user, _chart, _constants, _calculateExpenses, _calculatePercentages) {
     'use strict';
 
@@ -348,14 +357,208 @@ define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../
         return results;
     }()) || _class);
 });
-define('resources/index',["exports"], function (exports) {
-  "use strict";
+define('services/constants',["exports"], function (exports) {
+    "use strict";
 
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.configure = configure;
-  function configure(config) {}
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var Constants = exports.Constants = function Constants() {
+        _classCallCheck(this, Constants);
+
+        this.wishes = [{
+            "title": "Private School",
+            "check": "checkSchool",
+            "value": "PrivateSchool"
+        }, {
+            "title": "College",
+            "check": "checkCollege",
+            "value": "College"
+        }, {
+            "title": "Wedding",
+            "check": "checkWedding",
+            "value": "Wedding"
+        }, {
+            "title": "Vacation",
+            "check": "checkVacation",
+            "value": "Vacation"
+        }, {
+            "title": "Boat",
+            "check": "checkBoat",
+            "value": "Boat"
+        }, {
+            "title": "New Car",
+            "check": "checkCar",
+            "value": "NewCar"
+        }, {
+            "title": "Other",
+            "check": "checkOther",
+            "value": "Other"
+        }];
+
+        this.HomeExpenses = [{
+            "title": "Mortgage/Rent (monthly)",
+            "value": "mortgage"
+        }, {
+            "title": "Property tax (per year)",
+            "value": "propertyTax"
+        }, {
+            "title": "Phone Payment",
+            "value": "phone"
+        }, {
+            "title": "Internet",
+            "value": "internet"
+        }, {
+            "title": "Cable",
+            "value": "cable"
+        }, {
+            "title": "Netflix",
+            "value": "netfix"
+        }, {
+            "title": "Groceries",
+            "value": "groceries"
+        }, {
+            "title": "Utilities",
+            "value": "utilities"
+        }, {
+            "title": "Maintenance",
+            "value": "homeMaintenance"
+        }, {
+            "title": "Clothes (per year)",
+            "value": "clothes"
+        }];
+        this.homeCategories = ['Mortgage/Rent (monthly)', 'Property tax (per year)', 'Phone Payment', 'Internet', 'Cable', 'Netflix', 'Groceries', 'Utilities', 'Maintenance', 'Clothes (per year)'];
+
+        this.CarExpenses = [{
+            "title": "Car Payment",
+            "value": "carPayment"
+        }, {
+            "title": "Car Insurance",
+            "value": "carInsurance"
+        }, {
+            "title": "Public Transport",
+            "value": "publicTransport"
+        }, {
+            "title": "Gas",
+            "value": "gas"
+        }, {
+            "title": "Maintenance",
+            "value": "carMaintenance"
+        }];
+        this.carCategories = ['Car Payment', 'Car Insurance', 'Public Transport', 'Gas', 'Maintenance'];
+
+        this.HealthExpenses = [{
+            "title": "Health Insurance",
+            "value": "healthInsurance"
+        }, {
+            "title": "Medication",
+            "value": "medication"
+        }, {
+            "title": "Unexpected Medical Problems",
+            "value": "unexpectedMedicalProblems"
+        }, {
+            "title": "Eye Care",
+            "value": "eyeCare"
+        }, {
+            "title": "Dental Insurance",
+            "value": "dentalInsurance"
+        }, {
+            "title": "Cavities/Dental Work",
+            "value": "cavities"
+        }, {
+            "title": "Braces",
+            "value": "braces"
+        }];
+        this.healthCategories = ['Health Insurance', 'Medication', 'Unexpected Medical Problems', 'Eye Care', 'Dental Insurance', 'Cavities/Dental Work', 'Braces'];
+
+        this.DiscretionaryExpenses = [{
+            "title": "Eating Out",
+            "value": "eatingOut"
+        }, {
+            "title": "Bars/Drinks",
+            "value": "bars"
+        }, {
+            "title": "Fun Money (golf, movies, etc.)",
+            "value": "funMoney"
+        }, {
+            "title": "Other",
+            "value": "other"
+        }];
+        this.discretionaryCategories = ['Eating Out', 'Bars/Drinks', 'Fun Money (golf, movies, etc.)', 'Other'];
+    };
+});
+define('services/expensesConstants',['exports', 'aurelia-framework', '../services/user'], function (exports, _aureliaFramework, _user) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.ExpensesConstants = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _class;
+
+    var ExpensesConstants = exports.ExpensesConstants = (_dec = (0, _aureliaFramework.inject)(_user.User), _dec(_class = function ExpensesConstants(user) {
+        _classCallCheck(this, ExpensesConstants);
+
+        this.user = user;
+        this.homeExpenseConstants = {
+            "Maintenance": this.user.personalInfo.squareFootHome / 12,
+            "Clothes": Math.floor(this.user.personalInfo.income * .05),
+            "Mortgage": [461, 461, 461, 493, 614, 678, 678, 759, 939, 939, 1037, 1037, 1211, 1211, 1211, 1686][Math.min(15, Math.floor(this.user.personalInfo.income / 10000))],
+            "Grocery": [332, 332, 607, 814, 1006, 1176, 1412, 1577, 1799, 1985, 2286, 2341][Math.min(11, Math.floor(this.user.personalInfo.householdSize))],
+            "Netflix": 9,
+            "Cable": 50
+        };
+        this.healthExpenseConstants = {
+            "Emergency": this.user.personalInfo.householdSize * 250,
+            "Braces": 6000
+        };
+        this.carExpenseConstants = {
+            "Payment": 479,
+            "Gas": 250,
+            "Maintenance": 76
+        };
+        this.discretionaryExpenseConstants = {
+            "Eating": Math.floor(this.user.personalInfo.income * .045),
+            "Club": 300
+        };
+    }) || _class);
+});
+define('services/user',['exports', '../services/data/personalInfoData', '../services/data/goalsData', '../services/data/expensesData', '../services/data/resultsData'], function (exports, _personalInfoData, _goalsData, _expensesData, _resultsData) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.User = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var User = exports.User = function User() {
+        _classCallCheck(this, User);
+
+        this.personalInfo = new _personalInfoData.PersonalInfoData();
+        this.goals = new _goalsData.GoalsData();
+        this.expenses = new _expensesData.ExpensesData();
+        this.results = new _resultsData.ResultsData();
+    };
 });
 define('utilities/calculateExpenses',['exports', 'aurelia-framework', '../services/user', '../services/expensesConstants'], function (exports, _aureliaFramework, _user, _expensesConstants) {
     'use strict';
@@ -1010,209 +1213,6 @@ define('utilities/slider',['exports', 'aurelia-framework', '../services/user', '
 
         return Slider;
     }()) || _class);
-});
-define('services/constants',["exports"], function (exports) {
-    "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var Constants = exports.Constants = function Constants() {
-        _classCallCheck(this, Constants);
-
-        this.wishes = [{
-            "title": "Private School",
-            "check": "checkSchool",
-            "value": "PrivateSchool"
-        }, {
-            "title": "College",
-            "check": "checkCollege",
-            "value": "College"
-        }, {
-            "title": "Wedding",
-            "check": "checkWedding",
-            "value": "Wedding"
-        }, {
-            "title": "Vacation",
-            "check": "checkVacation",
-            "value": "Vacation"
-        }, {
-            "title": "Boat",
-            "check": "checkBoat",
-            "value": "Boat"
-        }, {
-            "title": "New Car",
-            "check": "checkCar",
-            "value": "NewCar"
-        }, {
-            "title": "Other",
-            "check": "checkOther",
-            "value": "Other"
-        }];
-
-        this.HomeExpenses = [{
-            "title": "Mortgage/Rent (monthly)",
-            "value": "mortgage"
-        }, {
-            "title": "Property tax (per year)",
-            "value": "propertyTax"
-        }, {
-            "title": "Phone Payment",
-            "value": "phone"
-        }, {
-            "title": "Internet",
-            "value": "internet"
-        }, {
-            "title": "Cable",
-            "value": "cable"
-        }, {
-            "title": "Netflix",
-            "value": "netfix"
-        }, {
-            "title": "Groceries",
-            "value": "groceries"
-        }, {
-            "title": "Utilities",
-            "value": "utilities"
-        }, {
-            "title": "Maintenance",
-            "value": "homeMaintenance"
-        }, {
-            "title": "Clothes (per year)",
-            "value": "clothes"
-        }];
-        this.homeCategories = ['Mortgage/Rent (monthly)', 'Property tax (per year)', 'Phone Payment', 'Internet', 'Cable', 'Netflix', 'Groceries', 'Utilities', 'Maintenance', 'Clothes (per year)'];
-
-        this.CarExpenses = [{
-            "title": "Car Payment",
-            "value": "carPayment"
-        }, {
-            "title": "Car Insurance",
-            "value": "carInsurance"
-        }, {
-            "title": "Public Transport",
-            "value": "publicTransport"
-        }, {
-            "title": "Gas",
-            "value": "gas"
-        }, {
-            "title": "Maintenance",
-            "value": "carMaintenance"
-        }];
-        this.carCategories = ['Car Payment', 'Car Insurance', 'Public Transport', 'Gas', 'Maintenance'];
-
-        this.HealthExpenses = [{
-            "title": "Health Insurance",
-            "value": "healthInsurance"
-        }, {
-            "title": "Medication",
-            "value": "medication"
-        }, {
-            "title": "Unexpected Medical Problems",
-            "value": "unexpectedMedicalProblems"
-        }, {
-            "title": "Eye Care",
-            "value": "eyeCare"
-        }, {
-            "title": "Dental Insurance",
-            "value": "dentalInsurance"
-        }, {
-            "title": "Cavities/Dental Work",
-            "value": "cavities"
-        }, {
-            "title": "Braces",
-            "value": "braces"
-        }];
-        this.healthCategories = ['Health Insurance', 'Medication', 'Unexpected Medical Problems', 'Eye Care', 'Dental Insurance', 'Cavities/Dental Work', 'Braces'];
-
-        this.DiscretionaryExpenses = [{
-            "title": "Eating Out",
-            "value": "eatingOut"
-        }, {
-            "title": "Bars/Drinks",
-            "value": "bars"
-        }, {
-            "title": "Fun Money (golf, movies, etc.)",
-            "value": "funMoney"
-        }, {
-            "title": "Other",
-            "value": "other"
-        }];
-        this.discretionaryCategories = ['Eating Out', 'Bars/Drinks', 'Fun Money (golf, movies, etc.)', 'Other'];
-    };
-});
-define('services/expensesConstants',['exports', 'aurelia-framework', '../services/user'], function (exports, _aureliaFramework, _user) {
-    'use strict';
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.ExpensesConstants = undefined;
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var _dec, _class;
-
-    var ExpensesConstants = exports.ExpensesConstants = (_dec = (0, _aureliaFramework.inject)(_user.User), _dec(_class = function ExpensesConstants(user) {
-        _classCallCheck(this, ExpensesConstants);
-
-        this.user = user;
-        this.homeExpenseConstants = {
-            "Maintenance": this.user.personalInfo.squareFootHome / 12,
-            "Clothes": Math.floor(this.user.personalInfo.income * .05),
-            "Mortgage": [461, 461, 461, 493, 614, 678, 678, 759, 939, 939, 1037, 1037, 1211, 1211, 1211, 1686][Math.min(15, Math.floor(this.user.personalInfo.income / 10000))],
-            "Grocery": [332, 332, 607, 814, 1006, 1176, 1412, 1577, 1799, 1985, 2286, 2341][Math.min(11, Math.floor(this.user.personalInfo.householdSize))],
-            "Netflix": 9,
-            "Cable": 50
-        };
-        this.healthExpenseConstants = {
-            "Emergency": this.user.personalInfo.householdSize * 250,
-            "Braces": 6000
-        };
-        this.carExpenseConstants = {
-            "Payment": 479,
-            "Gas": 250,
-            "Maintenance": 76
-        };
-        this.discretionaryExpenseConstants = {
-            "Eating": Math.floor(this.user.personalInfo.income * .045),
-            "Club": 300
-        };
-    }) || _class);
-});
-define('services/user',['exports', '../services/data/personalInfoData', '../services/data/goalsData', '../services/data/expensesData', '../services/data/resultsData'], function (exports, _personalInfoData, _goalsData, _expensesData, _resultsData) {
-    'use strict';
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.User = undefined;
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var User = exports.User = function User() {
-        _classCallCheck(this, User);
-
-        this.personalInfo = new _personalInfoData.PersonalInfoData();
-        this.goals = new _goalsData.GoalsData();
-        this.expenses = new _expensesData.ExpensesData();
-        this.results = new _resultsData.ResultsData();
-    };
 });
 define('aboutyou/compose/compose-goals',["exports"], function (exports) {
     "use strict";
