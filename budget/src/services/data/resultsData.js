@@ -10,6 +10,7 @@ export class ResultsData {
         this.showAdvancedRecommended = false;
 
         this.fiveYearIncome = [];
+        this.fiveYearSavings = [];
         this.fiveYearEarnings = [];
 
         //HOME PERCENTAGES

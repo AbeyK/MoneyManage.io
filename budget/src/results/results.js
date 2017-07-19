@@ -64,7 +64,7 @@ export class results {
     }
 
     test(option) {
-        if(option == "Expenses Over 5 Years") {
+        if(option == "Projected Expenses") {
             this.user.results.showExpenses = true;
             this.user.results.showBudget = false;
             this.user.results.showAdvanced = false;

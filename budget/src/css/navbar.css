@@ -1,5 +1,5 @@
 nav{
-  width: 750px;
+  width: 60%;
   margin: 1em auto;
 }
 
@@ -95,3 +95,26 @@ ul.dropdown ul li a:hover{
   border-right: 5px solid transparent;
 }
 
+.navbar-default {
+  height: 50px;
+  min-height:50px;
+  font-size: 20px;
+}
+
+.navbar-default .navbar-nav > li > a,
+.navbar-brand {
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 50px;
+}
+
+ .navbar-default .navbar-nav > .active{
+    color: #fff;
+   background: #337ab7;
+ }
+ .navbar-default .navbar-nav > .active > a, 
+ .navbar-default .navbar-nav > .active > a:hover, 
+ .navbar-default .navbar-nav > .active > a:focus {
+      color: #fff;
+      background: #337ab7;
+ }
