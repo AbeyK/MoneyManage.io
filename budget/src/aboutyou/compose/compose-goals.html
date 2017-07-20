@@ -4,9 +4,9 @@
  
     <!--====================AVAILABLE GOALS=========================-->
     <div class="col-md-4 container" id="availableGoals" >
-        <div class="panel panel-default">
-            <div class="panel-heading" style="background-color:#337ab7; color:#fff;">
-                <h2 style="width-top: 15%">Goals</h2>
+        <div class="panel panel-primary box-shadow--6dp" style="border-radius:0; height: 512px;">
+            <div class="" style="background-color:#337ab7; color:#fff;">
+                <h2 style="margin:0;padding:6px;">Goals</h2>
             </div>
 
             <div style="height: 425px;" class="panel-body" dragstart.trigger="drag($event)">
@@ -23,15 +23,15 @@
     <!--========================MY GOALS============================-->
     <div class="col-md-8 container" 
         id="currentGoals" drop.trigger="drop($event)" dragover.trigger="allowDrop($event)">
-        <div style="height: 512px;" class="panel panel-default ${user.personalInfo.currentGoals.length >= 2 ? 'goalOverflow' : 'none'}" >
-            <div class="panel-heading" style="background-color:#337ab7; color:#fff">
-                <h2>
+        <div style="height: 512px; border-radius:0" class="panel panel-primary box-shadow--6dp ${user.personalInfo.currentGoals.length >= 2 ? 'goalOverflow' : 'none'}" >
+            <div class="" style="background-color:#337ab7; color:#fff">
+                <h2 style="margin:0; padding:6px;">
                     My Goals 
                     <span id="wishesTooltip" title="" class="glyphicon glyphicon-question-sign"></span>
                 </h2>
             </div>
 
-            <div class="panel-body">
+            <div class="panel-body ">
                 <div repeat.for="wish of constants.wishes">
                     <div show.bind="user.personalInfo[wish.check]">
                         <div class="form-group col-md-2 col-md-push-2">

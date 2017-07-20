@@ -12,7 +12,10 @@ html, body {
 	    font-family: 'Maven Pro', sans-serif;
 
 }
-
+.range-slider {
+    /*position: relative;*/
+    height: 10px;
+}
 #app {
 	min-height:100%;
 	position:relative;
