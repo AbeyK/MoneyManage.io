@@ -7,10 +7,28 @@
   <require from="bootstrap/css/bootstrap.css"></require>
   <require from="css/style.css"></require>
   <require from="css/navbar.css"></require>
-      <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
 
+
+        <div class="navbar-brand" style="float:left;">
+          <a class="" href="#"><span class="glyphicon glyphicon-home"></span></a>
+        </div>
+        <ul class="nav navbar-nav" style="
+    margin: auto;">
+          <li repeat.for="row of router.navigation" class="${row.isActive ? 'active' : ''}">
+            <a id="navtitles" href.bind="row.href">${row.title}</a>
+          </li>
+        </ul>
+        <div class="navbar-brand" style="float:right; padding:0;">
+          <a class="" href="#"><span class="glyphicon glyphicon-cog"></span></a>
+        </div>
+
+    </div>
+  </nav>
   <div id="app">
     <div id="content">
       <router-view></router-view>
@@ -18,9 +36,8 @@
 
     <footer id="footer">
       <div class="footer-copyright">
-          <div class="container-fluid"> <br>
-              Built with <i class="fa fa-heart"></i>   &   <i class="fa fa-coffee"></i></p>
-          </div>
+        <div class="container-fluid"> <br> Built with <i class="fa fa-heart"></i> & <i class="fa fa-coffee"></i></p>
+        </div>
       </div>
     </footer>
   </div>
