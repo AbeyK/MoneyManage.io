@@ -1,45 +1,49 @@
 <template>
-    <h2>Personal Info</h2>
     <br>
-    
+    <br>
+    <div class="panel panel-primary box-shadow--6dp" style="border-radius:0; height: 400px; width:100%">
+            <div class="" style="background-color:#337ab7; color:#fff;">
+                <h2 style="margin:0;padding:6px;">Personal Info</h2>
+            </div>
+
+    <br>
+
     <!--===================================AGE================================-->
-    <div class="form-group">
+    <div class="form-group" style="width:90%; margin:0 auto">
         <label for="age">Age</label>
         <input style="width: 400px;" id="age"></input>
     </div>
 
-    <!--=================================INCOME================================-->
-    <div class="form-group col-md-6">
-        <label for="salary">Income Per Year</label>
-        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-            <div class="input-group-addon">$</div>
-            <input type="text" value.bind="user.personalInfo.income" change.delegate="checkIncome()" class="form-control ${user.personalInfo.validIncome ? 'none' : 'btn-danger'}">
+    <div style="width: 90%; margin: 0 auto;">
+        <!--=================================INCOME================================-->
+        <div class="form-group col-md-6">
+            <label for="salary">Income Per Year</label>
+            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                <div class="input-group-addon">$</div>
+                <input type="text" value.bind="user.personalInfo.income" change.delegate="checkIncome()" class="form-control ${user.personalInfo.validIncome ? 'none' : 'btn-danger'}">
+            </div>
+        </div>
+
+        <!--=================================SAVINGS================================-->
+        <div class="form-group col-md-6">
+            <label for="savings">Savings Per Month
+                </label>
+            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                <div class="input-group-addon">$</div>
+                <input type="text" value.bind="user.personalInfo.savingsPerMonth" change.delegate="checkSavings()" class="form-control ${user.personalInfo.validSavings ? 'none' : 'btn-danger'}">
+            </div>
+        </div>
+
+        <!--=================================HOUSEHOLD================================-->
+        <div class="form-group col-md-6">
+            <label for="householdSize">Household Size</label>
+            <input type="text" value.bind="user.personalInfo.householdSize" change.delegate="checkHouseholdSize()" class="form-control ${user.personalInfo.validHouseholdSize ? 'none' : 'btn-danger'}">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="householdSize">Size of Home (in square feet)?</label>
+            <input type="text" value.bind="user.personalInfo.squareFootHome" change.delegate="checkHomeSize()" class="form-control ${user.personalInfo.validHomeSize ? 'none' : 'btn-danger'}">
         </div>
     </div>
-
-    <!--=================================SAVINGS================================-->
-    <div class="form-group col-md-6">
-        <label for="savings">Savings Per Month
-            </label>
-        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-            <div class="input-group-addon">$</div>
-            <input type="text" value.bind="user.personalInfo.savingsPerMonth" change.delegate="checkSavings()" class="form-control ${user.personalInfo.validSavings ? 'none' : 'btn-danger'}">
-        </div>
     </div>
 
-    <br> <br> <br>
-    <hr>
-
-    <!--=================================HOUSEHOLD================================-->
-    <h2>Household Info</h2>
-    <div class="form-group col-md-6">
-        <label for="householdSize">Household Size</label>
-        <input type="text" value.bind="user.personalInfo.householdSize" change.delegate="checkHouseholdSize()" class="form-control ${user.personalInfo.validHouseholdSize ? 'none' : 'btn-danger'}">
-    </div>
-    <div class="form-group col-md-6">
-        <label for="householdSize">Size of Home (in square feet)?</label>
-        <input type="text" value.bind="user.personalInfo.squareFootHome" change.delegate="checkHomeSize()" class="form-control ${user.personalInfo.validHomeSize ? 'none' : 'btn-danger'}">
-    </div>
-
-    <br> <br> <br>
 </template>
