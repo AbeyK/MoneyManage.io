@@ -1,14 +1,18 @@
 import $ from 'jquery';
 import 'jquery-ui-dist';
+import { inject } from 'aurelia-framework';
+import { User } from 'services/user';
 import 'bootstrap';
 
+@inject(User)
 export class App {
-  constructor() {
-    this.message = 'Hello World!';
+  constructor(user) {
+    this.user = user;
   }
+
   configureRouter(config, router) {
     this.router = router;
-    config.title = "Budget Calculator";
+    config.title = "Budget Tool";
     config.map([
       {
         route: ['', 'home'], moduleId: 'home/home',

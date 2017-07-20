@@ -106,7 +106,12 @@ export class personalinfo {
         else this.router.navigate('#/expenses');
     }
 
+    back() {
+        this.router.navigate('#/home');
+    }
+
     attached() {
+        this.user.personalInfo.showNavbar = true;
         this.slider.createAgeSlider();
 
         $('#wishesTooltip').tooltip({

@@ -35,7 +35,9 @@ export class expenses {
     }
 
     attached() {
-         $('#expensesTooltip').tooltip({
+        this.user.personalInfo.showNavbar = true;
+         
+        $('#expensesTooltip').tooltip({
             content: "Enter all expenses as monthly amounts unless stated otherwise.<br>" +
                 "Lock values you don't want changed."
         });
