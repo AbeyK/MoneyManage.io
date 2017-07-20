@@ -107,7 +107,12 @@ export class results {
         this.router.navigate('#/expenses');
     }
 
+    home() {
+        this.router.navigate('#/home');
+    }
+
     attached() {
+        this.user.personalInfo.showNavbar = true;
         this.getChartData();
 
         if(this.user.personalInfo.currentGoals.length > 0) this.user.results.showGoals = true;

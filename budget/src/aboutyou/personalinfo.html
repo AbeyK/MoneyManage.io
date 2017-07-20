@@ -1,12 +1,19 @@
 <template>
-
     <div id="personalinfo">
         <form submit.delegate="next()">
             <compose view-model="./compose/compose-personal-info"></compose>
             <compose view-model="./compose/compose-goals"></compose>
 
             <hr style="margin-top: 60%;">
-            <button class="btn btn-primary" type="submit" id="next">Next</button>
+
+            <button class="btn btn-secondary btn-lg" style="float:left; width: 10%;" click.delegate="back()">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+            </button>
+            <button class="btn btn-primary btn-lg" style="float:right; width: 10%;" type="submit" id="next">
+                <span class="glyphicon glyphicon-arrow-right"></span>
+            </button>
         </form>
+
+        <br> <br> <br>
     </div>
 </template>

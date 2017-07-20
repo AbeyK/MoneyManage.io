@@ -7,7 +7,20 @@
         <compose view-model="./compose/compose-table"></compose>
 
         <hr>
-        <button class="btn btn-secondary" click.delegate="back()" id="back">Back</button>
-        <button class="btn btn-primary" click.delegate="getChartData()">Make New Chart</button>
+        <button class="btn btn-secondary btn-lg" style="float:left; width: 10%;" click.delegate="back()">
+            <span class="glyphicon glyphicon-arrow-left"></span>
+        </button>
+
+        <button class="btn btn-lg" style="float:center; width: 20%; background-color:#dff0d8"
+            click.delegate="getChartData()">Make New Chart
+        </button>
+
+        <button class="btn btn-primary btn-lg" style="float:right; width: 10%;" type="submit" id="next">
+            <span class="glyphicon glyphicon-arrow-right"></span>
+        </button>
+
+        
+
+        <br> <br> <br>
     </div>
 </template>

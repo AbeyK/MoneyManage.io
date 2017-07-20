@@ -8,17 +8,14 @@
   <require from="css/style.css"></require>
   <require from="css/navbar.css"></require>
   <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <nav class="navbar navbar-default">
+
+  <nav class="navbar navbar-default" show.bind="user.personalInfo.showNavbar">
     <div class="container-fluid">
-
-
         <div class="navbar-brand" style="float:left;">
           <a class="" href="#"><span class="glyphicon glyphicon-home"></span></a>
         </div>
-        <ul class="nav navbar-nav" style="
-    margin: auto;">
+        <ul class="nav navbar-nav" style="margin: auto;">
           <li repeat.for="row of router.navigation" class="${row.isActive ? 'active' : ''}">
             <a id="navtitles" href.bind="row.href">${row.title}</a>
           </li>
@@ -26,9 +23,9 @@
         <div class="navbar-brand" style="float:right; padding:0;">
           <a class="" href="#"><span class="glyphicon glyphicon-cog"></span></a>
         </div>
-
     </div>
   </nav>
+
   <div id="app">
     <div id="content">
       <router-view></router-view>

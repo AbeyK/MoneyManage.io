@@ -31,15 +31,17 @@ html, body {
 	left:0;
     text-align: center;
 }
+
 .btn-sample:active {
   color: blue; 
 }
-i{
+
+i {
 	width:10px;
 }
 
-.expensesInput{
-	width:90%;
+.expensesInput {
+	width: 90%;
 	 margin: 0 auto;
 }
 
