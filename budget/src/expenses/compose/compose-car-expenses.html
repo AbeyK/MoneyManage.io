@@ -10,20 +10,20 @@
                 </a>
             </h4>
         </div>
-        
+
         <div id="carExpenseCollapse" class="panel-collapse collapse">
             <div class="panel-body">
                 <div repeat.for="car of constants.CarExpenses" class="form-group col-md-6">
                     <label style="padding-left:5%">${car.title}</label>
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0 expensesInput">
                         <div class="input-group-addon">$</div>
-                        <input type="text" value.bind="user.expenses[car.value]" 
-                            change.delegate="calculateExpenses.carExpenses()" class="form-control" id="${car.value}" disabled.bind = "!user.expenses[car.value + 'lock']">
+                        <input type="text" value.bind="user.expenses[car.value]" change.delegate="calculateExpenses.carExpenses()" class="form-control"
+                            id="${car.value}" disabled.bind="!user.expenses[car.value + 'lock']">
                         <div class="input-group-btn">
                             <button type="button" class="btn ${user.expenses[car.value + 'lock'] ? 'btn-default' : 'btn-primary'}" click.delegate="lockStateChange(car.value)">
                                 <i class="fa fa-unlock" show.bind="!user.expenses[car.value + 'lock']"></i>
                                 <i class="fa fa-lock" show.bind="user.expenses[car.value + 'lock']"></i>
-                                </button>
+                            </button>
                         </div>
                     </div>
                     <br>
