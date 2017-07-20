@@ -9,26 +9,12 @@ export class calculateExpenses {
         this.expensesConstants = expensesConstants;
     }
 
-    //Gets 5 year estimates
-    get5YearEstimates() {
+    get5YearExpenses() {
         this.user.results.homeFiveYears = [];
         this.user.results.carFiveYears = [];
         this.user.results.healthFiveYears = [];
         this.user.results.discretionaryFiveYears = [];
-        this.user.results.fiveYearEarnings = [];
         this.user.results.fiveYearExpenses = [];
-        this.user.results.fiveYearIncome = [];
-        this.user.results.fiveYearSavings = [];
-
-        this.user.results.fiveYearPrivateSchoolGoal = [];
-        this.user.results.fiveYearCollegeGoal = [];
-        this.user.results.fiveYearWeddingGoal = [];
-        this.user.results.fiveYearVacationGoal = [];
-        this.user.results.fiveYearBoatGoal = [];
-        this.user.results.fiveYearNewCarGoal = [];
-        this.user.results.fiveYearOtherGoal = [];
-
-        this.user.results.chartGoals = [];
 
         for (var i = 0; i < 5; i++) {
             //HOME 5 YEAR ESTIMATES
@@ -77,16 +63,29 @@ export class calculateExpenses {
             //TOTAL EXPENSES
             var tempTotalExpense = tempHomeTotal + tempCarTotal + tempHealthTotal + tempDiscretionaryTotal;
             this.user.results.fiveYearExpenses.push(tempTotalExpense);
+        }
+    }
+
+    get5YearEarnings() {
+        this.user.results.fiveYearEarnings = [];
+        this.user.results.fiveYearIncome = [];
+        this.user.results.fiveYearSavings = [];
+
+        for (var i = 0; i < 5; i++) {    
+            //EXPENSES
+            var tempTotalExpense = this.user.results.fiveYearExpenses[i];
             
             //INCOME
             var tempIncome = parseInt(this.user.personalInfo.income) * Math.pow(1.025, i);
             this.user.results.fiveYearIncome.push(tempIncome);
+            var tempDifferenceIncomeExpense = tempIncome - tempTotalExpense; 
 
             //SAVINGS
             var tempSavings = 0;
             if(i > 0) tempSavings = parseFloat(this.user.results.fiveYearSavings[i-1]);
             tempSavings += parseInt(this.user.personalInfo.savingsPerMonth) * 12;
             tempSavings *= 1.0199;
+            tempSavings += tempDifferenceIncomeExpense;
             this.user.results.fiveYearSavings.push(tempSavings);
 
             //EARNINGS
@@ -97,20 +96,54 @@ export class calculateExpenses {
             tempEarnings -= tempTotalExpense;
 
             this.user.results.fiveYearEarnings.push(tempEarnings);
+        }
+    }
 
+    get5YearGoals() {
+        this.user.results.fiveYearPrivateSchoolGoal = [];
+        this.user.results.fiveYearCollegeGoal = [];
+        this.user.results.fiveYearWeddingGoal = [];
+        this.user.results.fiveYearVacationGoal = [];
+        this.user.results.fiveYearBoatGoal = [];
+        this.user.results.fiveYearNewCarGoal = [];
+        this.user.results.fiveYearOtherGoal = [];
+
+        this.user.results.chartGoals = [];
+
+        for (var i = 0; i < 5; i++) {    
             var tempGoal = 0;
             var temp = [];
             
-            for(var j = this.user.personalInfo.currentGoalsRanks.length; j > 0; j--) {
-                tempGoal += parseInt(this.user.personalInfo[this.user.personalInfo.currentGoalsRanks[j-1][1]]);
-                this.user.results['fiveYear' + this.user.personalInfo.currentGoalsRanks[j-1][1] + 'Goal'] = tempGoal;
+            for(var j = 0; j < this.user.personalInfo.currentGoalsRanks.length; j++) {
+                var color;
+                tempGoal += parseInt(this.user.personalInfo[this.user.personalInfo.currentGoalsRanks[j][1]]);
+
+                //CHECK IF GOAL IS MET
+                if(tempGoal > this.user.results.fiveYearSavings[i]) {
+                    this.user.results[this.user.personalInfo.currentGoalsRanks[j][1] + 'MetGoal'] = true;
+                    color = '#dff0d8';
+                }
+                else {
+                    this.user.results[this.user.personalInfo.currentGoalsRanks[j][1] + 'MetGoal'] = false;
+                    color = '#f2dede';
+                }
+
+                this.user.results['fiveYear' + this.user.personalInfo.currentGoalsRanks[j][1] + 'Goal'] = tempGoal;
                 temp.push({
-                    name: this.user.personalInfo.currentGoalsRanks[j-1][1],
-                    data: tempGoal
+                    name: this.user.personalInfo.currentGoalsRanks[j][1],
+                    data: tempGoal,
+                    color: color
                 });
             }
             this.user.results.chartGoals.push(temp);
         }
+    }
+
+    //Gets 5 year estimates
+    get5YearEstimates() {
+        this.get5YearExpenses();
+        this.get5YearEarnings();
+        this.get5YearGoals();
     }
 
 

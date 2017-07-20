@@ -23,6 +23,14 @@ export class ResultsData {
         this.fiveYearNewCarGoal = [];
         this.fiveYearOtherGoal = [];
 
+        this.PrivateSchoolMetGoal = false;
+        this.CollegeMetGoal = false;
+        this.WeddingMetGoal = false;
+        this.VacationMetGoal = false;
+        this.BoatMetGoal = false;
+        this.NewCarMetGoal = false;
+        this.OtherMetGoal = false;
+
         this.chartGoals = [];
 
         //HOME PERCENTAGES

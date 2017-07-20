@@ -45,11 +45,6 @@ export class results {
 
         this.calculateExpenses.get5YearEstimates();
 
-        var chartGoals = {
-            name: 'Hello',
-            data: [2, 2, 2, 2, 2]
-        }
-
         this.user.results.simpleChartResults = [];
         this.user.results.simpleChartResults.push(['Home', this.user.expenses.totalHomeExpense+1]);
         this.user.results.simpleChartResults.push(['Car', this.user.expenses.totalCarExpense+1]);
@@ -62,7 +57,7 @@ export class results {
         this.user.results.recommendedResults.push(['Health', this.user.expenses.totalHealthExpense+32]);
         this.user.results.recommendedResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense+33]);
 
-        this.chart.createFiveYearGoalsChart('fiveYearGoalsContainer', this.user.results, chartGoals);
+        this.chart.createFiveYearGoalsChart('fiveYearGoalsContainer', this.user.results);
         this.chart.createFiveYearExpensesChart('fiveYearExpensesContainer', this.user.results);
         this.chart.createSimpleChart('resultsContainerSimple', this.user.results);
         this.chart.createAdvancedChart('resultsContainerAdvanced', this.user.results);

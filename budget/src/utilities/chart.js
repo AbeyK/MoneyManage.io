@@ -12,34 +12,34 @@ export class Chart {
     }
 
     //CHART OF EARNINGS FOR FIVE YEARS
-    createFiveYearGoalsChart(containerID, results, goals) {
+    createFiveYearGoalsChart(containerID, results) {
         var chartGoals = results.chartGoals;
         var chartSpecificGoals = results.chartGoals[0];
         
         var chartGoalSeries = [{
-                name : "Savings",
-                data: results.fiveYearSavings
+                name : "Savings & Extra Income",
+                data: results.fiveYearSavings,
+                color: '#0066ff'
             }];
 
         for(var i = 0; i < chartSpecificGoals.length; i++) {
             var arr = [];
-            
+
             for(var j = 0; j < chartGoals.length; j++){
                 arr.push(chartGoals[0][i].data);
             }
 
             chartGoalSeries.push({
                 name: chartGoals[0][i].name,
-                data: arr
+                data: arr,
+                color: chartGoals[0][i].color
             });
         }
         
         Highcharts.chart(containerID, {
-
             title: {
                 text: 'Goals'
             },
-
             yAxis: {
                 title: {
                     text: 'Amount'
@@ -50,15 +50,12 @@ export class Chart {
                 align: 'right',
                 verticalAlign: 'middle'
             },
-
             plotOptions: {
                 series: {
                     pointStart: 2017
                 }
             },
-
             series: chartGoalSeries
-
         });
     }
 

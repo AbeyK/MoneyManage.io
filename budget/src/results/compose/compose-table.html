@@ -52,7 +52,8 @@
                                         <label for="privateSchool">Amount for ${wish.title}</label>
                                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                             <div class="input-group-addon">$</div>
-                                            <input type="text" value.bind="user.personalInfo[wish.value]" class="form-control">
+                                            <input type="text" value.bind="user.personalInfo[wish.value]"
+                                                class="form-control ${user.results[wish.value + 'MetGoal'] ? 'alert-success' : 'alert-danger'}">
                                         </div>
                                     </div>
                                     <br>
@@ -65,11 +66,11 @@
         </table>
     </div>  
 
-    <div style="width: 40%; margin: 0 auto; text-align:center;" class="alert alert-success" role="alert">
-        <strong>This means your expense is lower than average</strong>
+    <div style="width: 45%; margin: 0 auto; text-align:center;" class="alert alert-success" role="alert">
+        <strong>This means your expense is lower than average or you meet your goal</strong>
     </div>
 
-    <div style="width: 40%; margin: 0 auto; text-align:center;" class="alert alert-danger" role="alert">
-        <strong>This means your expense is higher than average</strong>
+    <div style="width: 45%; margin: 0 auto; text-align:center;" class="alert alert-danger" role="alert">
+        <strong>This means your expense is higher than average or you didn't meet your goal</strong>
     </div>
 </template>
