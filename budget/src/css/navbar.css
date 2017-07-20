@@ -1,3 +1,4 @@
+
 nav{
   width: 60%;
   margin: 1em auto;
@@ -117,4 +118,8 @@ ul.dropdown ul li a:hover{
  .navbar-default .navbar-nav > .active > a:focus {
       color: #fff;
       background: #337ab7;
+ }
+
+ .navbar-brand:active {
+   color: blue;
  }
