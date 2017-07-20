@@ -1,12 +1,18 @@
 
+
 h1{
     
     text-align: center;
-  font-size: 100px; /* Some tweener fallback that doesn't look awful */ 
+  font-size: 400%; /* Some tweener fallback that doesn't look awful */ 
   font-weight: bold;
     color: #fff;
     /*font-family: 'Maven Pro', sans-serif;*/
 
+}
+p{
+      font-style: italic;
+      color: #fff;
+  font-size: 140%; 
 }
 button{
     /*width: 10%;*/
@@ -19,7 +25,7 @@ button{
     color:#fff;
         font-weight: bold;
 
-    font-size: 30px;
+    font-size: 25px;
 
 }
 
@@ -29,7 +35,7 @@ button{
     color: #afca5d;
         font-weight: bold;
 
-    font-size: 30px;
+    font-size: 25px;
 
 
 }
