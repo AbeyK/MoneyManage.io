@@ -5,7 +5,6 @@
         <table class="table table-bordered box-shadow--6dp">
             <thead class="bg-primary">
                 <tr style="font-size:20px;">
-                    <th style="text-align: center;">Expense</th>
                     <th style="text-align: center;" repeat.for="expense of user.results.recommendedResults.length">
                         ${user.results.recommendedResults[expense][0]}
                     </th>
@@ -15,7 +14,6 @@
             <tbody >
                 <tr>
                     <!--DISPLAY EACH EXPENSE COLUMNS-->
-                    <th style="font-size:20px; text-align: center;">Amount</th>
                     <td style="" repeat.for="amount of user.results.recommendedResults.length">
                         <div style="text-align: center;"><strong>${user.expenses['total' + user.results.recommendedResults[amount][0] + 'Expense']}</strong></div>
                         <hr>
