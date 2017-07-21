@@ -9,6 +9,20 @@ export class calculateExpenses {
         this.expensesConstants = expensesConstants;
     }
 
+    getChartResults() {
+        this.user.results.simpleChartResults = [];
+        this.user.results.simpleChartResults.push(['Home', this.user.expenses.totalHomeExpense+1]);
+        this.user.results.simpleChartResults.push(['Car', this.user.expenses.totalCarExpense+1]);
+        this.user.results.simpleChartResults.push(['Health', this.user.expenses.totalHealthExpense+1]);
+        this.user.results.simpleChartResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense+1]);
+        
+        this.user.results.recommendedResults = [];
+        this.user.results.recommendedResults.push(['Home', this.user.expenses.totalHomeExpense+30]);
+        this.user.results.recommendedResults.push(['Car', this.user.expenses.totalCarExpense+31]);
+        this.user.results.recommendedResults.push(['Health', this.user.expenses.totalHealthExpense+32]);
+        this.user.results.recommendedResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense+33]);
+    }
+
     get5YearExpenses() {
         this.user.results.homeFiveYears = [];
         this.user.results.carFiveYears = [];
