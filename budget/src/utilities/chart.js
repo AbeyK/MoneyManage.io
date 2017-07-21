@@ -115,6 +115,9 @@ export class Chart {
             title: {
                 text: 'Your Budget Plan'
             },
+            subtitle: {
+                text: 'Total Expense: ' + results.fiveYearExpenses[0]
+            },
             plotOptions: {
                 pie: {
                     innerSize: 100,
@@ -256,7 +259,7 @@ export class Chart {
 
 
     //RECOMMENDED CHARTS
-    createRecommendedChart(containerID, results) {
+    createRecommendedChart(containerID, results, recommend) {
         Highcharts.chart(containerID, {
             chart: {
                 type: 'pie',
@@ -268,6 +271,9 @@ export class Chart {
             },
             title: {
                 text: 'Recommended Budget Plan'
+            },
+            subtitle: {
+                text: 'Total Expense: ' + recommend.totalExpense
             },
             plotOptions: {
                 pie: {
@@ -288,7 +294,7 @@ export class Chart {
         });
     }
 
-    createAdvancedRecommendedChart(containerID, results) {
+    createAdvancedRecommendedChart(containerID, results, recommend) {
         var categories = ['Home', 'Car', 'Health', 'Discretionary'],
             data = [{
                 y: results.homePercentage,

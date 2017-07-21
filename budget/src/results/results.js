@@ -48,16 +48,16 @@ export class results {
         console.log(this.user.recommend);
 
         this.calculateExpenses.get5YearEstimates();
-        this.calculateExpenses.getChartResults();
-
         this.calculateRecommended.getRecommendedTotals();
+        this.calculateExpenses.getChartResults();
         
         this.chart.createFiveYearGoalsChart('fiveYearGoalsContainer', this.user.results);
         this.chart.createFiveYearExpensesChart('fiveYearExpensesContainer', this.user.results);
         this.chart.createSimpleChart('resultsContainerSimple', this.user.results);
         this.chart.createAdvancedChart('resultsContainerAdvanced', this.user.results);
-        this.chart.createRecommendedChart('recommendedContainer', this.user.results);
-        this.chart.createAdvancedRecommendedChart('recommendedContainerAdvanced', this.user.results);
+
+        this.chart.createRecommendedChart('recommendedContainer', this.user.results, this.user.recommend);
+        this.chart.createAdvancedRecommendedChart('recommendedContainerAdvanced', this.user.results, this.user.recommend);
     }
 
     test(option) {
