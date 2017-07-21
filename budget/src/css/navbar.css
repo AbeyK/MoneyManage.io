@@ -97,16 +97,16 @@ ul.dropdown ul li a:hover{
 }
 
 .navbar-default {
-  height: 50px;
-  min-height:50px;
-  font-size: 20px;
+  height: 30px;
+  min-height:30px;
+  font-size: 15px;
 }
 
 .navbar-default .navbar-nav > li > a,
 .navbar-brand {
   padding-top: 0;
   padding-bottom: 0;
-  line-height: 50px;
+  line-height: 30px;
 }
 
  .navbar-default .navbar-nav > .active{

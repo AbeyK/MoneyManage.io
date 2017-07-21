@@ -1,11 +1,11 @@
 <template>
     <require from="css/drag-and-drop.css"></require>
- 
+
     <!--====================AVAILABLE GOALS=========================-->
-    <div id="availableGoals" style="width:30%;float:left; padding-right:5%" >
+    <div id="availableGoals" style="width:30%;float:left; padding-right:5%">
         <div class="panel  box-shadow--6dp" style="border-radius:0; height: 512px;">
             <div class="" style="background-color:#337ab7; color:#fff;">
-                <h2 style="margin:0;padding:6px;">Goals</h2>
+                <h3 style="margin:0;padding:6px; font-weight:bold;">Wish</h3>
             </div>
 
             <div style="height: 425px;" class="panel-body" dragstart.trigger="drag($event)">
@@ -20,14 +20,12 @@
     </div>
 
     <!--========================MY GOALS============================-->
-    <div 
-        id="currentGoals" drop.trigger="drop($event)" dragover.trigger="allowDrop($event)">
-        <div style="height: 512px; width:70%; border-radius:0; display:inline-block" class="panel box-shadow--6dp ${user.personalInfo.currentGoals.length >= 2 ? 'goalOverflow' : 'none'}" >
+    <div id="currentGoals" drop.trigger="drop($event)" dragover.trigger="allowDrop($event)">
+        <div style="height: 512px; width:70%; border-radius:0; display:inline-block" class="panel box-shadow--6dp ${user.personalInfo.currentGoals.length >= 2 ? 'goalOverflow' : 'none'}">
             <div class="" style="background-color:#337ab7; color:#fff">
-                <h2 style="margin:0; padding:6px;">
-                    My Goals 
+                <h3 style="margin:0;padding:6px; font-weight:bold;">My Goals
                     <span id="wishesTooltip" title="" class="glyphicon glyphicon-question-sign"></span>
-                </h2>
+                </h3>
             </div>
 
             <div class="panel-body ">
@@ -39,7 +37,7 @@
                                 <option repeat.for="rank of user.personalInfo.currentGoals.length">${rank + 1} </option>
                             </select>
                         </div>
-                        
+
                         <div class="form-group" style="width: 80%; float: left;">
                             <label for="wish">Amount for ${wish.title}</label>
                             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
@@ -54,9 +52,8 @@
                     </div>
                 </div>
 
-                <div id="myGoals" style="clear:both;">
-                    <span class="glyphicon glyphicon-plus"></span>
-                    Add Wish Here
+                <div id="myGoals" style="clear:both; font-size:17px">
+                    <span class="glyphicon glyphicon-plus" style="font-size:14px"></span> Drag Wish Here
                 </div>
                 <br>
             </div>
