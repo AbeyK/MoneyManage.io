@@ -2,7 +2,6 @@ export class ResultsData {
     constructor() {
         this.simpleChartResults = [];
         this.recommendedResults = [];
-        this.advancedAmounts = [];
         this.showGoals = false;
 
         //CHECK WHICH CHART TO SHOW
@@ -52,6 +51,7 @@ export class ResultsData {
         this.clothesPercentage = 0;
         this.homePercentageArray = [];
         this.homeFiveYears = [];
+        this.advancedHomeAmounts = [];
 
         //CAR PERCENTAGES
         this.carPercentage = 0;
@@ -62,6 +62,7 @@ export class ResultsData {
         this.carMaintenancePercentage = 0;
         this.carPercentageArray = [];
         this.carFiveYears = [];
+        this.advancedCarAmounts = [];
 
         //HEALTH PERCENTAGES
         this.healthPercentage = 0;
@@ -74,6 +75,7 @@ export class ResultsData {
         this.bracesPercentage = 0;
         this.healthPercentageArray = [];
         this.healthFiveYears = [];
+        this.advancedHealthAmounts = [];
 
         //DISCRETIONARY PERCENTAGES
         this.discretionaryPercentage = 0;
@@ -83,5 +85,6 @@ export class ResultsData {
         this.otherPercentage = 0;
         this.discretionaryPercentageArray = [];
         this.discretionaryFiveYears = [];
+        this.advancedDiscretionaryAmounts = [];
     }
 }
