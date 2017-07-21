@@ -11,23 +11,28 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
 
-  <nav class="navbar navbar-default" show.bind="user.personalInfo.showNavbar">
-    <div class="container-fluid">
+  <nav class="navbar navbar-default" show.bind="user.personalInfo.showNavbar" style="border:none; background:white">
+    <div class="" style="float:left;">
+      <a class="navtitles" href="#"><span style="font-size:1.6em; margin:0"  class="glyphicon glyphicon-home"></span></a>
+    </div>
+        <div class="" style="float:right;">
+      <a class="navtitles" href="#"><span style="font-size:1.6em;"  class="glyphicon glyphicon-cog"></span></a>
+    </div>
+
+    <div class="container-fluid" style="margin: 0 auto; display: table;">
 
       <ul class="nav navbar-nav" style="width:100%;">
-        <div class="navbar-brand" style="float:left; width:5%;">
-          <a class="navtitles" href="#"><span style="font-size:.9em;"  class="glyphicon glyphicon-home"></span></a>
-        </div>
-        <li repeat.for="row of router.navigation" style="width:30%;" class="${row.isActive ? 'active' : ''}">
+
+        <li repeat.for="row of router.navigation" style="margin: 0 auto; display: inline;" class="${row.isActive ? 'active' : ''}">
           <a id="navtitles" href.bind="row.href" style="margin:0 auto; text-align: center;">${row.title}</a>
         </li>
-        <div class="navbar-brand" style="float:right; width:5%; padding:0;">
-          <a class="navtitles" href="#"><span style="font-size:1em;" class="glyphicon glyphicon-cog"></span></a>
-        </div>
+
       </ul>
 
     </div>
+
   </nav>
+  <hr style="border-color:#337ab7; width:25%">
 
   <div id="app">
     <div id="content">
@@ -35,7 +40,7 @@
     </div>
 
     <footer id="footer">
-      <div class="footer-copyright">
+      <div >
         <div class="container-fluid"> <br> Built with <i class="fa fa-heart"></i> & <i class="fa fa-coffee"></i></p>
         </div>
       </div>
