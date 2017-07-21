@@ -4,19 +4,21 @@ import {User} from '../services/user';
 import {Chart} from '../utilities/chart';
 import {Constants} from '../services/constants';
 import {calculateExpenses} from '../utilities/calculateExpenses';
+import {calculateRecommended} from '../utilities/calculateRecommended';
 import {calculatePercentages} from '../utilities/calculatePercentages';
 
-@inject(Router, User, Chart, Constants, calculateExpenses, calculatePercentages)
+@inject(Router, User, Chart, Constants, calculateExpenses, calculatePercentages, calculateRecommended)
 export class results {
     selectedOptions = {};
     someOptions = [];
 
-    constructor(router, user, chart, constants, calculateExpenses, calculatePercentages) {
+    constructor(router, user, chart, constants, calculateExpenses, calculatePercentages, calculateRecommended) {
         this.router = router;
         this.user = user;
         this.chart = chart;
         this.constants = constants;
         this.calculateExpenses = calculateExpenses;
+        this.calculateRecommended = calculateRecommended;
         this.calculatePercentages = calculatePercentages;
         this.selectedOptions = [];
         this.someOptions = [
@@ -41,28 +43,21 @@ export class results {
 
     getChartData() {
         this.calculatePercentages.calculateAllPercentages();
+        console.log(this.user.expenses);
         console.log(this.user.results);
+        console.log(this.user.recommend);
 
         this.calculateExpenses.get5YearEstimates();
-
-        this.user.results.simpleChartResults = [];
-        this.user.results.simpleChartResults.push(['Home', this.user.expenses.totalHomeExpense+1]);
-        this.user.results.simpleChartResults.push(['Car', this.user.expenses.totalCarExpense+1]);
-        this.user.results.simpleChartResults.push(['Health', this.user.expenses.totalHealthExpense+1]);
-        this.user.results.simpleChartResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense+1]);
+        this.calculateRecommended.getRecommendedTotals();
+        this.calculateExpenses.getChartResults();
         
-        this.user.results.recommendedResults = [];
-        this.user.results.recommendedResults.push(['Home', this.user.expenses.totalHomeExpense+30]);
-        this.user.results.recommendedResults.push(['Car', this.user.expenses.totalCarExpense+31]);
-        this.user.results.recommendedResults.push(['Health', this.user.expenses.totalHealthExpense+32]);
-        this.user.results.recommendedResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense+33]);
-
         this.chart.createFiveYearGoalsChart('fiveYearGoalsContainer', this.user.results);
         this.chart.createFiveYearExpensesChart('fiveYearExpensesContainer', this.user.results);
         this.chart.createSimpleChart('resultsContainerSimple', this.user.results);
         this.chart.createAdvancedChart('resultsContainerAdvanced', this.user.results);
-        this.chart.createRecommendedChart('recommendedContainer', this.user.results);
-        this.chart.createAdvancedRecommendedChart('recommendedContainerAdvanced', this.user.results);
+
+        this.chart.createRecommendedChart('recommendedContainer', this.user.results, this.user.recommend);
+        this.chart.createAdvancedRecommendedChart('recommendedContainerAdvanced', this.user.results, this.user.recommend);
     }
 
     test(option) {

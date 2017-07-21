@@ -457,7 +457,7 @@ define('resources/index',["exports"], function (exports) {
   exports.configure = configure;
   function configure(config) {}
 });
-define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../services/user', '../utilities/chart', '../services/constants', '../utilities/calculateExpenses', '../utilities/calculatePercentages'], function (exports, _aureliaFramework, _aureliaRouter, _user, _chart, _constants, _calculateExpenses, _calculatePercentages) {
+define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../services/user', '../utilities/chart', '../services/constants', '../utilities/calculateExpenses', '../utilities/calculateRecommended', '../utilities/calculatePercentages'], function (exports, _aureliaFramework, _aureliaRouter, _user, _chart, _constants, _calculateExpenses, _calculateRecommended, _calculatePercentages) {
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
@@ -473,8 +473,8 @@ define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../
 
     var _dec, _class;
 
-    var results = exports.results = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router, _user.User, _chart.Chart, _constants.Constants, _calculateExpenses.calculateExpenses, _calculatePercentages.calculatePercentages), _dec(_class = function () {
-        function results(router, user, chart, constants, calculateExpenses, calculatePercentages) {
+    var results = exports.results = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router, _user.User, _chart.Chart, _constants.Constants, _calculateExpenses.calculateExpenses, _calculatePercentages.calculatePercentages, _calculateRecommended.calculateRecommended), _dec(_class = function () {
+        function results(router, user, chart, constants, calculateExpenses, calculatePercentages, calculateRecommended) {
             _classCallCheck(this, results);
 
             this.selectedOptions = {};
@@ -485,6 +485,7 @@ define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../
             this.chart = chart;
             this.constants = constants;
             this.calculateExpenses = calculateExpenses;
+            this.calculateRecommended = calculateRecommended;
             this.calculatePercentages = calculatePercentages;
             this.selectedOptions = [];
             this.someOptions = [{ "text": "Goals" }, { "text": "Projected Expenses" }, { "text": "Simple Budget" }, { "text": "Advanced Budget" }];
@@ -500,28 +501,21 @@ define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../
 
         results.prototype.getChartData = function getChartData() {
             this.calculatePercentages.calculateAllPercentages();
+            console.log(this.user.expenses);
             console.log(this.user.results);
+            console.log(this.user.recommend);
 
             this.calculateExpenses.get5YearEstimates();
-
-            this.user.results.simpleChartResults = [];
-            this.user.results.simpleChartResults.push(['Home', this.user.expenses.totalHomeExpense + 1]);
-            this.user.results.simpleChartResults.push(['Car', this.user.expenses.totalCarExpense + 1]);
-            this.user.results.simpleChartResults.push(['Health', this.user.expenses.totalHealthExpense + 1]);
-            this.user.results.simpleChartResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense + 1]);
-
-            this.user.results.recommendedResults = [];
-            this.user.results.recommendedResults.push(['Home', this.user.expenses.totalHomeExpense + 30]);
-            this.user.results.recommendedResults.push(['Car', this.user.expenses.totalCarExpense + 31]);
-            this.user.results.recommendedResults.push(['Health', this.user.expenses.totalHealthExpense + 32]);
-            this.user.results.recommendedResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense + 33]);
+            this.calculateRecommended.getRecommendedTotals();
+            this.calculateExpenses.getChartResults();
 
             this.chart.createFiveYearGoalsChart('fiveYearGoalsContainer', this.user.results);
             this.chart.createFiveYearExpensesChart('fiveYearExpensesContainer', this.user.results);
             this.chart.createSimpleChart('resultsContainerSimple', this.user.results);
             this.chart.createAdvancedChart('resultsContainerAdvanced', this.user.results);
-            this.chart.createRecommendedChart('recommendedContainer', this.user.results);
-            this.chart.createAdvancedRecommendedChart('recommendedContainerAdvanced', this.user.results);
+
+            this.chart.createRecommendedChart('recommendedContainer', this.user.results, this.user.recommend);
+            this.chart.createAdvancedRecommendedChart('recommendedContainerAdvanced', this.user.results, this.user.recommend);
         };
 
         results.prototype.test = function test(option) {
@@ -766,7 +760,7 @@ define('services/expensesConstants',['exports', 'aurelia-framework', '../service
         };
     }) || _class);
 });
-define('services/user',['exports', '../services/data/personalInfoData', '../services/data/goalsData', '../services/data/expensesData', '../services/data/resultsData'], function (exports, _personalInfoData, _goalsData, _expensesData, _resultsData) {
+define('services/user',['exports', '../services/data/personalInfoData', '../services/data/goalsData', '../services/data/expensesData', '../services/data/resultsData', '../services/data/recommendedData'], function (exports, _personalInfoData, _goalsData, _expensesData, _resultsData, _recommendedData) {
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
@@ -787,6 +781,7 @@ define('services/user',['exports', '../services/data/personalInfoData', '../serv
         this.goals = new _goalsData.GoalsData();
         this.expenses = new _expensesData.ExpensesData();
         this.results = new _resultsData.ResultsData();
+        this.recommend = new _recommendedData.RecommendedData();
     };
 });
 define('utilities/calculateExpenses',['exports', 'aurelia-framework', '../services/user', '../services/expensesConstants'], function (exports, _aureliaFramework, _user, _expensesConstants) {
@@ -812,6 +807,20 @@ define('utilities/calculateExpenses',['exports', 'aurelia-framework', '../servic
             this.user = user;
             this.expensesConstants = expensesConstants;
         }
+
+        calculateExpenses.prototype.getChartResults = function getChartResults() {
+            this.user.results.simpleChartResults = [];
+            this.user.results.simpleChartResults.push(['Home', this.user.expenses.totalHomeExpense + 1]);
+            this.user.results.simpleChartResults.push(['Car', this.user.expenses.totalCarExpense + 1]);
+            this.user.results.simpleChartResults.push(['Health', this.user.expenses.totalHealthExpense + 1]);
+            this.user.results.simpleChartResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense + 1]);
+
+            this.user.results.recommendedResults = [];
+            this.user.results.recommendedResults.push(['Home', this.user.recommend.totalHomeExpense + 1]);
+            this.user.results.recommendedResults.push(['Car', this.user.recommend.totalCarExpense + 1]);
+            this.user.results.recommendedResults.push(['Health', this.user.recommend.totalHealthExpense + 1]);
+            this.user.results.recommendedResults.push(['Discretionary', this.user.recommend.totalDiscretionaryExpense + 1]);
+        };
 
         calculateExpenses.prototype.get5YearExpenses = function get5YearExpenses() {
             this.user.results.homeFiveYears = [];
@@ -1070,6 +1079,52 @@ define('utilities/calculatePercentages',['exports', 'aurelia-framework', '../ser
             this.user.results.discretionaryPercentageArray.push(this.user.results.otherPercentage = this.user.expenses.other / discretionary * this.user.results.discretionaryPercentage);
         };
 
+        calculatePercentages.prototype.calculateHomePercentagesRecommended = function calculateHomePercentagesRecommended(home, total) {
+            this.user.results.homePercentageRecommendedArray = [];
+            this.user.results.homePercentageRecommended = home / total * 100;
+            this.user.results.homePercentageRecommendedArray.push(this.user.results.mortgagePercentageRecommended = this.user.expenses.mortgage / home * this.user.results.homePercentageRecommended);
+            this.user.results.homePercentageRecommendedArray.push(this.user.results.propertyTaxPercentageRecommended = this.user.expenses.propertyTax / home * this.user.results.homePercentageRecommended);
+            this.user.results.homePercentageRecommendedArray.push(this.user.results.phonePercentageRecommended = this.user.expenses.phone / home * this.user.results.homePercentageRecommended);
+            this.user.results.homePercentageRecommendedArray.push(this.user.results.internetPercentageRecommended = this.user.expenses.internet / home * this.user.results.homePercentageRecommended);
+            this.user.results.homePercentageRecommendedArray.push(this.user.results.cablePercentageRecommended = this.user.expenses.cable / home * this.user.results.homePercentageRecommended);
+            this.user.results.homePercentageRecommendedArray.push(this.user.results.netflixPercentageRecommended = this.user.expenses.netfix / home * this.user.results.homePercentageRecommended);
+            this.user.results.homePercentageRecommendedArray.push(this.user.results.groceriesPercentageRecommended = this.user.expenses.groceries / home * this.user.results.homePercentageRecommended);
+            this.user.results.homePercentageRecommendedArray.push(this.user.results.utilitiesPercentageRecommended = this.user.expenses.utilities / home * this.user.results.homePercentageRecommended);
+            this.user.results.homePercentageRecommendedArray.push(this.user.results.homeMaintenancePercentageRecommended = this.user.expenses.homeMaintenance / home * this.user.results.homePercentageRecommended);
+            this.user.results.homePercentageRecommendedArray.push(this.user.results.clothesPercentageRecommended = this.user.expenses.clothes / home * this.user.results.homePercentageRecommended);
+        };
+
+        calculatePercentages.prototype.calculateCarPercentagesRecommended = function calculateCarPercentagesRecommended(car, total) {
+            this.user.results.carPercentageRecommendedArray = [];
+            this.user.results.carPercentageRecommended = car / total * 100;
+            this.user.results.carPercentageRecommendedArray.push(this.user.results.carPaymentPercentageRecommended = this.user.expenses.carPayment / car * this.user.results.carPercentageRecommended);
+            this.user.results.carPercentageRecommendedArray.push(this.user.results.carInsurancePercentageRecommended = this.user.expenses.carInsurance / car * this.user.results.carPercentageRecommended);
+            this.user.results.carPercentageRecommendedArray.push(this.user.results.publicTransportPercentageRecommended = this.user.expenses.publicTransport / car * this.user.results.carPercentageRecommended);
+            this.user.results.carPercentageRecommendedArray.push(this.user.results.gasPercentageRecommended = this.user.expenses.gas / car * this.user.results.carPercentageRecommended);
+            this.user.results.carPercentageRecommendedArray.push(this.user.results.carMaintenancePercentageRecommended = this.user.expenses.carMaintenance / car * this.user.results.carPercentageRecommended);
+        };
+
+        calculatePercentages.prototype.calculateHealthPercentagesRecommended = function calculateHealthPercentagesRecommended(health, total) {
+            this.user.results.healthPercentageRecommendedArray = [];
+            this.user.results.healthPercentageRecommended = health / total * 100;
+            this.user.results.healthPercentageRecommendedArray.push(this.user.results.healthInsurancePercentageRecommended = this.user.expenses.healthInsurance / health * this.user.results.healthPercentageRecommended);
+            this.user.results.healthPercentageRecommendedArray.push(this.user.results.medicationPercentageRecommended = this.user.expenses.medication / health * this.user.results.healthPercentageRecommended);
+            this.user.results.healthPercentageRecommendedArray.push(this.user.results.unexpectedMedicalProblemsPercentageRecommended = this.user.expenses.unexpectedMedicalProblems / health * this.user.results.healthPercentageRecommended);
+            this.user.results.healthPercentageRecommendedArray.push(this.user.results.eyeCarePercentageRecommended = this.user.expenses.eyeCare / health * this.user.results.healthPercentageRecommended);
+            this.user.results.healthPercentageRecommendedArray.push(this.user.results.dentalInsurancePercentageRecommended = this.user.expenses.dentalInsurance / health * this.user.results.healthPercentageRecommended);
+            this.user.results.healthPercentageRecommendedArray.push(this.user.results.cavitiesPercentageRecommended = this.user.expenses.cavities / health * this.user.results.healthPercentageRecommended);
+            this.user.results.healthPercentageRecommendedArray.push(this.user.results.bracesPercentageRecommended = this.user.expenses.braces / health * this.user.results.healthPercentageRecommended);
+        };
+
+        calculatePercentages.prototype.calculateDiscretionaryPercentagesRecommended = function calculateDiscretionaryPercentagesRecommended(discretionary, total) {
+            this.user.results.discretionaryPercentageRecommendedArray = [];
+            this.user.results.discretionaryPercentageRecommended = discretionary / total * 100;
+            this.user.results.discretionaryPercentageRecommendedArray.push(this.user.results.eatingOutPercentageRecommended = this.user.expenses.eatingOut / discretionary * this.user.results.discretionaryPercentageRecommended);
+            this.user.results.discretionaryPercentageRecommendedArray.push(this.user.results.barsPercentageRecommended = this.user.expenses.bars / discretionary * this.user.results.discretionaryPercentageRecommended);
+            this.user.results.discretionaryPercentageRecommendedArray.push(this.user.results.funMoneyPercentageRecommended = this.user.expenses.funMoney / discretionary * this.user.results.discretionaryPercentageRecommended);
+            this.user.results.discretionaryPercentageRecommendedArray.push(this.user.results.otherPercentageRecommended = this.user.expenses.other / discretionary * this.user.results.discretionaryPercentageRecommended);
+        };
+
         return calculatePercentages;
     }()) || _class);
 });
@@ -1224,6 +1279,9 @@ define('utilities/chart',['exports', 'aurelia-framework', '../services/user', 'h
                 title: {
                     text: 'Your Budget Plan'
                 },
+                subtitle: {
+                    text: 'Total Expense: ' + results.fiveYearExpenses[0]
+                },
                 plotOptions: {
                     pie: {
                         innerSize: 100,
@@ -1355,7 +1413,7 @@ define('utilities/chart',['exports', 'aurelia-framework', '../services/user', 'h
             });
         };
 
-        Chart.prototype.createRecommendedChart = function createRecommendedChart(containerID, results) {
+        Chart.prototype.createRecommendedChart = function createRecommendedChart(containerID, results, recommend) {
             Highcharts.chart(containerID, {
                 chart: {
                     type: 'pie',
@@ -1367,6 +1425,9 @@ define('utilities/chart',['exports', 'aurelia-framework', '../services/user', 'h
                 },
                 title: {
                     text: 'Recommended Budget Plan'
+                },
+                subtitle: {
+                    text: 'Total Expense: ' + recommend.totalExpense
                 },
                 plotOptions: {
                     pie: {
@@ -1387,7 +1448,7 @@ define('utilities/chart',['exports', 'aurelia-framework', '../services/user', 'h
             });
         };
 
-        Chart.prototype.createAdvancedRecommendedChart = function createAdvancedRecommendedChart(containerID, results) {
+        Chart.prototype.createAdvancedRecommendedChart = function createAdvancedRecommendedChart(containerID, results, recommend) {
             var categories = ['Home', 'Car', 'Health', 'Discretionary'],
                 data = [{
                 y: results.homePercentage,
@@ -1996,6 +2057,278 @@ define('services/data/resultsData',["exports"], function (exports) {
                 this.otherPercentage = 0;
                 this.discretionaryPercentageArray = [];
                 this.discretionaryFiveYears = [];
+        };
+});
+define('utilities/calculateRecommended',['exports', 'aurelia-framework', '../services/user', '../services/constants'], function (exports, _aureliaFramework, _user, _constants) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.calculateRecommended = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _class;
+
+    var calculateRecommended = exports.calculateRecommended = (_dec = (0, _aureliaFramework.inject)(_user.User, _constants.Constants), _dec(_class = function () {
+        function calculateRecommended(user, constants) {
+            _classCallCheck(this, calculateRecommended);
+
+            this.user = user;
+            this.constants = constants;
+        }
+
+        calculateRecommended.prototype.getRecommendedTotals = function getRecommendedTotals() {
+            var home = this.user.expenses.totalHomeExpense;
+            var car = this.user.expenses.totalCarExpense;
+            var health = this.user.expenses.totalHealthExpense;
+            var discretionary = this.user.expenses.totalDiscretionaryExpense;
+            var total = this.user.expenses.totalExpense;
+
+            this.getOriginalExpenses();
+
+            var chartGoals = this.user.results.chartGoals;
+
+            var goalsTotal = 0;
+            if (chartGoals[0].length <= 0) goalsTotal = 0;else goalsTotal = chartGoals[0][chartGoals[0].length - 1].data;
+
+            var earningsTotal = this.user.results.fiveYearSavings[4];
+
+            this.user.recommend.totalHomeExpense = 0;
+            this.user.recommend.totalCarExpense = 0;
+            this.user.recommend.totalHealthExpense = 0;
+            this.user.recommend.totalDiscretionaryExpense = 0;
+            this.user.recommend.totalExpense = 0;
+
+            for (var i = 0; i < this.constants.HomeExpenses.length; i++) {
+                if (!this.user.recommend[this.constants.HomeExpenses[i].value + 'lock']) ;else {
+                    if (this.user.recommend[this.constants.HomeExpenses[i].value + 'check']) ;else {
+                        this.user.recommend[this.constants.HomeExpenses[i].value] *= .50;
+                    }
+                }
+
+                this.user.recommend.totalHomeExpense += this.user.recommend[this.constants.HomeExpenses[i].value];
+            }
+
+            for (var i = 0; i < this.constants.CarExpenses.length; i++) {
+                if (!this.user.recommend[this.constants.CarExpenses[i].value + 'lock']) ;else {
+                    if (this.user.recommend[this.constants.CarExpenses[i].value + 'check']) ;else {
+                        this.user.recommend[this.constants.CarExpenses[i].value] *= .50;
+                    }
+                }
+
+                this.user.recommend.totalCarExpense += this.user.recommend[this.constants.CarExpenses[i].value];
+            }
+
+            for (var i = 0; i < this.constants.HealthExpenses.length; i++) {
+                if (!this.user.recommend[this.constants.HealthExpenses[i].value + 'lock']) ;else {
+                    if (this.user.recommend[this.constants.HealthExpenses[i].value + 'check']) ;else {
+                        this.user.recommend[this.constants.HealthExpenses[i].value] *= .50;
+                    }
+                }
+
+                this.user.recommend.totalHealthExpense += this.user.recommend[this.constants.HealthExpenses[i].value];
+            }
+
+            for (var i = 0; i < this.constants.DiscretionaryExpenses.length; i++) {
+                if (!this.user.recommend[this.constants.DiscretionaryExpenses[i].value + 'lock']) ;else {
+                    if (this.user.recommend[this.constants.DiscretionaryExpenses[i].value + 'check']) ;else {
+                        this.user.recommend[this.constants.DiscretionaryExpenses[i].value] *= .50;
+                    }
+                }
+
+                this.user.recommend.totalDiscretionaryExpense += this.user.recommend[this.constants.DiscretionaryExpenses[i].value];
+            }
+
+            this.user.recommend.totalExpense = this.user.recommend.totalHomeExpense + this.user.recommend.totalCarExpense + this.user.recommend.totalHealthExpense + this.user.recommend.totalDiscretionaryExpense;
+        };
+
+        calculateRecommended.prototype.getOriginalExpenses = function getOriginalExpenses() {
+            for (var i = 0; i < this.constants.HomeExpenses.length; i++) {
+                this.user.recommend[this.constants.HomeExpenses[i].value] = parseInt(this.user.expenses[this.constants.HomeExpenses[i].value]);
+                this.user.recommend[this.constants.HomeExpenses[i].value + 'lock'] = this.user.expenses[this.constants.HomeExpenses[i].value + 'lock'];
+                this.user.recommend[this.constants.HomeExpenses[i].value + 'check'] = this.user.expenses[this.constants.HomeExpenses[i].value + 'check'];
+            }
+
+            for (var i = 0; i < this.constants.CarExpenses.length; i++) {
+                this.user.recommend[this.constants.CarExpenses[i].value] = parseInt(this.user.expenses[this.constants.CarExpenses[i].value]);
+                this.user.recommend[this.constants.CarExpenses[i].value + 'lock'] = this.user.expenses[this.constants.CarExpenses[i].value + 'lock'];
+                this.user.recommend[this.constants.CarExpenses[i].value + 'check'] = this.user.expenses[this.constants.CarExpenses[i].value + 'check'];
+            }
+
+            for (var i = 0; i < this.constants.HealthExpenses.length; i++) {
+                this.user.recommend[this.constants.HealthExpenses[i].value] = parseInt(this.user.expenses[this.constants.HealthExpenses[i].value]);
+                this.user.recommend[this.constants.HealthExpenses[i].value + 'lock'] = this.user.expenses[this.constants.HealthExpenses[i].value + 'lock'];
+                this.user.recommend[this.constants.HealthExpenses[i].value + 'check'] = this.user.expenses[this.constants.HealthExpenses[i].value + 'check'];
+            }
+
+            for (var i = 0; i < this.constants.DiscretionaryExpenses.length; i++) {
+                this.user.recommend[this.constants.DiscretionaryExpenses[i].value] = parseInt(this.user.expenses[this.constants.DiscretionaryExpenses[i].value]);
+                this.user.recommend[this.constants.DiscretionaryExpenses[i].value + 'lock'] = this.user.expenses[this.constants.DiscretionaryExpenses[i].value + 'lock'];
+                this.user.recommend[this.constants.DiscretionaryExpenses[i].value + 'check'] = this.user.expenses[this.constants.DiscretionaryExpenses[i].value + 'check'];
+            }
+        };
+
+        return calculateRecommended;
+    }()) || _class);
+});
+define('services/data/recommendedData',["exports"], function (exports) {
+        "use strict";
+
+        Object.defineProperty(exports, "__esModule", {
+                value: true
+        });
+
+        function _classCallCheck(instance, Constructor) {
+                if (!(instance instanceof Constructor)) {
+                        throw new TypeError("Cannot call a class as a function");
+                }
+        }
+
+        var RecommendedData = exports.RecommendedData = function RecommendedData() {
+                _classCallCheck(this, RecommendedData);
+
+                this.totalExpense = 0;
+                this.totalHomeExpense = 0;
+                this.totalCarExpense = 0;
+                this.totalHealthExpense = 0;
+                this.totalDiscretionaryExpense = 0;
+
+                this.mortgage = 0;
+                this.propertyTax = 0;
+                this.homeownerInsurance = 0;
+                this.phone = 0;
+                this.internet = 0;
+                this.cable = 0;
+                this.netfix = 0;
+                this.groceries = 0;
+                this.utilities = 0;
+                this.homeMaintenance = 0;
+                this.clothes = 0;
+
+                this.mortgagecheck = true;
+                this.propertyTaxcheck = true;
+                this.homeownerInsurancecheck = true;
+                this.phonecheck = true;
+                this.internetcheck = true;
+                this.cablecheck = true;
+                this.netfixcheck = true;
+                this.groceriescheck = true;
+                this.utilitiescheck = true;
+                this.homeMaintenancecheck = true;
+                this.clothescheck = true;
+
+                this.mortgagelock = true;
+                this.propertyTaxlock = true;
+                this.homeownerInsurancelock = true;
+                this.phonelock = true;
+                this.internetlock = true;
+                this.cablelock = true;
+                this.netfixlock = true;
+                this.grocerieslock = true;
+                this.utilitieslock = true;
+                this.homeMaintenancelock = true;
+                this.clotheslock = true;
+
+                this.carPayment = 0;
+                this.carInsurance = 0;
+                this.publicTransport = 0;
+                this.gas = 0;
+                this.carMaintenance = 0;
+
+                this.carPaymentcheck = true;
+                this.carInsurancecheck = true;
+                this.publicTransportcheck = true;
+                this.gascheck = true;
+                this.carMaintenancecheck = true;
+
+                this.carPaymentlock = true;
+                this.carInsurancelock = true;
+                this.publicTransportlock = true;
+                this.gaslock = true;
+                this.carMaintenancelock = true;
+
+                this.healthInsurance = 0;
+                this.medication = 0;
+                this.unexpectedMedicalProblems = 0;
+                this.eyeCare = 0;
+                this.dentalInsurance = 0;
+                this.cavities = 0;
+                this.braces = 0;
+
+                this.healthInsurancecheck = true;
+                this.medicationcheck = true;
+                this.unexpectedMedicalProblemscheck = true;
+                this.eyeCarecheck = true;
+                this.dentalInsurancecheck = true;
+                this.cavitiescheck = true;
+                this.bracescheck = true;
+
+                this.healthInsurancelock = true;
+                this.medicationlock = true;
+                this.unexpectedMedicalProblemslock = true;
+                this.eyeCarelock = true;
+                this.dentalInsurancelock = true;
+                this.cavitieslock = true;
+                this.braceslock = true;
+
+                this.eatingOut = 0;
+                this.bars = 0;
+                this.funMoney = 0;
+                this.other = 0;
+
+                this.eatingOutcheck = true;
+                this.barscheck = true;
+                this.funMoneycheck = true;
+                this.othercheck = true;
+
+                this.eatingOutlock = true;
+                this.barslock = true;
+                this.funMoneylock = true;
+                this.otherlock = true;
+
+                this.homePercentage = 0;
+                this.mortgagePercentage = 0;
+                this.propertyTaxPercentage = 0;
+                this.phonePercentage = 0;
+                this.internetPercentage = 0;
+                this.cablePercentage = 0;
+                this.netflixPercentage = 0;
+                this.groceriesPercentage = 0;
+                this.utilitiesPercentage = 0;
+                this.homeMaintenancePercentage = 0;
+                this.clothesPercentage = 0;
+                this.homePercentageArray = [];
+
+                this.carPercentage = 0;
+                this.carPaymentPercentage = 0;
+                this.carInsurancePercentage = 0;
+                this.publicTransportPercentage = 0;
+                this.gasPercentage = 0;
+                this.carMaintenancePercentage = 0;
+                this.carPercentageArray = [];
+
+                this.healthPercentage = 0;
+                this.healthInsurancePercentage = 0;
+                this.medicationPercentage = 0;
+                this.unexpectedMedicalProblemsPercentage = 0;
+                this.eyeCarePercentage = 0;
+                this.dentalInsurancePercentage = 0;
+                this.cavitiesPercentage = 0;
+                this.bracesPercentage = 0;
+                this.healthPercentageArray = [];
+
+                this.discretionaryPercentage = 0;
+                this.eatingOutPercentage = 0;
+                this.barsPercentage = 0;
+                this.funMoneyPercentage = 0;
+                this.otherPercentage = 0;
+                this.discretionaryPercentageArray = [];
         };
 });
 define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"ion-rangeslider/css/ion.rangeSlider.css\"></require><require from=\"ion-rangeslider/css/ion.rangeSlider.skinHTML5.css\"></require><require from=\"ion-rangeslider/css/normalize.css\"></require><require from=\"highcharts/css/highcharts.css\"></require><require from=\"jquery-ui-dist/jquery-ui.css\"></require><require from=\"bootstrap/css/bootstrap.css\"></require><require from=\"css/style.css\"></require><require from=\"css/navbar.css\"></require><link href=\"https://fonts.googleapis.com/css?family=Maven+Pro\" rel=\"stylesheet\"><link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0\"><nav class=\"navbar navbar-default\" show.bind=\"user.personalInfo.showNavbar\"><div class=\"container-fluid\"><ul class=\"nav navbar-nav\" style=\"width:100%\"><div class=\"navbar-brand\" style=\"float:left;width:5%\"><a class=\"navtitles\" href=\"#\"><span style=\"font-size:.9em\" class=\"glyphicon glyphicon-home\"></span></a></div><li repeat.for=\"row of router.navigation\" style=\"width:30%\" class=\"${row.isActive ? 'active' : ''}\"><a id=\"navtitles\" href.bind=\"row.href\" style=\"margin:0 auto;text-align:center\">${row.title}</a></li><div class=\"navbar-brand\" style=\"float:right;width:5%;padding:0\"><a class=\"navtitles\" href=\"#\"><span style=\"font-size:1em\" class=\"glyphicon glyphicon-cog\"></span></a></div></ul></div></nav><div id=\"app\"><div id=\"content\"><router-view></router-view></div><footer id=\"footer\"><div class=\"footer-copyright\"><div class=\"container-fluid\"><br>Built with <i class=\"fa fa-heart\"></i> & <i class=\"fa fa-coffee\"></i><p></p></div></div></footer></div></template>"; });

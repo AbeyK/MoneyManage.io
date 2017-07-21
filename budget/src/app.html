@@ -9,22 +9,22 @@
   <require from="css/navbar.css"></require>
   <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
 
   <nav class="navbar navbar-default" show.bind="user.personalInfo.showNavbar">
     <div class="container-fluid">
 
-        <ul class="nav navbar-nav" style="width:100%;">
-                  <div class="navbar-brand" style="float:left; width:5%;">
+      <ul class="nav navbar-nav" style="width:100%;">
+        <div class="navbar-brand" style="float:left; width:5%;">
           <a class="navtitles" href="#"><span style="font-size:.9em;"  class="glyphicon glyphicon-home"></span></a>
         </div>
-          <li repeat.for="row of router.navigation" style="width:30%;" class="${row.isActive ? 'active' : ''}">
-            <a id="navtitles" href.bind="row.href" style="margin:0 auto; text-align: center;">${row.title}</a>
-          </li>
-                  <div class="navbar-brand" style="float:right; width:5%; padding:0;">
+        <li repeat.for="row of router.navigation" style="width:30%;" class="${row.isActive ? 'active' : ''}">
+          <a id="navtitles" href.bind="row.href" style="margin:0 auto; text-align: center;">${row.title}</a>
+        </li>
+        <div class="navbar-brand" style="float:right; width:5%; padding:0;">
           <a class="navtitles" href="#"><span style="font-size:1em;" class="glyphicon glyphicon-cog"></span></a>
         </div>
-        </ul>
+      </ul>
 
     </div>
   </nav>

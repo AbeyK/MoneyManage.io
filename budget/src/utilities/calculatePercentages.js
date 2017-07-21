@@ -20,6 +20,20 @@ export class calculatePercentages {
         this.calculateCarPercentages(car, total);
         this.calculateHealthPercentages(health, total);
         this.calculateDiscretionaryPercentages(discretionary, total);
+
+        //Recommended calculations
+        // var homeRecommended = this.user.recommend.totalHomeExpense;
+        // var carRecommended = this.user.recommend.totalCarExpense;
+        // var healthRecommended = this.user.recommend.totalHealthExpense;
+        // var discretionaryRecommended = this.user.recommend.totalDiscretionaryExpense;
+
+        // this.user.recommend.totalExpenseRecommended = homeRecommended + carRecommended + healthRecommended + discretionaryRecommended;
+        // var totalRecommended = this.user.recommend.totalExpenseRecommended;
+
+        // this.calculateHomePercentagesRecommended(homeRecommended, totalRecommended);
+        // this.calculateCarPercentagesRecommended(carRecommended, totalRecommended);
+        // this.calculateHealthPercentagesRecommended(healthRecommended, totalRecommended);
+        // this.calculateDiscretionaryPercentagesRecommended(discretionaryRecommended, totalRecommended);
     }
     
     calculateHomePercentages(home, total) { 
@@ -66,5 +80,53 @@ export class calculatePercentages {
         this.user.results.discretionaryPercentageArray.push(this.user.results.barsPercentage = (this.user.expenses.bars / discretionary) * this.user.results.discretionaryPercentage); 
         this.user.results.discretionaryPercentageArray.push(this.user.results.funMoneyPercentage = (this.user.expenses.funMoney / discretionary) * this.user.results.discretionaryPercentage);
         this.user.results.discretionaryPercentageArray.push(this.user.results.otherPercentage = (this.user.expenses.other / discretionary) * this.user.results.discretionaryPercentage);
+    }
+
+
+    //RECOMMENDED VALUES PERCENTAGES
+    calculateHomePercentagesRecommended(home, total) { 
+        this.user.results.homePercentageRecommendedArray = [];
+        this.user.results.homePercentageRecommended = (home / total) * 100;
+        this.user.results.homePercentageRecommendedArray.push(this.user.results.mortgagePercentageRecommended = (this.user.expenses.mortgage / home) * this.user.results.homePercentageRecommended);
+        this.user.results.homePercentageRecommendedArray.push(this.user.results.propertyTaxPercentageRecommended = (this.user.expenses.propertyTax / home) * this.user.results.homePercentageRecommended);
+        this.user.results.homePercentageRecommendedArray.push(this.user.results.phonePercentageRecommended = (this.user.expenses.phone / home) * this.user.results.homePercentageRecommended);
+        this.user.results.homePercentageRecommendedArray.push(this.user.results.internetPercentageRecommended = (this.user.expenses.internet / home) * this.user.results.homePercentageRecommended);
+        this.user.results.homePercentageRecommendedArray.push(this.user.results.cablePercentageRecommended = (this.user.expenses.cable / home) * this.user.results.homePercentageRecommended);
+        this.user.results.homePercentageRecommendedArray.push(this.user.results.netflixPercentageRecommended = (this.user.expenses.netfix / home) * this.user.results.homePercentageRecommended);
+        this.user.results.homePercentageRecommendedArray.push(this.user.results.groceriesPercentageRecommended = (this.user.expenses.groceries / home) * this.user.results.homePercentageRecommended);
+        this.user.results.homePercentageRecommendedArray.push(this.user.results.utilitiesPercentageRecommended = (this.user.expenses.utilities / home) * this.user.results.homePercentageRecommended);
+        this.user.results.homePercentageRecommendedArray.push(this.user.results.homeMaintenancePercentageRecommended = (this.user.expenses.homeMaintenance / home) * this.user.results.homePercentageRecommended);
+        this.user.results.homePercentageRecommendedArray.push(this.user.results.clothesPercentageRecommended = (this.user.expenses.clothes / home) * this.user.results.homePercentageRecommended);
+    }
+
+    calculateCarPercentagesRecommended(car, total) {
+        this.user.results.carPercentageRecommendedArray = [];
+        this.user.results.carPercentageRecommended = (car / total) * 100;
+        this.user.results.carPercentageRecommendedArray.push(this.user.results.carPaymentPercentageRecommended = (this.user.expenses.carPayment / car) * this.user.results.carPercentageRecommended);
+        this.user.results.carPercentageRecommendedArray.push(this.user.results.carInsurancePercentageRecommended = (this.user.expenses.carInsurance / car) * this.user.results.carPercentageRecommended);
+        this.user.results.carPercentageRecommendedArray.push(this.user.results.publicTransportPercentageRecommended = (this.user.expenses.publicTransport / car) * this.user.results.carPercentageRecommended);
+        this.user.results.carPercentageRecommendedArray.push(this.user.results.gasPercentageRecommended = (this.user.expenses.gas / car) * this.user.results.carPercentageRecommended);
+        this.user.results.carPercentageRecommendedArray.push(this.user.results.carMaintenancePercentageRecommended = (this.user.expenses.carMaintenance / car) * this.user.results.carPercentageRecommended);
+    }
+
+    calculateHealthPercentagesRecommended(health, total) {
+        this.user.results.healthPercentageRecommendedArray = [];
+        this.user.results.healthPercentageRecommended = (health / total) * 100;
+        this.user.results.healthPercentageRecommendedArray.push(this.user.results.healthInsurancePercentageRecommended = (this.user.expenses.healthInsurance / health) * this.user.results.healthPercentageRecommended);
+        this.user.results.healthPercentageRecommendedArray.push(this.user.results.medicationPercentageRecommended = (this.user.expenses.medication / health) * this.user.results.healthPercentageRecommended);
+        this.user.results.healthPercentageRecommendedArray.push(this.user.results.unexpectedMedicalProblemsPercentageRecommended = (this.user.expenses.unexpectedMedicalProblems / health) * this.user.results.healthPercentageRecommended);
+        this.user.results.healthPercentageRecommendedArray.push(this.user.results.eyeCarePercentageRecommended = (this.user.expenses.eyeCare / health) * this.user.results.healthPercentageRecommended);
+        this.user.results.healthPercentageRecommendedArray.push(this.user.results.dentalInsurancePercentageRecommended = (this.user.expenses.dentalInsurance / health) * this.user.results.healthPercentageRecommended);
+        this.user.results.healthPercentageRecommendedArray.push(this.user.results.cavitiesPercentageRecommended = (this.user.expenses.cavities / health) * this.user.results.healthPercentageRecommended);
+        this.user.results.healthPercentageRecommendedArray.push(this.user.results.bracesPercentageRecommended = (this.user.expenses.braces / health) * this.user.results.healthPercentageRecommended);
+    }
+
+    calculateDiscretionaryPercentagesRecommended(discretionary, total) {
+        this.user.results.discretionaryPercentageRecommendedArray = [];
+        this.user.results.discretionaryPercentageRecommended = (discretionary / total) * 100;
+        this.user.results.discretionaryPercentageRecommendedArray.push(this.user.results.eatingOutPercentageRecommended = (this.user.expenses.eatingOut / discretionary) * this.user.results.discretionaryPercentageRecommended);
+        this.user.results.discretionaryPercentageRecommendedArray.push(this.user.results.barsPercentageRecommended = (this.user.expenses.bars / discretionary) * this.user.results.discretionaryPercentageRecommended); 
+        this.user.results.discretionaryPercentageRecommendedArray.push(this.user.results.funMoneyPercentageRecommended = (this.user.expenses.funMoney / discretionary) * this.user.results.discretionaryPercentageRecommended);
+        this.user.results.discretionaryPercentageRecommendedArray.push(this.user.results.otherPercentageRecommended = (this.user.expenses.other / discretionary) * this.user.results.discretionaryPercentageRecommended);
     }
 }

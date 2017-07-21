@@ -4,17 +4,20 @@ export class ResultsData {
         this.recommendedResults = [];
         this.showGoals = false;
 
+        //CHECK WHICH CHART TO SHOW
         this.showGoalsChart = true;
         this.showExpenses = false;
         this.showChart = false;
         this.showAdvanced = false;
         this.showAdvancedRecommended = false;
 
+        //FIVE YEAR VALUES
         this.fiveYearExpenses = [];
         this.fiveYearIncome = [];
         this.fiveYearSavings = [];
         this.fiveYearEarnings = [];
 
+        //FIVE YEAR GOALS
         this.fiveYearPrivateSchoolGoal = [];
         this.fiveYearCollegeGoal = [];
         this.fiveYearWeddingGoal = [];
@@ -23,6 +26,7 @@ export class ResultsData {
         this.fiveYearNewCarGoal = [];
         this.fiveYearOtherGoal = [];
 
+        //MEETING GOALS
         this.PrivateSchoolMetGoal = false;
         this.CollegeMetGoal = false;
         this.WeddingMetGoal = false;
