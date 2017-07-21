@@ -61,7 +61,7 @@ export class calculatePercentages {
     }
 
     calculateHealthPercentages(health, total) {
-        this.user.results.advancedCarAmounts = [];
+        this.user.results.advancedHealthAmounts = [];
         this.user.results.healthPercentageArray = [];
         this.user.results.healthPercentage = (health / total) * 100;
 

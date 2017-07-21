@@ -55,6 +55,10 @@ export class Chart {
                     pointStart: 2017
                 }
             },
+            tooltip: {
+                valuePrefix: '$',
+                valueDecimals: 2
+            },
             series: chartGoalSeries
         });
     }
@@ -80,8 +84,14 @@ export class Chart {
 
             plotOptions: {
                 series: {
-                    pointStart: 2017
+                    pointStart: 2017,
+                     valueDecimals: 2
                 }
+            },
+
+            tooltip: {
+                valuePrefix: '$',
+                valueDecimals: 2
             },
 
             series: [{
@@ -123,6 +133,10 @@ export class Chart {
                     innerSize: 100,
                     depth: 45
                 }
+            },
+            tooltip: {
+                valuePrefix: '$',
+                valueDecimals: 2
             },
             series: [{
                 name: 'Delivered amount',
@@ -180,8 +194,6 @@ export class Chart {
                 y: data[i].y,
             });
 
-            console.log(browserData);
-
             // add version data
             drillDataLen = data[i].drilldown.data.length;
             for (j = 0; j < drillDataLen; j += 1) {
@@ -192,7 +204,6 @@ export class Chart {
                 });
             }
         }
-        console.log(versionsData);
         //y: parseFloat(results.advancedAmounts[j]),
 
         // Create the chart
@@ -293,6 +304,10 @@ export class Chart {
                         format: '<b>{point.name}</b>'
                     }
                 }
+            },
+            tooltip: {
+                valuePrefix: '$',
+                valueDecimals: 2
             },
             series: [{
                 name: 'Expense amount',

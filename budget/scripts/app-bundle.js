@@ -809,16 +809,16 @@ define('utilities/calculateExpenses',['exports', 'aurelia-framework', '../servic
 
         calculateExpenses.prototype.getChartResults = function getChartResults() {
             this.user.results.simpleChartResults = [];
-            this.user.results.simpleChartResults.push(['Home', this.user.expenses.totalHomeExpense + 1]);
-            this.user.results.simpleChartResults.push(['Car', this.user.expenses.totalCarExpense + 1]);
-            this.user.results.simpleChartResults.push(['Health', this.user.expenses.totalHealthExpense + 1]);
-            this.user.results.simpleChartResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense + 1]);
+            this.user.results.simpleChartResults.push(['Home', this.user.expenses.totalHomeExpense]);
+            this.user.results.simpleChartResults.push(['Car', this.user.expenses.totalCarExpense]);
+            this.user.results.simpleChartResults.push(['Health', this.user.expenses.totalHealthExpense]);
+            this.user.results.simpleChartResults.push(['Discretionary', this.user.expenses.totalDiscretionaryExpense]);
 
             this.user.results.recommendedResults = [];
-            this.user.results.recommendedResults.push(['Home', this.user.recommend.totalHomeExpense + 1]);
-            this.user.results.recommendedResults.push(['Car', this.user.recommend.totalCarExpense + 1]);
-            this.user.results.recommendedResults.push(['Health', this.user.recommend.totalHealthExpense + 1]);
-            this.user.results.recommendedResults.push(['Discretionary', this.user.recommend.totalDiscretionaryExpense + 1]);
+            this.user.results.recommendedResults.push(['Home', this.user.recommend.totalHomeExpense]);
+            this.user.results.recommendedResults.push(['Car', this.user.recommend.totalCarExpense]);
+            this.user.results.recommendedResults.push(['Health', this.user.recommend.totalHealthExpense]);
+            this.user.results.recommendedResults.push(['Discretionary', this.user.recommend.totalDiscretionaryExpense]);
         };
 
         calculateExpenses.prototype.get5YearExpenses = function get5YearExpenses() {
@@ -1069,7 +1069,7 @@ define('utilities/calculatePercentages',['exports', 'aurelia-framework', '../ser
         };
 
         calculatePercentages.prototype.calculateHealthPercentages = function calculateHealthPercentages(health, total) {
-            this.user.results.advancedCarAmounts = [];
+            this.user.results.advancedHealthAmounts = [];
             this.user.results.healthPercentageArray = [];
             this.user.results.healthPercentage = health / total * 100;
 
@@ -1237,6 +1237,10 @@ define('utilities/chart',['exports', 'aurelia-framework', '../services/user', 'h
                         pointStart: 2017
                     }
                 },
+                tooltip: {
+                    valuePrefix: '$',
+                    valueDecimals: 2
+                },
                 series: chartGoalSeries
             });
         };
@@ -1261,8 +1265,14 @@ define('utilities/chart',['exports', 'aurelia-framework', '../services/user', 'h
 
                 plotOptions: {
                     series: {
-                        pointStart: 2017
+                        pointStart: 2017,
+                        valueDecimals: 2
                     }
+                },
+
+                tooltip: {
+                    valuePrefix: '$',
+                    valueDecimals: 2
                 },
 
                 series: [{
@@ -1302,6 +1312,10 @@ define('utilities/chart',['exports', 'aurelia-framework', '../services/user', 'h
                         innerSize: 100,
                         depth: 45
                     }
+                },
+                tooltip: {
+                    valuePrefix: '$',
+                    valueDecimals: 2
                 },
                 series: [{
                     name: 'Delivered amount',
@@ -1355,8 +1369,6 @@ define('utilities/chart',['exports', 'aurelia-framework', '../services/user', 'h
                     y: data[i].y
                 });
 
-                console.log(browserData);
-
                 drillDataLen = data[i].drilldown.data.length;
                 for (j = 0; j < drillDataLen; j += 1) {
                     brightness = 0.2 - j / drillDataLen / 5;
@@ -1366,7 +1378,6 @@ define('utilities/chart',['exports', 'aurelia-framework', '../services/user', 'h
                     });
                 }
             }
-            console.log(versionsData);
 
             Highcharts.chart(containerID, {
                 chart: {
@@ -1461,6 +1472,10 @@ define('utilities/chart',['exports', 'aurelia-framework', '../services/user', 'h
                             format: '<b>{point.name}</b>'
                         }
                     }
+                },
+                tooltip: {
+                    valuePrefix: '$',
+                    valueDecimals: 2
                 },
                 series: [{
                     name: 'Expense amount',
