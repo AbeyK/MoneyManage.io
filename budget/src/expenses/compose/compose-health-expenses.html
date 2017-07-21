@@ -1,37 +1,41 @@
 <template>
-        <br>
+    <br>
 
-    <div class="panel panel-default"  style ="border-radius:0;">
-        <div class="panel-heading"">
+    <div class="panel panel-default box-shadow--6dp" style="border-radius:0">
+        <div>
             <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#healthExpenseCollapse">
-                    Health
-                    <div style="float:right">
-                        Total: $${user.expenses.totalHealthExpense}
-                    </div>
+                <div style="float:right; padding:5px;width:30%; text-align:right">
+                    Total: $${user.expenses.totalHealthExpense}
+                </div>
+                <div style="float:left; padding:5px; width:30%">
+                    <span class="glyphicon glyphicon-chevron-down"></span>
+                </div>
+                <a data-toggle="collapse" data-parent="#accordion" href="#healthExpenseCollapse" style="font-size:24px; ">
+                    <center>Health</center>
                 </a>
+
             </h4>
         </div>
-        
+
         <div id="healthExpenseCollapse" class="panel-collapse collapse">
             <div class="panel-body">
                 <div repeat.for="health of constants.HealthExpenses" class="form-group col-md-6">
                     <label style="padding-left:5%">${health.title}</label>
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0 expensesInput">
                         <div class="input-group-addon">$</div>
-                        <input type="text" value.bind="user.expenses[health.value]" 
-                            change.delegate="calculateExpenses.healthExpenses()" class="form-control"id="${health.value}" disabled.bind = "!user.expenses[health.value + 'lock']">
+                        <input type="text" value.bind="user.expenses[health.value]" change.delegate="calculateExpenses.healthExpenses()" class="form-control"
+                            id="${health.value}" disabled.bind="!user.expenses[health.value + 'lock']">
                         <div class="input-group-btn">
-                            <button type="button"  class="btn ${user.expenses[health.value + 'lock'] ? 'btn-default' : 'btn-primary'}" click.delegate="lockStateChange(health.value)">
+                            <button type="button" class="btn ${user.expenses[health.value + 'lock'] ? 'btn-default' : 'btn-primary'}" click.delegate="lockStateChange(health.value)">
                                 <i class="fa fa-unlock" show.bind="!user.expenses[health.value + 'lock']"></i>
                                 <i class="fa fa-lock" show.bind="user.expenses[health.value + 'lock']"></i>
                                 </button>
                         </div>
                     </div>
-                    </div>
-                    <br>
                 </div>
+                <br>
             </div>
         </div>
+    </div>
     </div>
 </template>

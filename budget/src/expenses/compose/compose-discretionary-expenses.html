@@ -1,17 +1,20 @@
 <template>
     <br>
-
-    <div class="panel panel-default" style ="border-radius:0">
-        <div class="panel-heading">
+            <div class="panel panel-default box-shadow--6dp" style="border-radius:0">
+        <div>
             <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#discretionaryExpenseCollapse">Discretionary Expenses
-                    <div style="float:right">
-                        Total: $${user.expenses.totalDiscretionaryExpense}
-                    </div>
+                <div style="float:right; padding:5px;width:30%; text-align:right">
+                    Total: $${user.expenses.totalDiscretionaryExpense}
+                </div>
+                <div style="float:left; padding:5px; width:30%">
+                    <span class="glyphicon glyphicon-chevron-down"></span>
+                </div>
+                <a data-toggle="collapse" data-parent="#accordion" href="#discretionaryExpenseCollapse" style="font-size:24px; ">
+                    <center>Discretionary Expenses</center>
                 </a>
+
             </h4>
         </div>
-
         <div id="discretionaryExpenseCollapse" class="panel-collapse collapse">
             <div class="panel-body">
                 <div repeat.for="discretionary of constants.DiscretionaryExpenses" class="form-group col-md-6">

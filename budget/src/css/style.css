@@ -66,7 +66,11 @@ i {
 /*.panel, .panel-group .panel-heading+.panel-collapse>.panel-body{
     border: 0;
 }*/
-.panel-heading{
+.panel-title, .panel-heading{
   background: #337ab7 !important;
   color:white !important;
+  font-weight:bold !important;
+  /*margin:0 !important;*/
+  padding:6px !important;
+
   }
