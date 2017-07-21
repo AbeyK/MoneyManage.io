@@ -118,6 +118,7 @@ export class RecommendedData {
         this.homeMaintenancePercentage = 0;
         this.clothesPercentage = 0;
         this.homePercentageArray = [];
+        this.advancedHomeAmounts = [];
 
         //CAR PERCENTAGES
         this.carPercentage = 0;
@@ -127,6 +128,7 @@ export class RecommendedData {
         this.gasPercentage = 0;
         this.carMaintenancePercentage = 0;
         this.carPercentageArray = [];
+        this.advancedCarAmounts = [];
 
         //HEALTH PERCENTAGES
         this.healthPercentage = 0;
@@ -138,6 +140,7 @@ export class RecommendedData {
         this.cavitiesPercentage = 0;
         this.bracesPercentage = 0;
         this.healthPercentageArray = [];
+        this.advancedHealthAmounts = [];
 
         //DISCRETIONARY PERCENTAGES
         this.discretionaryPercentage = 0;
@@ -146,5 +149,6 @@ export class RecommendedData {
         this.funMoneyPercentage = 0;
         this.otherPercentage = 0;
         this.discretionaryPercentageArray = [];
+        this.advancedDiscretionaryAmounts = [];
     }
 }

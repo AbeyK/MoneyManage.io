@@ -55,6 +55,10 @@ export class Chart {
                     pointStart: 2017
                 }
             },
+            tooltip: {
+                valuePrefix: '$',
+                valueDecimals: 2
+            },
             series: chartGoalSeries
         });
     }
@@ -80,8 +84,14 @@ export class Chart {
 
             plotOptions: {
                 series: {
-                    pointStart: 2017
+                    pointStart: 2017,
+                     valueDecimals: 2
                 }
+            },
+
+            tooltip: {
+                valuePrefix: '$',
+                valueDecimals: 2
             },
 
             series: [{
@@ -124,6 +134,10 @@ export class Chart {
                     depth: 45
                 }
             },
+            tooltip: {
+                valuePrefix: '$',
+                valueDecimals: 2
+            },
             series: [{
                 name: 'Delivered amount',
                 data: results.simpleChartResults
@@ -134,32 +148,32 @@ export class Chart {
     createAdvancedChart(containerID, results) {
         var categories = ['Home', 'Car', 'Health', 'Discretionary'],
             data = [{
-                y: results.homePercentage,
+                y: this.user.expenses.totalHomeExpense,
                 drilldown: {
                     name: 'Home Expenses',
                     categories: this.constants.homeCategories,
-                    data: results.homePercentageArray,
+                    data: results.advancedHomeAmounts,
                 }
             }, {
-                y: results.carPercentage,
+                y: this.user.expenses.totalCarExpense,
                 drilldown: {
                     name: 'Car Expenses',
                     categories: this.constants.carCategories,
-                    data: results.carPercentageArray,
+                    data: results.advancedCarAmounts,
                 }
             }, {
-                y: results.healthPercentage,
+                y: this.user.expenses.totalHealthExpense,
                 drilldown: {
                     name: 'Health Expenses',
                     categories: this.constants.healthCategories,
-                    data: results.healthPercentageArray,
+                    data: results.advancedHealthAmounts,
                 }
             }, {
-                y: results.discretionaryPercentage,
+                y: this.user.expenses.totalDiscretionaryExpense,
                 drilldown: {
                     name: 'Discretionary Expenses',
                     categories: this.constants.discretionaryCategories,
-                    data: results.discretionaryPercentageArray,
+                    data: results.advancedDiscretionaryAmounts,
                 }
             }],
             browserData = [],
@@ -180,19 +194,16 @@ export class Chart {
                 y: data[i].y,
             });
 
-            console.log(browserData);
-
             // add version data
             drillDataLen = data[i].drilldown.data.length;
             for (j = 0; j < drillDataLen; j += 1) {
                 brightness = 0.2 - (j / drillDataLen) / 5;
                 versionsData.push({
                     name: data[i].drilldown.categories[j],
-                    y: data[i].drilldown.data[j],
+                    y: parseFloat(data[i].drilldown.data[j]),
                 });
             }
         }
-        console.log(versionsData);
         //y: parseFloat(results.advancedAmounts[j]),
 
         // Create the chart
@@ -218,11 +229,11 @@ export class Chart {
                 }
             },
             tooltip: {
-                valueSuffix: '%',
+                valuePrefix: '$',
                 valueDecimals: 2
             },
             series: [{
-                name: 'Percentage of Total Expense',
+                name: 'Amount of Total Expense',
                 data: browserData,
                 size: '50%',
                 dataLabels: {
@@ -241,7 +252,7 @@ export class Chart {
                     formatter: function () {
                         // display only if larger than 1
                         return this.y > 1 ? '<b>' + this.point.name + ':</b> ' +
-                            this.y + '%' : null;
+                            '$' + this.y : null;
                     }
                 },
                 id: 'versions'
@@ -294,6 +305,10 @@ export class Chart {
                     }
                 }
             },
+            tooltip: {
+                valuePrefix: '$',
+                valueDecimals: 2
+            },
             series: [{
                 name: 'Expense amount',
                 data: results.recommendedResults
@@ -304,32 +319,32 @@ export class Chart {
     createAdvancedRecommendedChart(containerID, results, recommend) {
         var categories = ['Home', 'Car', 'Health', 'Discretionary'],
             data = [{
-                y: recommend.homePercentage,
+                y: recommend.totalHomeExpense,
                 drilldown: {
                     name: 'Home Expenses',
                     categories: this.constants.homeCategories,
-                    data: recommend.homePercentageArray,
+                    data: recommend.advancedHomeAmounts,
                 }
             }, {
-                y: recommend.carPercentage,
+                y: recommend.totalCarExpense,
                 drilldown: {
                     name: 'Car Expenses',
                     categories: this.constants.carCategories,
-                    data: recommend.carPercentageArray,
+                    data: recommend.advancedCarAmounts,
                 }
             }, {
-                y: recommend.healthPercentage,
+                y: recommend.totalHealthExpense,
                 drilldown: {
                     name: 'Health Expenses',
                     categories: this.constants.healthCategories,
-                    data: recommend.healthPercentageArray,
+                    data: recommend.advancedCarAmounts,
                 }
             }, {
-                y: recommend.discretionaryPercentage,
+                y: recommend.totalDiscretionaryExpense,
                 drilldown: {
                     name: 'Discretionary Expenses',
                     categories: this.constants.discretionaryCategories,
-                    data: recommend.discretionaryPercentageArray,
+                    data: recommend.advancedDiscretionaryAmounts,
                 }
             }],
             browserData = [],
@@ -356,7 +371,7 @@ export class Chart {
                 brightness = 0.2 - (j / drillDataLen) / 5;
                 versionsData.push({
                     name: data[i].drilldown.categories[j],
-                    y: data[i].drilldown.data[j],
+                    y: parseFloat(data[i].drilldown.data[j]),
                 });
             }
         }
@@ -384,11 +399,11 @@ export class Chart {
                 }
             },
             tooltip: {
-                valueSuffix: '%',
+                valuePrefix: '$',
                 valueDecimals: 2
             },
             series: [{
-                name: 'Percentage of Total Expense',
+                name: 'Amount of Total Expense',
                 data: browserData,
                 size: '50%',
                 dataLabels: {
@@ -407,7 +422,7 @@ export class Chart {
                     formatter: function () {
                         // display only if larger than 1
                         return this.y > 1 ? '<b>' + this.point.name + ':</b> ' +
-                            this.y + '%' : null;
+                            '$' + this.y : null;
                     }
                 },
                 id: 'versions'
