@@ -1,28 +1,32 @@
 <template>
-        <br>
+    <br>
 
-    <div class="panel panel-default"  style ="border-radius:0">
-        <div class="panel-heading">
+    <div class="panel panel-default box-shadow--6dp" style="border-radius:0">
+        <div>
             <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#homeExpenseCollapse">
-                    Home
-                    <div style="float:right">
-                        Total: $${user.expenses.totalHomeExpense}
-                    </div>
+                <div style="float:right; padding:5px;width:30%; text-align:right">
+                    Total: $${user.expenses.totalHomeExpense}
+                </div>
+                <div style="float:left; padding:5px; width:30%">
+                    <span class="glyphicon glyphicon-chevron-down"></span>
+                </div>
+                <a data-toggle="collapse" data-parent="#accordion" href="#homeExpenseCollapse" style="font-size:24px; ">
+                    <center>Home</center>
                 </a>
+
             </h4>
         </div>
-        
+
         <div id="homeExpenseCollapse" class="panel-collapse collapse in">
             <div class="panel-body">
                 <div repeat.for="home of constants.HomeExpenses" class="form-group col-md-6">
                     <label style="padding-left:5%">${home.title}</label>
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0 expensesInput">
                         <div class="input-group-addon">$</div>
-                        <input type="text" value.bind="user.expenses[home.value]" 
-                            change.delegate="calculateExpenses.homeExpenses()" class="form-control"id="${home.value}" disabled.bind = "!user.expenses[home.value + 'lock']">
+                        <input type="text" value.bind="user.expenses[home.value]" change.delegate="calculateExpenses.homeExpenses()" class="form-control"
+                            id="${home.value}" disabled.bind="!user.expenses[home.value + 'lock']">
                         <div class="input-group-btn">
-                            <button type="button"  class="btn ${user.expenses[home.value + 'lock'] ? 'btn-default' : 'btn-primary'}" click.delegate="lockStateChange(home.value)">
+                            <button type="button" class="btn ${user.expenses[home.value + 'lock'] ? 'btn-default' : 'btn-primary'}" click.delegate="lockStateChange(home.value)">
                                 <i class="fa fa-unlock" show.bind="!user.expenses[home.value + 'lock']"></i>
                                 <i class="fa fa-lock" show.bind="user.expenses[home.value + 'lock']"></i>
                                 </button>
