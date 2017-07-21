@@ -1,5 +1,9 @@
 export class ComposeDiscretionaryExpenses {
-    constructor(){
-        
+    constructor() {
+        this.click = true;
+    }
+
+    clicked() {
+        this.click = !this.click;
     }
 }
