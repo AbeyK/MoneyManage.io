@@ -1,12 +1,14 @@
 import {inject} from 'aurelia-framework';
 import {User} from '../services/user';
 import {Constants} from '../services/constants';
+import {ExpensesConstants} from '../services/expensesConstants';
 
-@inject(User, Constants)
+@inject(User, Constants, ExpensesConstants)
 export class calculateRecommended {
-    constructor(user, constants) {
+    constructor(user, constants, expensesConstants) {
         this.user = user;
         this.constants = constants;
+        this.expensesConstants = expensesConstants;
     }
 
     getRecommendedTotals() {
@@ -35,51 +37,83 @@ export class calculateRecommended {
 
         //Decrease values if locked
         for(var i = 0; i < this.constants.HomeExpenses.length; i++) {
-            if(!this.user.recommend[this.constants.HomeExpenses[i].value + 'lock']);
+            var expenseName = this.constants.HomeExpenses[i].value;
+            var adjusted = 0;
+
+            if(!this.user.recommend[expenseName + 'lock']);
             else {
-                if(this.user.recommend[this.constants.HomeExpenses[i].value + 'check']);
+                if(this.user.recommend[expenseName + 'check']);
                 else {
-                    this.user.recommend[this.constants.HomeExpenses[i].value] *= .50;
+                    if(expenseName == 'cable') adjusted = this.expensesConstants.homeExpenseConstants.Cable;
+                    else if(expenseName == 'netflix') adjusted = this.expensesConstants.homeExpenseConstants.Netflix;
+                    else if(expenseName == 'groceries') adjusted = this.expensesConstants.homeExpenseConstants.Grocery;
+                    else if(expenseName == 'homeMaintenance') adjusted = this.expensesConstants.homeExpenseConstants.Maintenance;
+                    else if(expenseName == 'clothes') adjusted = this.expensesConstants.homeExpenseConstants.Clothes;
+                    else adjusted = this.user.recommend[expenseName] * .75;
+
+                    this.user.recommend[expenseName] = adjusted;
                 }
             }
 
-            this.user.recommend.totalHomeExpense += this.user.recommend[this.constants.HomeExpenses[i].value];
+            this.user.recommend.totalHomeExpense += this.user.recommend[expenseName];
         }
 
         for(var i = 0; i < this.constants.CarExpenses.length; i++) {
-            if(!this.user.recommend[this.constants.CarExpenses[i].value + 'lock']);
+            var expenseName = this.constants.CarExpenses[i].value;
+            var adjusted = 0;
+
+            if(!this.user.recommend[expenseName + 'lock']);
             else {
-                if(this.user.recommend[this.constants.CarExpenses[i].value + 'check']);
+                if(this.user.recommend[expenseName + 'check']);
                 else {
-                    this.user.recommend[this.constants.CarExpenses[i].value] *= .50;
+                    if(expenseName == 'carPayment') adjusted = this.expensesConstants.carExpenseConstants.Payment;
+                    else if(expenseName == 'gas') adjusted = this.expensesConstants.carExpenseConstants.Gas;
+                    else if(expenseName == 'carMaintenance') adjusted = this.expensesConstants.carExpenseConstants.Maintenance;
+                    else adjusted = this.user.recommend[expenseName] * .75;
+
+                    this.user.recommend[expenseName] = adjusted;
                 }
             }
 
-            this.user.recommend.totalCarExpense += this.user.recommend[this.constants.CarExpenses[i].value];
+            this.user.recommend.totalCarExpense += this.user.recommend[expenseName];
         }
 
         for(var i = 0; i < this.constants.HealthExpenses.length; i++) {
-            if(!this.user.recommend[this.constants.HealthExpenses[i].value + 'lock']);
+            var expenseName = this.constants.HealthExpenses[i].value;
+            var adjusted = 0;
+
+            if(!this.user.recommend[expenseName + 'lock']);
             else {
-                if(this.user.recommend[this.constants.HealthExpenses[i].value + 'check']);
+                if(this.user.recommend[expenseName + 'check']);
                 else {
-                    this.user.recommend[this.constants.HealthExpenses[i].value] *= .50;
+                    if(expenseName == 'unexpectedMedicalProblems') adjusted = this.expensesConstants.healthExpenseConstants.Emergency;
+                    else if(expenseName == 'braces') adjusted = this.expensesConstants.healthExpenseConstants.Braces;
+                    else adjusted = this.user.recommend[expenseName] * .75;
+
+                    this.user.recommend[expenseName] = adjusted;
                 }
             }
 
-            this.user.recommend.totalHealthExpense += this.user.recommend[this.constants.HealthExpenses[i].value];
+            this.user.recommend.totalHealthExpense += this.user.recommend[expenseName];
         }
 
         for(var i = 0; i < this.constants.DiscretionaryExpenses.length; i++) {
-            if(!this.user.recommend[this.constants.DiscretionaryExpenses[i].value + 'lock']);
+            var expenseName = this.constants.DiscretionaryExpenses[i].value;
+            var adjusted = 0;
+
+            if(!this.user.recommend[expenseName + 'lock']);
             else {
-                if(this.user.recommend[this.constants.DiscretionaryExpenses[i].value + 'check']);
+                if(this.user.recommend[expenseName + 'check']);
                 else {
-                    this.user.recommend[this.constants.DiscretionaryExpenses[i].value] *= .50;
+                    if(expenseName == 'eatingOut') adjusted = this.expensesConstants.discretionaryExpenseConstants.Eating;
+                    else if(expenseName == 'bars') adjusted = this.expensesConstants.discretionaryExpenseConstants.Club;
+                    else adjusted = this.user.recommend[expenseName] * .75;
+
+                    this.user.recommend[expenseName] = adjusted;
                 }
             }
 
-            this.user.recommend.totalDiscretionaryExpense += this.user.recommend[this.constants.DiscretionaryExpenses[i].value];
+            this.user.recommend.totalDiscretionaryExpense += this.user.recommend[expenseName];
         }
 
         this.user.recommend.totalExpense = this.user.recommend.totalHomeExpense + this.user.recommend.totalCarExpense +

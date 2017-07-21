@@ -5,6 +5,7 @@ export class RecommendedData {
         this.totalCarExpense = 0;
         this.totalHealthExpense = 0;
         this.totalDiscretionaryExpense = 0;
+        this.advancedAmounts = [];
 
         //HOME
         this.mortgage = 0;

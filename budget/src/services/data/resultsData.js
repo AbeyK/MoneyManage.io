@@ -2,6 +2,7 @@ export class ResultsData {
     constructor() {
         this.simpleChartResults = [];
         this.recommendedResults = [];
+        this.advancedAmounts = [];
         this.showGoals = false;
 
         //CHECK WHICH CHART TO SHOW

@@ -42,14 +42,14 @@ export class results {
     }
 
     getChartData() {
+        this.calculateExpenses.get5YearEstimates();
+        this.calculateRecommended.getRecommendedTotals();
         this.calculatePercentages.calculateAllPercentages();
+        this.calculateExpenses.getChartResults();
+
         console.log(this.user.expenses);
         console.log(this.user.results);
         console.log(this.user.recommend);
-
-        this.calculateExpenses.get5YearEstimates();
-        this.calculateRecommended.getRecommendedTotals();
-        this.calculateExpenses.getChartResults();
         
         this.chart.createFiveYearGoalsChart('fiveYearGoalsContainer', this.user.results);
         this.chart.createFiveYearExpensesChart('fiveYearExpensesContainer', this.user.results);

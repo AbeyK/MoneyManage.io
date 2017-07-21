@@ -180,6 +180,8 @@ export class Chart {
                 y: data[i].y,
             });
 
+            console.log(browserData);
+
             // add version data
             drillDataLen = data[i].drilldown.data.length;
             for (j = 0; j < drillDataLen; j += 1) {
@@ -190,6 +192,8 @@ export class Chart {
                 });
             }
         }
+        console.log(versionsData);
+        //y: parseFloat(results.advancedAmounts[j]),
 
         // Create the chart
         Highcharts.chart(containerID, {
@@ -198,6 +202,9 @@ export class Chart {
             },
             title: {
                 text: 'Your Advanced Budet Plan'
+            },
+            subtitle: {
+                text: 'Total Expense: ' + results.fiveYearExpenses[0]
             },
             yAxis: {
                 title: {
@@ -297,32 +304,32 @@ export class Chart {
     createAdvancedRecommendedChart(containerID, results, recommend) {
         var categories = ['Home', 'Car', 'Health', 'Discretionary'],
             data = [{
-                y: results.homePercentage,
+                y: recommend.homePercentage,
                 drilldown: {
                     name: 'Home Expenses',
                     categories: this.constants.homeCategories,
-                    data: results.homePercentageArray,
+                    data: recommend.homePercentageArray,
                 }
             }, {
-                y: results.carPercentage,
+                y: recommend.carPercentage,
                 drilldown: {
                     name: 'Car Expenses',
                     categories: this.constants.carCategories,
-                    data: results.carPercentageArray,
+                    data: recommend.carPercentageArray,
                 }
             }, {
-                y: results.healthPercentage,
+                y: recommend.healthPercentage,
                 drilldown: {
                     name: 'Health Expenses',
                     categories: this.constants.healthCategories,
-                    data: results.healthPercentageArray,
+                    data: recommend.healthPercentageArray,
                 }
             }, {
-                y: results.discretionaryPercentage,
+                y: recommend.discretionaryPercentage,
                 drilldown: {
                     name: 'Discretionary Expenses',
                     categories: this.constants.discretionaryCategories,
-                    data: results.discretionaryPercentageArray,
+                    data: recommend.discretionaryPercentageArray,
                 }
             }],
             browserData = [],
@@ -361,6 +368,9 @@ export class Chart {
             },
             title: {
                 text: 'Your Advanced Budet Plan'
+            },
+            subtitle: {
+                text: 'Total Expense: ' + recommend.totalExpense
             },
             yAxis: {
                 title: {
