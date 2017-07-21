@@ -29,8 +29,11 @@ export class personalinfo {
             ev.preventDefault();
             var data = ev.dataTransfer.getData("goal-name");
             var elements = document.getElementsByClassName("current-buttons");
+
+            //Push goal onto user goals list
             this.user.personalInfo.currentGoals.push(data);
 
+            //Remove goal from available list
             var arr = this.user.personalInfo.goalsList;
             for(var i = 0; i < arr.length; i++) {
                 if(arr[i] === data) {
@@ -38,7 +41,7 @@ export class personalinfo {
                 }
             }
 
-            //GET WHICH GOAL INPUT NEEDS TO BE SHOWN
+            //Get which goal input needs to be shown
             data = data.split(" ");
             var check = "check" + data[data.length - 1];
             this.user.personalInfo[check] = !this.user.personalInfo[check];
@@ -46,12 +49,24 @@ export class personalinfo {
     }
 
     remove(title) {
+        //Push the value back onto the available goals list
         this.user.personalInfo.goalsList.push(title);
+
+        //Remove selected goal from current goals list
+        var arr = this.user.personalInfo.currentGoals;
+        for(var i = 0; i < arr.length; i++) {
+            if(arr[i] === title) {
+                this.user.personalInfo.currentGoals.splice(i, 1);
+            }
+        }
+
+        //Make check value false so we know it isn't in the list of user goals
         title = title.split(" ");
         var check = "check" + title[title.length - 1];
         this.user.personalInfo[check] = !this.user.personalInfo[check];
     }
     //END DRAG AND DROP
+
 
     //INPUT VALIDATION
     checkIncome() {

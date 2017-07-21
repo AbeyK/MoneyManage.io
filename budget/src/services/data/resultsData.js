@@ -5,10 +5,10 @@ export class ResultsData {
         this.showGoals = false;
 
         //CHECK WHICH CHART TO SHOW
-        this.showGoalsChart = true;
-        this.showExpenses = false;
-        this.showChart = false;
+        this.showBudget = true;
         this.showAdvanced = false;
+        this.showGoalsChart = false;
+        this.showExpenses = false;
         this.showAdvancedRecommended = false;
 
         //FIVE YEAR VALUES

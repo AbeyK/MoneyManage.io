@@ -42,11 +42,11 @@ export class Constants {
         //EXPENSES CONSTANTS
         this.HomeExpenses = [
             {
-                "title" : "Mortgage/Rent (monthly)",
+                "title" : "Mortgage/Rent",
                 "value" : "mortgage"
             },
             {
-                "title" : "Property tax (per year)",
+                "title" : "Property tax (yearly)",
                 "value" : "propertyTax"
             },
             {
@@ -82,7 +82,7 @@ export class Constants {
                 "value" : "homeMaintenance"
             },
             {
-                "title" : "Clothes (per year)",
+                "title" : "Clothes (yearly)",
                 "value" : "clothes"
             }
         ];

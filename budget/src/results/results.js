@@ -20,14 +20,15 @@ export class results {
         this.calculateExpenses = calculateExpenses;
         this.calculateRecommended = calculateRecommended;
         this.calculatePercentages = calculatePercentages;
-        this.selectedOptions = [];
-        this.someOptions = [
-            {"text" : "Goals"},
-            {"text" : "Projected Expenses"}, 
+
+        this.selectedChart = [];
+        this.chartOptions = [
             {"text" : "Simple Budget"}, 
-            {"text" : "Advanced Budget"}
+            {"text" : "Advanced Budget"},
+            {"text" : "Projected Expenses"},
+            {"text" : "Goals"}
         ];
-        this.selectedOption = {"text" : "Goals"};
+        this.selectedChart = {"text" : "Simple Budget"};
     }
 
     checkValue(expenses, value, category, overallCategory) {
@@ -60,20 +61,8 @@ export class results {
         this.chart.createAdvancedRecommendedChart('recommendedContainerAdvanced', this.user.results, this.user.recommend);
     }
 
-    test(option) {
-        if(option == "Goals") {
-            this.user.results.showGoalsChart = true;
-            this.user.results.showExpenses = false;
-            this.user.results.showBudget = false;
-            this.user.results.showAdvanced = false;
-        }
-        else if(option == "Projected Expenses") {
-            this.user.results.showExpenses = true;
-            this.user.results.showGoalsChart = false;
-            this.user.results.showBudget = false;
-            this.user.results.showAdvanced = false;
-        }
-        else if(option == "Simple Budget") {
+    showChart(option) {
+        if(option == "Simple Budget") {
             this.user.results.showBudget = true;
             this.user.results.showGoalsChart = false;
             this.user.results.showExpenses = false;
@@ -85,8 +74,20 @@ export class results {
             this.user.results.showExpenses = false;
             this.user.results.showBudget = false;
         }
+        else if(option == "Projected Expenses") {
+            this.user.results.showExpenses = true;
+            this.user.results.showGoalsChart = false;
+            this.user.results.showBudget = false;
+            this.user.results.showAdvanced = false;
+        }
+        else if(option == "Goals") {
+            this.user.results.showGoalsChart = true;
+            this.user.results.showExpenses = false;
+            this.user.results.showBudget = false;
+            this.user.results.showAdvanced = false;
+        }
         
-        this.selectedOption.text = option;
+        this.selectedChart.text = option;
         return true;
     }
 
