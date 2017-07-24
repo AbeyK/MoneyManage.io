@@ -47,6 +47,20 @@ export class RecommendedData {
         this.homeMaintenancelock = true;
         this.clotheslock = true;
 
+        this.homeChanges = {
+            "mortgage" : 0,
+            "propertyTax" : 0,
+            "homeownerInsurance" : 0,
+            "phone" : 0,
+            "internet" : 0,
+            "cable" : 0,
+            "netfix" : 0,
+            "groceries" : 0,
+            "utilities" : 0,
+            "homeMaintenance" : 0,
+            "clothes" : 0
+        }
+
         //CAR
         this.carPayment = 0;
         this.carInsurance = 0;
@@ -65,6 +79,14 @@ export class RecommendedData {
         this.publicTransportlock = true;
         this.gaslock = true;
         this.carMaintenancelock = true;
+
+        this.carChanges = {
+            "carPayment" : 0,
+            "carInsurance" : 0,
+            "publicTransport" : 0,
+            "gas" : 0,
+            "carMaintenance" : 0
+        }
 
         //HEALTH
         this.healthInsurance = 0;
@@ -91,6 +113,16 @@ export class RecommendedData {
         this.cavitieslock = true;
         this.braceslock = true;
 
+        this.healthChanges = {
+            "healthInsurance" : 0,
+            "medication" : 0,
+            "unexpectedMedicalProblems" : 0,
+            "eyeCare" : 0,
+            "dentalInsurance" : 0,
+            "cavities" : 0,
+            "braces" : 0
+        }
+
         //DISCRETIONARY
         this.eatingOut = 0;
         this.bars = 0;
@@ -107,6 +139,12 @@ export class RecommendedData {
         this.funMoneylock = true;
         this.otherlock = true;
         
+        this.discretionaryChanges = {
+            "eatingOut" : 0,
+            "bars" : 0,
+            "funMoney" : 0,
+            "other" : 0
+        }
         
         //HOME PERCENTAGES
         this.homePercentage = 0;

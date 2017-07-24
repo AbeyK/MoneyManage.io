@@ -29,6 +29,11 @@ export class results {
             {"text" : "Goals"}
         ];
         this.selectedChart = {"text" : "Simple Budget"};
+
+        this.homeChanges = Object.keys(this.user.recommend.homeChanges);
+        this.carChanges = Object.keys(this.user.recommend.carChanges);
+        this.healthChanges = Object.keys(this.user.recommend.healthChanges);
+        this.discretionaryChanges = Object.keys(this.user.recommend.discretionaryChanges);
     }
 
     checkValue(expenses, value, category, overallCategory) {

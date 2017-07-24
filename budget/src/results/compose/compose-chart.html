@@ -1,4 +1,15 @@
 <template>
+    
+    
+    <div class="box-shadow--6dp" show.bind="user.results.showBudget" style="float: left; margin-left: 2%; margin-right: 10%; width: 43%;" id="resultsContainerSimple"></div>
+    <div class="box-shadow--6dp" show.bind="user.results.showAdvanced" style="float: left; margin-left: 2%; margin-right: 10%; width: 43%;" id="resultsContainerAdvanced"></div>
+    <div class="box-shadow--6dp" show.bind="user.results.showGoalsChart" style="float: left; margin-left: 2%; margin-right: 10%; width: 43%;" id="fiveYearGoalsContainer"></div>
+    <div class="box-shadow--6dp" show.bind="user.results.showExpenses" style="float: left; margin-left: 2%; margin-right: 10%; width: 43%;" id="fiveYearExpensesContainer"></div>
+    
+    <div class="box-shadow--6dp" show.bind="!user.results.showAdvancedRecommended" style="float: left; width: 43%;" id="recommendedContainer"></div>
+    <div class="box-shadow--6dp" show.bind="user.results.showAdvancedRecommended" style="float: left; width: 43%;" id="recommendedContainerAdvanced"></div>
+
+    <br style="clear:both;"> <br style="clear:both;"> <br style="clear:both;">
     <div class="col-md-6">
         <div class="btn-group" data-toggle="buttons">
             <label repeat.for="option of chartOptions" class="btn btn-primary" click.delegate="showChart(option.text)">
@@ -16,17 +27,65 @@
                 <input type="radio">Recommended Advanced Budget</label>
         </div>
     </div>
-    
-    <div class="box-shadow--6dp" show.bind="user.results.showBudget" style="float: left; margin-left: 2%; margin-right: 10%; width: 43%;" id="resultsContainerSimple"></div>
-    <div class="box-shadow--6dp" show.bind="user.results.showAdvanced" style="float: left; margin-left: 2%; margin-right: 10%; width: 43%;" id="resultsContainerAdvanced"></div>
-    <div class="box-shadow--6dp" show.bind="user.results.showGoalsChart" style="float: left; margin-left: 2%; margin-right: 10%; width: 43%;" id="fiveYearGoalsContainer"></div>
-    <div class="box-shadow--6dp" show.bind="user.results.showExpenses" style="float: left; margin-left: 2%; margin-right: 10%; width: 43%;" id="fiveYearExpensesContainer"></div>
-    
-    <div class="box-shadow--6dp" show.bind="!user.results.showAdvancedRecommended" style="float: left; width: 43%;" id="recommendedContainer"></div>
-    <div class="box-shadow--6dp" show.bind="user.results.showAdvancedRecommended" style="float: left; width: 43%;" id="recommendedContainerAdvanced"></div>
 
-    <br style="clear:both;"> <br style="clear:both;"> <br style="clear:both;">
-    <div show.bind="user.results.showGoals" class="${user.recommend.messageStyle}" >
+    <br style="clear:both;">
+    <!--<div show.bind="user.results.showGoals" class="${user.recommend.messageStyle}" >-->
+    <div class="${user.recommend.messageStyle}" >
         <b>${user.recommend.message}</b>
+        <br>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#changes">What did we change?</button>
+
+        <!-- Changes Modal -->
+        <div class="modal fade" id="changes" role="dialog">
+            <div class="modal-dialog">
+        
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Your Changes</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="row"> 
+                            <div class="col-md-6">
+                                <h5>Home Changes</h5>
+                                <div repeat.for="homeChange of homeChanges">
+                                    ${homeChange} : ${user.recommend.homeChanges[homeChange]}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <h5>Car Changes</h5>
+                                <div repeat.for="carChange of carChanges">
+                                    ${carChange} : ${user.recommend.carChanges[carChange]}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5>Health Changes</h5>
+                                <div repeat.for="healthChange of healthChanges">
+                                    ${healthChange} : ${user.recommend.healthChanges[healthChange]}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <h5>Discretionary Changes</h5>
+                                <div repeat.for="discretionaryChange of discretionaryChanges">
+                                    ${discretionaryChange} : ${user.recommend.discretionaryChanges[discretionaryChange]}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                 </div>
+                        
+            </div>
+        </div>
     </div>
 </template>

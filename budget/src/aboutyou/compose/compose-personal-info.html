@@ -26,7 +26,7 @@
 
             <!--=================================SAVINGS================================-->
             <div class="form-group col-md-6">
-                <label for="savings">Savings Per Month
+                <label for="savings">Savings Per Month (for goals)
                 </label>
                 <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                     <div class="input-group-addon">$</div>
@@ -40,7 +40,7 @@
                 <input type="text" value.bind="user.personalInfo.householdSize" change.delegate="checkHouseholdSize()" class="form-control ${user.personalInfo.validHouseholdSize ? 'none' : 'btn-danger'}">
             </div>
             <div class="form-group col-md-6">
-                <label for="householdSize">Size of Home (in square feet)?</label>
+                <label for="householdSize">Size of Home (in square feet)</label>
                 <input type="text" value.bind="user.personalInfo.squareFootHome" change.delegate="checkHomeSize()" class="form-control ${user.personalInfo.validHomeSize ? 'none' : 'btn-danger'}">
             </div>
         </div>

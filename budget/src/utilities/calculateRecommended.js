@@ -58,6 +58,7 @@ export class calculateRecommended {
                     }
                     else adjusted = this.user.recommend[expenseName] * .75;
 
+                    this.user.recommend.homeChanges[expenseName] = this.user.expenses[expenseName] - adjusted;
                     this.user.recommend[expenseName] = adjusted;
                 }
 
@@ -77,6 +78,7 @@ export class calculateRecommended {
                     }
                     else adjusted = this.user.recommend[expenseName] * .75;
 
+                    this.user.recommend.carChanges[expenseName] = this.user.expenses[expenseName] - adjusted;
                     this.user.recommend[expenseName] = adjusted;
                 }
 
@@ -95,6 +97,7 @@ export class calculateRecommended {
                     }
                     else adjusted = this.user.recommend[expenseName] * .75;
 
+                    this.user.recommend.healthChanges[expenseName] = this.user.expenses[expenseName] - adjusted;
                     this.user.recommend[expenseName] = adjusted;
                 }
 
@@ -113,6 +116,7 @@ export class calculateRecommended {
                     }
                     else adjusted = this.user.recommend[expenseName] * .75;
 
+                    this.user.recommend.discretionaryChanges[expenseName] = this.user.expenses[expenseName] - adjusted;
                     this.user.recommend[expenseName] = adjusted;
                 }
 
@@ -135,7 +139,7 @@ export class calculateRecommended {
                 adjustingHandler = false;
             }
             if(count > 4) {
-                this.user.recommened.message = "You do not meet your goals with our recommendations. Consider a more reasonable approach.";
+                this.user.recommend.message = "You do not meet your goals with our recommendations. Consider a more reasonable approach.";
                 this.user.recommend.messageStyle = "alert alert-danger";
                 adjustingHandler = false;
             }
