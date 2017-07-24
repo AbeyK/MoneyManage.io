@@ -30,6 +30,8 @@ export class expenses {
     next() {
         console.log(this.user.expenses);
 
+        this.expensesConstants.getExpenseConstants();
+
         if(!this.user.expenses.homeCanGoToNext) alert('Please enter valid home expenses');
         else if(!this.user.expenses.carCanGoToNext) alert('Please enter valid car expenses');
         else if(!this.user.expenses.healthCanGoToNext) alert('Please enter valid health expenses');

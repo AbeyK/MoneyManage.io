@@ -12,6 +12,11 @@ export class ExpensesData {
         this.healthCanGoToNext = true;
         this.discretionaryCanGoToNext = true;
 
+        this.homeExpenseConstants = {};
+        this.carExpenseConstants = {};
+        this.healthExpenseConstants = {};
+        this.discretionaryExpenseConstants = {};
+
         //HOME EXPENSES
         this.mortgage = 0;
         this.propertyTax = 0;

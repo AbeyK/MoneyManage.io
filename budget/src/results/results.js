@@ -41,6 +41,9 @@ export class results {
         if(val < 0) expenses[category.value + 'check'] = false;
         else if(val > 0) expenses[category.value + 'check'] = true;
 
+        console.log(overallCategory);
+        console.log(category);
+
         if(overallCategory == 'Home') this.calculateExpenses.homeExpenses();
         else if(overallCategory == 'Car') this.calculateExpenses.carExpenses();
         else if(overallCategory == 'Health') this.calculateExpenses.healthExpenses();
