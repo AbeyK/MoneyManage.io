@@ -16,7 +16,8 @@ export class calculateRecommended {
         var car = this.user.expenses.totalCarExpense;
         var health = this.user.expenses.totalHealthExpense;
         var discretionary = this.user.expenses.totalDiscretionaryExpense;
-        var total = this.user.expenses.totalExpense;
+        var total = home + car + health + discretionary;
+        this.user.expenses.totalExpense = total;
 
         this.expensesConstants.getExpenseConstants();
         this.getOriginalExpenses();
@@ -34,6 +35,7 @@ export class calculateRecommended {
         var adjustingHandler = true;
         var count = 0;
 
+        this.user.recommend.expensesChange = 0;
         this.user.recommend.adjustedSavingsTotal = adjustedSavingsTotal;
 
         while(adjustingHandler) {
@@ -151,6 +153,8 @@ export class calculateRecommended {
             var tempAdjusted = adjustedSavingsTotal + (incomeTotal - expenseTotal);
             console.log("Temp adjusted: ", tempAdjusted);
             count++;
+
+            this.user.recommend.expensesChange = this.user.expenses.totalExpense - this.user.recommend.totalExpense;
 
             if(tempAdjusted >= goalsTotal) {
                 this.user.recommend.message = "With our recommendations, you meet your goals!";
