@@ -67,7 +67,7 @@ export class Constants {
             },
             {
                 "title" : "Streaming Service",
-                "value" : "netfix"
+                "value" : "netflix"
             },
             {
                 "title" : "Groceries",
@@ -131,6 +131,10 @@ export class Constants {
                 "value" : "unexpectedMedicalProblems"
             },
             {
+                "title" : "Visual Insurance",
+                "value" : "visualInsurance"
+            },
+            {
                 "title" : "Eye Care",
                 "value" : "eyeCare"
             },
@@ -148,7 +152,7 @@ export class Constants {
             }
         ];
         this.healthCategories = ['Health Insurance', 'Medication', 'Unexpected Medical Problems',
-            'Eye Care', 'Dental Insurance', 'Cavities/Dental Work', 'Braces'];
+            'Visual Insurance', 'Eye Care', 'Dental Insurance', 'Cavities/Dental Work', 'Braces'];
 
         this.DiscretionaryExpenses = [
             {

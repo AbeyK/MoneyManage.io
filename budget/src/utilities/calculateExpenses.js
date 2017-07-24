@@ -37,7 +37,7 @@ export class calculateExpenses {
                 parseInt(this.user.expenses.phone) * Math.pow(1 - .012, i) +
                 parseInt(this.user.expenses.internet) * Math.pow(1 - .018, i) +
                 parseInt(this.user.expenses.cable) * Math.pow(1 + .029, i) +
-                parseInt(this.user.expenses.netfix) +
+                parseInt(this.user.expenses.netflix) +
                 parseInt(this.user.expenses.groceries) * Math.pow(1 + 0.01, i) +
                 parseInt(this.user.expenses.utilities) * Math.pow(1 + .018, i) +
                 parseInt(this.user.expenses.homeMaintenance) +
@@ -167,7 +167,7 @@ export class calculateExpenses {
             parseInt(this.user.expenses.phone) + 
             parseInt(this.user.expenses.internet) +
             parseInt(this.user.expenses.cable) + 
-            parseInt(this.user.expenses.netfix) +
+            parseInt(this.user.expenses.netflix) +
             parseInt(this.user.expenses.groceries) + 
             parseInt(this.user.expenses.utilities) +
             parseInt(this.user.expenses.homeMaintenance) + 
@@ -188,8 +188,8 @@ export class calculateExpenses {
             else this.user.expenses.cablecheck = true;
 
             //NETFLIX
-            if(this.user.expenses.netfix > this.user.expenses.homeExpenseConstants["Netflix"]) this.user.expenses.netfixcheck = false;
-            else this.user.expenses.netfixcheck = true;
+            if(this.user.expenses.netflix > this.user.expenses.homeExpenseConstants["Netflix"]) this.user.expenses.netflixcheck = false;
+            else this.user.expenses.netflixcheck = true;
             
             //GROCERIES
             if(this.user.expenses.groceries > this.user.expenses.homeExpenseConstants["Grocery"]) this.user.expenses.groceriescheck = false;
@@ -249,9 +249,10 @@ export class calculateExpenses {
             parseInt(this.user.expenses.healthInsurance) + 
             parseInt(this.user.expenses.medication) +
             parseInt(this.user.expenses.unexpectedMedicalProblems) + 
+            parseInt(this.user.expenses.visualInsurance) +
+            parseInt(this.user.expenses.eyeCare) +
             parseInt(this.user.expenses.dentalInsurance) +
             parseInt(this.user.expenses.cavities) + 
-            parseInt(this.user.expenses.eyeCare) +
             parseInt(this.user.expenses.braces);
 
         if(isNaN(tempHealthTotal)) {

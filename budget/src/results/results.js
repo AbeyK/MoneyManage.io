@@ -41,9 +41,6 @@ export class results {
         if(val < 0) expenses[category.value + 'check'] = false;
         else if(val > 0) expenses[category.value + 'check'] = true;
 
-        console.log(overallCategory);
-        console.log(category);
-
         if(overallCategory == 'Home') this.calculateExpenses.homeExpenses();
         else if(overallCategory == 'Car') this.calculateExpenses.carExpenses();
         else if(overallCategory == 'Health') this.calculateExpenses.healthExpenses();
@@ -119,11 +116,20 @@ export class results {
         this.user.personalInfo.showNavbar = true;
         this.getChartData();
 
+        //PERMANENT LOCKS
         this.user.expenses.mortgagelock = false;
         this.user.expenses.propertyTaxlock = false;
-        this.user.expenses.carPaymentlock = false;
-        this.user.expenses.medicationlock = false;
+        this.user.expenses.homeownerInsurancelock = false;
 
+        this.user.expenses.carPaymentlock = false;
+        this.user.expenses.carInsurancelock = false;
+
+        this.user.expenses.healthInsurancelock = false;
+        this.user.expenses.visualInsurancelock = false;
+        this.user.expenses.dentalInsurancelock = false;
+        this.user.expenses.braceslock = false;
+
+        //Show goals if there are any
         if(this.user.personalInfo.currentGoals.length > 0) this.user.results.showGoals = true;
         else this.user.results.showGoals = false;
     }

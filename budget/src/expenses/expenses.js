@@ -16,7 +16,15 @@ export class expenses {
     }
 
     lockStateChange(myElement) {
-        if(myElement == 'mortgage' || myElement == 'propertyTax' || myElement == 'carPayment' || myElement == 'medication')
+        if(myElement == 'mortgage' || 
+            myElement == 'propertyTax' ||
+            myElement == 'homeownerInsurance' || 
+            myElement == 'carPayment'|| 
+            myElement == 'carInsurance' ||
+            myElement == 'healthInsurance' ||
+            myElement == 'visualInsurance' ||
+            myElement == 'dentalInsurance' ||
+            myElement == 'braces')
             return;
 
         if(this.user.expenses[myElement + 'lock']) this.user.expenses[myElement + 'lock'] = false;
@@ -42,14 +50,17 @@ export class expenses {
     attached() {
         this.user.personalInfo.showNavbar = true;
 
+        //PERMANENT LOCKS
         this.user.expenses.mortgagelock = false;
         this.user.expenses.propertyTaxlock = false;
+        this.user.expenses.homeownerInsurancelock = false;
+
         this.user.expenses.carPaymentlock = false;
-        this.user.expenses.medicationlock = false;
-         
-        $('#expensesTooltip').tooltip({
-            content: "Enter all expenses as monthly amounts unless stated otherwise.<br>" +
-                "Lock values you don't want changed."
-        });
+        this.user.expenses.carInsurancelock = false;
+
+        this.user.expenses.healthInsurancelock = false;
+        this.user.expenses.visualInsurancelock = false;
+        this.user.expenses.dentalInsurancelock = false;
+        this.user.expenses.braceslock = false;
     }
 }
