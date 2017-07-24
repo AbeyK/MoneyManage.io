@@ -42,11 +42,11 @@ export class Constants {
         //EXPENSES CONSTANTS
         this.HomeExpenses = [
             {
-                "title" : "Mortgage/Rent (monthly)",
+                "title" : "Mortgage/Rent",
                 "value" : "mortgage"
             },
             {
-                "title" : "Property tax (per year)",
+                "title" : "Property tax (yearly)",
                 "value" : "propertyTax"
             },
             {
@@ -66,7 +66,7 @@ export class Constants {
                 "value" : "cable"
             },
             {
-                "title" : "Netflix",
+                "title" : "Streaming Service",
                 "value" : "netfix"
             },
             {
@@ -82,13 +82,14 @@ export class Constants {
                 "value" : "homeMaintenance"
             },
             {
-                "title" : "Clothes (per year)",
+                "title" : "Clothes (yearly)",
                 "value" : "clothes"
             }
         ];
-        this.homeCategories = ['Mortgage/Rent (monthly)', 'Property tax (per year)', "Homeowner's Insurace",
-            'Phone Payment', 'Internet', 'Cable', 'Netflix', 'Groceries',
-            'Utilities', 'Maintenance', 'Clothes (per year)'];
+
+        this.homeCategories = ['Mortgage/Rent', 'Property tax (yearly)', "Homeowner's Insurace",
+            'Phone Payment', 'Internet', 'Cable', 'Streaming Service', 'Groceries',
+            'Utilities', 'Maintenance', 'Clothes (yearly)'];
 
         this.CarExpenses = [
             {
@@ -112,6 +113,7 @@ export class Constants {
                 "value" : "carMaintenance"
             }
         ];
+        
         this.carCategories = ['Car Payment', 'Car Insurance', 'Public Transport',
             'Gas', 'Maintenance'];
 

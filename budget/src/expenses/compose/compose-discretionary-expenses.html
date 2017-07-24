@@ -1,18 +1,20 @@
 <template>
     <br>
-            <div class="box-shadow--6dp" style="border-radius:0">
+            <div class="box-shadow--6dp ${click ? 'none' : 'box-shadow--6dp'}" style="border-radius:0">
         <div>
             <h4 class="panel-title">
                 <div style="float:right; padding:5px;width:30%; text-align:right">
                     Total: $${user.expenses.totalDiscretionaryExpense}
                 </div>
-                <div style="float:left; padding:5px; width:30%">
-                    <span class="glyphicon glyphicon-chevron-down"></span>
-                </div>
-                <a data-toggle="collapse" data-parent="#accordion" href="#discretionaryExpenseCollapse" style="font-size:24px; ">
+                <a data-toggle="collapse" data-parent="#accordion" href="#discretionaryExpenseCollapse"
+                    click.delegate="clicked()" style="float:left; padding:5px; width:30%">
+                    <span show.bind="click" class="glyphicon glyphicon-chevron-right"></span>
+                    <span show.bind="!click" class="glyphicon glyphicon-chevron-down"></span>
+                </a>
+                <a data-toggle="collapse" data-parent="#accordion" href="#discretionaryExpenseCollapse"
+                    click.delegate="clicked()" style="font-size:24px; ">
                     <center>Discretionary</center>
                 </a>
-
             </h4>
         </div>
         <div id="discretionaryExpenseCollapse" class="panel-collapse collapse">
@@ -22,16 +24,15 @@
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0 expensesInput">
                         <div class="input-group-addon">$</div>
                         <input type="text" value.bind="user.expenses[discretionary.value]" change.delegate="calculateExpenses.discretionaryExpenses()"
-                            class="form-control" id="${discretionary.value}" disabled.bind="!user.expenses[discretionary.value + 'lock']">
+                            class="form-control" id="${discretionary.value}">
                         <div class="input-group-btn" >
                             <button type="button" class="btn ${user.expenses[discretionary.value + 'lock'] ? 'btn-default' : 'btn-primary'}" click.delegate="lockStateChange(discretionary.value)">
                                 <i class="fa fa-unlock" show.bind="!user.expenses[discretionary.value + 'lock']"></i>
                                 <i class="fa fa-lock" show.bind="user.expenses[discretionary.value + 'lock']"></i>
-                                </button>
+                            </button>
                         </div>
                     </div>
                     <br>
-
                 </div>
             </div>
         </div>

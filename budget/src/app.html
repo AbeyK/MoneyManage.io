@@ -11,28 +11,26 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
 
+  <!--=================================================NAVBAR=======================================================-->
   <nav class="navbar navbar-default" show.bind="user.personalInfo.showNavbar" style="border:none; background:white">
     <div class="" style="float:left;">
       <a class="navtitles" href="#"><span style="font-size:1.6em; margin:0"  class="glyphicon glyphicon-home"></span></a>
     </div>
+
     <div class="" style="float:right;">
       <a class="navtitles" href="#"><span style="font-size:1.6em;"  class="glyphicon glyphicon-cog"></span></a>
     </div>
 
     <div class="container-fluid" style="margin: 0 auto; display: table;">
-
       <ul class="nav navbar-nav" style="width:100%;">
-
         <li repeat.for="row of router.navigation" style="margin: 0 auto; display: inline;" class="${row.isActive ? 'active' : ''}">
           <a id="navtitles" href.bind="row.href" style="margin:0 auto; text-align: center;">${row.title}</a>
         </li>
-
       </ul>
-
     </div>
     <hr style="border-color:#337ab7; width:50%">
-
   </nav>
+  
 
   <div id="app">
     <div id="content">
