@@ -129,9 +129,16 @@ export class calculateRecommended {
             console.log("Temp adjusted: ", tempAdjusted);
             count++;
 
-            if(tempAdjusted >= goalsTotal) adjustingHandler = false;
-            if(count > 10) adjustingHandler = false;
-
+            if(tempAdjusted >= goalsTotal) {
+                this.user.recommend.message = "With our recommendations, you meet your goals!";
+                this.user.recommend.messageStyle = "alert alert-success";
+                adjustingHandler = false;
+            }
+            if(count > 4) {
+                this.user.recommened.message = "You do not meet your goals with our recommendations. Consider a more reasonable approach.";
+                this.user.recommend.messageStyle = "alert alert-danger";
+                adjustingHandler = false;
+            }
         }
     }
 

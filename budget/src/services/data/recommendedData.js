@@ -7,6 +7,8 @@ export class RecommendedData {
         this.totalDiscretionaryExpense = 0;
         this.advancedAmounts = [];
         this.adjustedSavingsTotal = 0;
+        this.message =  "";
+        this.messageStyle = "";
 
         //HOME
         this.mortgage = 0;

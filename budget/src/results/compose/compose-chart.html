@@ -24,4 +24,9 @@
     
     <div class="box-shadow--6dp" show.bind="!user.results.showAdvancedRecommended" style="float: left; width: 43%;" id="recommendedContainer"></div>
     <div class="box-shadow--6dp" show.bind="user.results.showAdvancedRecommended" style="float: left; width: 43%;" id="recommendedContainerAdvanced"></div>
+
+    <br style="clear:both;"> <br style="clear:both;"> <br style="clear:both;">
+    <div show.bind="user.results.showGoals" class="${user.recommend.messageStyle}" >
+        <b>${user.recommend.message}</b>
+    </div>
 </template>
