@@ -26,7 +26,7 @@
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0 expensesInput">
                         <div class="input-group-addon">$</div>
                         <input type="text" value.bind="user.expenses[home.value]" change.delegate="calculateExpenses.homeExpenses()" class="form-control"
-                            id="${home.value}" disabled.bind="!user.expenses[home.value + 'lock']">
+                            id="${home.value}">
                         <div class="input-group-btn">
                             <button type="button" class="btn ${user.expenses[home.value + 'lock'] ? 'btn-default' : 'btn-primary'}" click.delegate="lockStateChange(home.value)">
                                 <i class="fa fa-unlock" show.bind="!user.expenses[home.value + 'lock']"></i>

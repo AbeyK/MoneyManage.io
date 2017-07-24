@@ -24,7 +24,7 @@
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0 expensesInput">
                         <div class="input-group-addon">$</div>
                         <input type="text" value.bind="user.expenses[discretionary.value]" change.delegate="calculateExpenses.discretionaryExpenses()"
-                            class="form-control" id="${discretionary.value}" disabled.bind="!user.expenses[discretionary.value + 'lock']">
+                            class="form-control" id="${discretionary.value}">
                         <div class="input-group-btn" >
                             <button type="button" class="btn ${user.expenses[discretionary.value + 'lock'] ? 'btn-default' : 'btn-primary'}" click.delegate="lockStateChange(discretionary.value)">
                                 <i class="fa fa-unlock" show.bind="!user.expenses[discretionary.value + 'lock']"></i>

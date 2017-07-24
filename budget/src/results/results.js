@@ -111,6 +111,11 @@ export class results {
         this.user.personalInfo.showNavbar = true;
         this.getChartData();
 
+        this.user.expenses.mortgagelock = false;
+        this.user.expenses.propertyTaxlock = false;
+        this.user.expenses.carPaymentlock = false;
+        this.user.expenses.medicationlock = false;
+
         if(this.user.personalInfo.currentGoals.length > 0) this.user.results.showGoals = true;
         else this.user.results.showGoals = false;
     }
