@@ -126,7 +126,9 @@ export class results {
 
         this.user.expenses.healthInsurancelock = false;
         this.user.expenses.visualInsurancelock = false;
+        this.user.expenses.eyeCarelock = false;
         this.user.expenses.dentalInsurancelock = false;
+        this.user.expenses.cavitieslock = false;
         this.user.expenses.braceslock = false;
 
         //Show goals if there are any

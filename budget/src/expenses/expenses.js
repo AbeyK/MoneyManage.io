@@ -23,7 +23,9 @@ export class expenses {
             myElement == 'carInsurance' ||
             myElement == 'healthInsurance' ||
             myElement == 'visualInsurance' ||
+            myElement == 'eyeCare' ||
             myElement == 'dentalInsurance' ||
+            myElement == 'cavities' ||
             myElement == 'braces')
             return;
 
@@ -60,7 +62,9 @@ export class expenses {
 
         this.user.expenses.healthInsurancelock = false;
         this.user.expenses.visualInsurancelock = false;
+        this.user.expenses.eyeCarelock = false;
         this.user.expenses.dentalInsurancelock = false;
+        this.user.expenses.cavitieslock = false;
         this.user.expenses.braceslock = false;
     }
 }

@@ -143,7 +143,7 @@ export class Constants {
                 "value" : "dentalInsurance"
             },
             {
-                "title" : "Cavities/Dental Work",
+                "title" : "Dental Work",
                 "value" : "cavities"
             },
             {
@@ -152,7 +152,7 @@ export class Constants {
             }
         ];
         this.healthCategories = ['Health Insurance', 'Medication', 'Unexpected Medical Problems',
-            'Visual Insurance', 'Eye Care', 'Dental Insurance', 'Cavities/Dental Work', 'Braces'];
+            'Visual Insurance', 'Eye Care', 'Dental Insurance', 'Dental Work', 'Braces'];
 
         this.DiscretionaryExpenses = [
             {
