@@ -47,7 +47,7 @@ height:100vh;
 
     background: linear-gradient(to bottom right, #1567b9, #baecc7);
   text-align: center;
-  padding: 50px;
+  padding: 1px;
 }
 
 .zigzag {
@@ -137,4 +137,7 @@ height:100vh;
   to {
     stroke-dashoffset: 0;
   }
+}
+svg{
+  height: 100%;
 }

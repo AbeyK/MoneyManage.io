@@ -8,14 +8,14 @@
                     <th style="text-align: center;" repeat.for="expense of user.results.recommendedResults.length">
                         ${user.results.recommendedResults[expense][0]}
                     </th>
-                    <th style="text-align: center;"> Savings / Goals</th>
+                    <th style="text-align: center;"> Wishes</th>
                 </tr>
             </thead>
             <tbody >
                 <tr>
                     <!--DISPLAY EACH EXPENSE COLUMNS-->
                     <td style="" repeat.for="amount of user.results.recommendedResults.length">
-                        <div style="text-align: center;"><strong>${user.expenses['total' + user.results.recommendedResults[amount][0] + 'Expense']}</strong></div>
+                        <div style="text-align: center;"><strong>$ ${user.expenses['total' + user.results.recommendedResults[amount][0] + 'Expense']}</strong></div>
                         <hr>
                         <div style="height: 300px; overflow-y:scroll;">
                             <div repeat.for="expense of constants[user.results.recommendedResults[amount][0] + 'Expenses']" class="form-group">
@@ -33,7 +33,7 @@
 
                     <!--DISPLAY SAVINGS AND GOALS-->
                     <td>
-                        <div style="text-align: center;"><strong>${user.personalInfo.savingsPerMonth * 12}</strong></div>
+                        <div style="text-align: center;"><strong>$ ${user.personalInfo.savingsPerMonth * 12}</strong></div>
                         <hr>
                         <div class="form-group">
                             <label for="privateSchool">Savings Per Month</label>
