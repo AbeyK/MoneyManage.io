@@ -104,6 +104,13 @@ export class results {
         return true;
     }
 
+     showRecommendedChart(option) {
+        if(option == "Recommended Simple Budget") {
+            this.user.results.showAdvancedRecommended = false;
+        }
+        else this.user.results.showAdvancedRecommended = true;
+    }
+
     checkAdvanced() {
         this.user.results.showAdvanced = !this.user.results.showAdvanced;
     }
