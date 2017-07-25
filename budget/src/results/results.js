@@ -34,6 +34,12 @@ export class results {
         this.carChanges = Object.keys(this.user.recommend.carChanges);
         this.healthChanges = Object.keys(this.user.recommend.healthChanges);
         this.discretionaryChanges = Object.keys(this.user.recommend.discretionaryChanges);
+
+        this.modelHomeChanges = [];
+        this.modelCarChanges = [];
+        this.modelHealthChanges = [];
+        this.modelDiscretionaryChanges = [];
+        this.modelExpenseChange = 0;
     }
 
     checkValue(expenses, value, category, overallCategory) {
@@ -56,6 +62,8 @@ export class results {
         console.log(this.user.expenses);
         console.log(this.user.results);
         console.log(this.user.recommend);
+
+        this.formatModal();
         
         this.chart.createFiveYearGoalsChart('fiveYearGoalsContainer', this.user.results);
         this.chart.createFiveYearExpensesChart('fiveYearExpensesContainer', this.user.results);
@@ -96,6 +104,13 @@ export class results {
         return true;
     }
 
+     showRecommendedChart(option) {
+        if(option == "Recommended Simple Budget") {
+            this.user.results.showAdvancedRecommended = false;
+        }
+        else this.user.results.showAdvancedRecommended = true;
+    }
+
     checkAdvanced() {
         this.user.results.showAdvanced = !this.user.results.showAdvanced;
     }
@@ -110,6 +125,41 @@ export class results {
 
     home() {
         this.router.navigate('#/home');
+    }
+
+    formatModal() {
+        this.modelHomeChanges = [];
+        this.modelCarChanges = [];
+        this.modelHealthChanges = [];
+        this.modelDiscretionaryChanges = [];
+        
+        for(var i = 0; i < this.homeChanges.length; i++) {
+            var val = parseFloat(this.user.recommend.homeChanges[this.homeChanges[i]]);
+            if(val < 0) this.modelHomeChanges.push("-$" + Math.abs(val).toFixed(2));
+            else this.modelHomeChanges.push("$" + Math.abs(val).toFixed(2));
+        }
+
+        for(var i = 0; i < this.carChanges.length; i++) {
+            var val = parseFloat(this.user.recommend.carChanges[this.carChanges[i]]);
+            if(val < 0) this.modelCarChanges.push("-$" + Math.abs(val).toFixed(2));
+            else this.modelCarChanges.push("$" + Math.abs(val).toFixed(2));
+        }
+
+        for(var i = 0; i < this.healthChanges.length; i++) {
+            var val = parseFloat(this.user.recommend.healthChanges[this.healthChanges[i]]);
+            if(val < 0) this.modelHealthChanges.push("-$" + Math.abs(val).toFixed(2));
+            else this.modelHealthChanges.push("$" + Math.abs(val).toFixed(2));
+        }
+
+        for(var i = 0; i < this.discretionaryChanges.length; i++) {
+            var val = parseFloat(this.user.recommend.discretionaryChanges[this.discretionaryChanges[i]]);
+            if(val < 0) this.modelDiscretionaryChanges.push("-$" + Math.abs(val).toFixed(2));
+            else this.modelDiscretionaryChanges.push("$" + Math.abs(val).toFixed(2));
+        }
+
+        var expenseChange = this.user.recommend.expensesChange;
+        if(expenseChange < 0) this.modelExpenseChange = "-$" + Math.abs(expenseChange.toFixed(2));
+        else this.modelExpenseChange = "$" + Math.abs(expenseChange.toFixed(2));
     }
 
     attached() {

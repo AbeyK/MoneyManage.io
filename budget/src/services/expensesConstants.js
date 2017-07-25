@@ -26,8 +26,8 @@ export class ExpensesConstants {
             "GroceryLow" : [267, 267, 488, 657, 811, 947, 1134, 1259, 1436, 1588, 1833, 1886][Math.min(11, Math.floor(this.user.personalInfo.householdSize))],
             "GroceryModerate" : [332, 332, 607, 814, 1006, 1176, 1412, 1577, 1799, 1985, 2286, 2341][Math.min(11, Math.floor(this.user.personalInfo.householdSize))],
             "GroceryLiberal" : [414, 414, 759, 999, 1222, 1423, 1698, 1887, 2148, 2375, 2739, 2812][Math.min(11, Math.floor(this.user.personalInfo.householdSize))],
-            "Utilities" : 200 + (200 * .02 * this.user.personalInfo.householdSize),
-            "Maintenance" : this.user.personalInfo.squareFootHome,
+            "Utilities" : 200 + (200 * .02 * parseInt(this.user.personalInfo.householdSize)),
+            "Maintenance" : parseInt(this.user.personalInfo.squareFootHome),
             "Clothes" : Math.floor(this.user.personalInfo.income * .05)
         };
 
@@ -40,7 +40,7 @@ export class ExpensesConstants {
         };
 
         this.user.expenses.healthExpenseConstants = {
-            "MedicationMin" : this.user.expenses.medication * .95,
+            "MedicationMin" : parseFloat(this.user.expenses.medication) * .95,
             "Emergency" : emergencyValue,
             "Braces" : 6000
         };

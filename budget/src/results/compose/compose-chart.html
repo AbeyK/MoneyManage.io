@@ -1,94 +1,28 @@
 <template>
-    <div class="box-shadow--6dp" show.bind="user.results.showBudget" style="float: left; margin-left: 2%; margin-right: 10%; width: 43%;" id="resultsContainerSimple"></div>
-    <div class="box-shadow--6dp" show.bind="user.results.showAdvanced" style="float: left; margin-left: 2%; margin-right: 10%; width: 43%;" id="resultsContainerAdvanced"></div>
-    <div class="box-shadow--6dp" show.bind="user.results.showGoalsChart" style="float: left; margin-left: 2%; margin-right: 10%; width: 43%;" id="fiveYearGoalsContainer"></div>
-    <div class="box-shadow--6dp" show.bind="user.results.showExpenses" style="float: left; margin-left: 2%; margin-right: 10%; width: 43%;" id="fiveYearExpensesContainer"></div>
+    <div class="box-shadow--6dp" show.bind="user.results.showBudget" style="float: left; margin-right: 4%; width: 48%;" id="resultsContainerSimple"></div>
+    <div class="box-shadow--6dp" show.bind="user.results.showAdvanced" style="float: left; margin-right: 4%; width: 48%;" id="resultsContainerAdvanced"></div>
+    <div class="box-shadow--6dp" show.bind="user.results.showGoalsChart" style="float: left; margin-right: 4%; width: 48%;" id="fiveYearGoalsContainer"></div>
+    <div class="box-shadow--6dp" show.bind="user.results.showExpenses" style="float: left;margin-right: 4%; width: 48%;" id="fiveYearExpensesContainer"></div>
     
-    <div class="box-shadow--6dp" show.bind="!user.results.showAdvancedRecommended" style="float: left; width: 43%;" id="recommendedContainer"></div>
-    <div class="box-shadow--6dp" show.bind="user.results.showAdvancedRecommended" style="float: left; width: 43%;" id="recommendedContainerAdvanced"></div>
+    <div class="box-shadow--6dp" show.bind="!user.results.showAdvancedRecommended" style="float: left; width: 48%;" id="recommendedContainer"></div>
+    <div class="box-shadow--6dp" show.bind="user.results.showAdvancedRecommended" style="float: left; width: 48%;" id="recommendedContainerAdvanced"></div>
 
     <br style="clear:both;"> <br style="clear:both;"> <br style="clear:both;">
-    <div class="col-md-6">
-        <div class="btn-group" data-toggle="buttons">
-            <label repeat.for="option of chartOptions" class="btn btn-primary" click.delegate="showChart(option.text)">
-                <input type="radio" autocomplete="off" model.bind="option" checked.bind="$parent.selectedChart"/>
-                ${option.text}
-            </label>
-        </div> <br> <br>
+
+    <div class="form-group col-md-6" style="width: 48%; margin-right: 4%;">
+        <label for="race">Chart Options</label>
+        <select class="form-control" value.bind="option" change.delegate="showChart(option)">
+            <option repeat.for="option of chartOptions">${option.text}</option>
+        </select>
     </div>
 
-    <div class="col-md-6">
-        <div class="btn-group" click.delegate="checkAdvancedRecommended()" data-toggle="buttons">
-            <label class="btn btn-primary ${!user.results.showAdvancedRecommended ? 'active btn-primary' : 'btn-secondary'}">
-                <input type="radio">Recommended Simple Budget</label>
-            <label class="btn btn-primary ${user.results.showAdvancedRecommended ? 'active btn-primary' : 'btn-secondary'}">
-                <input type="radio">Recommended Advanced Budget</label>
-        </div>
+    <div class="form-group col-md-6" style="width: 48%;">
+        <label for="race">Recommended Chart Options</label>
+        <select class="form-control" value.bind="option" change.delegate="showRecommendedChart(option)">
+            <option>Recommended Simple Budget</option>
+            <option>Recommended Advanced Budget</option>
+        </select>
     </div>
 
-    <br style="clear:both;">
-    <!--<div show.bind="user.results.showGoals" class="${user.recommend.messageStyle}" >-->
-    <div class="${user.recommend.messageStyle}" >
-        <b>${user.recommend.message}</b>
-        <br> <br>
-        <button class="btn btn-primary" data-toggle="modal" data-target="#changes">See Recommended Changes</button>
-
-        <!-- Changes Modal -->
-        <div class="modal fade" id="changes" role="dialog">
-            <div class="modal-dialog">
-        
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title"><b>Your Changes</b></h4>
-                    </div>
-
-                    <div class="modal-body">
-                        <div class="row"> 
-                            <div class="col-md-6">
-                                <h5><b>Home Changes</b></h5>
-                                <div repeat.for="homeChange of homeChanges" class="${user.recommend.homeChanges[homeChange] > 0 ? 'decreasing' : 'adding'}">
-                                    ${homeChange.charAt(0).toUpperCase() + homeChange.slice(1)}: $${user.recommend.homeChanges[homeChange].toFixed(2)}
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <h5><b>Transportation Changes</b></h5>
-                                <div repeat.for="carChange of carChanges" class="${user.recommend.carChanges[carChange] > 0 ? 'decreasing' : 'adding'}">
-                                    ${carChange.charAt(0).toUpperCase() + carChange.slice(1)}: $${user.recommend.carChanges[carChange].toFixed(2)}
-                                </div>
-                            </div>
-                        </div>
-
-                        <hr>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h5><b>Health Changes</b></h5>
-                                <div repeat.for="healthChange of healthChanges" class="${user.recommend.healthChanges[healthChange] > 0 ? 'decreasing' : 'adding'}">
-                                    ${healthChange.charAt(0).toUpperCase() + healthChange.slice(1)}: $${user.recommend.healthChanges[healthChange].toFixed(2)}
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <h5><b>Discretionary Changes</b></h5>
-                                <div repeat.for="discretionaryChange of discretionaryChanges" class="${user.recommend.discretionaryChanges[discretionaryChange] > 0 ? 'decreasing' : 'adding'}">
-                                    ${discretionaryChange.charAt(0).toUpperCase() + discretionaryChange.slice(1)}: $${user.recommend.discretionaryChanges[discretionaryChange].toFixed(2)}
-                                </div>
-
-                                <h5><b>Total Expense Change: Subtract $${user.recommend.expensesChange.toFixed(2)}</b></h5>
-                                <h5 style="color: #3c763d"><b>Savings Change: Add $${user.recommend.savingsChange.toFixed(2)}</b></h5>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                 </div>
-                        
-            </div>
-        </div>
-    </div>
+    <br> <br> <br> <br>
 </template>
