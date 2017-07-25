@@ -1,12 +1,10 @@
 import { inject } from 'aurelia-framework';
 import { User } from '../services/user';
-import { ExpensesConstants } from '../services/expensesConstants';
 
-@inject(User, ExpensesConstants)
+@inject(User)
 export class calculateExpenses {
-    constructor(user, expensesConstants) {
+    constructor(user, ) {
         this.user = user;
-        this.expensesConstants = expensesConstants;
     }
 
     getChartResults() {
@@ -39,7 +37,7 @@ export class calculateExpenses {
                 parseInt(this.user.expenses.phone) * Math.pow(1 - .012, i) +
                 parseInt(this.user.expenses.internet) * Math.pow(1 - .018, i) +
                 parseInt(this.user.expenses.cable) * Math.pow(1 + .029, i) +
-                parseInt(this.user.expenses.netfix) +
+                parseInt(this.user.expenses.netflix) +
                 parseInt(this.user.expenses.groceries) * Math.pow(1 + 0.01, i) +
                 parseInt(this.user.expenses.utilities) * Math.pow(1 + .018, i) +
                 parseInt(this.user.expenses.homeMaintenance) +
@@ -169,7 +167,7 @@ export class calculateExpenses {
             parseInt(this.user.expenses.phone) + 
             parseInt(this.user.expenses.internet) +
             parseInt(this.user.expenses.cable) + 
-            parseInt(this.user.expenses.netfix) +
+            parseInt(this.user.expenses.netflix) +
             parseInt(this.user.expenses.groceries) + 
             parseInt(this.user.expenses.utilities) +
             parseInt(this.user.expenses.homeMaintenance) + 
@@ -182,23 +180,31 @@ export class calculateExpenses {
         else {
             //Check if expenses are more than average spending
             //MORTGAGE
-            if (this.user.expenses.mortgage > this.expensesConstants.homeExpenseConstants["Mortgage"]) this.user.expenses.mortgagecheck = false;
+            if (this.user.expenses.mortgage > this.user.expenses.homeExpenseConstants["Mortgage"]) this.user.expenses.mortgagecheck = false;
             else this.user.expenses.mortgagecheck = true;
 
             //CABLE
-            if(this.user.expenses.cable > this.expensesConstants.homeExpenseConstants["Cable"]) this.user.expenses.cablecheck = false;
+            if(this.user.expenses.cable > this.user.expenses.homeExpenseConstants["Cable"]) this.user.expenses.cablecheck = false;
             else this.user.expenses.cablecheck = true;
 
             //NETFLIX
-            if(this.user.expenses.netfix > this.expensesConstants.homeExpenseConstants["Netflix"]) this.user.expenses.netfixcheck = false;
-            else this.user.expenses.netfixcheck = true;
+            if(this.user.expenses.netflix > this.user.expenses.homeExpenseConstants["Netflix"]) this.user.expenses.netflixcheck = false;
+            else this.user.expenses.netflixcheck = true;
             
+            //GROCERIES
+            if(this.user.expenses.groceries > this.user.expenses.homeExpenseConstants["Grocery"]) this.user.expenses.groceriescheck = false;
+            else this.user.expenses.groceriescheck = true;
+
+            //UTILITIES
+            if(this.user.expenses.utilities > this.user.expenses.homeExpenseConstants["Utilities"]) this.user.expenses.utilitiescheck = false;
+            else this.user.expenses.utilitiescheck = true;
+
             //HOME MAINTENANCE
-            if(this.user.expenses.homeMaintenance > this.expensesConstants.homeExpenseConstants["Maintenance"]) this.user.expenses.homeMaintenancecheck = false;
+            if(this.user.expenses.homeMaintenance > this.user.expenses.homeExpenseConstants["Maintenance"]) this.user.expenses.homeMaintenancecheck = false;
             else this.user.expenses.homeMaintenancecheck = true;
 
             //CLOTHES
-            if (this.user.expenses.clothes > this.expensesConstants.homeExpenseConstants["Clothes"]) this.user.expenses.clothescheck = false;
+            if (this.user.expenses.clothes > this.user.expenses.homeExpenseConstants["Clothes"]) this.user.expenses.clothescheck = false;
             else this.user.expenses.clothescheck = true;
 
             this.user.expenses.homeCanGoToNext = true;
@@ -221,15 +227,15 @@ export class calculateExpenses {
         else {
             //Check if expenses are more than average spending
             //CAR PAYMENT
-            if(this.user.expenses.carPayment > this.expensesConstants.carExpenseConstants["Payment"]) this.user.expenses.carPaymentcheck = false;
+            if(this.user.expenses.carPayment > this.user.expenses.carExpenseConstants["Payment"]) this.user.expenses.carPaymentcheck = false;
             else this.user.expenses.carPaymentcheck = true;
 
             //GAS
-            if(this.user.expenses.gas > this.expensesConstants.carExpenseConstants["Gas"]) this.user.expenses.gascheck = false;
+            if(this.user.expenses.gas > this.user.expenses.carExpenseConstants["Gas"]) this.user.expenses.gascheck = false;
             else this.user.expenses.gascheck = true;
 
             //CAR MAINTENANCE
-            if(this.user.expenses.carMaintenance > this.expensesConstants.carExpenseConstants["Maintenance"]) this.user.expenses.carMaintenancecheck = false;
+            if(this.user.expenses.carMaintenance > this.user.expenses.carExpenseConstants["Maintenance"]) this.user.expenses.carMaintenancecheck = false;
             else this.user.expenses.carMaintenancecheck = true;
 
             this.user.expenses.carCanGoToNext = true;
@@ -243,9 +249,10 @@ export class calculateExpenses {
             parseInt(this.user.expenses.healthInsurance) + 
             parseInt(this.user.expenses.medication) +
             parseInt(this.user.expenses.unexpectedMedicalProblems) + 
+            parseInt(this.user.expenses.visualInsurance) +
+            parseInt(this.user.expenses.eyeCare) +
             parseInt(this.user.expenses.dentalInsurance) +
             parseInt(this.user.expenses.cavities) + 
-            parseInt(this.user.expenses.eyeCare) +
             parseInt(this.user.expenses.braces);
 
         if(isNaN(tempHealthTotal)) {
@@ -255,11 +262,11 @@ export class calculateExpenses {
         else {
             //Check if expenses are more than average spending
             //UNEXPECTED MEDICAL PROBLEMS
-            if(this.user.expenses.unexpectedMedicalProblems > this.expensesConstants.healthExpenseConstants["Emergency"]) this.user.expenses.unexpectedMedicalProblemscheck = false;
+            if(this.user.expenses.unexpectedMedicalProblems > this.user.expenses.healthExpenseConstants["Emergency"]) this.user.expenses.unexpectedMedicalProblemscheck = false;
             else this.user.expenses.unexpectedMedicalProblemscheck = true;
 
             //BRACES
-            if(this.user.expenses.braces > this.expensesConstants.healthExpenseConstants["Braces"]) this.user.expenses.bracescheck = false;
+            if(this.user.expenses.braces > this.user.expenses.healthExpenseConstants["Braces"]) this.user.expenses.bracescheck = false;
             else this.user.expenses.bracescheck = true;
 
             this.user.expenses.healthCanGoToNext = true;
@@ -281,11 +288,11 @@ export class calculateExpenses {
         else {
             //Check if expenses are more than average spending
             //EATING OUT
-            if(this.user.expenses.eatingOut > this.expensesConstants.discretionaryExpenseConstants["Eating"]) this.user.expenses.eatingOutcheck = false;
+            if(this.user.expenses.eatingOut > this.user.expenses.discretionaryExpenseConstants["Eating"]) this.user.expenses.eatingOutcheck = false;
             else this.user.expenses.eatingOutcheck = true;
 
             //BARS
-            if(this.user.expenses.bars > this.expensesConstants.discretionaryExpenseConstants["Club"]) this.user.expenses.barscheck = false;
+            if(this.user.expenses.bars > this.user.expenses.discretionaryExpenseConstants["Club"]) this.user.expenses.barscheck = false;
             else this.user.expenses.barscheck = true;
 
             this.user.expenses.discretionaryCanGoToNext = true;

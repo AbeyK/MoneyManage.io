@@ -34,6 +34,10 @@ export class App {
       {
         route: 'logout', moduleId: 'logout/logout',
         name: 'logout', title: 'MoneyManage: Logout', nav: false
+      },
+            {
+        route: 'login', moduleId: 'login/login',
+        name: 'longin', title: 'MoneyManage: Login', nav: false
       }
     ]);
   }

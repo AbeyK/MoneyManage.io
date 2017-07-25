@@ -29,6 +29,11 @@ export class results {
             {"text" : "Goals"}
         ];
         this.selectedChart = {"text" : "Simple Budget"};
+
+        this.homeChanges = Object.keys(this.user.recommend.homeChanges);
+        this.carChanges = Object.keys(this.user.recommend.carChanges);
+        this.healthChanges = Object.keys(this.user.recommend.healthChanges);
+        this.discretionaryChanges = Object.keys(this.user.recommend.discretionaryChanges);
     }
 
     checkValue(expenses, value, category, overallCategory) {
@@ -111,11 +116,22 @@ export class results {
         this.user.personalInfo.showNavbar = true;
         this.getChartData();
 
+        //PERMANENT LOCKS
         this.user.expenses.mortgagelock = false;
         this.user.expenses.propertyTaxlock = false;
-        this.user.expenses.carPaymentlock = false;
-        this.user.expenses.medicationlock = false;
+        this.user.expenses.homeownerInsurancelock = false;
 
+        this.user.expenses.carPaymentlock = false;
+        this.user.expenses.carInsurancelock = false;
+
+        this.user.expenses.healthInsurancelock = false;
+        this.user.expenses.visualInsurancelock = false;
+        this.user.expenses.eyeCarelock = false;
+        this.user.expenses.dentalInsurancelock = false;
+        this.user.expenses.cavitieslock = false;
+        this.user.expenses.braceslock = false;
+
+        //Show goals if there are any
         if(this.user.personalInfo.currentGoals.length > 0) this.user.results.showGoals = true;
         else this.user.results.showGoals = false;
     }

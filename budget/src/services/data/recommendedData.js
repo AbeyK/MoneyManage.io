@@ -7,8 +7,11 @@ export class RecommendedData {
         this.totalDiscretionaryExpense = 0;
         this.advancedAmounts = [];
         this.adjustedSavingsTotal = 0;
+
         this.message =  "";
         this.messageStyle = "";
+        this.savingsChange = 0;
+        this.expensesChange = 0;
 
         //HOME
         this.mortgage = 0;
@@ -17,7 +20,7 @@ export class RecommendedData {
         this.phone = 0;
         this.internet = 0;
         this.cable = 0;
-        this.netfix = 0;
+        this.netflix = 0;
         this.groceries = 0;
         this.utilities = 0;
         this.homeMaintenance = 0;
@@ -29,7 +32,7 @@ export class RecommendedData {
         this.phonecheck = true;
         this.internetcheck = true;
         this.cablecheck = true;
-        this.netfixcheck = true;
+        this.netflixcheck = true;
         this.groceriescheck = true;
         this.utilitiescheck = true;
         this.homeMaintenancecheck = true;
@@ -41,11 +44,25 @@ export class RecommendedData {
         this.phonelock = true;
         this.internetlock = true;
         this.cablelock = true;
-        this.netfixlock = true;
+        this.netflixlock = true;
         this.grocerieslock = true;
         this.utilitieslock = true;
         this.homeMaintenancelock = true;
         this.clotheslock = true;
+
+        this.homeChanges = {
+            "mortgage" : 0,
+            "propertyTax" : 0,
+            "homeownerInsurance" : 0,
+            "phone" : 0,
+            "internet" : 0,
+            "cable" : 0,
+            "netflix" : 0,
+            "groceries" : 0,
+            "utilities" : 0,
+            "homeMaintenance" : 0,
+            "clothes" : 0
+        }
 
         //CAR
         this.carPayment = 0;
@@ -66,10 +83,19 @@ export class RecommendedData {
         this.gaslock = true;
         this.carMaintenancelock = true;
 
+        this.carChanges = {
+            "carPayment" : 0,
+            "carInsurance" : 0,
+            "publicTransport" : 0,
+            "gas" : 0,
+            "carMaintenance" : 0
+        }
+
         //HEALTH
         this.healthInsurance = 0;
         this.medication = 0;
         this.unexpectedMedicalProblems = 0;
+        this.visualInsurance = 0;
         this.eyeCare = 0;
         this.dentalInsurance = 0;
         this.cavities = 0;
@@ -78,6 +104,7 @@ export class RecommendedData {
         this.healthInsurancecheck = true;
         this.medicationcheck = true;
         this.unexpectedMedicalProblemscheck = true;
+        this.visualInsurancecheck = true;
         this.eyeCarecheck = true;
         this.dentalInsurancecheck = true;
         this.cavitiescheck = true;
@@ -86,10 +113,22 @@ export class RecommendedData {
         this.healthInsurancelock = true;
         this.medicationlock = true;
         this.unexpectedMedicalProblemslock = true;
+        this.visualInsurancelock = true;
         this.eyeCarelock = true;
         this.dentalInsurancelock = true;
         this.cavitieslock = true;
         this.braceslock = true;
+
+        this.healthChanges = {
+            "healthInsurance" : 0,
+            "medication" : 0,
+            "unexpectedMedicalProblems" : 0,
+            "visualInsurance" : 0,
+            "eyeCare" : 0,
+            "dentalInsurance" : 0,
+            "cavities" : 0,
+            "braces" : 0
+        }
 
         //DISCRETIONARY
         this.eatingOut = 0;
@@ -107,6 +146,12 @@ export class RecommendedData {
         this.funMoneylock = true;
         this.otherlock = true;
         
+        this.discretionaryChanges = {
+            "eatingOut" : 0,
+            "bars" : 0,
+            "funMoney" : 0,
+            "other" : 0
+        }
         
         //HOME PERCENTAGES
         this.homePercentage = 0;
@@ -138,6 +183,7 @@ export class RecommendedData {
         this.healthInsurancePercentage = 0;
         this.medicationPercentage = 0;
         this.unexpectedMedicalProblemsPercentage = 0;
+        this.visualInsurancePercentage = 0;
         this.eyeCarePercentage = 0;
         this.dentalInsurancePercentage = 0;
         this.cavitiesPercentage = 0;

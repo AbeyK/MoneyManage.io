@@ -12,6 +12,11 @@ export class ExpensesData {
         this.healthCanGoToNext = true;
         this.discretionaryCanGoToNext = true;
 
+        this.homeExpenseConstants = {};
+        this.carExpenseConstants = {};
+        this.healthExpenseConstants = {};
+        this.discretionaryExpenseConstants = {};
+
         //HOME EXPENSES
         this.mortgage = 0;
         this.propertyTax = 0;
@@ -19,7 +24,7 @@ export class ExpensesData {
         this.phone = 0;
         this.internet = 0;
         this.cable = 0;
-        this.netfix = 0;
+        this.netflix = 0;
         this.groceries = 0;
         this.utilities = 0;
         this.homeMaintenance = 0;
@@ -31,7 +36,7 @@ export class ExpensesData {
         this.phonecheck = true;
         this.internetcheck = true;
         this.cablecheck = true;
-        this.netfixcheck = true;
+        this.netflixcheck = true;
         this.groceriescheck = true;
         this.utilitiescheck = true;
         this.homeMaintenancecheck = true;
@@ -43,7 +48,7 @@ export class ExpensesData {
         this.phonelock = true;
         this.internetlock = true;
         this.cablelock = true;
-        this.netfixlock = true;
+        this.netflixlock = true;
         this.grocerieslock = true;
         this.utilitieslock = true;
         this.homeMaintenancelock = true;
@@ -73,6 +78,7 @@ export class ExpensesData {
         this.healthInsurance = 0;
         this.medication = 0;
         this.unexpectedMedicalProblems = 0;
+        this.visualInsurance = 0;
         this.eyeCare = 0;
         this.dentalInsurance = 0;
         this.cavities = 0;
@@ -81,15 +87,16 @@ export class ExpensesData {
         this.healthInsurancecheck = true;
         this.medicationcheck = true;
         this.unexpectedMedicalProblemscheck = true;
+        this.visualInsurancecheck = true;
         this.eyeCarecheck = true;
         this.dentalInsurancecheck = true;
         this.cavitiescheck = true;
         this.bracescheck = true;
 
-
         this.healthInsurancelock = true;
         this.medicationlock = true;
         this.unexpectedMedicalProblemslock = true;
+        this.visualInsurancelock = true;
         this.eyeCarelock = true;
         this.dentalInsurancelock = true;
         this.cavitieslock = true;

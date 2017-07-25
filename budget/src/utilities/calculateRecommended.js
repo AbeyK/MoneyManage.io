@@ -16,8 +16,10 @@ export class calculateRecommended {
         var car = this.user.expenses.totalCarExpense;
         var health = this.user.expenses.totalHealthExpense;
         var discretionary = this.user.expenses.totalDiscretionaryExpense;
-        var total = this.user.expenses.totalExpense;
+        var total = home + car + health + discretionary;
+        this.user.expenses.totalExpense = total;
 
+        this.expensesConstants.getExpenseConstants();
         this.getOriginalExpenses();
 
         var chartGoals = this.user.results.chartGoals;
@@ -33,7 +35,12 @@ export class calculateRecommended {
         var adjustingHandler = true;
         var count = 0;
 
+        this.user.recommend.expensesChange = 0;
         this.user.recommend.adjustedSavingsTotal = adjustedSavingsTotal;
+
+        //GET HEALTH PERCENTAGE CHANGES
+        var medicationPerc = (this.user.recommend.medication / expenseTotal - .05) / 5;
+        if(medicationPerc < 0) medicationPerc = .01;
 
         while(adjustingHandler) {
             this.user.recommend.totalHomeExpense = 0;
@@ -42,7 +49,7 @@ export class calculateRecommended {
             this.user.recommend.totalDiscretionaryExpense = 0;
             this.user.recommend.totalExpense = 0;
 
-            //Decrease values if locked
+            //HOME CHANGES
             for(var i = 0; i < this.constants.HomeExpenses.length; i++) {
                 var expenseName = this.constants.HomeExpenses[i].value;
                 var adjusted = 0;
@@ -50,20 +57,24 @@ export class calculateRecommended {
                 if(!this.user.recommend[expenseName + 'lock']);
                 else {
                     if(!this.user.recommend[expenseName + 'check']) {
-                        if(expenseName == 'cable') adjusted = this.expensesConstants.homeExpenseConstants.Cable;
-                        else if(expenseName == 'netflix') adjusted = this.expensesConstants.homeExpenseConstants.Netflix;
-                        else if(expenseName == 'groceries') adjusted = this.expensesConstants.homeExpenseConstants.Grocery;
-                        else if(expenseName == 'homeMaintenance') adjusted = this.expensesConstants.homeExpenseConstants.Maintenance;
-                        else if(expenseName == 'clothes') adjusted = this.expensesConstants.homeExpenseConstants.Clothes;
+                        if(expenseName == 'cable') adjusted = this.user.expenses.homeExpenseConstants.Cable;
+                        else if(expenseName == 'netflix') adjusted = this.user.expenses.homeExpenseConstants.Netflix;
+                        else if(expenseName == 'groceries') adjusted = this.user.expenses.homeExpenseConstants.Grocery;
+                        else if(expenseName == 'utilities') adjusted = this.user.expenses.homeExpenseConstants.Utilities;
+                        else if(expenseName == 'homeMaintenance') adjusted = this.user.expenses.homeExpenseConstants.Maintenance;
+                        else if(expenseName == 'clothes') adjusted = this.user.expenses.homeExpenseConstants.Clothes;
+                        this.user.recommend[expenseName + 'check'] = true;
                     }
                     else adjusted = this.user.recommend[expenseName] * .75;
 
+                    this.user.recommend.homeChanges[expenseName] = this.user.expenses[expenseName] - adjusted;
                     this.user.recommend[expenseName] = adjusted;
                 }
 
                 this.user.recommend.totalHomeExpense += this.user.recommend[expenseName];
             }
 
+            //CAR CHANGES
             for(var i = 0; i < this.constants.CarExpenses.length; i++) {
                 var expenseName = this.constants.CarExpenses[i].value;
                 var adjusted = 0;
@@ -71,18 +82,22 @@ export class calculateRecommended {
                 if(!this.user.recommend[expenseName + 'lock']);
                 else {
                     if(!this.user.recommend[expenseName + 'check']) {
-                        if(expenseName == 'carPayment') adjusted = this.expensesConstants.carExpenseConstants.Payment;
-                        else if(expenseName == 'gas') adjusted = this.expensesConstants.carExpenseConstants.Gas;
-                        else if(expenseName == 'carMaintenance') adjusted = this.expensesConstants.carExpenseConstants.Maintenance;
+                        if(expenseName == 'carPayment') adjusted = this.user.expenses.carExpenseConstants.Payment;
+                        else if(expenseName == 'gas') adjusted = this.user.expenses.carExpenseConstants.Gas;
+                        else if(expenseName == 'carMaintenance') adjusted = this.user.expenses.carExpenseConstants.Maintenance;
+                        this.user.recommend[expenseName + 'check'] = true;
                     }
                     else adjusted = this.user.recommend[expenseName] * .75;
 
+
+                    this.user.recommend.carChanges[expenseName] = this.user.expenses[expenseName] - adjusted;
                     this.user.recommend[expenseName] = adjusted;
                 }
 
                 this.user.recommend.totalCarExpense += this.user.recommend[expenseName];
             }
 
+            //HEALTH CHANGES
             for(var i = 0; i < this.constants.HealthExpenses.length; i++) {
                 var expenseName = this.constants.HealthExpenses[i].value;
                 var adjusted = 0;
@@ -90,17 +105,26 @@ export class calculateRecommended {
                 if(!this.user.recommend[expenseName + 'lock']);
                 else {
                     if(!this.user.recommend[expenseName + 'check']) {
-                        if(expenseName == 'unexpectedMedicalProblems') adjusted = this.expensesConstants.healthExpenseConstants.Emergency;
-                        else if(expenseName == 'braces') adjusted = this.expensesConstants.healthExpenseConstants.Braces;
+                        if(expenseName == 'unexpectedMedicalProblems') adjusted = this.user.expenses.healthExpenseConstants.Emergency;
+                        this.user.recommend[expenseName + 'check'] = true;
                     }
-                    else adjusted = this.user.recommend[expenseName] * .75;
+                    else {
+                        if(expenseName == 'medication') adjusted = this.user.recommend[expenseName] - this.user.recommend[expenseName] * medicationPerc;
+                        else if(expenseName == 'unexpectedMedicalProblems') {
+                            if(this.user.recommend[expenseName] > this.user.expenses.healthExpenseConstants.Emergency) adjusted = this.user.recommend[expenseName] * .75;
+                            if(this.user.recommend[expenseName] <= this.user.expenses.healthExpenseConstants.Emergency) adjusted = this.user.expenses.healthExpenseConstants.Emergency;
+                        }
+                        else adjusted = this.user.recommend[expenseName] * .75;
+                    }
 
+                    this.user.recommend.healthChanges[expenseName] = this.user.expenses[expenseName] - adjusted;
                     this.user.recommend[expenseName] = adjusted;
                 }
 
                 this.user.recommend.totalHealthExpense += this.user.recommend[expenseName];
             }
 
+            //DISCRETIONARY CHANGES
             for(var i = 0; i < this.constants.DiscretionaryExpenses.length; i++) {
                 var expenseName = this.constants.DiscretionaryExpenses[i].value;
                 var adjusted = 0;
@@ -108,26 +132,29 @@ export class calculateRecommended {
                 if(!this.user.recommend[expenseName + 'lock']);
                 else {
                     if(!this.user.recommend[expenseName + 'check']) {
-                        if(expenseName == 'eatingOut') adjusted = this.expensesConstants.discretionaryExpenseConstants.Eating;
-                        else if(expenseName == 'bars') adjusted = this.expensesConstants.discretionaryExpenseConstants.Club;
+                        if(expenseName == 'eatingOut') adjusted = this.user.expenses.discretionaryExpenseConstants.Eating;
+                        else if(expenseName == 'bars') adjusted = this.user.expenses.discretionaryExpenseConstants.Club;
+                        this.user.recommend[expenseName + 'check'] = true;
                     }
                     else adjusted = this.user.recommend[expenseName] * .75;
 
+                    this.user.recommend.discretionaryChanges[expenseName] = this.user.expenses[expenseName] - adjusted;
                     this.user.recommend[expenseName] = adjusted;
                 }
 
                 this.user.recommend.totalDiscretionaryExpense += this.user.recommend[expenseName];
             }
 
+            //ADD NEW TOTAL EXPENSE
             this.user.recommend.totalExpense = this.user.recommend.totalHomeExpense + this.user.recommend.totalCarExpense +
                 this.user.recommend.totalHealthExpense + this.user.recommend.totalDiscretionaryExpense;
         
             expenseTotal = this.user.recommend.totalExpense;
 
-            console.log("Savings, income, expense, goals: ", adjustedSavingsTotal, incomeTotal, expenseTotal, goalsTotal);
             var tempAdjusted = adjustedSavingsTotal + (incomeTotal - expenseTotal);
-            console.log("Temp adjusted: ", tempAdjusted);
             count++;
+
+            this.user.recommend.expensesChange = this.user.expenses.totalExpense - this.user.recommend.totalExpense;
 
             if(tempAdjusted >= goalsTotal) {
                 this.user.recommend.message = "With our recommendations, you meet your goals!";
@@ -135,7 +162,7 @@ export class calculateRecommended {
                 adjustingHandler = false;
             }
             if(count > 4) {
-                this.user.recommened.message = "You do not meet your goals with our recommendations. Consider a more reasonable approach.";
+                this.user.recommend.message = "You do not meet your goals with our recommendations. Consider a more reasonable approach.";
                 this.user.recommend.messageStyle = "alert alert-danger";
                 adjustingHandler = false;
             }

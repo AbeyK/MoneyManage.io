@@ -3,14 +3,16 @@ import {Router} from 'aurelia-router';
 import {User} from '../services/user';
 import {Constants} from '../services/constants';
 import {Slider} from '../utilities/slider';
+import { ExpensesConstants } from '../services/expensesConstants';
 
-@inject(Router, User, Slider, Constants)
+@inject(Router, User, Slider, Constants, ExpensesConstants)
 export class personalinfo {
-    constructor(router, user, slider, constants) {
+    constructor(router, user, slider, constants, expensesConstants) {
         this.router = router;
         this.user = user;
         this.slider = slider;
         this.constants = constants;
+        this.expensesConstants = expensesConstants;
     }
 
     //DRAG AND DROP
@@ -110,6 +112,7 @@ export class personalinfo {
         }
 
         this.user.personalInfo.currentGoalsRanks = arr;
+        this.expensesConstants.getExpenseConstants();
         
         //INPUT VALIDATION
         console.log(this.user.personalInfo);

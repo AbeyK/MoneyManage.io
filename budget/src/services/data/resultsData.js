@@ -69,6 +69,7 @@ export class ResultsData {
         this.healthInsurancePercentage = 0;
         this.medicationPercentage = 0;
         this.unexpectedMedicalProblemsPercentage = 0;
+        this.visualInsurancePercentage = 0;
         this.eyeCarePercentage = 0;
         this.dentalInsurancePercentage = 0;
         this.cavitiesPercentage = 0;
