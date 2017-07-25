@@ -123,3 +123,50 @@ ul.dropdown ul li a:hover{
  .navbar-brand:active {
    color: blue;
  }
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    display: none;
+    margin: 0;
+
+    /****************
+     ** NEW STYLES **
+     ****************/
+
+    list-style: none; /** Remove list bullets */
+    width: 100%; /** Set the width to 100% of it's parent */
+    padding: 0;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+/** Button Styles **/
+.dropdown button {
+    /*background: #FF6223;
+    color: #FFFFFF;*/
+    border: none;
+    margin: 0;
+    padding: 0.4em 0.8em;
+    font-size: 1em;
+}
+
+/** List Item Styles **/
+.dropdown a {
+    display: block;
+    padding: 0.2em 0.8em;
+    text-decoration: none;
+    /*background: #CCCCCC;
+    color: #333333;*/
+}
+
+/** List Item Hover Styles **/
+.dropdown a:hover {
+    /*background: #BBBBBB;*/
+}
