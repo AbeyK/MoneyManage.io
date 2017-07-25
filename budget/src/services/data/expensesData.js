@@ -24,7 +24,7 @@ export class ExpensesData {
         this.phone = 0;
         this.internet = 0;
         this.cable = 0;
-        this.netflix = 0;
+        this.streaming = 0;
         this.groceries = 0;
         this.utilities = 0;
         this.homeMaintenance = 0;
@@ -36,7 +36,7 @@ export class ExpensesData {
         this.phonecheck = true;
         this.internetcheck = true;
         this.cablecheck = true;
-        this.netflixcheck = true;
+        this.streamingcheck = true;
         this.groceriescheck = true;
         this.utilitiescheck = true;
         this.homeMaintenancecheck = true;
@@ -48,7 +48,7 @@ export class ExpensesData {
         this.phonelock = true;
         this.internetlock = true;
         this.cablelock = true;
-        this.netflixlock = true;
+        this.streaminglock = true;
         this.grocerieslock = true;
         this.utilitieslock = true;
         this.homeMaintenancelock = true;

@@ -37,7 +37,7 @@ export class calculateExpenses {
                 parseInt(this.user.expenses.phone) * Math.pow(1 - .012, i) +
                 parseInt(this.user.expenses.internet) * Math.pow(1 - .018, i) +
                 parseInt(this.user.expenses.cable) * Math.pow(1 + .029, i) +
-                parseInt(this.user.expenses.netflix) +
+                parseInt(this.user.expenses.streaming) +
                 parseInt(this.user.expenses.groceries) * Math.pow(1 + 0.01, i) +
                 parseInt(this.user.expenses.utilities) * Math.pow(1 + .018, i) +
                 parseInt(this.user.expenses.homeMaintenance) +
@@ -58,9 +58,10 @@ export class calculateExpenses {
                 parseInt(this.user.expenses.healthInsurance) * Math.pow(1 + .035, i) + 
                 parseInt(this.user.expenses.medication) * Math.pow(1 + .025, i) +
                 parseInt(this.user.expenses.unexpectedMedicalProblems) + 
+                parseInt(this.user.expenses.visualInsurance) +
+                parseInt(this.user.expenses.eyeCare) +
                 parseInt(this.user.expenses.dentalInsurance) * Math.pow(1 + .02, i) +
                 parseInt(this.user.expenses.cavities) * Math.pow(1 + .027, i) + 
-                parseInt(this.user.expenses.eyeCare) +
                 parseInt(this.user.expenses.braces) * Math.pow(1 + .011, i);
             this.user.results.healthFiveYears.push(tempHealthTotal);
 
@@ -167,7 +168,7 @@ export class calculateExpenses {
             parseInt(this.user.expenses.phone) + 
             parseInt(this.user.expenses.internet) +
             parseInt(this.user.expenses.cable) + 
-            parseInt(this.user.expenses.netflix) +
+            parseInt(this.user.expenses.streaming) +
             parseInt(this.user.expenses.groceries) + 
             parseInt(this.user.expenses.utilities) +
             parseInt(this.user.expenses.homeMaintenance) + 
@@ -184,15 +185,15 @@ export class calculateExpenses {
             else this.user.expenses.mortgagecheck = true;
 
             //CABLE
-            if(this.user.expenses.cable > this.user.expenses.homeExpenseConstants["Cable"]) this.user.expenses.cablecheck = false;
+            if(this.user.expenses.cable > this.user.expenses.homeExpenseConstants["CableMax"]) this.user.expenses.cablecheck = false;
             else this.user.expenses.cablecheck = true;
 
-            //NETFLIX
-            if(this.user.expenses.netflix > this.user.expenses.homeExpenseConstants["Netflix"]) this.user.expenses.netflixcheck = false;
-            else this.user.expenses.netflixcheck = true;
+            //STREAMING
+            if(this.user.expenses.streaming > this.user.expenses.homeExpenseConstants["Streaming"]) this.user.expenses.streamingcheck = false;
+            else this.user.expenses.streamingcheck = true;
             
             //GROCERIES
-            if(this.user.expenses.groceries > this.user.expenses.homeExpenseConstants["Grocery"]) this.user.expenses.groceriescheck = false;
+            if(this.user.expenses.groceries > this.user.expenses.homeExpenseConstants["GroceryLiberal"]) this.user.expenses.groceriescheck = false;
             else this.user.expenses.groceriescheck = true;
 
             //UTILITIES
@@ -231,8 +232,12 @@ export class calculateExpenses {
             else this.user.expenses.carPaymentcheck = true;
 
             //GAS
-            if(this.user.expenses.gas > this.user.expenses.carExpenseConstants["Gas"]) this.user.expenses.gascheck = false;
+            if(this.user.expenses.gas > this.user.expenses.carExpenseConstants["GasMax"]) this.user.expenses.gascheck = false;
             else this.user.expenses.gascheck = true;
+
+            //GAS
+            if(this.user.expenses.publicTransport > this.user.expenses.carExpenseConstants["PublicTransport"]) this.user.expenses.publicTransportcheck = false;
+            else this.user.expenses.publicTransportcheck = true;
 
             //CAR MAINTENANCE
             if(this.user.expenses.carMaintenance > this.user.expenses.carExpenseConstants["Maintenance"]) this.user.expenses.carMaintenancecheck = false;

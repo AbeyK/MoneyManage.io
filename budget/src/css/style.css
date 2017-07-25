@@ -74,3 +74,11 @@ box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 6px 9px rgba(0, 0, 0, 0.2);
   padding:6px !important;
 
   }
+
+.adding {
+	color: #3c763d;
+}
+
+.decreasing {
+	color: #a94442;
+}

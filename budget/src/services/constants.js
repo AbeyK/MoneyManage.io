@@ -67,7 +67,7 @@ export class Constants {
             },
             {
                 "title" : "Streaming Service",
-                "value" : "netflix"
+                "value" : "streaming"
             },
             {
                 "title" : "Groceries",

@@ -20,7 +20,7 @@ export class RecommendedData {
         this.phone = 0;
         this.internet = 0;
         this.cable = 0;
-        this.netflix = 0;
+        this.streaming = 0;
         this.groceries = 0;
         this.utilities = 0;
         this.homeMaintenance = 0;
@@ -32,7 +32,7 @@ export class RecommendedData {
         this.phonecheck = true;
         this.internetcheck = true;
         this.cablecheck = true;
-        this.netflixcheck = true;
+        this.streamingcheck = true;
         this.groceriescheck = true;
         this.utilitiescheck = true;
         this.homeMaintenancecheck = true;
@@ -44,7 +44,7 @@ export class RecommendedData {
         this.phonelock = true;
         this.internetlock = true;
         this.cablelock = true;
-        this.netflixlock = true;
+        this.streaminglock = true;
         this.grocerieslock = true;
         this.utilitieslock = true;
         this.homeMaintenancelock = true;
@@ -57,7 +57,7 @@ export class RecommendedData {
             "phone" : 0,
             "internet" : 0,
             "cable" : 0,
-            "netflix" : 0,
+            "streaming" : 0,
             "groceries" : 0,
             "utilities" : 0,
             "homeMaintenance" : 0,
@@ -160,7 +160,7 @@ export class RecommendedData {
         this.phonePercentage = 0;
         this.internetPercentage = 0;
         this.cablePercentage = 0;
-        this.netflixPercentage = 0;
+        this.streamingPercentage = 0;
         this.groceriesPercentage = 0;
         this.utilitiesPercentage = 0;
         this.homeMaintenancePercentage = 0;
