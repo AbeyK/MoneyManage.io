@@ -1,6 +1,6 @@
 
 nav{
-  width: 60%;
+  width: 100%;
   margin: 1em auto;
 }
 
@@ -111,7 +111,7 @@ ul.dropdown ul li a:hover{
 
  .navbar-default .navbar-nav > .active{
     color: #fff;
-   background: #337ab7;
+   /*background: #337ab7;*/
  }
  .navbar-default .navbar-nav > .active > a, 
  .navbar-default .navbar-nav > .active > a:hover, 
