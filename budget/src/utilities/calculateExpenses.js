@@ -3,9 +3,10 @@ import { User } from '../services/user';
 
 @inject(User)
 export class calculateExpenses {
-    constructor(user, ) {
+    constructor(user) {
         this.user = user;
     }
+
 
     getChartResults() {
         this.user.results.simpleChartResults = [];
@@ -210,6 +211,8 @@ export class calculateExpenses {
 
             this.user.expenses.homeCanGoToNext = true;
             this.user.expenses.totalHomeExpense = tempHomeTotal;
+
+            return tempHomeTotal;
         }
     }
 

@@ -877,6 +877,8 @@ define('utilities/calculateExpenses',['exports', 'aurelia-framework', '../servic
 
                 this.user.expenses.homeCanGoToNext = true;
                 this.user.expenses.totalHomeExpense = tempHomeTotal;
+
+                return tempHomeTotal;
             }
         };
 
