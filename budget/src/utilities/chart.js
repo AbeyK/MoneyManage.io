@@ -323,28 +323,28 @@ export class Chart {
                 drilldown: {
                     name: 'Home Expenses',
                     categories: this.constants.homeCategories,
-                    data: recommend.advancedHomeAmounts,
+                    data: recommend.advancedHomeAmounts
                 }
             }, {
                 y: recommend.totalCarExpense,
                 drilldown: {
                     name: 'Car Expenses',
                     categories: this.constants.carCategories,
-                    data: recommend.advancedCarAmounts,
+                    data: recommend.advancedCarAmounts
                 }
             }, {
                 y: recommend.totalHealthExpense,
                 drilldown: {
                     name: 'Health Expenses',
                     categories: this.constants.healthCategories,
-                    data: recommend.advancedCarAmounts,
+                    data: recommend.advancedHealthAmounts
                 }
             }, {
                 y: recommend.totalDiscretionaryExpense,
                 drilldown: {
                     name: 'Discretionary Expenses',
                     categories: this.constants.discretionaryCategories,
-                    data: recommend.advancedDiscretionaryAmounts,
+                    data: recommend.advancedDiscretionaryAmounts
                 }
             }],
             browserData = [],

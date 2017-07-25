@@ -44,7 +44,7 @@ export class ResultsData {
         this.phonePercentage = 0;
         this.internetPercentage = 0;
         this.cablePercentage = 0;
-        this.netflixPercentage = 0;
+        this.streamingPercentage = 0;
         this.groceriesPercentage = 0;
         this.utilitiesPercentage = 0;
         this.homeMaintenancePercentage = 0;

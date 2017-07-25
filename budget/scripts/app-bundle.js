@@ -745,7 +745,7 @@ define('services/constants',["exports"], function (exports) {
             "value": "cable"
         }, {
             "title": "Streaming Service",
-            "value": "netflix"
+            "value": "streaming"
         }, {
             "title": "Groceries",
             "value": "groceries"
@@ -849,14 +849,21 @@ define('services/expensesConstants',['exports', 'aurelia-framework', '../service
 
         ExpensesConstants.prototype.getExpenseConstants = function getExpenseConstants() {
             var emergencyValue = 0;
-            if (this.user.personalInfo.householdSize == 1) emergencyValue == 3300;else emergencyValue == 6550;
+            if (this.user.personalInfo.householdSize == 1) {
+                emergencyValue = 3300;
+            } else emergencyValue = 6550;
 
             this.user.expenses.homeExpenseConstants = {
                 "Mortgage": [461, 461, 461, 493, 614, 678, 678, 759, 939, 939, 1037, 1037, 1211, 1211, 1211, 1686][Math.min(15, Math.floor(this.user.personalInfo.income / 10000))],
-                "Cable": 50,
-                "Netflix": 9,
+                "CableMax": 81.75,
+                "CableExpanded": 69.03,
+                "CableBasic": 23.79,
+                "Streaming": 9,
 
-                "Grocery": [332, 332, 607, 814, 1006, 1176, 1412, 1577, 1799, 1985, 2286, 2341][Math.min(11, Math.floor(this.user.personalInfo.householdSize))],
+                "GroceryThrifty": [201, 201, 382, 504, 618, 717, 855, 949, 1080, 1203, 1393, 1483][Math.min(11, Math.floor(this.user.personalInfo.householdSize))],
+                "GroceryLow": [267, 267, 488, 657, 811, 947, 1134, 1259, 1436, 1588, 1833, 1886][Math.min(11, Math.floor(this.user.personalInfo.householdSize))],
+                "GroceryModerate": [332, 332, 607, 814, 1006, 1176, 1412, 1577, 1799, 1985, 2286, 2341][Math.min(11, Math.floor(this.user.personalInfo.householdSize))],
+                "GroceryLiberal": [414, 414, 759, 999, 1222, 1423, 1698, 1887, 2148, 2375, 2739, 2812][Math.min(11, Math.floor(this.user.personalInfo.householdSize))],
                 "Utilities": 200 + 200 * .02 * this.user.personalInfo.householdSize,
                 "Maintenance": this.user.personalInfo.squareFootHome,
                 "Clothes": Math.floor(this.user.personalInfo.income * .05)
@@ -864,11 +871,14 @@ define('services/expensesConstants',['exports', 'aurelia-framework', '../service
 
             this.user.expenses.carExpenseConstants = {
                 "Payment": 479,
-                "Gas": 250,
-                "Maintenance": 76
+                "GasMin": 100,
+                "GasMax": 250,
+                "PublicTransport": 65,
+                "Maintenance": 913.50 / 12
             };
 
             this.user.expenses.healthExpenseConstants = {
+                "MedicationMin": this.user.expenses.medication * .95,
                 "Emergency": emergencyValue,
                 "Braces": 6000
             };
@@ -951,13 +961,13 @@ define('utilities/calculateExpenses',['exports', 'aurelia-framework', '../servic
             this.user.results.fiveYearExpenses = [];
 
             for (var i = 0; i < 5; i++) {
-                var tempHomeTotal = parseInt(this.user.expenses.mortgage) + parseInt(this.user.expenses.propertyTax) + parseInt(this.user.expenses.homeownerInsurance) * Math.pow(1 + .0250, i) + parseInt(this.user.expenses.phone) * Math.pow(1 - .012, i) + parseInt(this.user.expenses.internet) * Math.pow(1 - .018, i) + parseInt(this.user.expenses.cable) * Math.pow(1 + .029, i) + parseInt(this.user.expenses.netflix) + parseInt(this.user.expenses.groceries) * Math.pow(1 + 0.01, i) + parseInt(this.user.expenses.utilities) * Math.pow(1 + .018, i) + parseInt(this.user.expenses.homeMaintenance) + parseInt(this.user.expenses.clothes) * Math.pow(1 - 0.001, i);
+                var tempHomeTotal = parseInt(this.user.expenses.mortgage) + parseInt(this.user.expenses.propertyTax) + parseInt(this.user.expenses.homeownerInsurance) * Math.pow(1 + .0250, i) + parseInt(this.user.expenses.phone) * Math.pow(1 - .012, i) + parseInt(this.user.expenses.internet) * Math.pow(1 - .018, i) + parseInt(this.user.expenses.cable) * Math.pow(1 + .029, i) + parseInt(this.user.expenses.streaming) + parseInt(this.user.expenses.groceries) * Math.pow(1 + 0.01, i) + parseInt(this.user.expenses.utilities) * Math.pow(1 + .018, i) + parseInt(this.user.expenses.homeMaintenance) + parseInt(this.user.expenses.clothes) * Math.pow(1 - 0.001, i);
                 this.user.results.homeFiveYears.push(tempHomeTotal);
 
                 var tempCarTotal = parseInt(this.user.expenses.carPayment) + parseInt(this.user.expenses.carInsurance) * Math.pow(1 + .052, i) + parseInt(this.user.expenses.publicTransport) * Math.pow(1 - .003, i) + parseInt(this.user.expenses.gas) * Math.pow(1 + 0.026, i) + parseInt(this.user.expenses.carMaintenance);
                 this.user.results.carFiveYears.push(tempCarTotal);
 
-                var tempHealthTotal = parseInt(this.user.expenses.healthInsurance) * Math.pow(1 + .035, i) + parseInt(this.user.expenses.medication) * Math.pow(1 + .025, i) + parseInt(this.user.expenses.unexpectedMedicalProblems) + parseInt(this.user.expenses.dentalInsurance) * Math.pow(1 + .02, i) + parseInt(this.user.expenses.cavities) * Math.pow(1 + .027, i) + parseInt(this.user.expenses.eyeCare) + parseInt(this.user.expenses.braces) * Math.pow(1 + .011, i);
+                var tempHealthTotal = parseInt(this.user.expenses.healthInsurance) * Math.pow(1 + .035, i) + parseInt(this.user.expenses.medication) * Math.pow(1 + .025, i) + parseInt(this.user.expenses.unexpectedMedicalProblems) + parseInt(this.user.expenses.visualInsurance) + parseInt(this.user.expenses.eyeCare) + parseInt(this.user.expenses.dentalInsurance) * Math.pow(1 + .02, i) + parseInt(this.user.expenses.cavities) * Math.pow(1 + .027, i) + parseInt(this.user.expenses.braces) * Math.pow(1 + .011, i);
                 this.user.results.healthFiveYears.push(tempHealthTotal);
 
                 var tempDiscretionaryTotal = parseInt(this.user.expenses.eatingOut) * Math.pow(1 + .024, i) + parseInt(this.user.expenses.bars) * Math.pow(1 + .02, i) + parseInt(this.user.expenses.funMoney) * Math.pow(1 + .003, i) + parseInt(this.user.expenses.other);
@@ -1042,7 +1052,7 @@ define('utilities/calculateExpenses',['exports', 'aurelia-framework', '../servic
         };
 
         calculateExpenses.prototype.homeExpenses = function homeExpenses() {
-            var tempHomeTotal = parseInt(this.user.expenses.mortgage) + parseInt(this.user.expenses.propertyTax) + parseInt(this.user.expenses.homeownerInsurance) + parseInt(this.user.expenses.phone) + parseInt(this.user.expenses.internet) + parseInt(this.user.expenses.cable) + parseInt(this.user.expenses.netflix) + parseInt(this.user.expenses.groceries) + parseInt(this.user.expenses.utilities) + parseInt(this.user.expenses.homeMaintenance) + parseInt(this.user.expenses.clothes);
+            var tempHomeTotal = parseInt(this.user.expenses.mortgage) + parseInt(this.user.expenses.propertyTax) + parseInt(this.user.expenses.homeownerInsurance) + parseInt(this.user.expenses.phone) + parseInt(this.user.expenses.internet) + parseInt(this.user.expenses.cable) + parseInt(this.user.expenses.streaming) + parseInt(this.user.expenses.groceries) + parseInt(this.user.expenses.utilities) + parseInt(this.user.expenses.homeMaintenance) + parseInt(this.user.expenses.clothes);
 
             if (isNaN(tempHomeTotal)) {
                 alert("Please enter a valid input");
@@ -1050,11 +1060,11 @@ define('utilities/calculateExpenses',['exports', 'aurelia-framework', '../servic
             } else {
                 if (this.user.expenses.mortgage > this.user.expenses.homeExpenseConstants["Mortgage"]) this.user.expenses.mortgagecheck = false;else this.user.expenses.mortgagecheck = true;
 
-                if (this.user.expenses.cable > this.user.expenses.homeExpenseConstants["Cable"]) this.user.expenses.cablecheck = false;else this.user.expenses.cablecheck = true;
+                if (this.user.expenses.cable > this.user.expenses.homeExpenseConstants["CableMax"]) this.user.expenses.cablecheck = false;else this.user.expenses.cablecheck = true;
 
-                if (this.user.expenses.netflix > this.user.expenses.homeExpenseConstants["Netflix"]) this.user.expenses.netflixcheck = false;else this.user.expenses.netflixcheck = true;
+                if (this.user.expenses.streaming > this.user.expenses.homeExpenseConstants["Streaming"]) this.user.expenses.streamingcheck = false;else this.user.expenses.streamingcheck = true;
 
-                if (this.user.expenses.groceries > this.user.expenses.homeExpenseConstants["Grocery"]) this.user.expenses.groceriescheck = false;else this.user.expenses.groceriescheck = true;
+                if (this.user.expenses.groceries > this.user.expenses.homeExpenseConstants["GroceryLiberal"]) this.user.expenses.groceriescheck = false;else this.user.expenses.groceriescheck = true;
 
                 if (this.user.expenses.utilities > this.user.expenses.homeExpenseConstants["Utilities"]) this.user.expenses.utilitiescheck = false;else this.user.expenses.utilitiescheck = true;
 
@@ -1064,6 +1074,8 @@ define('utilities/calculateExpenses',['exports', 'aurelia-framework', '../servic
 
                 this.user.expenses.homeCanGoToNext = true;
                 this.user.expenses.totalHomeExpense = tempHomeTotal;
+
+                return tempHomeTotal;
             }
         };
 
@@ -1076,7 +1088,9 @@ define('utilities/calculateExpenses',['exports', 'aurelia-framework', '../servic
             } else {
                 if (this.user.expenses.carPayment > this.user.expenses.carExpenseConstants["Payment"]) this.user.expenses.carPaymentcheck = false;else this.user.expenses.carPaymentcheck = true;
 
-                if (this.user.expenses.gas > this.user.expenses.carExpenseConstants["Gas"]) this.user.expenses.gascheck = false;else this.user.expenses.gascheck = true;
+                if (this.user.expenses.gas > this.user.expenses.carExpenseConstants["GasMax"]) this.user.expenses.gascheck = false;else this.user.expenses.gascheck = true;
+
+                if (this.user.expenses.publicTransport > this.user.expenses.carExpenseConstants["PublicTransport"]) this.user.expenses.publicTransportcheck = false;else this.user.expenses.publicTransportcheck = true;
 
                 if (this.user.expenses.carMaintenance > this.user.expenses.carExpenseConstants["Maintenance"]) this.user.expenses.carMaintenancecheck = false;else this.user.expenses.carMaintenancecheck = true;
 
@@ -1320,9 +1334,6 @@ define('utilities/calculateRecommended',['exports', 'aurelia-framework', '../ser
             this.user.recommend.expensesChange = 0;
             this.user.recommend.adjustedSavingsTotal = adjustedSavingsTotal;
 
-            var medicationPerc = (this.user.recommend.medication / expenseTotal - .05) / 5;
-            if (medicationPerc < 0) medicationPerc = .01;
-
             while (adjustingHandler) {
                 this.user.recommend.totalHomeExpense = 0;
                 this.user.recommend.totalCarExpense = 0;
@@ -1335,10 +1346,56 @@ define('utilities/calculateRecommended',['exports', 'aurelia-framework', '../ser
                     var adjusted = 0;
 
                     if (!this.user.recommend[expenseName + 'lock']) ;else {
-                        if (!this.user.recommend[expenseName + 'check']) {
-                            if (expenseName == 'cable') adjusted = this.user.expenses.homeExpenseConstants.Cable;else if (expenseName == 'netflix') adjusted = this.user.expenses.homeExpenseConstants.Netflix;else if (expenseName == 'groceries') adjusted = this.user.expenses.homeExpenseConstants.Grocery;else if (expenseName == 'utilities') adjusted = this.user.expenses.homeExpenseConstants.Utilities;else if (expenseName == 'homeMaintenance') adjusted = this.user.expenses.homeExpenseConstants.Maintenance;else if (expenseName == 'clothes') adjusted = this.user.expenses.homeExpenseConstants.Clothes;
-                            this.user.recommend[expenseName + 'check'] = true;
-                        } else adjusted = this.user.recommend[expenseName] * .75;
+                        if (expenseName == 'phone') {
+                            adjusted = this.user.recommend[expenseName] * .75;
+                        } else if (expenseName == 'cable') {
+                            if (this.user.recommend[expenseName] > this.user.expenses.homeExpenseConstants.CableMax) {
+                                adjusted = this.user.expenses.homeExpenseConstants.CableMax;
+                            } else if (this.user.recommend[expenseName] > this.user.expenses.homeExpenseConstants.CableExpanded) {
+                                adjusted = this.user.expenses.homeExpenseConstants.CableExpanded;
+                            } else if (this.user.recommend[expenseName] > this.user.expenses.homeExpenseConstants.CableBasic) {
+                                adjusted = this.user.expenses.homeExpenseConstants.CableBasic;
+                            } else adjusted = 0;
+                        } else if (expenseName == 'streaming') {
+                            if (this.user.recommend['cable'] == 0) adjusted = this.user.expenses.homeExpenseConstants.Streaming;
+                        } else if (expenseName == 'groceries') {
+                            if (this.user.recommend[expenseName] > this.user.expenses.homeExpenseConstants.GroceryLiberal) {
+                                adjusted = this.user.expenses.homeExpenseConstants.GroceryLiberal;
+                            } else if (this.user.recommend[expenseName] > this.user.expenses.homeExpenseConstants.GroceryModerate) {
+                                adjusted = this.user.expenses.homeExpenseConstants.GroceryModerate;
+                            } else if (this.user.recommend[expenseName] > this.user.expenses.homeExpenseConstants.GroceryLow) {
+                                adjusted = this.user.expenses.homeExpenseConstants.GroceryLow;
+                            } else if (this.user.recommend[expenseName] > this.user.expenses.homeExpenseConstants.GroceryThrifty) {
+                                adjusted = this.user.expenses.homeExpenseConstants.GroceryThrifty;
+                            }
+                        } else if (expenseName == 'utilities') {
+                            var decrease = 0;
+                            if (this.user.recommend[expenseName] > this.user.expenses.homeExpenseConstants.Utilities) {
+                                decrease = (this.user.expenses[expenseName] - this.user.expenses.homeExpenseConstants.Utilities) / 5;
+                                adjusted = this.user.recommend[expenseName] - decrease;
+                            }
+                            if (this.user.recommend[expenseName] < this.user.expenses.homeExpenseConstants.Utilities) {
+                                adjusted = this.user.expenses.homeExpenseConstants.Utilities;
+                            }
+                        } else if (expenseName == 'homeMaintenance') {
+                            var decrease = 0;
+                            if (this.user.recommend[expenseName] > this.user.expenses.homeExpenseConstants.Maintenance) {
+                                decrease = (this.user.expenses[expenseName] - this.user.expenses.homeExpenseConstants.Maintenance) / 5;
+                                adjusted = this.user.recommend[expenseName] - decrease;
+                            }
+                            if (this.user.recommend[expenseName] < this.user.expenses.homeExpenseConstants.Maintenance) {
+                                adjusted = this.user.expenses.homeExpenseConstants.Maintenance;
+                            }
+                        } else if (expenseName == 'clothes') {
+                            var decrease = 0;
+                            if (this.user.recommend[expenseName] > this.user.expenses.homeExpenseConstants.Clothes) {
+                                decrease = (this.user.expenses[expenseName] - this.user.expenses.homeExpenseConstants.Clothes) / 5;
+                                adjusted = this.user.recommend[expenseName] - decrease;
+                            }
+                            if (this.user.recommend[expenseName] < this.user.expenses.homeExpenseConstants.Clothes) {
+                                adjusted = this.user.expenses.homeExpenseConstants.Clothes;
+                            }
+                        }
 
                         this.user.recommend.homeChanges[expenseName] = this.user.expenses[expenseName] - adjusted;
                         this.user.recommend[expenseName] = adjusted;
@@ -1352,10 +1409,30 @@ define('utilities/calculateRecommended',['exports', 'aurelia-framework', '../ser
                     var adjusted = 0;
 
                     if (!this.user.recommend[expenseName + 'lock']) ;else {
-                        if (!this.user.recommend[expenseName + 'check']) {
-                            if (expenseName == 'carPayment') adjusted = this.user.expenses.carExpenseConstants.Payment;else if (expenseName == 'gas') adjusted = this.user.expenses.carExpenseConstants.Gas;else if (expenseName == 'carMaintenance') adjusted = this.user.expenses.carExpenseConstants.Maintenance;
-                            this.user.recommend[expenseName + 'check'] = true;
-                        } else adjusted = this.user.recommend[expenseName] * .75;
+                        if (expenseName == 'gas') {
+                            if (this.user.recommend[expenseName] > this.user.expenses.carExpenseConstants.GasMax) {
+                                adjusted = this.user.expenses.carExpenseConstants.GasMax;
+                            } else if (this.user.recommend[expenseName] < this.user.expenses.carExpenseConstants.GasMin) {
+                                adjusted = this.user.recommend[expenseName];
+                            } else {
+                                var decrease = (this.user.expenses[expenseName] - this.user.expenses.carExpenseConstants.GasMin) / 5;
+                                adjusted = this.user.recommend[expenseName] - decrease;
+                                if (adjusted < this.user.expenses.carExpenseConstants.GasMin || count == 4) {
+                                    adjusted = this.user.expenses.carExpenseConstants.GasMin;
+                                }
+                            }
+                        } else if (expenseName == 'publicTransport') {
+                            var temp = 0;
+                            if (this.user.recommend.carChanges["gas"] > 0) {
+                                var gasPerc = (this.user.recommend["gas"] - this.user.expenses.carExpenseConstants.GasMin) / (this.user.expenses.carExpenseConstants.GasMax - this.user.expenses.carExpenseConstants.GasMin);
+                                temp = this.user.expenses.carExpenseConstants.PublicTransport - this.user.expenses.carExpenseConstants.PublicTransport * gasPerc;
+
+                                if (this.user.recommend.carChanges["gas"] > temp) adjusted = temp;else adjusted = this.user.recommend[expenseName];
+                            } else adjusted = this.user.recommend[expenseName];
+                        } else if (expenseName == 'carMaintenance') {
+                            var carMaintenancePerc = (this.user.expenses.carMaintenance - this.user.expenses.carExpenseConstants.Maintenance) / 5 / 100;
+                            if (carMaintenancePerc < 0) adjusted = this.user.expenses.carExpenseConstants.Maintenance;else adjusted = this.user.recommend.carMaintenance * carMaintenancePerc;
+                        }
 
                         this.user.recommend.carChanges[expenseName] = this.user.expenses[expenseName] - adjusted;
                         this.user.recommend[expenseName] = adjusted;
@@ -1369,14 +1446,12 @@ define('utilities/calculateRecommended',['exports', 'aurelia-framework', '../ser
                     var adjusted = 0;
 
                     if (!this.user.recommend[expenseName + 'lock']) ;else {
-                        if (!this.user.recommend[expenseName + 'check']) {
-                            if (expenseName == 'unexpectedMedicalProblems') adjusted = this.user.expenses.healthExpenseConstants.Emergency;
-                            this.user.recommend[expenseName + 'check'] = true;
-                        } else {
-                            if (expenseName == 'medication') adjusted = this.user.recommend[expenseName] - this.user.recommend[expenseName] * medicationPerc;else if (expenseName == 'unexpectedMedicalProblems') {
-                                if (this.user.recommend[expenseName] > this.user.expenses.healthExpenseConstants.Emergency) adjusted = this.user.recommend[expenseName] * .75;
-                                if (this.user.recommend[expenseName] <= this.user.expenses.healthExpenseConstants.Emergency) adjusted = this.user.expenses.healthExpenseConstants.Emergency;
-                            } else adjusted = this.user.recommend[expenseName] * .75;
+                        if (expenseName == 'medication') {
+                            var decrease = (this.user.expenses.medication - this.user.expenses.healthExpenseConstants.MedicationMin) / 5;
+                            adjusted = this.user.recommend[expenseName] - decrease;
+                        } else if (expenseName == 'unexpectedMedicalProblems') {
+                            if (this.user.recommend[expenseName] > this.user.expenses.healthExpenseConstants.Emergency) adjusted = this.user.recommend[expenseName] * .75;
+                            if (this.user.recommend[expenseName] <= this.user.expenses.healthExpenseConstants.Emergency) adjusted = this.user.expenses.healthExpenseConstants.Emergency;
                         }
 
                         this.user.recommend.healthChanges[expenseName] = this.user.expenses[expenseName] - adjusted;
@@ -1816,7 +1891,7 @@ define('utilities/chart',['exports', 'aurelia-framework', '../services/user', 'h
                 drilldown: {
                     name: 'Health Expenses',
                     categories: this.constants.healthCategories,
-                    data: recommend.advancedCarAmounts
+                    data: recommend.advancedHealthAmounts
                 }
             }, {
                 y: recommend.totalDiscretionaryExpense,
@@ -2193,7 +2268,7 @@ define('services/data/expensesData',["exports"], function (exports) {
                 this.phone = 0;
                 this.internet = 0;
                 this.cable = 0;
-                this.netflix = 0;
+                this.streaming = 0;
                 this.groceries = 0;
                 this.utilities = 0;
                 this.homeMaintenance = 0;
@@ -2205,7 +2280,7 @@ define('services/data/expensesData',["exports"], function (exports) {
                 this.phonecheck = true;
                 this.internetcheck = true;
                 this.cablecheck = true;
-                this.netflixcheck = true;
+                this.streamingcheck = true;
                 this.groceriescheck = true;
                 this.utilitiescheck = true;
                 this.homeMaintenancecheck = true;
@@ -2217,7 +2292,7 @@ define('services/data/expensesData',["exports"], function (exports) {
                 this.phonelock = true;
                 this.internetlock = true;
                 this.cablelock = true;
-                this.netflixlock = true;
+                this.streaminglock = true;
                 this.grocerieslock = true;
                 this.utilitieslock = true;
                 this.homeMaintenancelock = true;
@@ -2400,7 +2475,7 @@ define('services/data/recommendedData',["exports"], function (exports) {
                 this.phone = 0;
                 this.internet = 0;
                 this.cable = 0;
-                this.netflix = 0;
+                this.streaming = 0;
                 this.groceries = 0;
                 this.utilities = 0;
                 this.homeMaintenance = 0;
@@ -2412,7 +2487,7 @@ define('services/data/recommendedData',["exports"], function (exports) {
                 this.phonecheck = true;
                 this.internetcheck = true;
                 this.cablecheck = true;
-                this.netflixcheck = true;
+                this.streamingcheck = true;
                 this.groceriescheck = true;
                 this.utilitiescheck = true;
                 this.homeMaintenancecheck = true;
@@ -2424,7 +2499,7 @@ define('services/data/recommendedData',["exports"], function (exports) {
                 this.phonelock = true;
                 this.internetlock = true;
                 this.cablelock = true;
-                this.netflixlock = true;
+                this.streaminglock = true;
                 this.grocerieslock = true;
                 this.utilitieslock = true;
                 this.homeMaintenancelock = true;
@@ -2437,7 +2512,7 @@ define('services/data/recommendedData',["exports"], function (exports) {
                         "phone": 0,
                         "internet": 0,
                         "cable": 0,
-                        "netflix": 0,
+                        "streaming": 0,
                         "groceries": 0,
                         "utilities": 0,
                         "homeMaintenance": 0,
@@ -2536,7 +2611,7 @@ define('services/data/recommendedData',["exports"], function (exports) {
                 this.phonePercentage = 0;
                 this.internetPercentage = 0;
                 this.cablePercentage = 0;
-                this.netflixPercentage = 0;
+                this.streamingPercentage = 0;
                 this.groceriesPercentage = 0;
                 this.utilitiesPercentage = 0;
                 this.homeMaintenancePercentage = 0;
@@ -2629,7 +2704,7 @@ define('services/data/resultsData',["exports"], function (exports) {
                 this.phonePercentage = 0;
                 this.internetPercentage = 0;
                 this.cablePercentage = 0;
-                this.netflixPercentage = 0;
+                this.streamingPercentage = 0;
                 this.groceriesPercentage = 0;
                 this.utilitiesPercentage = 0;
                 this.homeMaintenancePercentage = 0;
@@ -2678,7 +2753,7 @@ define('text!css/drag-and-drop.css', ['module'], function(module) { module.expor
 define('text!aboutyou/personalinfo.html', ['module'], function(module) { module.exports = "<template><div id=\"personalinfo\"><form submit.delegate=\"next()\"><compose view-model=\"./compose/compose-personal-info\"></compose><br><br><compose view-model=\"./compose/compose-goals\"></compose><br><br><hr><button class=\"btn btn-secondary btn-lg\" style=\"float:left;width:10%\" click.delegate=\"back()\"><span class=\"glyphicon glyphicon-arrow-left\"></span></button> <button class=\"btn btn-primary btn-lg\" style=\"float:right;width:10%\" type=\"submit\" id=\"next\"><span class=\"glyphicon glyphicon-arrow-right\"></span></button></form><br><br><br><br><br><br></div></template>"; });
 define('text!css/navbar.css', ['module'], function(module) { module.exports = "\r\nnav{\r\n  width: 60%;\r\n  margin: 1em auto;\r\n}\r\n\r\nul{\r\n  margin: 0px;\r\n  padding: 0px;\r\n  list-style: none;\r\n}\r\n\r\nul.dropdown{ \r\n  position: relative; \r\n  width: 100%; \r\n}\r\n\r\nul.dropdown li{ \r\n  font-weight: bold; \r\n  float: left; \r\n  width: 125px; \r\n  position: relative;\r\n  background: #f5f5f5;\r\n}\r\n\r\nul.dropdown a:hover{ \r\n  color: #000; \r\n}\r\n\r\nul.dropdown li a { \r\n  display: block; \r\n  padding: 20px 8px;\r\n  color: #34495e; \r\n  position: relative; \r\n  z-index: 2000; \r\n  text-align: center;\r\n  text-decoration: none;\r\n  font-weight: 300;\r\n}\r\n\r\nul.dropdown li a:hover,\r\nul.dropdown li a.hover{ \r\n  background: #337ab7;\r\n  position: relative;\r\n  color: #fff;\r\n}\r\n\r\n\r\nul.dropdown ul{ \r\n display: none;\r\n position: absolute; \r\n  top: 0; \r\n  left: 0; \r\n  width: 1000px; \r\n  z-index: 1000;\r\n}\r\n\r\nul.dropdown ul li { \r\n  font-weight: normal; \r\n  background: #f5f5f5; \r\n  color: #000; \r\n  border-bottom: 1px solid #ccc; \r\n}\r\n\r\nul.dropdown ul li a{ \r\n  display: block; \r\n  color: #34495e !important;\r\n  background: #eee !important;\r\n} \r\n\r\nul.dropdown ul li a:hover{\r\n  display: block; \r\n  background: #3498db !important;\r\n  color: #fff !important;\r\n} \r\n\r\n.drop > a{\r\n  position: relative;\r\n}\r\n\r\n.drop > a:after{\r\n  content:\"\";\r\n  position: absolute;\r\n  right: 10px;\r\n  top: 40%;\r\n  border-left: 5px solid transparent;\r\n  border-top: 5px solid #333;\r\n  border-right: 5px solid transparent;\r\n  z-index: 999;\r\n}\r\n\r\n.drop > a:hover:after{\r\n  content:\"\";\r\n   border-left: 5px solid transparent;\r\n  border-top: 5px solid #fff;\r\n  border-right: 5px solid transparent;\r\n}\r\n\r\n.navbar-default {\r\n  height: 30px;\r\n  min-height:30px;\r\n  font-size: 15px;\r\n}\r\n\r\n.navbar-default .navbar-nav > li > a,\r\n.navbar-brand {\r\n  padding-top: 0;\r\n  padding-bottom: 0;\r\n  line-height: 30px;\r\n}\r\n\r\n .navbar-default .navbar-nav > .active{\r\n    color: #fff;\r\n   background: #337ab7;\r\n }\r\n .navbar-default .navbar-nav > .active > a, \r\n .navbar-default .navbar-nav > .active > a:hover, \r\n .navbar-default .navbar-nav > .active > a:focus {\r\n      color: #fff;\r\n      background: #337ab7;\r\n }\r\n\r\n .navbar-brand:active {\r\n   color: blue;\r\n }\r\n.dropdown {\r\n    position: relative;\r\n    display: inline-block;\r\n}\r\n\r\n.dropdown .dropdown-menu {\r\n    position: absolute;\r\n    top: 100%;\r\n    display: none;\r\n    margin: 0;\r\n\r\n    /****************\r\n     ** NEW STYLES **\r\n     ****************/\r\n\r\n    list-style: none; /** Remove list bullets */\r\n    width: 100%; /** Set the width to 100% of it's parent */\r\n    padding: 0;\r\n}\r\n\r\n.dropdown:hover .dropdown-menu {\r\n    display: block;\r\n}\r\n\r\n/** Button Styles **/\r\n.dropdown button {\r\n    /*background: #FF6223;\r\n    color: #FFFFFF;*/\r\n    border: none;\r\n    margin: 0;\r\n    padding: 0.4em 0.8em;\r\n    font-size: 1em;\r\n}\r\n\r\n/** List Item Styles **/\r\n.dropdown a {\r\n    display: block;\r\n    padding: 0.2em 0.8em;\r\n    text-decoration: none;\r\n    /*background: #CCCCCC;\r\n    color: #333333;*/\r\n}\r\n\r\n/** List Item Hover Styles **/\r\n.dropdown a:hover {\r\n    /*background: #BBBBBB;*/\r\n}"; });
 define('text!home/home.html', ['module'], function(module) { module.exports = "<template style=\"background-color:#337ab7\"><require from=\"home/home.css\"></require><div class=\"bg\"><div style=\"position:relative;top:50%;transform:translateY(-60%)\"><div style=\"border:#fff\"><h1 id=\"title\">MoneyManage</h1><p id=\"subtitle\">Budget for Humans</p><svg version=\"1.1\" baseProfile=\"tiny\" id=\"chart\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" width=\"366.037px\" height=\"261.026px\" viewBox=\"0 0 366.037 261.026\" xml:space=\"preserve\"><path fill=\"#FFFFFF\" d=\"M297.813,187.789c-0.414,0-0.75-0.336-0.75-0.75V41.398c0-0.689-0.561-1.25-1.25-1.25H61.049\r\n\tc-0.689,0-1.25,0.561-1.25,1.25v145.641c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75V41.398c0-1.517,1.234-2.75,2.75-2.75\r\n\th234.764c1.516,0,2.75,1.233,2.75,2.75v145.641C298.563,187.453,298.227,187.789,297.813,187.789z M327.25,187.977\r\n\tc0-0.414-0.336-0.75-0.75-0.75H30.363c-0.414,0-0.75,0.336-0.75,0.75c0,10.002,8.137,18.139,18.138,18.139h261.367\r\n\tC319.116,206.115,327.25,197.979,327.25,187.977z M325.733,188.727c-0.394,8.828-7.696,15.889-16.615,15.889H47.75\r\n\tc-8.923,0-16.228-7.061-16.621-15.889H325.733z\"/><g><line class=\"dash\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-miterlimit=\"10\" x1=\"84.662\" y1=\"168.215\" x2=\"84.662\" y2=\"140.473\"/><line class=\"dash\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-miterlimit=\"10\" x1=\"105.592\" y1=\"168.215\" x2=\"105.592\" y2=\"149.795\"/><line class=\"dash three\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-miterlimit=\"10\" x1=\"126.523\" y1=\"168.215\" x2=\"126.523\" y2=\"159.118\"/><line class=\"dash four\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-miterlimit=\"10\" x1=\"147.453\" y1=\"168.215\" x2=\"147.453\" y2=\"140.473\"/><line class=\"dash five\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-miterlimit=\"10\" x1=\"168.382\" y1=\"168.215\" x2=\"168.382\" y2=\"149.795\"/><line class=\"dash six\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-miterlimit=\"10\" x1=\"189.313\" y1=\"168.215\" x2=\"189.313\" y2=\"140.473\"/><line class=\"dash seven\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-miterlimit=\"10\" x1=\"210.244\" y1=\"168.215\" x2=\"210.244\" y2=\"135.812\"/><line class=\"dash eight\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-miterlimit=\"10\" x1=\"231.173\" y1=\"168.215\" x2=\"231.173\" y2=\"163.779\"/><line class=\"dash nine\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-miterlimit=\"10\" x1=\"252.104\" y1=\"168.215\" x2=\"252.104\" y2=\"154.457\"/><line class=\"dash ten\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-miterlimit=\"10\" x1=\"272.201\" y1=\"168.215\" x2=\"272.201\" y2=\"163.779\"/></g><polyline fill=\"none\" points=\"84.295,72.647 104.795,97.147 147.795,75.147 189.295,110.647 231.795,102.147 270.795,122.147 \"/><polyline class=\"zigzag\" fill=\"none\" stroke=\"#AFCA5D\" stroke-width=\"5\" stroke-miterlimit=\"10\" points=\"84.295,72.647 104.795,97.147 \r\n\t147.795,75.147 189.295,110.647 231.795,102.147 270.795,122.147 \"/></svg><div style=\"text-align:center;margin:0 auto\"><button id=\"start\" type=\"button\" class=\"btn btn-start\" style=\"margin:0 auto\" click.delegate=\"start()\">Manage</button></div></div></div></div></template>"; });
-define('text!css/style.css', ['module'], function(module) { module.exports = "#personalinfo, #expenses, #results {\r\n    margin: 0 auto;\r\n    text-align: center;\r\n    width: 60%;\r\n}\r\n\r\nhtml, body {\r\n\tmargin:0;\r\n\tpadding:0;\r\n\theight:100%;\r\n\tbackground-color: #fff;\r\n\t    font-family: 'Maven Pro', sans-serif;\r\n\r\n}\r\n.range-slider {\r\n    /*position: relative;*/\r\n    height: 10px;\r\n}\r\n#app {\r\n\tmin-height:100%;\r\n\tposition:relative;\r\n}\r\n\r\n#content {\r\n\tpadding-bottom:100px; /* Height of the footer element */\r\n}\r\n\r\n#footer {\r\n\tbackground:#ededed;\r\n\twidth:100%;\r\n\theight:60px;\r\n\tposition:absolute;\r\n\tbottom:0;\r\n\tleft:0;\r\n    text-align: center;\r\n}\r\n\r\n.btn-sample:active {\r\n  color: blue; \r\n}\r\n\r\ni {\r\n\twidth:10px;\r\n}\r\n\r\n.expensesInput {\r\n\twidth: 90%;\r\n\t margin: 0 auto;\r\n}\r\n\r\n.glyphicon-question-sign {\r\n\tcolor: #fff;\r\n\tfont-size: 20px;\r\n}\r\n\r\n.box-shadow--6dp {\r\nbox-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 6px 9px rgba(0, 0, 0, 0.2);\r\n}\r\n\r\n.highcharts-series-group {\r\nbox-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 6px 9px rgba(0, 0, 0, 0.2);\r\n}\r\n.btn{\r\n\tborder-radius:0;\r\n}\r\n/*.panel, .panel-group .panel-heading+.panel-collapse>.panel-body{\r\n    border: 0;\r\n}*/\r\n.panel-title, .panel-heading{\r\n  background: #337ab7 !important;\r\n  color:white !important;\r\n  font-weight:bold !important;\r\n  /*margin:0 !important;*/\r\n  padding:6px !important;\r\n\r\n  }"; });
+define('text!css/style.css', ['module'], function(module) { module.exports = "#personalinfo, #expenses, #results {\r\n    margin: 0 auto;\r\n    text-align: center;\r\n    width: 60%;\r\n}\r\n\r\nhtml, body {\r\n\tmargin:0;\r\n\tpadding:0;\r\n\theight:100%;\r\n\tbackground-color: #fff;\r\n\t    font-family: 'Maven Pro', sans-serif;\r\n\r\n}\r\n.range-slider {\r\n    /*position: relative;*/\r\n    height: 10px;\r\n}\r\n#app {\r\n\tmin-height:100%;\r\n\tposition:relative;\r\n}\r\n\r\n#content {\r\n\tpadding-bottom:100px; /* Height of the footer element */\r\n}\r\n\r\n#footer {\r\n\tbackground:#ededed;\r\n\twidth:100%;\r\n\theight:60px;\r\n\tposition:absolute;\r\n\tbottom:0;\r\n\tleft:0;\r\n    text-align: center;\r\n}\r\n\r\n.btn-sample:active {\r\n  color: blue; \r\n}\r\n\r\ni {\r\n\twidth:10px;\r\n}\r\n\r\n.expensesInput {\r\n\twidth: 90%;\r\n\t margin: 0 auto;\r\n}\r\n\r\n.glyphicon-question-sign {\r\n\tcolor: #fff;\r\n\tfont-size: 20px;\r\n}\r\n\r\n.box-shadow--6dp {\r\nbox-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 6px 9px rgba(0, 0, 0, 0.2);\r\n}\r\n\r\n.highcharts-series-group {\r\nbox-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 6px 9px rgba(0, 0, 0, 0.2);\r\n}\r\n.btn{\r\n\tborder-radius:0;\r\n}\r\n/*.panel, .panel-group .panel-heading+.panel-collapse>.panel-body{\r\n    border: 0;\r\n}*/\r\n.panel-title, .panel-heading{\r\n  background: #337ab7 !important;\r\n  color:white !important;\r\n  font-weight:bold !important;\r\n  /*margin:0 !important;*/\r\n  padding:6px !important;\r\n\r\n  }\r\n\r\n.adding {\r\n\tcolor: #3c763d;\r\n}\r\n\r\n.decreasing {\r\n\tcolor: #a94442;\r\n}"; });
 define('text!expenses/expenses.html', ['module'], function(module) { module.exports = "<template><link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css\"><br><div id=\"expenses\"><p>Enter all expenses as monthly amounts unless stated otherwise. Lock values you don't want changed. We've locked some values that cannot be changed.</p></div><form submit.delegate=\"next()\"><div class=\"container\" style=\"width:60%;padding:0\"><div class=\"panel-group popout\" id=\"accordion\"><compose view-model=\"./compose/compose-home-expenses\"></compose><compose view-model=\"./compose/compose-car-expenses\"></compose><compose view-model=\"./compose/compose-health-expenses\"></compose><compose view-model=\"./compose/compose-discretionary-expenses\"></compose></div></div><div id=\"expenses\"><br><br><hr><button class=\"btn btn-secondary btn-lg\" style=\"float:left;width:10%\" click.delegate=\"back()\"><span class=\"glyphicon glyphicon-arrow-left\"></span></button> <button class=\"btn btn-primary btn-lg\" style=\"float:right;width:10%\" type=\"submit\" id=\"next\"><span class=\"glyphicon glyphicon-arrow-right\"></span></button></div></form><br><br><br><br><br><br></template>"; });
 define('text!home/home.css', ['module'], function(module) { module.exports = "*{\r\n  \r\nmargin:0 auto;\r\n}\r\n\r\n#title{\r\n    margin:0 auto;\r\n    padding: 5%;\r\n    padding-bottom: 1vh;\r\n  font-size: 36px; /* Some tweener fallback that doesn't look awful */ \r\n  font-size: 13vw;    \r\n  font-weight: bold;\r\n    color: #fff;\r\n    /*font-family: 'Maven Pro', sans-serif;*/\r\n\r\n}\r\n\r\n@media screen and (min-width: 700px) {\r\n  #title {\r\n   font-size: 7vmin;\r\n  }\r\n}\r\n#subtitle{\r\n      font-style: italic;\r\n      color: #fff;\r\n  font-size: 5vmin;\r\n      padding-bottom: 0;\r\n\r\n}\r\n\r\n@media screen and (min-width: 700px) {\r\n  #subtitle {\r\n  font-size: 3vmin;\r\n  }\r\n}\r\n#start{\r\n  font-size: 5vmin !important;\r\n\r\n    /*width: 10%;*/\r\n    /*height: 150px;*/\r\n    color: #fff;\r\n        /*padding:0 !important;*/\r\n\r\n    padding-left: 2vmin !important;\r\n    padding-right: 2vmin !important;\r\n\r\n}\r\n.btn-start{\r\n    background-color: #337ab7;\r\n    color:#fff;\r\n        font-weight: bold;\r\n\r\n    font-size: 4vh;\r\n\r\n}\r\n\r\n.btn-start:hover{\r\n\r\n    background-color: #fff;\r\n    color: #afca5d !important;\r\n        font-weight: bold;\r\n\r\n    font-size: 4vh;\r\n\r\n\r\n}\r\nbody{\r\n    /*background: linear-gradient(to bottom right, #1567b9, #baecc7);*/\r\n}\r\n.bg {\r\nheight:100vh;\r\nmargin: 0;\r\n    background: linear-gradient(to bottom right, #1567b9, #baecc7);\r\n  text-align: center;\r\n  padding: 0;\r\n}\r\n\r\n.zigzag {\r\n  stroke-dasharray: 480;\r\n  stroke-dashoffset: 480;\r\n  -webkit-animation: zigzag 4s linear forwards infinite;\r\n          animation: zigzag 4s linear forwards infinite;\r\n}\r\n\r\n@-webkit-keyframes zigzag {\r\n  from {\r\n    stroke-dashoffset: 980;\r\n  }\r\n  to {\r\n    stroke-dashoffset: 0;\r\n  }\r\n}\r\n\r\n@keyframes zigzag {\r\n  from {\r\n    stroke-dashoffset: 980;\r\n  }\r\n  to {\r\n    stroke-dashoffset: 0;\r\n  }\r\n}\r\n.dash {\r\n  stroke-dasharray: 280;\r\n  stroke-dashoffset: 280;\r\n  -webkit-animation: month 4s linear backwards infinite;\r\n          animation: month 4s linear backwards infinite;\r\n}\r\n.dash:nth-child(1) {\r\n  -webkit-animation-delay: 0s;\r\n          animation-delay: 0s;\r\n}\r\n.dash:nth-child(2) {\r\n  -webkit-animation-delay: 0.05s;\r\n          animation-delay: 0.05s;\r\n}\r\n.dash:nth-child(3) {\r\n  -webkit-animation-delay: 0.10s;\r\n          animation-delay: 0.10s;\r\n}\r\n.dash:nth-child(4) {\r\n  -webkit-animation-delay: 0.15s;\r\n          animation-delay: 0.15s;\r\n}\r\n.dash:nth-child(5) {\r\n  -webkit-animation-delay: 0.20s;\r\n          animation-delay: 0.20s;\r\n}\r\n.dash:nth-child(6) {\r\n  -webkit-animation-delay: 0.25s;\r\n          animation-delay: 0.25s;\r\n}\r\n.dash:nth-child(7) {\r\n  -webkit-animation-delay: 0.30s;\r\n          animation-delay: 0.30s;\r\n}\r\n.dash:nth-child(8) {\r\n  -webkit-animation-delay: 0.35s;\r\n          animation-delay: 0.35s;\r\n}\r\n.dash:nth-child(9) {\r\n  -webkit-animation-delay: 0.40s;\r\n          animation-delay: 0.40s;\r\n}\r\n.dash:nth-child(10) {\r\n  -webkit-animation-delay: 0.45s;\r\n          animation-delay: 0.45s;\r\n}\r\n\r\n@-webkit-keyframes month {\r\n  from {\r\n    stroke-dashoffset: 380;\r\n  }\r\n  to {\r\n    stroke-dashoffset: 0;\r\n  }\r\n}\r\n\r\n@keyframes month {\r\n  from {\r\n    stroke-dashoffset: 380;\r\n  }\r\n  to {\r\n    stroke-dashoffset: 0;\r\n  }\r\n}\r\nsvg{\r\n width: 90%;\r\n /*background-image: url(image-with-4-3-aspect-ratio.svg);*/\r\n /*background-size: cover;*/\r\n height: 50vmin;\r\n padding: 0; /* reset */\r\n /*padding-bottom: calc(100% * 3 / 4);*/\r\n }\r\n\r\n@media screen and (min-width: 700px) {\r\n  svg {\r\n     height: 40vmin;\r\n  }\r\n}"; });
 define('text!login/login.html', ['module'], function(module) { module.exports = "<template><require from=\"login/login.css\"></require><require from=\"home/home.css\"></require><div class=\"login-page\" style=\"width:100%;height:100%;background:linear-gradient(to bottom right,#1567b9,#baecc7)\"><div class=\"form\"><form class=\"register-form\"><input type=\"text\" placeholder=\"name\"> <input type=\"password\" placeholder=\"password\"> <input type=\"text\" placeholder=\"email address\"> <button>create</button><p class=\"message\">Already registered? <a href=\"#\">Sign In</a></p></form><form class=\"login-form\"><input type=\"text\" placeholder=\"username\"> <input type=\"password\" placeholder=\"password\"> <button type=\"button\" class=\"btn btn-start btn-lg btn-block\" click.delegate=\"loginClick()\">Manage</button><p class=\"message\">Not registered? <a href=\"#\">Create an account</a></p></form></div></div></template>"; });
@@ -2692,6 +2767,6 @@ define('text!expenses/compose/compose-car-expenses.html', ['module'], function(m
 define('text!expenses/compose/compose-discretionary-expenses.html', ['module'], function(module) { module.exports = "<template><br><div class=\"box-shadow--6dp ${click ? 'none' : 'box-shadow--6dp'}\" style=\"border-radius:0\"><div><h4 class=\"panel-title\"><div style=\"float:right;padding:5px;width:30%;text-align:right\">Total: $${user.expenses.totalDiscretionaryExpense}</div><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#discretionaryExpenseCollapse\" click.delegate=\"clicked()\" style=\"float:left;padding:5px;width:30%\"><span show.bind=\"click\" class=\"glyphicon glyphicon-chevron-right\"></span> <span show.bind=\"!click\" class=\"glyphicon glyphicon-chevron-down\"></span> </a><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#discretionaryExpenseCollapse\" click.delegate=\"clicked()\" style=\"font-size:24px\"><center>Discretionary</center></a></h4></div><div id=\"discretionaryExpenseCollapse\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><div repeat.for=\"discretionary of constants.DiscretionaryExpenses\" class=\"form-group col-md-6\"><label style=\"padding-left:5%\">${discretionary.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0 expensesInput\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[discretionary.value]\" change.delegate=\"calculateExpenses.discretionaryExpenses()\" class=\"form-control\" id=\"${discretionary.value}\"><div class=\"input-group-btn\"><button type=\"button\" class=\"btn ${user.expenses[discretionary.value + 'lock'] ? 'btn-default' : 'btn-primary'}\" click.delegate=\"lockStateChange(discretionary.value)\"><i class=\"fa fa-unlock\" show.bind=\"!user.expenses[discretionary.value + 'lock']\"></i> <i class=\"fa fa-lock\" show.bind=\"user.expenses[discretionary.value + 'lock']\"></i></button></div></div><br></div></div></div></div></template>"; });
 define('text!expenses/compose/compose-health-expenses.html', ['module'], function(module) { module.exports = "<template><br><div class=\"box-shadow--6dp ${click ? 'none' : 'box-shadow--6dp'}\" style=\"border-radius:0\"><div><h4 class=\"panel-title\"><div style=\"float:right;padding:5px;width:30%;text-align:right\">Total: $${user.expenses.totalHealthExpense}</div><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#healthExpenseCollapse\" click.delegate=\"clicked()\" style=\"float:left;padding:5px;width:30%\"><span show.bind=\"click\" class=\"glyphicon glyphicon-chevron-right\"></span> <span show.bind=\"!click\" class=\"glyphicon glyphicon-chevron-down\"></span> </a><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#healthExpenseCollapse\" click.delegate=\"clicked()\" style=\"font-size:24px\"><center>Health</center></a></h4></div><div id=\"healthExpenseCollapse\" class=\"panel-collapse collapse\"><div class=\"panel-body\"><div repeat.for=\"health of constants.HealthExpenses\" class=\"form-group col-md-6\"><label style=\"padding-left:5%\">${health.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0 expensesInput\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[health.value]\" change.delegate=\"calculateExpenses.healthExpenses()\" class=\"form-control\" id=\"${health.value}\"><div class=\"input-group-btn\"><button type=\"button\" class=\"btn ${user.expenses[health.value + 'lock'] ? 'btn-default' : 'btn-primary'}\" click.delegate=\"lockStateChange(health.value)\"><i class=\"fa fa-unlock\" show.bind=\"!user.expenses[health.value + 'lock']\"></i> <i class=\"fa fa-lock\" show.bind=\"user.expenses[health.value + 'lock']\"></i></button></div></div></div><br></div></div></div></template>"; });
 define('text!expenses/compose/compose-home-expenses.html', ['module'], function(module) { module.exports = "<template><br><div class=\"box-shadow--6dp ${click ? 'none' : 'box-shadow--6dp'}\" style=\"border-radius:0\"><div><h4 class=\"panel-title\"><div style=\"float:right;padding:5px;width:30%;text-align:right\">Total: $${user.expenses.totalHomeExpense}</div><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#homeExpenseCollapse\" click.delegate=\"clicked()\" style=\"float:left;padding:5px;width:30%\"><span show.bind=\"click\" class=\"glyphicon glyphicon-chevron-right\"></span> <span show.bind=\"!click\" class=\"glyphicon glyphicon-chevron-down\"></span> </a><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#homeExpenseCollapse\" click.delegate=\"clicked()\" style=\"font-size:24px\"><center>Home</center></a></h4></div><div id=\"homeExpenseCollapse\" class=\"panel-collapse collapse in\"><div class=\"panel-body\"><div repeat.for=\"home of constants.HomeExpenses\" class=\"form-group col-md-6\"><label style=\"padding-left:5%\">${home.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0 expensesInput\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[home.value]\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" id=\"${home.value}\"><div class=\"input-group-btn\"><button type=\"button\" class=\"btn ${user.expenses[home.value + 'lock'] ? 'btn-default' : 'btn-primary'}\" click.delegate=\"lockStateChange(home.value)\"><i class=\"fa fa-unlock\" show.bind=\"!user.expenses[home.value + 'lock']\"></i> <i class=\"fa fa-lock\" show.bind=\"user.expenses[home.value + 'lock']\"></i></button></div></div><br></div></div></div></div></template>"; });
-define('text!results/compose/compose-chart.html', ['module'], function(module) { module.exports = "<template><div class=\"box-shadow--6dp\" show.bind=\"user.results.showBudget\" style=\"float:left;margin-left:2%;margin-right:10%;width:43%\" id=\"resultsContainerSimple\"></div><div class=\"box-shadow--6dp\" show.bind=\"user.results.showAdvanced\" style=\"float:left;margin-left:2%;margin-right:10%;width:43%\" id=\"resultsContainerAdvanced\"></div><div class=\"box-shadow--6dp\" show.bind=\"user.results.showGoalsChart\" style=\"float:left;margin-left:2%;margin-right:10%;width:43%\" id=\"fiveYearGoalsContainer\"></div><div class=\"box-shadow--6dp\" show.bind=\"user.results.showExpenses\" style=\"float:left;margin-left:2%;margin-right:10%;width:43%\" id=\"fiveYearExpensesContainer\"></div><div class=\"box-shadow--6dp\" show.bind=\"!user.results.showAdvancedRecommended\" style=\"float:left;width:43%\" id=\"recommendedContainer\"></div><div class=\"box-shadow--6dp\" show.bind=\"user.results.showAdvancedRecommended\" style=\"float:left;width:43%\" id=\"recommendedContainerAdvanced\"></div><br style=\"clear:both\"><br style=\"clear:both\"><br style=\"clear:both\"><div class=\"col-md-6\"><div class=\"btn-group\" data-toggle=\"buttons\"><label repeat.for=\"option of chartOptions\" class=\"btn btn-primary\" click.delegate=\"showChart(option.text)\"><input type=\"radio\" autocomplete=\"off\" model.bind=\"option\" checked.bind=\"$parent.selectedChart\"> ${option.text}</label></div><br><br></div><div class=\"col-md-6\"><div class=\"btn-group\" click.delegate=\"checkAdvancedRecommended()\" data-toggle=\"buttons\"><label class=\"btn btn-primary ${!user.results.showAdvancedRecommended ? 'active btn-primary' : 'btn-secondary'}\"><input type=\"radio\">Recommended Simple Budget</label><label class=\"btn btn-primary ${user.results.showAdvancedRecommended ? 'active btn-primary' : 'btn-secondary'}\"><input type=\"radio\">Recommended Advanced Budget</label></div></div><br style=\"clear:both\"><div class=\"${user.recommend.messageStyle}\"><b>${user.recommend.message}</b><br><br><button class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#changes\">See Recommended Changes</button><div class=\"modal fade\" id=\"changes\" role=\"dialog\"><div class=\"modal-dialog\"><div class=\"modal-content\"><div class=\"modal-header\"><button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button><h4 class=\"modal-title\"><b>Your Changes</b></h4></div><div class=\"modal-body\" style=\"color:#a94442\"><div class=\"row\"><div class=\"col-md-6\"><h5><b>Home Changes</b></h5><div repeat.for=\"homeChange of homeChanges\">${homeChange.charAt(0).toUpperCase() + homeChange.slice(1)}: $${user.recommend.homeChanges[homeChange].toFixed(2)}</div></div><div class=\"col-md-6\"><h5><b>Transportation Changes</b></h5><div repeat.for=\"carChange of carChanges\">${carChange.charAt(0).toUpperCase() + carChange.slice(1)}: $${user.recommend.carChanges[carChange].toFixed(2)}</div></div></div><hr><div class=\"row\"><div class=\"col-md-6\"><h5><b>Health Changes</b></h5><div repeat.for=\"healthChange of healthChanges\">${healthChange.charAt(0).toUpperCase() + healthChange.slice(1)}: $${user.recommend.healthChanges[healthChange].toFixed(2)}</div></div><div class=\"col-md-6\"><h5><b>Discretionary Changes</b></h5><div repeat.for=\"discretionaryChange of discretionaryChanges\">${discretionaryChange.charAt(0).toUpperCase() + discretionaryChange.slice(1)}: $${user.recommend.discretionaryChanges[discretionaryChange].toFixed(2)}</div><h5><b>Total Expense Change: Subtract $${user.recommend.expensesChange.toFixed(2)}</b></h5><h5 style=\"color:#3c763d\"><b>Savings Change: Add $${user.recommend.savingsChange.toFixed(2)}</b></h5></div></div></div><div class=\"modal-footer\"><button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button></div></div></div></div></div></template>"; });
+define('text!results/compose/compose-chart.html', ['module'], function(module) { module.exports = "<template><div class=\"box-shadow--6dp\" show.bind=\"user.results.showBudget\" style=\"float:left;margin-left:2%;margin-right:10%;width:43%\" id=\"resultsContainerSimple\"></div><div class=\"box-shadow--6dp\" show.bind=\"user.results.showAdvanced\" style=\"float:left;margin-left:2%;margin-right:10%;width:43%\" id=\"resultsContainerAdvanced\"></div><div class=\"box-shadow--6dp\" show.bind=\"user.results.showGoalsChart\" style=\"float:left;margin-left:2%;margin-right:10%;width:43%\" id=\"fiveYearGoalsContainer\"></div><div class=\"box-shadow--6dp\" show.bind=\"user.results.showExpenses\" style=\"float:left;margin-left:2%;margin-right:10%;width:43%\" id=\"fiveYearExpensesContainer\"></div><div class=\"box-shadow--6dp\" show.bind=\"!user.results.showAdvancedRecommended\" style=\"float:left;width:43%\" id=\"recommendedContainer\"></div><div class=\"box-shadow--6dp\" show.bind=\"user.results.showAdvancedRecommended\" style=\"float:left;width:43%\" id=\"recommendedContainerAdvanced\"></div><br style=\"clear:both\"><br style=\"clear:both\"><br style=\"clear:both\"><div class=\"col-md-6\"><div class=\"btn-group\" data-toggle=\"buttons\"><label repeat.for=\"option of chartOptions\" class=\"btn btn-primary\" click.delegate=\"showChart(option.text)\"><input type=\"radio\" autocomplete=\"off\" model.bind=\"option\" checked.bind=\"$parent.selectedChart\"> ${option.text}</label></div><br><br></div><div class=\"col-md-6\"><div class=\"btn-group\" click.delegate=\"checkAdvancedRecommended()\" data-toggle=\"buttons\"><label class=\"btn btn-primary ${!user.results.showAdvancedRecommended ? 'active btn-primary' : 'btn-secondary'}\"><input type=\"radio\">Recommended Simple Budget</label><label class=\"btn btn-primary ${user.results.showAdvancedRecommended ? 'active btn-primary' : 'btn-secondary'}\"><input type=\"radio\">Recommended Advanced Budget</label></div></div><br style=\"clear:both\"><div class=\"${user.recommend.messageStyle}\"><b>${user.recommend.message}</b><br><br><button class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#changes\">See Recommended Changes</button><div class=\"modal fade\" id=\"changes\" role=\"dialog\"><div class=\"modal-dialog\"><div class=\"modal-content\"><div class=\"modal-header\"><button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button><h4 class=\"modal-title\"><b>Your Changes</b></h4></div><div class=\"modal-body\"><div class=\"row\"><div class=\"col-md-6\"><h5><b>Home Changes</b></h5><div repeat.for=\"homeChange of homeChanges\" class=\"${user.recommend.homeChanges[homeChange] > 0 ? 'decreasing' : 'adding'}\">${homeChange.charAt(0).toUpperCase() + homeChange.slice(1)}: $${user.recommend.homeChanges[homeChange].toFixed(2)}</div></div><div class=\"col-md-6\"><h5><b>Transportation Changes</b></h5><div repeat.for=\"carChange of carChanges\" class=\"${user.recommend.carChanges[carChange] > 0 ? 'decreasing' : 'adding'}\">${carChange.charAt(0).toUpperCase() + carChange.slice(1)}: $${user.recommend.carChanges[carChange].toFixed(2)}</div></div></div><hr><div class=\"row\"><div class=\"col-md-6\"><h5><b>Health Changes</b></h5><div repeat.for=\"healthChange of healthChanges\" class=\"${user.recommend.healthChanges[healthChange] > 0 ? 'decreasing' : 'adding'}\">${healthChange.charAt(0).toUpperCase() + healthChange.slice(1)}: $${user.recommend.healthChanges[healthChange].toFixed(2)}</div></div><div class=\"col-md-6\"><h5><b>Discretionary Changes</b></h5><div repeat.for=\"discretionaryChange of discretionaryChanges\" class=\"${user.recommend.discretionaryChanges[discretionaryChange] > 0 ? 'decreasing' : 'adding'}\">${discretionaryChange.charAt(0).toUpperCase() + discretionaryChange.slice(1)}: $${user.recommend.discretionaryChanges[discretionaryChange].toFixed(2)}</div><h5><b>Total Expense Change: Subtract $${user.recommend.expensesChange.toFixed(2)}</b></h5><h5 style=\"color:#3c763d\"><b>Savings Change: Add $${user.recommend.savingsChange.toFixed(2)}</b></h5></div></div></div><div class=\"modal-footer\"><button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button></div></div></div></div></div></template>"; });
 define('text!results/compose/compose-table.html', ['module'], function(module) { module.exports = "<template><hr style=\"clear:both\"><div style=\"width:100%;margin:0 auto\" class=\"table-outter\"><table class=\"table table-bordered box-shadow--6dp\"><thead class=\"bg-primary\"><tr style=\"font-size:20px\"><th style=\"text-align:center\" repeat.for=\"expense of user.results.recommendedResults.length\">${user.results.recommendedResults[expense][0]}</th><th style=\"text-align:center\">Wishes</th></tr></thead><tbody><tr><td repeat.for=\"amount of user.results.recommendedResults.length\"><div style=\"text-align:center\"><strong>$ ${user.expenses['total' + user.results.recommendedResults[amount][0] + 'Expense']}</strong></div><hr><div style=\"height:300px;overflow-y:scroll\"><div repeat.for=\"expense of constants[user.results.recommendedResults[amount][0] + 'Expenses']\" class=\"form-group\"><label>${expense.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[expense.value]\" disabled.bind=\"!user.expenses[expense.value + 'lock']\" change.delegate=\"checkValue(user.expenses, user.expenses[expense.value], expense, user.results.recommendedResults[amount][0])\" class=\"form-control ${user.expenses[expense.value + 'check'] ? 'alert-success' : 'alert-danger'}\"></div><br></div></div></td><td><div style=\"text-align:center\"><strong>$ ${user.personalInfo.savingsPerMonth * 12}</strong></div><hr><div class=\"form-group\"><label for=\"privateSchool\">Savings Per Month</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo.savingsPerMonth\" class=\"form-control\"></div><br></div><div show.bind=\"user.results.showGoals\" style=\"height:200px;overflow-y:scroll\"><div repeat.for=\"wish of constants.wishes\"><div show.bind=\"user.personalInfo[wish.check]\"><div class=\"form-group\"><label for=\"privateSchool\">Amount for ${wish.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo[wish.value]\" class=\"form-control ${user.results[wish.value + 'MetGoal'] ? 'alert-success' : 'alert-danger'}\"></div></div><br></div></div></div></td></tr></tbody></table></div><div style=\"width:45%;margin:0 auto;text-align:center\" class=\"alert alert-success\" role=\"alert\"><strong>This means your expense is lower than average or you meet your goal</strong></div><div style=\"width:45%;margin:0 auto;text-align:center\" class=\"alert alert-danger\" role=\"alert\"><strong>This means your expense is higher than average or you didn't meet your goal</strong></div></template>"; });
 //# sourceMappingURL=app-bundle.js.map
