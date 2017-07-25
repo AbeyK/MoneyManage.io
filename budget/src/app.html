@@ -30,7 +30,7 @@
     <div class="container-fluid" style="margin: 0 auto; display: table;">
       <ul class="nav navbar-nav" style="width:100%;">
         <li repeat.for="row of router.navigation" style="margin: 0 auto; display: inline;" class="${row.isActive ? 'active' : ''}">
-          <a id="navtitles" href.bind="row.href" style="margin:0 auto; text-align: center;">${row.title}</a>
+          <a id="navtitles" href.bind="row.href" style="margin:0 auto; text-align: center;">${row.settings}</a>
         </li>
       </ul>
     </div>
