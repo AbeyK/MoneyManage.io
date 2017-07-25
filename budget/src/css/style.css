@@ -82,3 +82,38 @@ box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 6px 9px rgba(0, 0, 0, 0.2);
 .decreasing {
 	color: #a94442;
 }
+.container{
+	width:100vw !important;
+}
+@media screen and (min-width: 700px) {
+  .container {
+width:85vw !important;  }
+}
+@media screen and (min-width: 1200px) {
+  .container {
+width:60vw !important;  }
+}
+
+#personalinfo{
+	width:100vw !important;
+}
+@media screen and (min-width: 700px) {
+#personalinfo {
+width:85vw !important;  }
+}
+@media screen and (min-width: 1200px) {
+#personalinfo {
+width:60vw !important;  }
+}
+
+#results{
+	width:100vw !important;
+}
+@media screen and (min-width: 700px) {
+#results {
+width:85vw !important;  }
+}
+@media screen and (min-width: 1200px) {
+#results {
+width:60vw !important;  }
+}

@@ -1,23 +1,48 @@
+*{
+  
+margin:0 auto;
+}
 
-
-h1{
-    
-    text-align: center;
-  font-size: 400%; /* Some tweener fallback that doesn't look awful */ 
+#title{
+    margin:0 auto;
+    padding: 5%;
+    padding-bottom: 1vh;
+  font-size: 36px; /* Some tweener fallback that doesn't look awful */ 
+  font-size: 13vw;    
   font-weight: bold;
     color: #fff;
     /*font-family: 'Maven Pro', sans-serif;*/
 
 }
-p{
+
+@media screen and (min-width: 700px) {
+  #title {
+   font-size: 7vmin;
+  }
+}
+#subtitle{
       font-style: italic;
       color: #fff;
-  font-size: 140%; 
+  font-size: 5vmin;
+      padding-bottom: 0;
+
 }
-button{
+
+@media screen and (min-width: 700px) {
+  #subtitle {
+  font-size: 3vmin;
+  }
+}
+#start{
+  font-size: 5vmin !important;
+
     /*width: 10%;*/
     /*height: 150px;*/
     color: #fff;
+        /*padding:0 !important;*/
+
+    padding-left: 2vmin !important;
+    padding-right: 2vmin !important;
 
 }
 .btn-start{
@@ -25,17 +50,17 @@ button{
     color:#fff;
         font-weight: bold;
 
-    font-size: 25px;
+    font-size: 4vh;
 
 }
 
 .btn-start:hover{
 
     background-color: #fff;
-    color: #afca5d;
+    color: #afca5d !important;
         font-weight: bold;
 
-    font-size: 25px;
+    font-size: 4vh;
 
 
 }
@@ -44,10 +69,10 @@ body{
 }
 .bg {
 height:100vh;
-
+margin: 0;
     background: linear-gradient(to bottom right, #1567b9, #baecc7);
   text-align: center;
-  padding: 1px;
+  padding: 0;
 }
 
 .zigzag {
@@ -139,5 +164,16 @@ height:100vh;
   }
 }
 svg{
-  height: 100%;
+ width: 90%;
+ /*background-image: url(image-with-4-3-aspect-ratio.svg);*/
+ /*background-size: cover;*/
+ height: 50vmin;
+ padding: 0; /* reset */
+ /*padding-bottom: calc(100% * 3 / 4);*/
+ }
+
+@media screen and (min-width: 700px) {
+  svg {
+     height: 40vmin;
+  }
 }
