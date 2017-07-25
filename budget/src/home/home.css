@@ -3,8 +3,8 @@
 h1{
     
     text-align: center;
-  font-size: 400%; /* Some tweener fallback that doesn't look awful */ 
-  font-weight: bold;
+  font-size: 36px; /* Some tweener fallback that doesn't look awful */ 
+  font-size: 5.4vh;    font-weight: bold;
     color: #fff;
     /*font-family: 'Maven Pro', sans-serif;*/
 
@@ -12,7 +12,7 @@ h1{
 p{
       font-style: italic;
       color: #fff;
-  font-size: 140%; 
+  font-size: 3vh; 
 }
 button{
     /*width: 10%;*/
@@ -25,7 +25,7 @@ button{
     color:#fff;
         font-weight: bold;
 
-    font-size: 25px;
+    font-size: 4vh;
 
 }
 
@@ -35,7 +35,7 @@ button{
     color: #afca5d;
         font-weight: bold;
 
-    font-size: 25px;
+    font-size: 4vh;
 
 
 }
@@ -139,5 +139,5 @@ height:100vh;
   }
 }
 svg{
-  height: 100%;
+  /*width: 30vh;*/
 }
