@@ -134,11 +134,11 @@ export class calculateExpenses {
 
                 //CHECK IF GOAL IS MET
                 if(tempGoal > this.user.results.fiveYearSavings[i]) {
-                    this.user.results[this.user.personalInfo.currentGoalsRanks[j][1] + 'MetGoal'] = true;
+                    this.user.results[this.user.personalInfo.currentGoalsRanks[j][1] + 'MetGoal'] = false;
                     color = '#dff0d8';
                 }
                 else {
-                    this.user.results[this.user.personalInfo.currentGoalsRanks[j][1] + 'MetGoal'] = false;
+                    this.user.results[this.user.personalInfo.currentGoalsRanks[j][1] + 'MetGoal'] = true;
                     color = '#f2dede';
                 }
 
