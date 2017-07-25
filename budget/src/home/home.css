@@ -8,7 +8,7 @@ margin:0 auto;
     padding: 5%;
     padding-bottom: 1vh;
   font-size: 36px; /* Some tweener fallback that doesn't look awful */ 
-  font-size: 13vw;    
+  font-size: 11vw;    
   font-weight: bold;
     color: #fff;
     /*font-family: 'Maven Pro', sans-serif;*/
@@ -23,7 +23,7 @@ margin:0 auto;
 #subtitle{
       font-style: italic;
       color: #fff;
-  font-size: 5vmin;
+  font-size: 4.5vmin;
       padding-bottom: 0;
 
 }
@@ -34,15 +34,15 @@ margin:0 auto;
   }
 }
 #start{
-  font-size: 5vmin !important;
+  font-size: 3vmin !important;
 
     /*width: 10%;*/
     /*height: 150px;*/
     color: #fff;
         /*padding:0 !important;*/
 
-    padding-left: 2vmin !important;
-    padding-right: 2vmin !important;
+    padding-left: 8vmin !important;
+    padding-right: 8vmin !important;
 
 }
 .btn-start{
@@ -61,9 +61,9 @@ margin:0 auto;
         font-weight: bold;
 
     font-size: 4vh;
-
-
 }
+
+
 body{
     /*background: linear-gradient(to bottom right, #1567b9, #baecc7);*/
 }
