@@ -1,27 +1,48 @@
 <template>
-        <require from="login/login.css"></require>
-        <require from="home/home.css"></require>
+  <require from="login/login.css"></require>
+  <require from="home/home.css"></require>
 
-<form action="#" id="login-form">
-  <div class="heading">MoneyManage</div>
-  <div class="left">
-    <label for="email">Email</label> <br />
-    <input type="email" name="email" id="email" /> <br />
-    <label for="password">Password</label> <br />
-    <input type="password" name="password" id="pass" /> <br />
-    <input type="submit" value="Login" />
-  </div>
-  <div class="right">
-    <div class="connect">Connect with</div>
-    <a href="" class="facebook">
-      <span class="fontawesome-facebook"></span>
-    </a> <br />
-    <a href="" class="twitter">
-      <span class="fontawesome-twitter"></span>
-    </a> <br />
-    <a href="" class="google-plus">
-      <span class="fontawesome-google-plus"></span>
-    </a>
-  </div>
-</form>  
-</div></template>
+  <form submit.delegate="login(emailInput, passwordInput)" action="#" id="login-form">
+    <div class="heading">MoneyManage</div>
+      <div class="left">
+        <label for="email">Email</label> <br />
+          <input value.bind="emailInput" type="email" name="email" id="email" placeholder="email@email.com"/> <br />
+        <label for="password">Password</label> <br />
+          <input value.bind="passwordInput" type="password" name="password" id="pass" placeholder="password"/> <br />
+        <input type="submit" value="Login" />
+      </div>
+
+      <div class="right">
+        <div class="connect">Connect with</div>
+        <a href="" class="facebook">
+            <span class="fontawesome-facebook">Facebook</span>
+          </a> <br />
+        <a href="" class="twitter">
+            <span class="fontawesome-twitter">Twitter</span>
+          </a> <br />
+        <a href="" class="google-plus">
+            <span class="fontawesome-google-plus">Google+</span>
+          </a>
+      </div>
+  </form>
+
+  <form submit.delegate="newUser(newEmail, newPassword)" id="login-form">
+      <div class="heading">
+        Logout and create new user
+      </div>
+
+      <div class="left">
+        <button class="btn btn-secondary" click.delegate="logout()">Logout</button>
+      </div>
+
+      <div class="right">
+        <label for="email">Email</label> <br />
+          <input value.bind="newEmail" type="email" name="email" id="email" placeholder="email@email.com"/> <br />
+        <label for="password">Password</label> <br />
+          <input value.bind="newPassword" type="password" name="password" id="pass" placeholder="password"/> <br />
+        <input type="submit" value="New User" />
+      </div>
+  </form>
+  
+
+</template>

@@ -50,9 +50,9 @@ export class App {
   attached() {
     firebase.initializeApp(configFB);
 
-    var users = firebase.database().ref('Users/Abey');
-    users.on('value', (snap) => {
-      console.log(snap.val());
-    });
+    var users = firebase.database().ref('Users');
+    // users.on('value', (snap) => {
+    //   console.log(snap.val());
+    // });
   }
 }
