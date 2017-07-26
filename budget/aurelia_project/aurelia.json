@@ -188,6 +188,11 @@
             "name": "bootbox",
             "path": "../node_modules/bootbox",
             "main": "bootbox"
+          },
+          {
+            "name": "firebase",
+            "path": "../node_modules/firebase",
+            "main": "firebase"
           }
         ]
       }

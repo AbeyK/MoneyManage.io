@@ -12,16 +12,14 @@ export class results {
 
   start() {
     if ($(window).width() < 800) {
-      bootbox.alert('weg', () => {
+      bootbox.alert('Your screen size is not recommended for this application. Please switch to a larger screen for the best experience.', () => {
         console.log('bootbox alert');
       });
       
       // alert("Your screen size is not recommended for this application. Please switch to a larger screen for the best experience.");
     }
-    else {
       this.user.personalInfo.showNavbar = true;
       this.router.navigate('#/personalinfo');
-    }
 
   }
 
