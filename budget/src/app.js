@@ -3,7 +3,6 @@ import 'jquery-ui-dist';
 import { inject } from 'aurelia-framework';
 import { User } from 'services/user';
 import 'bootstrap';
-import * as firebase from '../node_modules/firebase/firebase';
 import {configFB} from './config';
 
 @inject(User)
@@ -49,6 +48,11 @@ export class App {
   }
   
   attached() {
-    //firebase.initializeApp(configFB);
+    firebase.initializeApp(configFB);
+
+    var users = firebase.database().ref('Users/Abey');
+    users.on('value', (snap) => {
+      console.log(snap.val());
+    });
   }
 }

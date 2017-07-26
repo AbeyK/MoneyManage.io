@@ -1,4 +1,4 @@
-define('app',['exports', 'jquery', 'aurelia-framework', 'services/user', '../node_modules/firebase/firebase', './config', 'jquery-ui-dist', 'bootstrap'], function (exports, _jquery, _aureliaFramework, _user, _firebase, _config) {
+define('app',['exports', 'jquery', 'aurelia-framework', 'services/user', './config', 'jquery-ui-dist', 'bootstrap'], function (exports, _jquery, _aureliaFramework, _user, _config) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -7,25 +7,6 @@ define('app',['exports', 'jquery', 'aurelia-framework', 'services/user', '../nod
   exports.App = undefined;
 
   var _jquery2 = _interopRequireDefault(_jquery);
-
-  var firebase = _interopRequireWildcard(_firebase);
-
-  function _interopRequireWildcard(obj) {
-    if (obj && obj.__esModule) {
-      return obj;
-    } else {
-      var newObj = {};
-
-      if (obj != null) {
-        for (var key in obj) {
-          if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
-        }
-      }
-
-      newObj.default = obj;
-      return newObj;
-    }
-  }
 
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -75,7 +56,14 @@ define('app',['exports', 'jquery', 'aurelia-framework', 'services/user', '../nod
       }]);
     };
 
-    App.prototype.attached = function attached() {};
+    App.prototype.attached = function attached() {
+      firebase.initializeApp(_config.configFB);
+
+      var users = firebase.database().ref('Users/Abey');
+      users.on('value', function (snap) {
+        console.log(snap.val());
+      });
+    };
 
     return App;
   }()) || _class);
