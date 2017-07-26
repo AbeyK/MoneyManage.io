@@ -14,14 +14,14 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title"><b>Your Changes</b></h4>
+                        <h4 class="modal-title"><b>Monthly Changes</b></h4>
                     </div>
 
                     <div class="modal-body">
                         <div class="row"> 
                             <div class="col-md-6">
                                 <h5><b>Home Changes</b></h5>
-                                <div repeat.for="homeChange of currentHomeChanges" class="${user.recommend.homeChanges[homeChange] < 0 ? 'decreasing' : 'adding'}">
+                                <div repeat.for="homeChange of currentHomeChanges" class="${user.recommend.homeChanges[homeChange.slice(0,-1)] < 0 ? 'decreasing' : 'adding'}">
                                     ${homeChange.charAt(0).toUpperCase() + homeChange.slice(1)}
                                     ${modelHomeChanges[$index]}
                                 </div>
@@ -29,7 +29,7 @@
 
                             <div class="col-md-6">
                                 <h5><b>Transportation Changes</b></h5>
-                                <div repeat.for="carChange of currentCarChanges" class="${user.recommend.carChanges[carChange] < 0 ? 'decreasing' : 'adding'}">
+                                <div repeat.for="carChange of currentCarChanges" class="${user.recommend.carChanges[carChange.slice(0,-1)] < 0 ? 'decreasing' : 'adding'}">
                                     ${carChange.charAt(0).toUpperCase() + carChange.slice(1)}
                                     ${modelCarChanges[$index]}
                                 </div>
@@ -41,7 +41,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <h5><b>Health Changes</b></h5>
-                                <div repeat.for="healthChange of currentHealthChanges" class="${user.recommend.healthChanges[healthChange] < 0 ? 'decreasing' : 'adding'}">
+                                <div repeat.for="healthChange of currentHealthChanges" class="${user.recommend.healthChanges[healthChange.slice(0,-1)] < 0 ? 'decreasing' : 'adding'}">
                                     ${healthChange.charAt(0).toUpperCase() + healthChange.slice(1)}
                                     ${modelHealthChanges[$index]}
                                 </div>
@@ -49,12 +49,12 @@
 
                             <div class="col-md-6">
                                 <h5><b>Discretionary Changes</b></h5>
-                                <div repeat.for="discretionaryChange of currentDiscretionaryChanges" class="${user.recommend.discretionaryChanges[discretionaryChange] < 0 ? 'decreasing' : 'adding'}">
+                                <div repeat.for="discretionaryChange of currentDiscretionaryChanges" class="${user.recommend.discretionaryChanges[discretionaryChange.slice(0,-1)] < 0 ? 'decreasing' : 'adding'}">
                                     ${discretionaryChange.charAt(0).toUpperCase() + discretionaryChange.slice(1)}
                                     ${modelDiscretionaryChanges[$index]}
                                 </div>
 
-                                <h5 class="${user.recommend.expensesChange < 0 ? 'decreasing' : 'adding'}"><b>Total Expense Change: ${modelExpenseChange}</b></h5>
+                                <h5 class="${user.recommend.expensesChange < 0 ? 'decreasing' : 'adding'}"><b>Yearly Expense Change: ${modelExpenseChange}</b></h5>
                                 <h5 style="color: #3c763d"><b>Savings Change: $${user.recommend.savingsChange.toFixed(2)}</b></h5>
                             </div>
                         </div>

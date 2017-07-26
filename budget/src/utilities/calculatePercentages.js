@@ -44,7 +44,8 @@ export class calculatePercentages {
         for(var i = 0; i < this.constants.HomeExpenses.length; i++) {
             var expenseName = this.constants.HomeExpenses[i].value;
             this.user.results.homePercentageArray.push(this.user.results[expenseName + 'Percentage'] = (this.user.expenses[expenseName] / home) * this.user.results.homePercentage);
-            this.user.results.advancedHomeAmounts.push(this.user.expenses[expenseName]);
+            if(expenseName == 'propertyTax') this.user.results.advancedHomeAmounts.push(this.user.expenses[expenseName]);
+            else this.user.results.advancedHomeAmounts.push(this.user.expenses[expenseName] * 12);
         }
     }
 
@@ -56,7 +57,7 @@ export class calculatePercentages {
         for(var i = 0; i < this.constants.CarExpenses.length; i++) {
             var expenseName = this.constants.CarExpenses[i].value;
             this.user.results.carPercentageArray.push(this.user.results[expenseName + 'Percentage'] = (this.user.expenses[expenseName] / car) * this.user.results.carPercentage);
-            this.user.results.advancedCarAmounts.push(this.user.expenses[expenseName]);
+            this.user.results.advancedCarAmounts.push(this.user.expenses[expenseName] * 12);
         }
     }
 
@@ -68,7 +69,7 @@ export class calculatePercentages {
         for(var i = 0; i < this.constants.HealthExpenses.length; i++) {
             var expenseName = this.constants.HealthExpenses[i].value;
             this.user.results.healthPercentageArray.push(this.user.results[expenseName + 'Percentage'] = (this.user.expenses[expenseName] / health) * this.user.results.healthPercentage);
-            this.user.results.advancedHealthAmounts.push(this.user.expenses[expenseName]);
+            this.user.results.advancedHealthAmounts.push(this.user.expenses[expenseName] * 12);
         }
     }
 
@@ -80,7 +81,7 @@ export class calculatePercentages {
         for(var i = 0; i < this.constants.DiscretionaryExpenses.length; i++) {
             var expenseName = this.constants.DiscretionaryExpenses[i].value;
             this.user.results.discretionaryPercentageArray.push(this.user.results[expenseName + 'Percentage'] = (this.user.expenses[expenseName] / discretionary) * this.user.results.discretionaryPercentage);
-            this.user.results.advancedDiscretionaryAmounts.push(this.user.expenses[expenseName]);
+            this.user.results.advancedDiscretionaryAmounts.push(this.user.expenses[expenseName] * 12);
         }
     }
 
@@ -94,7 +95,8 @@ export class calculatePercentages {
         for(var i = 0; i < this.constants.HomeExpenses.length; i++) {
             var expenseName = this.constants.HomeExpenses[i].value;
             this.user.recommend.homePercentageArray.push(this.user.recommend[expenseName + 'Percentage'] = (this.user.recommend[expenseName] / home) * this.user.recommend.homePercentage);
-            this.user.recommend.advancedHomeAmounts.push(this.user.recommend[expenseName]);
+             if(expenseName == 'propertyTax') this.user.recommend.advancedHomeAmounts.push(this.user.recommend[expenseName]);
+             else this.user.recommend.advancedHomeAmounts.push(this.user.recommend[expenseName] * 12);
         }
     }
 
@@ -106,7 +108,7 @@ export class calculatePercentages {
         for(var i = 0; i < this.constants.CarExpenses.length; i++) {
             var expenseName = this.constants.CarExpenses[i].value;
             this.user.recommend.carPercentageArray.push(this.user.recommend[expenseName + 'Percentage'] = (this.user.recommend[expenseName] / car) * this.user.recommend.carPercentage);
-            this.user.recommend.advancedCarAmounts.push(this.user.recommend[expenseName]);
+            this.user.recommend.advancedCarAmounts.push(this.user.recommend[expenseName] * 12);
         }
     }
 
@@ -118,7 +120,7 @@ export class calculatePercentages {
         for(var i = 0; i < this.constants.HealthExpenses.length; i++) {
             var expenseName = this.constants.HealthExpenses[i].value;
             this.user.recommend.healthPercentageArray.push(this.user.recommend[expenseName + 'Percentage'] = (this.user.recommend[expenseName] / health) * this.user.recommend.healthPercentage);
-            this.user.recommend.advancedHealthAmounts.push(this.user.recommend[expenseName]);
+            this.user.recommend.advancedHealthAmounts.push(this.user.recommend[expenseName] * 12);
         }
     }
 
@@ -130,7 +132,7 @@ export class calculatePercentages {
         for(var i = 0; i < this.constants.DiscretionaryExpenses.length; i++) {
             var expenseName = this.constants.DiscretionaryExpenses[i].value;
             this.user.recommend.discretionaryPercentageArray.push(this.user.recommend[expenseName + 'Percentage'] = (this.user.recommend[expenseName] / discretionary) * this.user.recommend.discretionaryPercentage);
-            this.user.recommend.advancedDiscretionaryAmounts.push(this.user.recommend[expenseName]);
+            this.user.recommend.advancedDiscretionaryAmounts.push(this.user.recommend[expenseName] * 12);
         }
     }
 }
