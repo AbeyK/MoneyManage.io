@@ -35,6 +35,11 @@ export class results {
         this.healthChanges = Object.keys(this.user.recommend.healthChanges);
         this.discretionaryChanges = Object.keys(this.user.recommend.discretionaryChanges);
 
+        this.currentHomeChanges = [];
+        this.currentCarChanges = [];
+        this.currentHealthChanges = [];
+        this.currentDiscretionaryChanges = [];
+
         this.modelHomeChanges = [];
         this.modelCarChanges = [];
         this.modelHealthChanges = [];
@@ -132,30 +137,67 @@ export class results {
         this.modelCarChanges = [];
         this.modelHealthChanges = [];
         this.modelDiscretionaryChanges = [];
+
+        this.currentHomeChanges = [];
+        this.currentCarChanges = [];
+        this.currentHealthChanges = [];
+        this.currentDiscretionaryChanges = [];
         
         for(var i = 0; i < this.homeChanges.length; i++) {
             var val = parseFloat(this.user.recommend.homeChanges[this.homeChanges[i]]);
-            if(val < 0) this.modelHomeChanges.push("-$" + Math.abs(val).toFixed(2));
-            else this.modelHomeChanges.push("$" + Math.abs(val).toFixed(2));
+            if(val < 0) {
+                this.modelHomeChanges.push("-$" + Math.abs(val).toFixed(2));
+                this.currentHomeChanges.push(this.homeChanges[i] + ":");
+            }
+            else if(val > 0) {
+                this.modelHomeChanges.push("$" + Math.abs(val).toFixed(2));
+                this.currentHomeChanges.push(this.homeChanges[i] + ":");
+            }
         }
+
+        if(this.currentHomeChanges.length == 0) this.currentHomeChanges.push('None');
 
         for(var i = 0; i < this.carChanges.length; i++) {
             var val = parseFloat(this.user.recommend.carChanges[this.carChanges[i]]);
-            if(val < 0) this.modelCarChanges.push("-$" + Math.abs(val).toFixed(2));
-            else this.modelCarChanges.push("$" + Math.abs(val).toFixed(2));
+            if(val < 0) {
+                this.modelCarChanges.push("-$" + Math.abs(val).toFixed(2));
+                this.currentCarChanges.push(this.carChanges[i] + ":");
+            }
+            else if(val > 0) {
+                this.modelCarChanges.push("$" + Math.abs(val).toFixed(2));
+                this.currentCarChanges.push(this.carChanges[i] + ":");
+            }
         }
+
+        if(this.currentCarChanges.length == 0) this.currentCarChanges.push('None');
 
         for(var i = 0; i < this.healthChanges.length; i++) {
             var val = parseFloat(this.user.recommend.healthChanges[this.healthChanges[i]]);
-            if(val < 0) this.modelHealthChanges.push("-$" + Math.abs(val).toFixed(2));
-            else this.modelHealthChanges.push("$" + Math.abs(val).toFixed(2));
+            if(val < 0) {
+                this.modelHealthChanges.push("-$" + Math.abs(val).toFixed(2));
+                this.currentHealthChanges.push(this.healthChanges[i] + ":");
+            }
+            else if(val > 0) {
+                this.modelHealthChanges.push("$" + Math.abs(val).toFixed(2));
+                this.currentHealthChanges.push(this.healthChanges[i] + ":");
+            }
         }
+
+        if(this.currentHealthChanges.length == 0) this.currentHealthChanges.push('None');
 
         for(var i = 0; i < this.discretionaryChanges.length; i++) {
             var val = parseFloat(this.user.recommend.discretionaryChanges[this.discretionaryChanges[i]]);
-            if(val < 0) this.modelDiscretionaryChanges.push("-$" + Math.abs(val).toFixed(2));
-            else this.modelDiscretionaryChanges.push("$" + Math.abs(val).toFixed(2));
+            if(val < 0) {
+                this.modelDiscretionaryChanges.push("-$" + Math.abs(val).toFixed(2));
+                this.currentDiscretionaryChanges.push(this.discretionaryChanges[i] + ":");
+            }
+            else if(val > 0) {
+                this.modelDiscretionaryChanges.push("$" + Math.abs(val).toFixed(2));
+                this.currentDiscretionaryChanges.push(this.discretionaryChanges[i] + ":");
+            }
         }
+
+        if(this.currentDiscretionaryChanges.length == 0) this.currentDiscretionaryChanges.push('None');
 
         var expenseChange = this.user.recommend.expensesChange;
         if(expenseChange < 0) this.modelExpenseChange = "-$" + Math.abs(expenseChange.toFixed(2));
