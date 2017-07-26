@@ -56,18 +56,7 @@ define('app',['exports', 'jquery', 'aurelia-framework', 'services/user', '../nod
       }]);
     };
 
-    App.prototype.attached = function attached() {
-      var config = {
-        apiKey: "AIzaSyDSnN1wO56xgVDshPH6GTZcDeGzNY1AyIQ",
-        authDomain: "moneymanage-f79cc.firebaseapp.com",
-        databaseURL: "https://moneymanage-f79cc.firebaseio.com",
-        projectId: "moneymanage-f79cc",
-        storageBucket: "moneymanage-f79cc.appspot.com",
-        messagingSenderId: "466558174283"
-      };
-
-      firebase.initializeApp(config);
-    };
+    App.prototype.attached = function attached() {};
 
     return App;
   }()) || _class);
@@ -357,13 +346,32 @@ define('home/home',['exports', 'aurelia-framework', 'aurelia-router', '../servic
     }
 
     results.prototype.start = function start() {
+      var _this = this;
+
       if ($(window).width() < 800) {
-        bootbox.alert('Your screen size is not recommended for this application. Please switch to a larger screen for the best experience.', function () {
-          console.log('bootbox alert');
+        bootbox.confirm({
+          title: "MoneyManage",
+          message: "Your screen size is not recommended for this application. Please switch to a larger screen for the best experience.",
+          buttons: {
+            cancel: {
+              label: '<i class="fa fa-times"></i> Cancel'
+            },
+            confirm: {
+              label: '<i class="fa fa-check"></i> Start'
+            }
+          },
+          callback: function callback(result) {
+            if (result) {
+              console.log(result);
+              _this.user.personalInfo.showNavbar = true;
+              _this.router.navigate('#/personalinfo');
+            }
+          }
         });
+      } else {
+        this.user.personalInfo.showNavbar = true;
+        this.router.navigate('#/personalinfo');
       }
-      this.user.personalInfo.showNavbar = true;
-      this.router.navigate('#/personalinfo');
     };
 
     results.prototype.attached = function attached() {
