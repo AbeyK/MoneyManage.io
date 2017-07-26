@@ -21,16 +21,16 @@
                         <div class="row"> 
                             <div class="col-md-6">
                                 <h5><b>Home Changes</b></h5>
-                                <div repeat.for="homeChange of homeChanges" class="${user.recommend.homeChanges[homeChange] < 0 ? 'decreasing' : 'adding'}">
-                                    ${homeChange.charAt(0).toUpperCase() + homeChange.slice(1)}: 
+                                <div repeat.for="homeChange of currentHomeChanges" class="${user.recommend.homeChanges[homeChange] < 0 ? 'decreasing' : 'adding'}">
+                                    ${homeChange.charAt(0).toUpperCase() + homeChange.slice(1)}
                                     ${modelHomeChanges[$index]}
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <h5><b>Transportation Changes</b></h5>
-                                <div repeat.for="carChange of carChanges" class="${user.recommend.carChanges[carChange] < 0 ? 'decreasing' : 'adding'}">
-                                    ${carChange.charAt(0).toUpperCase() + carChange.slice(1)}: 
+                                <div repeat.for="carChange of currentCarChanges" class="${user.recommend.carChanges[carChange] < 0 ? 'decreasing' : 'adding'}">
+                                    ${carChange.charAt(0).toUpperCase() + carChange.slice(1)}
                                     ${modelCarChanges[$index]}
                                 </div>
                             </div>
@@ -41,16 +41,16 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <h5><b>Health Changes</b></h5>
-                                <div repeat.for="healthChange of healthChanges" class="${user.recommend.healthChanges[healthChange] < 0 ? 'decreasing' : 'adding'}">
-                                    ${healthChange.charAt(0).toUpperCase() + healthChange.slice(1)}: 
+                                <div repeat.for="healthChange of currentHealthChanges" class="${user.recommend.healthChanges[healthChange] < 0 ? 'decreasing' : 'adding'}">
+                                    ${healthChange.charAt(0).toUpperCase() + healthChange.slice(1)}
                                     ${modelHealthChanges[$index]}
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <h5><b>Discretionary Changes</b></h5>
-                                <div repeat.for="discretionaryChange of discretionaryChanges" class="${user.recommend.discretionaryChanges[discretionaryChange] < 0 ? 'decreasing' : 'adding'}">
-                                    ${discretionaryChange.charAt(0).toUpperCase() + discretionaryChange.slice(1)}: 
+                                <div repeat.for="discretionaryChange of currentDiscretionaryChanges" class="${user.recommend.discretionaryChanges[discretionaryChange] < 0 ? 'decreasing' : 'adding'}">
+                                    ${discretionaryChange.charAt(0).toUpperCase() + discretionaryChange.slice(1)}
                                     ${modelDiscretionaryChanges[$index]}
                                 </div>
 

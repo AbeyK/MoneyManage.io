@@ -171,13 +171,16 @@ export class calculateRecommended {
                     }
                     else if(expenseName == 'carMaintenance') {
                         var decrease = 0;
-                        if(this.user.recommend[expenseName] > this.user.expenses.carExpenseConstants.Maintenance) {
-                            decrease = (this.user.expenses[expenseName] - this.user.expenses.carExpenseConstants.Maintenance) / 5;
-                            if(decrease < 0) adjusted = this.user.recommend[expenseName];
-                            else adjusted = this.user.recommend[expenseName] - decrease;
-                        }
-                        if(this.user.recommend[expenseName] <= this.user.expenses.carExpenseConstants.Maintenance) {
-                            adjusted = this.user.expenses.carExpenseConstants.Maintenance;
+                        if(this.user.recommend['carInsurance'] == 0) this.user.recommend[expenseName] = 0;
+                        else {
+                            if(this.user.recommend[expenseName] > this.user.expenses.carExpenseConstants.Maintenance) {
+                                decrease = (this.user.expenses[expenseName] - this.user.expenses.carExpenseConstants.Maintenance) / 5;
+                                if(decrease < 0) adjusted = this.user.recommend[expenseName];
+                                else adjusted = this.user.recommend[expenseName] - decrease;
+                            }
+                            if(this.user.recommend[expenseName] <= this.user.expenses.carExpenseConstants.Maintenance) {
+                                adjusted = this.user.expenses.carExpenseConstants.Maintenance;
+                            }
                         }
                     }
 

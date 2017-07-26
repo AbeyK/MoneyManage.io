@@ -91,6 +91,7 @@ export class calculateExpenses {
             
             //INCOME
             var tempIncome = parseInt(this.user.personalInfo.income) * Math.pow(1.025, i);
+            tempIncome -= parseInt(this.user.personalInfo.savingsPerMonth) * 12 * Math.pow(1.0199, i);
             this.user.results.fiveYearIncome.push(tempIncome);
             var tempDifferenceIncomeExpense = tempIncome - tempTotalExpense; 
 
