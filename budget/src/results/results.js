@@ -208,6 +208,9 @@ export class results {
         this.user.personalInfo.showNavbar = true;
         this.getChartData();
 
+        this.user.results.showBudget = true;
+        this.user.results.showAdvancedRecommended = false;
+
         //PERMANENT LOCKS
         this.user.expenses.mortgagelock = false;
         this.user.expenses.propertyTaxlock = false;

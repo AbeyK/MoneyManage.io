@@ -3,7 +3,6 @@ import 'jquery-ui-dist';
 import { inject } from 'aurelia-framework';
 import { User } from 'services/user';
 import 'bootstrap';
-var bootbox = require('bootbox');
 
 @inject(User)
 export class App {
