@@ -209,6 +209,9 @@ export class results {
         this.getChartData();
 
         this.user.results.showBudget = true;
+        this.user.results.showGoalsChart = false;
+        this.user.results.showExpenses = false;
+        this.user.results.showAdvanced = false;
         this.user.results.showAdvancedRecommended = false;
 
         //PERMANENT LOCKS
