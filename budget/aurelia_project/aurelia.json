@@ -183,6 +183,11 @@
             "resources": [
               "jquery-ui.css"
             ]
+          },
+          {
+            "name": "bootbox",
+            "path": "../node_modules/bootbox",
+            "main": "bootbox"
           }
         ]
       }

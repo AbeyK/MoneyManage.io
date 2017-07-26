@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import 'jquery-ui-dist';
+import bootbox from 'bootbox';
 import { inject } from 'aurelia-framework';
 import { User } from 'services/user';
 import 'bootstrap';
@@ -16,7 +17,7 @@ export class App {
     config.map([
       {
         route: ['', 'home'], moduleId: 'home/home',
-        name: 'home', title: ' MoneyManage: Budgeting Tool ', nav: false, settings: 'Home'
+        name: 'home', title: ' MoneyManage: Budgeting Tool ', nav: true, settings: 'Home'
       },
       {
         route: 'personalinfo', moduleId: 'aboutyou/personalinfo',
