@@ -15,7 +15,7 @@ export class results {
       //let self = this;
       bootbox.confirm({
           title: "MoneyManage",
-          message: "Your screen size is not recommended for this application. Please switch to a larger screen for the best experience.",
+          message: "Your screen size is still in beta testing for this application. Some features may not be available. Please switch to a larger screen for the best experience.",
           buttons: {
               cancel: {
                   label: '<i class="fa fa-times"></i> Cancel'
