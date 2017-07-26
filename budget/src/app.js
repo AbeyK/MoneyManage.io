@@ -18,7 +18,7 @@ export class App {
     config.map([
       {
         route: ['', 'home'], moduleId: 'home/home',
-        name: 'home', title: ' MoneyManage: Budgeting Tool ', nav: true, settings: 'Home'
+        name: 'home', title: ' MoneyManage: Budgeting Tool ', nav: false, settings: 'Home'
       },
       {
         route: 'personalinfo', moduleId: 'aboutyou/personalinfo',
