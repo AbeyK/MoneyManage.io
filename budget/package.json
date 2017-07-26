@@ -11,6 +11,7 @@
     "aurelia-animator-css": "^1.0.1",
     "aurelia-bootstrapper": "^2.1.0",
     "bluebird": "^3.4.1",
+    "bootbox": "^4.4.0",
     "bootstrap": "^3.3.7",
     "highcharts": "^5.0.12",
     "ion-rangeslider": "^2.2.0",
