@@ -3,9 +3,8 @@ import 'jquery-ui-dist';
 import { inject } from 'aurelia-framework';
 import { User } from 'services/user';
 import 'bootstrap';
-//import firebase from '../node_modules/firebase/firebase';
-
-var firebase = require('../node_modules/firebase/firebase');
+import * as firebase from '../node_modules/firebase/firebase';
+import {configFB} from './config';
 
 @inject(User)
 export class App {
@@ -50,15 +49,6 @@ export class App {
   }
   
   attached() {
-    // var config = {
-    //   apiKey: "AIzaSyDSnN1wO56xgVDshPH6GTZcDeGzNY1AyIQ",
-    //   authDomain: "moneymanage-f79cc.firebaseapp.com",
-    //   databaseURL: "https://moneymanage-f79cc.firebaseio.com",
-    //   projectId: "moneymanage-f79cc",
-    //   storageBucket: "moneymanage-f79cc.appspot.com",
-    //   messagingSenderId: "466558174283"
-    // };
-
-    // firebase.initializeApp(config);
+    //firebase.initializeApp(configFB);
   }
 }

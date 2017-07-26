@@ -38,6 +38,27 @@ export class calculateRecommended {
         this.user.recommend.expensesChange = 0;
         this.user.recommend.adjustedSavingsTotal = adjustedSavingsTotal;
 
+        for(var i = 0; i < this.constants.HomeExpenses.length; i++) {
+            var expenseName = this.constants.HomeExpenses[i].value;
+            this.user.recommend.homeChanges[expenseName] = 0;
+        }
+
+        for(var i = 0; i < this.constants.CarExpenses.length; i++) {
+            var expenseName = this.constants.CarExpenses[i].value;
+            this.user.recommend.carChanges[expenseName] = 0;
+        }
+
+        for(var i = 0; i < this.constants.HealthExpenses.length; i++) {
+            var expenseName = this.constants.HealthExpenses[i].value;
+            this.user.recommend.healthChanges[expenseName] = 0;
+        }
+
+        for(var i = 0; i < this.constants.DiscretionaryExpenses.length; i++) {
+            var expenseName = this.constants.DiscretionaryExpenses[i].value;
+            this.user.recommend.discretionaryChanges[expenseName] = 0;
+        }
+
+
         
         while(adjustingHandler) {
             this.user.recommend.totalHomeExpense = 0;
@@ -72,7 +93,7 @@ export class calculateRecommended {
                         else adjusted = 0;
                     }
                     else if(expenseName == 'streaming') {
-                        if(this.user.recommend['cable'] == 0 && this.user.recommend.homeChanges['cable'] > 0 && count == 4) adjusted = this.user.expenses.homeExpenseConstants.Streaming;
+                        if(this.user.recommend['cable'] == 0 && this.user.recommend.homeChanges['cable'] < 0) adjusted = this.user.expenses.homeExpenseConstants.Streaming;
                         else adjusted = this.user.recommend[expenseName];
                     }
                     else if(expenseName == 'groceries') {
@@ -146,7 +167,7 @@ export class calculateRecommended {
                             adjusted = this.user.expenses.carExpenseConstants.GasMax;
                         }
                         else if(this.user.recommend[expenseName] <= this.user.expenses.carExpenseConstants.GasMin) {
-                            if(this.user.recommend.carChanges[expenseName] != 0) adjusted = this.user.expenses.carExpenseConstants.GasMin;
+                            if(this.user.recommend.carChanges[expenseName] < 0) adjusted = this.user.expenses.carExpenseConstants.GasMin;
                             else adjusted = this.user.recommend[expenseName];
                         }
                         else {
@@ -161,11 +182,11 @@ export class calculateRecommended {
                     }
                     else if(expenseName == 'publicTransport') {
                         var temp = 0;
-                        if(this.user.recommend.carChanges["gas"] > 0) {
+                        if(this.user.recommend.carChanges["gas"] != 0) {
                             var gasPerc = (this.user.recommend["gas"] - this.user.expenses.carExpenseConstants.GasMin) / (this.user.expenses.carExpenseConstants.GasMax - this.user.expenses.carExpenseConstants.GasMin);
                             temp = this.user.expenses.carExpenseConstants.PublicTransport - (this.user.expenses.carExpenseConstants.PublicTransport * gasPerc);
                             
-                            if(this.user.recommend.carChanges["gas"] > temp) adjusted = temp;
+                            if(this.user.recommend.carChanges["gas"] < temp) adjusted = temp;
                             else adjusted = this.user.recommend[expenseName];
                         }
                         else adjusted = this.user.recommend[expenseName];
