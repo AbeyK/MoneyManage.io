@@ -72,7 +72,7 @@ export class calculateRecommended {
                         else adjusted = 0;
                     }
                     else if(expenseName == 'streaming') {
-                        if(this.user.recommend['cable'] == 0) adjusted = this.user.expenses.homeExpenseConstants.Streaming;
+                        if(this.user.recommend['cable'] == 0 && this.user.recommend.homeChanges['cable'] > 0 && count == 4) adjusted = this.user.expenses.homeExpenseConstants.Streaming;
                         else adjusted = this.user.recommend[expenseName];
                     }
                     else if(expenseName == 'groceries') {
@@ -130,7 +130,8 @@ export class calculateRecommended {
                     this.user.recommend[expenseName] = adjusted;
                 }
 
-                this.user.recommend.totalHomeExpense += this.user.recommend[expenseName];
+                if(expenseName == 'propertyTax') this.user.recommend.totalHomeExpense += this.user.recommend[expenseName];
+                else this.user.recommend.totalHomeExpense += this.user.recommend[expenseName] * 12;
             }
 
             //CAR CHANGES
@@ -188,7 +189,7 @@ export class calculateRecommended {
                     this.user.recommend[expenseName] = adjusted;
                 }
 
-                this.user.recommend.totalCarExpense += this.user.recommend[expenseName];
+                this.user.recommend.totalCarExpense += this.user.recommend[expenseName] * 12;
             }
 
             //HEALTH CHANGES
@@ -212,7 +213,7 @@ export class calculateRecommended {
                     this.user.recommend[expenseName] = adjusted;
                 }
 
-                this.user.recommend.totalHealthExpense += this.user.recommend[expenseName];
+                this.user.recommend.totalHealthExpense += this.user.recommend[expenseName] * 12;
             }
 
             //DISCRETIONARY CHANGES
@@ -252,7 +253,7 @@ export class calculateRecommended {
                     this.user.recommend[expenseName] = adjusted;
                 }
 
-                this.user.recommend.totalDiscretionaryExpense += this.user.recommend[expenseName];
+                this.user.recommend.totalDiscretionaryExpense += this.user.recommend[expenseName] * 12;
             }
 
             //ADD NEW TOTAL EXPENSE

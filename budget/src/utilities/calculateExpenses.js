@@ -32,8 +32,8 @@ export class calculateExpenses {
         for (var i = 0; i < 5; i++) {
             //HOME 5 YEAR ESTIMATES
             var tempHomeTotal =
-                parseInt(this.user.expenses.mortgage) +
-                parseInt(this.user.expenses.propertyTax) +
+                (parseInt(this.user.expenses.mortgage) +
+                parseFloat(this.user.expenses.propertyTax) / 12 +
                 parseInt(this.user.expenses.homeownerInsurance) * Math.pow(1 + .0250, i)  +
                 parseInt(this.user.expenses.phone) * Math.pow(1 - .012, i) +
                 parseInt(this.user.expenses.internet) * Math.pow(1 - .018, i) +
@@ -42,36 +42,36 @@ export class calculateExpenses {
                 parseInt(this.user.expenses.groceries) * Math.pow(1 + 0.01, i) +
                 parseInt(this.user.expenses.utilities) * Math.pow(1 + .018, i) +
                 parseInt(this.user.expenses.homeMaintenance) +
-                parseInt(this.user.expenses.clothes) * Math.pow(1 - 0.001, i);
+                parseInt(this.user.expenses.clothes) * Math.pow(1 - 0.001, i)) * 12;
             this.user.results.homeFiveYears.push(tempHomeTotal);
 
             //CAR 5 YEAR ESTIMATES
             var tempCarTotal =
-                parseInt(this.user.expenses.carPayment) +
+                (parseInt(this.user.expenses.carPayment) +
                 parseInt(this.user.expenses.carInsurance) * Math.pow(1 + .052, i) +
                 parseInt(this.user.expenses.publicTransport) * Math.pow(1 - .003, i) + 
                 parseInt(this.user.expenses.gas) * Math.pow(1 + 0.026, i) +
-                parseInt(this.user.expenses.carMaintenance);
+                parseInt(this.user.expenses.carMaintenance)) * 12;
             this.user.results.carFiveYears.push(tempCarTotal);
 
             //HEALTH 5 YEAR ESTIMATES
             var tempHealthTotal =
-                parseInt(this.user.expenses.healthInsurance) * Math.pow(1 + .035, i) + 
+                (parseInt(this.user.expenses.healthInsurance) * Math.pow(1 + .035, i) + 
                 parseInt(this.user.expenses.medication) * Math.pow(1 + .025, i) +
                 parseInt(this.user.expenses.unexpectedMedicalProblems) + 
                 parseInt(this.user.expenses.visualInsurance) +
                 parseInt(this.user.expenses.eyeCare) +
                 parseInt(this.user.expenses.dentalInsurance) * Math.pow(1 + .02, i) +
                 parseInt(this.user.expenses.cavities) * Math.pow(1 + .027, i) + 
-                parseInt(this.user.expenses.braces) * Math.pow(1 + .011, i);
+                parseInt(this.user.expenses.braces) * Math.pow(1 + .011, i)) * 12;
             this.user.results.healthFiveYears.push(tempHealthTotal);
 
             //DISCRETIONARY 5 YEAR ESTIMATES
             var tempDiscretionaryTotal =
-                parseInt(this.user.expenses.eatingOut) * Math.pow(1 + .024, i) + 
+                (parseInt(this.user.expenses.eatingOut) * Math.pow(1 + .024, i) + 
                 parseInt(this.user.expenses.bars) * Math.pow(1 + .02, i) +
                 parseInt(this.user.expenses.funMoney) * Math.pow(1 + .003, i) + 
-                parseInt(this.user.expenses.other);
+                parseInt(this.user.expenses.other)) * 12;
             this.user.results.discretionaryFiveYears.push(tempDiscretionaryTotal);
 
             //TOTAL EXPENSES
@@ -164,8 +164,8 @@ export class calculateExpenses {
 
     homeExpenses() {
         var tempHomeTotal =
-            parseInt(this.user.expenses.mortgage) + 
-            parseInt(this.user.expenses.propertyTax) +
+            (parseInt(this.user.expenses.mortgage) + 
+            parseFloat(this.user.expenses.propertyTax / 12) +
             parseInt(this.user.expenses.homeownerInsurance) +
             parseInt(this.user.expenses.phone) + 
             parseInt(this.user.expenses.internet) +
@@ -174,7 +174,7 @@ export class calculateExpenses {
             parseInt(this.user.expenses.groceries) + 
             parseInt(this.user.expenses.utilities) +
             parseInt(this.user.expenses.homeMaintenance) + 
-            parseInt(this.user.expenses.clothes);
+            parseInt(this.user.expenses.clothes)) * 12;
 
         if(isNaN(tempHomeTotal)) {
             alert("Please enter a valid input"); 
@@ -219,11 +219,11 @@ export class calculateExpenses {
 
     carExpenses() {
         var tempCarTotal =
-            parseInt(this.user.expenses.carPayment) + 
+            (parseInt(this.user.expenses.carPayment) + 
             parseInt(this.user.expenses.carInsurance) +
             parseInt(this.user.expenses.publicTransport) + 
             parseInt(this.user.expenses.gas) +
-            parseInt(this.user.expenses.carMaintenance);
+            parseInt(this.user.expenses.carMaintenance)) * 12;
 
         if(isNaN(tempCarTotal)) {
             alert("Please enter a valid input");
@@ -255,14 +255,14 @@ export class calculateExpenses {
     
     healthExpenses() {
         var tempHealthTotal =
-            parseInt(this.user.expenses.healthInsurance) + 
+            (parseInt(this.user.expenses.healthInsurance) + 
             parseInt(this.user.expenses.medication) +
             parseInt(this.user.expenses.unexpectedMedicalProblems) + 
             parseInt(this.user.expenses.visualInsurance) +
             parseInt(this.user.expenses.eyeCare) +
             parseInt(this.user.expenses.dentalInsurance) +
             parseInt(this.user.expenses.cavities) + 
-            parseInt(this.user.expenses.braces);
+            parseInt(this.user.expenses.braces)) * 12;
 
         if(isNaN(tempHealthTotal)) {
             alert("Please enter a valid input");
@@ -285,10 +285,10 @@ export class calculateExpenses {
 
     discretionaryExpenses() {
         var tempDiscretionaryTotal =
-            parseInt(this.user.expenses.eatingOut) + 
+            (parseInt(this.user.expenses.eatingOut) + 
             parseInt(this.user.expenses.bars) +
             parseInt(this.user.expenses.funMoney) + 
-            parseInt(this.user.expenses.other);
+            parseInt(this.user.expenses.other)) * 12;
 
         if(isNaN(tempDiscretionaryTotal)) {
             alert("Please enter a valid input");

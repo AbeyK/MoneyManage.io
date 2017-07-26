@@ -31,7 +31,7 @@ export class ExpensesConstants {
             
             "Utilities" : 200 + (200 * .02 * parseInt(this.user.personalInfo.householdSize)),
             "Maintenance" : parseInt(this.user.personalInfo.squareFootHome / 12),
-            "Clothes" : Math.floor(this.user.personalInfo.income * .05)
+            "Clothes" : Math.floor(this.user.personalInfo.income * .05) / 12
         };
 
         this.user.expenses.carExpenseConstants = {
