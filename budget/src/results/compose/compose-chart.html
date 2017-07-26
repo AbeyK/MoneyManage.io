@@ -1,28 +1,30 @@
 <template>
-    <div class="box-shadow--6dp" show.bind="user.results.showBudget" style="float: left; margin-right: 4%; width: 48%;" id="resultsContainerSimple"></div>
-    <div class="box-shadow--6dp" show.bind="user.results.showAdvanced" style="float: left; margin-right: 4%; width: 48%;" id="resultsContainerAdvanced"></div>
-    <div class="box-shadow--6dp" show.bind="user.results.showGoalsChart" style="float: left; margin-right: 4%; width: 48%;" id="fiveYearGoalsContainer"></div>
-    <div class="box-shadow--6dp" show.bind="user.results.showExpenses" style="float: left;margin-right: 4%; width: 48%;" id="fiveYearExpensesContainer"></div>
-    
-    <div class="box-shadow--6dp" show.bind="!user.results.showAdvancedRecommended" style="float: left; width: 48%;" id="recommendedContainer"></div>
-    <div class="box-shadow--6dp" show.bind="user.results.showAdvancedRecommended" style="float: left; width: 48%;" id="recommendedContainerAdvanced"></div>
+    <div class="col-md-6"> 
+        <div class="box-shadow--6dp" show.bind="user.results.showBudget"  id="resultsContainerSimple"></div>
+        <div class="box-shadow--6dp" show.bind="user.results.showAdvanced" id="resultsContainerAdvanced"></div>
+        <div class="box-shadow--6dp" show.bind="user.results.showGoalsChart"  id="fiveYearGoalsContainer"></div>
+        <div class="box-shadow--6dp" show.bind="user.results.showExpenses" id="fiveYearExpensesContainer"></div>
+        
+        <div class="form-group" style="padding-top:3vmin;">
+            <label for="charts">Chart Options</label>
+            <select class="form-control" value.bind="option" change.delegate="showChart(option)">
+                <option repeat.for="option of chartOptions">${option.text}</option>
+            </select>
+        </div>
+    </div>            
 
-    <br style="clear:both;"> <br style="clear:both;"> <br style="clear:both;">
+    <div class="col-md-6">
+        <div class="box-shadow--6dp" show.bind="!user.results.showAdvancedRecommended" id="recommendedContainer"></div>
+        <div class="box-shadow--6dp" show.bind="user.results.showAdvancedRecommended" id="recommendedContainerAdvanced"></div>
 
-    <div class="form-group col-md-6" style="width: 48%; margin-right: 4%;">
-        <label for="race">Chart Options</label>
-        <select class="form-control" value.bind="option" change.delegate="showChart(option)">
-            <option repeat.for="option of chartOptions">${option.text}</option>
-        </select>
+        <div class="form-group" style="padding-top:3vmin;">
+            <label for="recommended">Recommended Chart Options</label>
+            <select class="form-control" value.bind="option" change.delegate="showRecommendedChart(option)">
+                <option>Recommended Simple Budget</option>
+                <option>Recommended Advanced Budget</option>
+            </select>
+        </div>
     </div>
 
-    <div class="form-group col-md-6" style="width: 48%;">
-        <label for="race">Recommended Chart Options</label>
-        <select class="form-control" value.bind="option" change.delegate="showRecommendedChart(option)">
-            <option>Recommended Simple Budget</option>
-            <option>Recommended Advanced Budget</option>
-        </select>
-    </div>
-
-    <br> <br> <br> <br>
+    <br> <br> 
 </template>
