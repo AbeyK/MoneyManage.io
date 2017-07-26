@@ -1,4 +1,4 @@
-define('app',['exports', 'jquery', 'aurelia-framework', 'services/user', '../node_modules/firebase/firebase', 'jquery-ui-dist', 'bootstrap'], function (exports, _jquery, _aureliaFramework, _user, firebase) {
+define('app',['exports', 'jquery', 'aurelia-framework', 'services/user', '../node_modules/firebase/firebase', './config', 'jquery-ui-dist', 'bootstrap'], function (exports, _jquery, _aureliaFramework, _user, _firebase, _config) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -7,6 +7,25 @@ define('app',['exports', 'jquery', 'aurelia-framework', 'services/user', '../nod
   exports.App = undefined;
 
   var _jquery2 = _interopRequireDefault(_jquery);
+
+  var firebase = _interopRequireWildcard(_firebase);
+
+  function _interopRequireWildcard(obj) {
+    if (obj && obj.__esModule) {
+      return obj;
+    } else {
+      var newObj = {};
+
+      if (obj != null) {
+        for (var key in obj) {
+          if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+        }
+      }
+
+      newObj.default = obj;
+      return newObj;
+    }
+  }
 
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -2925,6 +2944,21 @@ define('services/data/resultsData',["exports"], function (exports) {
                 this.discretionaryFiveYears = [];
                 this.advancedDiscretionaryAmounts = [];
         };
+});
+define('config',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    var configFB = exports.configFB = {
+        apiKey: "AIzaSyDSnN1wO56xgVDshPH6GTZcDeGzNY1AyIQ",
+        authDomain: "moneymanage-f79cc.firebaseapp.com",
+        databaseURL: "https://moneymanage-f79cc.firebaseio.com",
+        projectId: "moneymanage-f79cc",
+        storageBucket: "moneymanage-f79cc.appspot.com",
+        messagingSenderId: "466558174283"
+    };
 });
 define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"ion-rangeslider/css/ion.rangeSlider.css\"></require><require from=\"ion-rangeslider/css/ion.rangeSlider.skinHTML5.css\"></require><require from=\"ion-rangeslider/css/normalize.css\"></require><require from=\"highcharts/css/highcharts.css\"></require><require from=\"jquery-ui-dist/jquery-ui.css\"></require><require from=\"bootstrap/css/bootstrap.css\"></require><require from=\"css/style.css\"></require><require from=\"css/navbar.css\"></require><link href=\"https://fonts.googleapis.com/css?family=Maven+Pro\" rel=\"stylesheet\"><link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0\"><nav class=\"navbar navbar-default\" show.bind=\"user.personalInfo.showNavbar\" style=\"border:none;background:#fff\"><div class=\"\" style=\"float:left\"><a class=\"navtitles\" href=\"#\"><span style=\"font-size:1.6em;margin:0;padding-left:2vmin\" class=\"glyphicon glyphicon-home\"></span></a></div><div class=\"dropdown\" style=\"float:right\"><a class=\"navtitles\"><span style=\"font-size:1.6em;padding-right:2vmin\" class=\"glyphicon glyphicon-cog\"></span></a><ul class=\"dropdown-menu\"><li><a href=\"#login\">Login</a></li><li><a href=\"#about\">About</a></li></ul></div><div class=\"container-fluid\" style=\"margin:0 auto;display:table\"><ul class=\"navbar-nav\" style=\"width:100%\"><li repeat.for=\"row of router.navigation\" style=\"margin:0 auto;display:inline\" class=\"${row.isActive ? 'active' : ''}\"><a id=\"navtitles\" href.bind=\"row.href\" style=\"margin:0 auto;text-align:center;padding:2vmin\">${row.settings}</a></li></ul></div><hr style=\"border-color:#337ab7;width:100%\"></nav><div id=\"app\"><div id=\"content\" style=\"padding:0\"><router-view></router-view></div></div></template>"; });
 define('text!about/about.css', ['module'], function(module) { module.exports = ""; });
