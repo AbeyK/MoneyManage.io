@@ -1,4 +1,4 @@
-define('app',['exports', 'jquery', 'bootbox', 'aurelia-framework', 'services/user', 'jquery-ui-dist', 'bootstrap'], function (exports, _jquery, _bootbox, _aureliaFramework, _user) {
+define('app',['exports', 'jquery', 'aurelia-framework', 'services/user', 'bootbox', 'jquery-ui-dist', 'bootstrap'], function (exports, _jquery, _aureliaFramework, _user, bootbox) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -7,8 +7,6 @@ define('app',['exports', 'jquery', 'bootbox', 'aurelia-framework', 'services/use
   exports.App = undefined;
 
   var _jquery2 = _interopRequireDefault(_jquery);
-
-  var _bootbox2 = _interopRequireDefault(_bootbox);
 
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -321,7 +319,7 @@ define('expenses/expenses',['exports', 'aurelia-framework', 'aurelia-router', '.
         return expenses;
     }()) || _class);
 });
-define('home/home',['exports', 'aurelia-framework', 'aurelia-router', '../services/user'], function (exports, _aureliaFramework, _aureliaRouter, _user) {
+define('home/home',['exports', 'aurelia-framework', 'aurelia-router', '../services/user', 'bootbox'], function (exports, _aureliaFramework, _aureliaRouter, _user, bootbox) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
