@@ -11,11 +11,11 @@ export class login {
         this.user = user;
     }
     attached() {
-        this.user.personalInfo.showNavbar = false;
+        this.user.personalInfo.showNavbar = true;
 
     }
     loginClick(){
-                this.user.personalInfo.showNavbar = true;
+        this.user.personalInfo.showNavbar = true;
         this.router.navigate('#/personalinfo');
     }
 }

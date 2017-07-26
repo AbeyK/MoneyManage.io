@@ -71,7 +71,7 @@ box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 6px 9px rgba(0, 0, 0, 0.2);
   color:white !important;
   font-weight:bold !important;
   /*margin:0 !important;*/
-  padding:6px !important;
+  padding: 1.2vmin !important;
 
   }
 
@@ -117,3 +117,6 @@ width:85vw !important;  }
 #results {
 width:60vw !important;  }
 }
+.glyphicon.glyphicon-question-sign {
+    font-size: 70%;
+	}

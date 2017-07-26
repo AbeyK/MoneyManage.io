@@ -107,6 +107,7 @@ ul.dropdown ul li a:hover{
   padding-top: 0;
   padding-bottom: 0;
   line-height: 30px;
+  color:#337ab7;
 }
 
  .navbar-default .navbar-nav > .active{
@@ -118,11 +119,17 @@ ul.dropdown ul li a:hover{
  .navbar-default .navbar-nav > .active > a:focus {
       color: #fff;
       background: #337ab7;
+      /*font-weight: bold;*/
  }
 
- .navbar-brand:active {
-   color: blue;
- }
+ .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    background-color: #337ab7;
+    color: #fff;
+}
+a {
+    text-decoration: none !important;
+}
+
 .dropdown {
     position: relative;
     display: inline-block;

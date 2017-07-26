@@ -66,5 +66,8 @@ export class expenses {
         this.user.expenses.dentalInsurancelock = false;
         this.user.expenses.cavitieslock = false;
         this.user.expenses.braceslock = false;
+                $('#expensesTooltip').tooltip({
+            content: "Enter all expenses as monthly amounts unless stated otherwise. Lock values you don't want changed. We've locked some values that cannot be changed."
+        });
     }
 }

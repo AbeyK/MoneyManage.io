@@ -133,8 +133,7 @@ export class personalinfo {
         this.slider.createAgeSlider();
 
         $('#wishesTooltip').tooltip({
-            content: "Add the wishes you would like to reach for in the future.<br>" +
-                "Rank your wishes based on priority (1 being highest priority)."
+            content: "Add the wishes you would like to reach for in the future.Rank your wishes based on priority (1 being highest priority)."
         });
     }
 }
