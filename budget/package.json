@@ -13,6 +13,7 @@
     "bluebird": "^3.4.1",
     "bootbox": "^4.4.0",
     "bootstrap": "^3.3.7",
+    "firebase": "^4.1.5",
     "highcharts": "^5.0.12",
     "ion-rangeslider": "^2.2.0",
     "jquery": "^3.2.1",

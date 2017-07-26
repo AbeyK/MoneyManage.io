@@ -1,4 +1,4 @@
-define('app',['exports', 'jquery', 'aurelia-framework', 'services/user', 'jquery-ui-dist', 'bootstrap'], function (exports, _jquery, _aureliaFramework, _user) {
+define('app',['exports', 'jquery', 'aurelia-framework', 'services/user', '../node_modules/firebase/firebase', 'jquery-ui-dist', 'bootstrap'], function (exports, _jquery, _aureliaFramework, _user, firebase) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -55,6 +55,8 @@ define('app',['exports', 'jquery', 'aurelia-framework', 'services/user', 'jquery
         name: 'about', title: 'MoneyManage: About', nav: false, settings: 'About'
       }]);
     };
+
+    App.prototype.attached = function attached() {};
 
     return App;
   }()) || _class);
@@ -344,9 +346,27 @@ define('home/home',['exports', 'aurelia-framework', 'aurelia-router', '../servic
     }
 
     results.prototype.start = function start() {
+      var _this = this;
+
       if ($(window).width() < 800) {
-        bootbox.alert('weg', function () {
-          console.log('bootbox alert');
+        bootbox.confirm({
+          title: "MoneyManage",
+          message: "Your screen size is not recommended for this application. Please switch to a larger screen for the best experience.",
+          buttons: {
+            cancel: {
+              label: '<i class="fa fa-times"></i> Cancel'
+            },
+            confirm: {
+              label: '<i class="fa fa-check"></i> Start'
+            }
+          },
+          callback: function callback(result) {
+            if (result) {
+              console.log(result);
+              _this.user.personalInfo.showNavbar = true;
+              _this.router.navigate('#/personalinfo');
+            }
+          }
         });
       } else {
         this.user.personalInfo.showNavbar = true;
