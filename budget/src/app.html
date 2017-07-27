@@ -23,6 +23,7 @@
         <ul class="dropdown-menu dropdown-menu-right" style="font-size: 1.3em;">
         <li show.bind="!signedIn"><a style="color:#337ab7;" href="#login">Login</a></li>
         <li show.bind="signedIn" click.delegate="logout()"><a  style="color:#337ab7;" href="#home">Logout</a></li>
+        <li show.bind="signedIn" click.delegate="save()"><a style="color:#337ab7;" href="#save">Save</a></li>
         <li><a style="color:#337ab7;" href="#about">About</a></li>
     </ul>
     </div>

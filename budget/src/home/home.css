@@ -55,7 +55,10 @@ margin:0 auto;
 }
 
 .btn-start:hover{
-
+  -moz-transition: all 0.15s ease-in-out;
+  -o-transition: all 0.15s ease-in-out;
+  -webkit-transition: all 0.15s ease-in-out;
+  transition: all 0.15s ease-in-out;
     background-color: #fff;
     color: #afca5d !important;
         font-weight: bold;

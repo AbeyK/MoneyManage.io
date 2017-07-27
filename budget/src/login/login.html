@@ -1,11 +1,13 @@
 <template>
   <require from="login/login.css"></require>
   <require from="home/home.css"></require>
+  <require from="css/style.css"></require>
+
 <br>
 <br>
   <form submit.delegate="login(emailInput, passwordInput)" action="#" id="login-form">
     <div class="" style="background-color:#337ab7; color:#fff">
-      <h3 style="margin:0; padding: 1.2vmin; font-weight:bold;">MoneyManage | Login
+      <h3 style="margin:0; padding: 1.2vmin; font-weight:bold; text-align:center;">MoneyManage
       </h3>
     </div>
     <div class="left">
@@ -16,13 +18,10 @@
       <input type="submit" value="Login" />
     </div>
 
-      <div class="right">
-        <div class="connect">Connect with</div>
+      <div class="right" style="font-size: .8em; text-align:center; border-radius:0;">
+        <div class="connect">Register With...</div>
         <a href="" class="facebook" click.delegate="facebookLogin()">
             <span class="fontawesome-facebook">Facebook</span>
-          </a> <br />
-        <a href="" class="twitter">
-            <span class="fontawesome-twitter" click.delegate="twitterLogin()">Twitter</span>
           </a> <br />
         <a href="" class="google-plus">
             <span class="fontawesome-google-plus" click.delegate="googleLogin()">Google</span>

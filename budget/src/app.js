@@ -64,14 +64,30 @@ export class App {
           console.log(error.message);
       });
   }
+
+  save() {
+    bootbox.alert({
+        title: "MoneyManage",
+        message: "Content saved!",
+        backdrop: true
+    });
+  }
   
   attached() {
     firebase.initializeApp(configFB);
-
-    var users = firebase.database().ref('Users');
+    var users = firebase.database().ref('Users/');
     
     firebase.auth().onAuthStateChanged( (user) => {
-      if(user) this.signedIn = true;
+      if(user) {
+        this.signedIn = true;
+
+        var uid = user.uid;
+        console.log(uid);
+        // users.push({
+        //     "name" : "Joseph",
+        //     "uid" : uid
+        // });
+      }
       else this.signedIn = false;
     });
   }
