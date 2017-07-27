@@ -28,11 +28,10 @@
     </ul>
     </div>
 
-
     <div class="container-fluid" style="margin: 0 auto; display: table;">
       <ul class="navbar-nav" style="width:100%;">
         <li repeat.for="row of router.navigation" style="margin: 0 auto; display: inline;" class="${row.isActive ? 'active' : ''}">
-          <a id="navtitles" href.bind="row.href" style="margin:0 auto; text-align: center; padding: 3vmin; padding-bottom: 2vmin; font-size: 1.3em">${row.settings}</a>
+          <a id="navtitles" href.bind="row.href" style="margin:0 auto; text-align: center; padding: 3vmin; padding-bottom: 2vmin;  padding-top: 2vmin; font-size: 1.3em">${row.settings}</a>
         </li>
       </ul>
     </div>

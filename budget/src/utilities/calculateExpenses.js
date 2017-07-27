@@ -1,5 +1,6 @@
 import { inject } from 'aurelia-framework';
 import { User } from '../services/user';
+var bootbox = require('bootbox');
 
 @inject(User)
 export class calculateExpenses {
@@ -177,7 +178,11 @@ export class calculateExpenses {
             parseInt(this.user.expenses.clothes)) * 12;
 
         if(isNaN(tempHomeTotal)) {
-            alert("Please enter a valid input"); 
+            bootbox.alert({
+                title: "MoneyManage",
+                message: "Please enter valid inputs.",
+                backdrop: true
+            });            
             this.user.expenses.homeCanGoToNext = false;
         }
         else {
@@ -226,7 +231,11 @@ export class calculateExpenses {
             parseInt(this.user.expenses.carMaintenance)) * 12;
 
         if(isNaN(tempCarTotal)) {
-            alert("Please enter a valid input");
+            bootbox.alert({
+                title: "MoneyManage",
+                message: "Please enter valid inputs.",
+                backdrop: true
+            });
             this.user.expenses.carCanGoToNext = false;
         }
         else {
@@ -265,7 +274,11 @@ export class calculateExpenses {
             parseInt(this.user.expenses.braces)) * 12;
 
         if(isNaN(tempHealthTotal)) {
-            alert("Please enter a valid input");
+            bootbox.alert({
+                title: "MoneyManage",
+                message: "Please enter valid inputs.",
+                backdrop: true
+            });
             this.user.expenses.healthCanGoToNext = false;
         }
         else {
@@ -291,7 +304,11 @@ export class calculateExpenses {
             parseInt(this.user.expenses.other)) * 12;
 
         if(isNaN(tempDiscretionaryTotal)) {
-            alert("Please enter a valid input");
+            bootbox.alert({
+                title: "MoneyManage",
+                message: "Please enter valid inputs.",
+                backdrop: true
+            });
             this.user.expenses.discretionaryCanGoToNext = false;
         }
         else {

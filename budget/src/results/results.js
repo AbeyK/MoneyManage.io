@@ -206,6 +206,8 @@ export class results {
     }
 
     attached() {
+
+
         this.user.personalInfo.showNavbar = true;
         this.getChartData();
 
@@ -266,6 +268,8 @@ export class results {
                     }
                 }
             });
+        } else {
+            this.user.expenses.isTotalExpenseZero = false;
         }
     }
 }

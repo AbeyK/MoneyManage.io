@@ -1,26 +1,30 @@
 <template>
     <div id="results">
         <br> <br>
-        <br> 
-        <div class="loading-bro">
-  <h1>Loading</h1>
-  <svg id="load" x="0px" y="0px" viewBox="0 0 150 150">
-    <circle id="loading-inner" cx="75" cy="75" r="60"/>
- </svg>
-</div>
+        <br>
+        <div show.bind="user.expenses.isTotalExpenseZero" class="loading-bro">
+            <h1>Loading</h1>
+            <svg id="load" x="0px" y="0px" viewBox="0 0 150 150">
+                <circle id="loading-inner" cx="75" cy="75" r="60" />
+            </svg>
+        </div>
+
+        <div show.bind="!user.expenses.isTotalExpenseZero">
+            
         <compose view-model="./compose/compose-chart"></compose>
         <compose view-model="./compose/compose-recommendations"></compose>
         <compose view-model="./compose/compose-table"></compose>
-
+        </div>
         <hr>
-        
+
         <button class="btn btn-secondary btn-lg" style="float:left; width: 10vmax;margin:1vw" click.delegate="back()">
             <span class="glyphicon glyphicon-arrow-left"></span>
         </button>
+        <div show.bind="!user.expenses.isTotalExpenseZero">
 
-        <button class="btn btn-lg" style="float:center; width: 20vmax; background-color:#dff0d8"
-            click.delegate="getChartData()">Redraw Chart
+        <button class="btn btn-lg" style="float:center; width: 20vmax; background-color:#dff0d8" click.delegate="getChartData()">Redraw Chart
         </button>
+        </div>
 
         <button class="btn btn-primary btn-lg" style="float:right; width: 10vmax;margin:1vw" click.delegate="home()">
             Finish
