@@ -288,7 +288,17 @@ export class calculateRecommended {
 
             this.user.recommend.expensesChange = this.user.recommend.totalExpense - this.user.expenses.totalExpense;
 
-            if(tempAdjusted >= goalsTotal) {
+            if(goalsTotal == 0) {
+                this.user.recommend.message = "You have no goals";
+                this.user.recommend.messageStyle = "alert alert-success";
+                adjustingHandler = false;
+            }
+            else if(savingsTotal >= goalsTotal) {
+                this.user.recommend.message = "You meet your goals without our recommendations!";
+                this.user.recommend.messageStyle = "alert alert-success";
+                adjustingHandler = false;
+            }
+            else if(tempAdjusted >= goalsTotal) {
                 this.user.recommend.message = "With our recommendations, you meet your goals!";
                 this.user.recommend.messageStyle = "alert alert-success";
                 adjustingHandler = false;

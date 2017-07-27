@@ -13,6 +13,8 @@ export class personalinfo {
         this.slider = slider;
         this.constants = constants;
         this.expensesConstants = expensesConstants;
+        this.checkRanks = true;
+        this.count = 1;
     }
 
     //DRAG AND DROP
@@ -111,17 +113,29 @@ export class personalinfo {
             }
         }
 
-        this.user.personalInfo.currentGoalsRanks = arr;
+        function identical(array) {
+            for(var i = 0; i < array.length - 1; i++) {
+                if(array[i][0] == array[i+1][0]) return false;
+            }
+
+            return true;
+        }
+
+        this.checkRanks = identical(arr);
         this.expensesConstants.getExpenseConstants();
         
         //INPUT VALIDATION
         console.log(this.user.personalInfo);
-        if(this.user.personalInfo.income < 0 || isNaN(this.user.personalInfo.income)) alert('Enter valid income');
+        if(!this.checkRanks) alert('Enter valid ranks');
+        else if(this.user.personalInfo.income < 0 || isNaN(this.user.personalInfo.income)) alert('Enter valid income');
         else if(this.user.personalInfo.savingsPerMonth < 0 || isNaN(this.user.personalInfo.savingsPerMonth)) alert('Enter valid income');
         else if(this.user.personalInfo.householdSize < 0 || isNaN(this.user.personalInfo.householdSize)) alert('Enter valid household size');
         else if(this.user.personalInfo.householdSize == 0) alert('Household size must be greater than 0');
         else if(this.user.personalInfo.squareFootHome < 0 || isNaN(this.user.personalInfo.squareFootHome)) alert('Enter valid size of home');
-        else this.router.navigate('#/expenses');
+        else {
+            this.user.personalInfo.currentGoalsRanks = arr;
+            this.router.navigate('#/expenses')
+        };
     }
 
     back() {

@@ -18,10 +18,24 @@ export class login {
     }
 
     newUser(email, password) {
+        var users = firebase.database().ref('Users/');
+
         firebase.auth().createUserWithEmailAndPassword(email, password)
         .then( () => {
             firebase.auth().signInWithEmailAndPassword(email, password)
-            .then( () => {
+            .then( (user) => {
+                var checkIfIn = false;
+                
+                users.on('value', (snap) => {
+                    snap.forEach( (currentSnap) => {
+                        if(currentSnap.val().uid == user.uid) {
+                            checkIfIn = true;
+                        }
+                    });
+
+                    if(!checkIfIn) this.addNewUserToDatabase(users, user.email, user.uid);
+                });
+
                 console.log("new user signed in");
             })
             .catch((error) => {
@@ -58,37 +72,33 @@ export class login {
         
     }
 
-    facebookLogin() {
-        var provider = new firebase.auth.FacebookAuthProvider();
-
-        firebase.auth().signInWithPopup(provider)
-        .then( (result) => {
-            var token = result.credential.accessToken;
-
-            var user = result.user;
-
-            bootbox.alert({
-                title: "MoneyManage",
-                message: "You are signed in!",
-                backdrop: true
-            });
-
-            this.router.navigate('#/personalinfo');
-        })
-        .catch( (error) => {
-            console.log(error.message);
+    addNewUserToDatabase(users, email, uid) {
+        users.push({
+            "username" : email,
+            "uid" : uid
         });
     }
 
-    twitterLogin() {
-        var provider = new firebase.auth.TwitterAuthProvider();
+    facebookLogin() {
+        var provider = new firebase.auth.FacebookAuthProvider();
+        var users = firebase.database().ref('Users/');
 
         firebase.auth().signInWithPopup(provider)
         .then( (result) => {
             var token = result.credential.accessToken;
-            var secret = result.credential.secret;
 
             var user = result.user;
+            var checkIfIn = false;
+
+            users.on('value', (snap) => {
+                snap.forEach( (currentSnap) => {
+                    if(currentSnap.val().uid == user.uid) {
+                        checkIfIn = true;
+                    }
+                });
+
+                if(!checkIfIn) this.addNewUserToDatabase(users, user.email, user.uid);
+            });
 
             bootbox.alert({
                 title: "MoneyManage",
@@ -105,12 +115,24 @@ export class login {
 
     googleLogin() {
         var provider = new firebase.auth.GoogleAuthProvider();
+        var users = firebase.database().ref('Users/');
 
         firebase.auth().signInWithPopup(provider)
         .then( (result) => {
             var token = result.credential.accessToken;
 
             var user = result.user;
+            var checkIfIn = false;
+
+            users.on('value', (snap) => {
+                snap.forEach( (currentSnap) => {
+                    if(currentSnap.val().uid == user.uid) {
+                        checkIfIn = true;
+                    }
+                });
+
+                if(!checkIfIn) this.addNewUserToDatabase(users, user.email, user.uid);
+            });
 
             bootbox.alert({
                 title: "MoneyManage",

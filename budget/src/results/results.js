@@ -206,8 +206,6 @@ export class results {
     }
 
     attached() {
-
-
         this.user.personalInfo.showNavbar = true;
         this.getChartData();
 
@@ -235,16 +233,6 @@ export class results {
         //Show goals if there are any
         if (this.user.personalInfo.currentGoals.length > 0) this.user.results.showGoals = true;
         else this.user.results.showGoals = false;
-
-
-
-
-        // var users = firebase.database().ref('Users/');
-        // users.push({
-        //     Abeyyyyyyy:{
-        //         swagScro:10
-        //     }
-        // })
 
         if (this.user.expenses.totalHomeExpense + this.user.expenses.totalCarExpense + this.user.expenses.totalHealthExpense + this.user.expenses.totalDiscretionaryExpense == 0) {
             this.user.expenses.isTotalExpenseZero = true;
