@@ -21,9 +21,9 @@
 
       <a class="navtitles"><span style="font-size:1.6em; padding-right:2vmin"  class="glyphicon glyphicon-cog"></span></a>
         <ul class="dropdown-menu">
-        <li><a href="#login">Login</a></li>
+        <li show.bind="!signedIn"><a href="#login">Login</a></li>
+        <li show.bind="signedIn" click.delegate="logout()"><a href="#home">Logout</a></li>
         <li><a href="#about">About</a></li>
-        <!--<li><a href="#about">Contact</a></li>-->
     </ul>
     </div>
 
