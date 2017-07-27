@@ -4,11 +4,13 @@ import { inject } from 'aurelia-framework';
 import { User } from 'services/user';
 import 'bootstrap';
 import {configFB} from './config';
+var bootbox = require('bootbox');
 
 @inject(User)
 export class App {
   constructor(user) {
     this.user = user;
+    this.signedIn;
   }
 
   configureRouter(config, router) {
@@ -46,13 +48,31 @@ export class App {
       }
     ]);
   }
+
+  logout() {
+      firebase.auth().signOut()
+      .then( () => {
+          console.log("signed out");
+          bootbox.alert({
+              title: "MoneyManage",
+              message: "You are signed out!",
+              backdrop: true
+          });
+
+      })
+      .catch( (error) => {
+          console.log(error.message);
+      });
+  }
   
   attached() {
     firebase.initializeApp(configFB);
 
     var users = firebase.database().ref('Users');
-    // users.on('value', (snap) => {
-    //   console.log(snap.val());
-    // });
+    
+    firebase.auth().onAuthStateChanged( (user) => {
+      if(user) this.signedIn = true;
+      else this.signedIn = false;
+    });
   }
 }

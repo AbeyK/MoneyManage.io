@@ -19,11 +19,11 @@
 
     <div class="dropdown" style="float:right;">
 
-      <a class="navtitles"><span style="font-size:2em; padding-left:3vmin"  class="glyphicon glyphicon-cog"></span></a>
-        <ul class="dropdown-menu" style="font-size: 1.2em;">
-        <li><a href="#login" style="color:#337ab7">Login</a></li>
-        <li><a href="#about" style="color:#337ab7">About</a></li>
-        <!--<li><a href="#about">Contact</a></li>-->
+      <a class="navtitles"><span style="font-size:1.6em; padding-right:2vmin"  class="glyphicon glyphicon-cog"></span></a>
+        <ul class="dropdown-menu">
+        <li show.bind="!signedIn"><a href="#login">Login</a></li>
+        <li show.bind="signedIn" click.delegate="logout()"><a href="#home">Logout</a></li>
+        <li><a href="#about">About</a></li>
     </ul>
     </div>
 

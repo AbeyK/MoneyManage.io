@@ -16,36 +16,45 @@
       <input type="submit" value="Login" />
     </div>
 
-    <div class="right">
-      <div class="connect">Connect with</div>
-      <a href="" class="facebook">
+      <div class="right">
+        <div class="connect">Connect with</div>
+        <a href="" class="facebook" click.delegate="facebookLogin()">
             <span class="fontawesome-facebook">Facebook</span>
           </a> <br />
-      <a href="" class="twitter">
-            <span class="fontawesome-twitter">Twitter</span>
+        <a href="" class="twitter">
+            <span class="fontawesome-twitter" click.delegate="twitterLogin()">Twitter</span>
           </a> <br />
-      <a href="" class="google-plus">
-            <span class="fontawesome-google-plus">Google+</span>
+        <a href="" class="google-plus">
+            <span class="fontawesome-google-plus" click.delegate="googleLogin()">Google</span>
           </a>
     </div>
   </form>
 
   <form submit.delegate="newUser(newEmail, newPassword)" id="login-form">
-    <div class="heading">
-      Logout and create new user
-    </div>
+      <div class="heading">
+        Create new user
+      </div>
 
-    <div class="left">
-      <button class="btn btn-secondary" click.delegate="logout()">Logout</button>
-    </div>
+      <div class="left">
+        <label for="email">Email</label> <br />
+          <input value.bind="newEmail" type="email" name="email" id="email" placeholder="email@email.com"/> <br />
+        <label for="password">Password</label> <br />
+          <input value.bind="newPassword" type="password" name="password" id="pass" placeholder="password"/> <br />
+        <input type="submit" value="New User" />
+      </div>
 
-    <div class="right">
-      <label for="email">Email</label> <br />
-      <input value.bind="newEmail" type="email" name="email" id="email" placeholder="email@email.com" /> <br />
-      <label for="password">Password</label> <br />
-      <input value.bind="newPassword" type="password" name="password" id="pass" placeholder="password" /> <br />
-      <input type="submit" value="New User" />
-    </div>
+      <div class="right">
+        <div class="connect">Connect with</div>
+        <a href="" class="facebook">
+            <span class="fontawesome-facebook" click.delegate="facebookLogin()">Facebook</span>
+          </a> <br />
+        <a href="" class="twitter">
+            <span class="fontawesome-twitter" click.delegate="twitterLogin()">Twitter</span>
+          </a> <br />
+        <a href="" class="google-plus">
+            <span class="fontawesome-google-plus" click.delegate="googleLogin()">Google</span>
+          </a>
+      </div>
   </form>
 
 

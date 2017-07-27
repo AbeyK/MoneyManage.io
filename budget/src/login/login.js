@@ -20,12 +20,21 @@ export class login {
     newUser(email, password) {
         firebase.auth().createUserWithEmailAndPassword(email, password)
         .then( () => {
-            console.log("created user:", email, password);
+            firebase.auth().signInWithEmailAndPassword(email, password)
+            .then( () => {
+                console.log("new user signed in");
+            })
+            .catch((error) => {
+                console.log(error.message);
+            });
+            
             bootbox.alert({
                 title: "MoneyManage",
-                message: "User created!",
+                message: "User created and signed in!",
                 backdrop: true
             });
+
+            this.router.navigate('#/personalinfo');
         })
         .catch( () => {
             console.log(error.message);
@@ -35,28 +44,57 @@ export class login {
     login(email, password){
         firebase.auth().signInWithEmailAndPassword(email, password)
         .then( () => {
-            console.log("signed in:", email, password);
             bootbox.alert({
                 title: "MoneyManage",
                 message: "You are signed in!",
                 backdrop: true
             });
+
+            this.router.navigate('#/personalinfo');
         })
         .catch((error) => {
             console.log(error.message);
         });
-        //this.router.navigate('#/personalinfo');
+        
     }
 
-    logout() {
-        firebase.auth().signOut()
-        .then( () => {
-            console.log("signed out");
-            bootbox.alert({
-                title: "MoneyManage",
-                message: "You are signed out!",
-                backdrop: true
-            });
+    facebookLogin() {
+        var provider = new firebase.auth.FacebookAuthProvider();
+
+        firebase.auth().signInWithPopup(provider)
+        .then( (result) => {
+            var token = result.credential.accessToken;
+
+            var user = result.user;
+        })
+        .catch( (error) => {
+            console.log(error.message);
+        });
+    }
+
+    twitterLogin() {
+        var provider = new firebase.auth.TwitterAuthProvider();
+
+        firebase.auth().signInWithPopup(provider)
+        .then( (result) => {
+            var token = result.credential.accessToken;
+            var secret = result.credential.secret;
+
+            var user = result.user;
+        })
+        .catch( (error) => {
+            console.log(error.message);
+        });
+    }
+
+    googleLogin() {
+        var provider = new firebase.auth.GoogleAuthProvider();
+
+        firebase.auth().signInWithPopup(provider)
+        .then( (result) => {
+            var token = result.credential.accessToken;
+
+            var user = result.user;
         })
         .catch( (error) => {
             console.log(error.message);
@@ -65,10 +103,5 @@ export class login {
 
     attached() {
         this.user.personalInfo.showNavbar = true;
-    }
-
-    attached(){
-        this.user.personalInfo.showNavbar = true;
-
     }
 }
