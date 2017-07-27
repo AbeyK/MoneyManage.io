@@ -66,6 +66,14 @@ export class login {
             var token = result.credential.accessToken;
 
             var user = result.user;
+
+            bootbox.alert({
+                title: "MoneyManage",
+                message: "You are signed in!",
+                backdrop: true
+            });
+
+            this.router.navigate('#/personalinfo');
         })
         .catch( (error) => {
             console.log(error.message);
@@ -81,6 +89,14 @@ export class login {
             var secret = result.credential.secret;
 
             var user = result.user;
+
+            bootbox.alert({
+                title: "MoneyManage",
+                message: "You are signed in!",
+                backdrop: true
+            });
+
+            this.router.navigate('#/personalinfo');
         })
         .catch( (error) => {
             console.log(error.message);
@@ -95,6 +111,14 @@ export class login {
             var token = result.credential.accessToken;
 
             var user = result.user;
+
+            bootbox.alert({
+                title: "MoneyManage",
+                message: "You are signed in!",
+                backdrop: true
+            });
+
+            this.router.navigate('#/personalinfo');
         })
         .catch( (error) => {
             console.log(error.message);

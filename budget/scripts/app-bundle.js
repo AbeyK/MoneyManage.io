@@ -92,12 +92,12 @@ define('config',["exports"], function (exports) {
         value: true
     });
     var configFB = exports.configFB = {
-        apiKey: "AIzaSyDSnN1wO56xgVDshPH6GTZcDeGzNY1AyIQ",
-        authDomain: "moneymanage-f79cc.firebaseapp.com",
-        databaseURL: "https://moneymanage-f79cc.firebaseio.com",
-        projectId: "moneymanage-f79cc",
-        storageBucket: "moneymanage-f79cc.appspot.com",
-        messagingSenderId: "466558174283"
+        apiKey: "AIzaSyCg4U9P4k7ZXpT_sV6PdvQWbdA4jEP14Rw",
+        authDomain: "moneymanage-84d90.firebaseapp.com",
+        databaseURL: "https://moneymanage-84d90.firebaseio.com",
+        projectId: "moneymanage-84d90",
+        storageBucket: "moneymanage-84d90.appspot.com",
+        messagingSenderId: "608888268283"
     };
 });
 define('environment',["exports"], function (exports) {
@@ -594,18 +594,30 @@ define('login/login',['exports', 'aurelia-framework', 'aurelia-router', '../serv
         };
 
         login.prototype.facebookLogin = function facebookLogin() {
+            var _this3 = this;
+
             var provider = new firebase.auth.FacebookAuthProvider();
 
             firebase.auth().signInWithPopup(provider).then(function (result) {
                 var token = result.credential.accessToken;
 
                 var user = result.user;
+
+                bootbox.alert({
+                    title: "MoneyManage",
+                    message: "You are signed in!",
+                    backdrop: true
+                });
+
+                _this3.router.navigate('#/personalinfo');
             }).catch(function (error) {
                 console.log(error.message);
             });
         };
 
         login.prototype.twitterLogin = function twitterLogin() {
+            var _this4 = this;
+
             var provider = new firebase.auth.TwitterAuthProvider();
 
             firebase.auth().signInWithPopup(provider).then(function (result) {
@@ -613,18 +625,36 @@ define('login/login',['exports', 'aurelia-framework', 'aurelia-router', '../serv
                 var secret = result.credential.secret;
 
                 var user = result.user;
+
+                bootbox.alert({
+                    title: "MoneyManage",
+                    message: "You are signed in!",
+                    backdrop: true
+                });
+
+                _this4.router.navigate('#/personalinfo');
             }).catch(function (error) {
                 console.log(error.message);
             });
         };
 
         login.prototype.googleLogin = function googleLogin() {
+            var _this5 = this;
+
             var provider = new firebase.auth.GoogleAuthProvider();
 
             firebase.auth().signInWithPopup(provider).then(function (result) {
                 var token = result.credential.accessToken;
 
                 var user = result.user;
+
+                bootbox.alert({
+                    title: "MoneyManage",
+                    message: "You are signed in!",
+                    backdrop: true
+                });
+
+                _this5.router.navigate('#/personalinfo');
             }).catch(function (error) {
                 console.log(error.message);
             });
@@ -3044,7 +3074,7 @@ define('services/data/resultsData',["exports"], function (exports) {
                 this.advancedDiscretionaryAmounts = [];
         };
 });
-define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"ion-rangeslider/css/ion.rangeSlider.css\"></require><require from=\"ion-rangeslider/css/ion.rangeSlider.skinHTML5.css\"></require><require from=\"ion-rangeslider/css/normalize.css\"></require><require from=\"highcharts/css/highcharts.css\"></require><require from=\"jquery-ui-dist/jquery-ui.css\"></require><require from=\"bootstrap/css/bootstrap.css\"></require><require from=\"css/style.css\"></require><require from=\"css/navbar.css\"></require><link href=\"https://fonts.googleapis.com/css?family=Maven+Pro\" rel=\"stylesheet\"><link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0\"><nav class=\"navbar navbar-default\" id=\"navbarHeader\" show.bind=\"user.personalInfo.showNavbar\" style=\"border:none;background:#fff;width:60%\"><div class=\"\" style=\"float:left\"><a class=\"navtitles\" href=\"#\"><span style=\"font-size:1.7em;margin:0;padding-right:3vmin\" class=\"glyphicon glyphicon-home\"></span></a></div><div class=\"dropdown\" style=\"float:right\"><a class=\"navtitles\"><span style=\"font-size:1.6em;padding-right:2vmin\" class=\"glyphicon glyphicon-cog\"></span></a><ul class=\"dropdown-menu\"><li show.bind=\"!signedIn\"><a href=\"#login\">Login</a></li><li show.bind=\"signedIn\" click.delegate=\"logout()\"><a href=\"#home\">Logout</a></li><li><a href=\"#about\">About</a></li></ul></div><div class=\"container-fluid\" style=\"margin:0 auto;display:table\"><ul class=\"navbar-nav\" style=\"width:100%\"><li repeat.for=\"row of router.navigation\" style=\"margin:0 auto;display:inline\" class=\"${row.isActive ? 'active' : ''}\"><a id=\"navtitles\" href.bind=\"row.href\" style=\"margin:0 auto;text-align:center;padding:3vmin;padding-bottom:2vmin;font-size:1.3em\">${row.settings}</a></li></ul></div><hr style=\"border-color:#337ab7;width:100%\"></nav><div id=\"app\"><div id=\"content\" style=\"padding:0\"><router-view></router-view></div></div></template>"; });
+define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"ion-rangeslider/css/ion.rangeSlider.css\"></require><require from=\"ion-rangeslider/css/ion.rangeSlider.skinHTML5.css\"></require><require from=\"ion-rangeslider/css/normalize.css\"></require><require from=\"highcharts/css/highcharts.css\"></require><require from=\"jquery-ui-dist/jquery-ui.css\"></require><require from=\"bootstrap/css/bootstrap.css\"></require><require from=\"css/style.css\"></require><require from=\"css/navbar.css\"></require><link href=\"https://fonts.googleapis.com/css?family=Maven+Pro\" rel=\"stylesheet\"><link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0\"><nav class=\"navbar navbar-default\" id=\"navbarHeader\" show.bind=\"user.personalInfo.showNavbar\" style=\"border:none;background:#fff;width:60%\"><div class=\"dropdown\" style=\"float:left\"><a class=\"navtitles\" href=\"#\"><span style=\"font-size:1.6em;margin:0;padding-right:3vmin\" class=\"glyphicon glyphicon-home\"></span></a></div><div class=\"dropdown\" style=\"float:right\"><a class=\"navtitles\"><span style=\"font-size:1.8em;padding-left:3vmin\" class=\"glyphicon glyphicon-cog\"></span></a><ul class=\"dropdown-menu dropdown-menu-right\" style=\"font-size:1.3em\"><li show.bind=\"!signedIn\"><a style=\"color:#337ab7\" href=\"#login\">Login</a></li><li show.bind=\"signedIn\" click.delegate=\"logout()\"><a style=\"color:#337ab7\" href=\"#home\">Logout</a></li><li><a style=\"color:#337ab7\" href=\"#about\">About</a></li></ul></div><div class=\"container-fluid\" style=\"margin:0 auto;display:table\"><ul class=\"navbar-nav\" style=\"width:100%\"><li repeat.for=\"row of router.navigation\" style=\"margin:0 auto;display:inline\" class=\"${row.isActive ? 'active' : ''}\"><a id=\"navtitles\" href.bind=\"row.href\" style=\"margin:0 auto;text-align:center;padding:3vmin;padding-bottom:2vmin;font-size:1.3em\">${row.settings}</a></li></ul></div><hr style=\"border-color:#337ab7;width:100%\"></nav><div id=\"app\"><div id=\"content\" style=\"padding:0\"><router-view></router-view></div></div></template>"; });
 define('text!about/about.css', ['module'], function(module) { module.exports = ""; });
 define('text!about/about.html', ['module'], function(module) { module.exports = "<template><nav><div><h2>About</h2>The MoneyManageTM budget planner helps you manage your income in an intuitive and fun way. Effortlessly stay on top of finances and see your plan’s progress with SmartGraphsTM. Find opportunities to save with SpendAlerts and see how much you’re spending compared to the rest of the country. With our goal based approach, we help you create a plan with a vision for the future in mind. Relax and watch your savings grow with MoneyManage</div></nav></template>"; });
 define('text!css/drag-and-drop.css', ['module'], function(module) { module.exports = ".goalOverflow {\r\n    overflow-y:scroll;\r\n}\r\n\r\n#myGoals {\r\n    width: 100%; \r\n    height: 30%; \r\n    background-color: #f5f5f5;\r\n    text-align: center; \r\n    color: #337ab7;\r\n    vertical-align: middle; \r\n    line-height: 150px;\r\n}\r\npanel{\r\n    height: 10px !important;\r\n        box-shadow: 10px 10px grey;\r\n\r\n}\r\n"; });

@@ -13,17 +13,17 @@
 
   <!--=================================================NAVBAR=======================================================-->
   <nav class="navbar navbar-default" id="navbarHeader" show.bind="user.personalInfo.showNavbar" style="border:none; background:white; width: 60%;">
-    <div class="" style="float:left;">
-      <a class="navtitles" href="#"><span style="font-size:1.7em; margin:0; padding-right:3vmin"  class="glyphicon glyphicon-home"></span></a>
+    <div class="dropdown" style="float:left;">
+      <a class="navtitles" href="#"><span style="font-size:1.6em; margin:0; padding-right:3vmin"  class="glyphicon glyphicon-home"></span></a>
     </div>
 
     <div class="dropdown" style="float:right;">
 
-      <a class="navtitles"><span style="font-size:1.6em; padding-right:2vmin"  class="glyphicon glyphicon-cog"></span></a>
-        <ul class="dropdown-menu">
-        <li show.bind="!signedIn"><a href="#login">Login</a></li>
-        <li show.bind="signedIn" click.delegate="logout()"><a href="#home">Logout</a></li>
-        <li><a href="#about">About</a></li>
+      <a class="navtitles"><span style="font-size:1.8em; padding-left:3vmin"  class="glyphicon glyphicon-cog"></span></a>
+        <ul class="dropdown-menu dropdown-menu-right" style="font-size: 1.3em;">
+        <li show.bind="!signedIn"><a style="color:#337ab7;" href="#login">Login</a></li>
+        <li show.bind="signedIn" click.delegate="logout()"><a  style="color:#337ab7;" href="#home">Logout</a></li>
+        <li><a style="color:#337ab7;" href="#about">About</a></li>
     </ul>
     </div>
 
