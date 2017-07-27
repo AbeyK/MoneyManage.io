@@ -12,17 +12,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
 
   <!--=================================================NAVBAR=======================================================-->
-  <nav class="navbar navbar-default" show.bind="user.personalInfo.showNavbar" style="border:none; background:white">
+  <nav class="navbar navbar-default" id="navbarHeader" show.bind="user.personalInfo.showNavbar" style="border:none; background:white; width: 60%;">
     <div class="" style="float:left;">
-      <a class="navtitles" href="#"><span style="font-size:1.6em; margin:0; padding-left:2vmin"  class="glyphicon glyphicon-home"></span></a>
+      <a class="navtitles" href="#"><span style="font-size:1.7em; margin:0; padding-right:3vmin"  class="glyphicon glyphicon-home"></span></a>
     </div>
 
     <div class="dropdown" style="float:right;">
 
-      <a class="navtitles"><span style="font-size:1.6em; padding-right:2vmin"  class="glyphicon glyphicon-cog"></span></a>
-        <ul class="dropdown-menu">
-        <li><a href="#login">Login</a></li>
-        <li><a href="#about">About</a></li>
+      <a class="navtitles"><span style="font-size:2em; padding-left:3vmin"  class="glyphicon glyphicon-cog"></span></a>
+        <ul class="dropdown-menu" style="font-size: 1.2em;">
+        <li><a href="#login" style="color:#337ab7">Login</a></li>
+        <li><a href="#about" style="color:#337ab7">About</a></li>
         <!--<li><a href="#about">Contact</a></li>-->
     </ul>
     </div>
@@ -31,7 +31,7 @@
     <div class="container-fluid" style="margin: 0 auto; display: table;">
       <ul class="navbar-nav" style="width:100%;">
         <li repeat.for="row of router.navigation" style="margin: 0 auto; display: inline;" class="${row.isActive ? 'active' : ''}">
-          <a id="navtitles" href.bind="row.href" style="margin:0 auto; text-align: center; padding: 2vmin">${row.settings}</a>
+          <a id="navtitles" href.bind="row.href" style="margin:0 auto; text-align: center; padding: 3vmin; padding-bottom: 2vmin; font-size: 1.3em">${row.settings}</a>
         </li>
       </ul>
     </div>
