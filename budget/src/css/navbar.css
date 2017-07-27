@@ -177,3 +177,13 @@ a {
 .dropdown a:hover {
     /*background: #BBBBBB;*/
 }
+#navbarHeader{
+  width:100% !important;
+}
+
+@media screen and (min-width: 1200px) {
+#navbarHeader{
+  width:60% !important;
+
+}
+}

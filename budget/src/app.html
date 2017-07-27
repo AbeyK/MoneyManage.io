@@ -12,9 +12,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
 
   <!--=================================================NAVBAR=======================================================-->
-  <nav class="navbar navbar-default" show.bind="user.personalInfo.showNavbar" style="border:none; background:white">
+  <nav class="navbar navbar-default" id="navbarHeader" show.bind="user.personalInfo.showNavbar" style="border:none; background:white; width: 60%;">
     <div class="" style="float:left;">
-      <a class="navtitles" href="#"><span style="font-size:1.6em; margin:0; padding-left:2vmin"  class="glyphicon glyphicon-home"></span></a>
+      <a class="navtitles" href="#"><span style="font-size:1.7em; margin:0; padding-right:3vmin"  class="glyphicon glyphicon-home"></span></a>
     </div>
 
     <div class="dropdown" style="float:right;">
@@ -31,7 +31,7 @@
     <div class="container-fluid" style="margin: 0 auto; display: table;">
       <ul class="navbar-nav" style="width:100%;">
         <li repeat.for="row of router.navigation" style="margin: 0 auto; display: inline;" class="${row.isActive ? 'active' : ''}">
-          <a id="navtitles" href.bind="row.href" style="margin:0 auto; text-align: center; padding: 2vmin">${row.settings}</a>
+          <a id="navtitles" href.bind="row.href" style="margin:0 auto; text-align: center; padding: 3vmin; padding-bottom: 2vmin; font-size: 1.3em">${row.settings}</a>
         </li>
       </ul>
     </div>

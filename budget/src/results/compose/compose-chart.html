@@ -1,25 +1,25 @@
 <template>
     <div class="col-md-6"> 
-        <div class="box-shadow--6dp" show.bind="user.results.showBudget"  id="resultsContainerSimple"></div>
-        <div class="box-shadow--6dp" show.bind="user.results.showAdvanced" id="resultsContainerAdvanced"></div>
-        <div class="box-shadow--6dp" show.bind="user.results.showGoalsChart"  id="fiveYearGoalsContainer"></div>
-        <div class="box-shadow--6dp" show.bind="user.results.showExpenses" id="fiveYearExpensesContainer"></div>
+        <div class="" show.bind="user.results.showBudget"  id="resultsContainerSimple"></div>
+        <div class="" show.bind="user.results.showAdvanced" id="resultsContainerAdvanced"></div>
+        <div class="" show.bind="user.results.showGoalsChart"  id="fiveYearGoalsContainer"></div>
+        <div class="" show.bind="user.results.showExpenses" id="fiveYearExpensesContainer"></div>
         
         <div class="form-group" style="padding-top:3vmin;">
-            <label for="charts">Chart Options</label>
-            <select class="form-control" value.bind="option" change.delegate="showChart(option)">
+            <!--<label for="charts">Chart Options</label>-->
+            <select class="form-control" value.bind="option" change.delegate="showChart(option)" style="font-weight:bold; font-size: 1em; height: 3.3em;">
                 <option repeat.for="option of chartOptions">${option.text}</option>
             </select>
         </div>
     </div>            
 
     <div class="col-md-6">
-        <div class="box-shadow--6dp" show.bind="!user.results.showAdvancedRecommended" id="recommendedContainer"></div>
-        <div class="box-shadow--6dp" show.bind="user.results.showAdvancedRecommended" id="recommendedContainerAdvanced"></div>
+        <div class="" show.bind="!user.results.showAdvancedRecommended" id="recommendedContainer"></div>
+        <div class="" show.bind="user.results.showAdvancedRecommended" id="recommendedContainerAdvanced"></div>
 
         <div class="form-group" style="padding-top:3vmin;">
-            <label for="recommended">Recommended Chart Options</label>
-            <select class="form-control" value.bind="option" change.delegate="showRecommendedChart(option)">
+            <!--<label for="recommended">Recommended Chart Options</label>-->
+            <select class="form-control" value.bind="option" change.delegate="showRecommendedChart(option)" style="font-weight:bold; font-size: 1em; height: 3.3em;">
                 <option>Recommended Simple Budget</option>
                 <option>Recommended Advanced Budget</option>
             </select>
