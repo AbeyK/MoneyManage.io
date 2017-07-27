@@ -1,5 +1,8 @@
 export class ExpensesData {
     constructor() {
+
+        this.isTotalExpenseZero = false;
+
         //TOTALS
         this.totalExpense = 0;
         this.totalHomeExpense = 0;
