@@ -23,6 +23,7 @@
         <ul class="dropdown-menu">
         <li show.bind="!signedIn"><a href="#login">Login</a></li>
         <li show.bind="signedIn" click.delegate="logout()"><a href="#home">Logout</a></li>
+        <li show.bind="signedIn" click.delegate="save()"><a href="#save">Save</a></li>
         <li><a href="#about">About</a></li>
     </ul>
     </div>
