@@ -28,6 +28,9 @@ define('app',['exports', 'jquery', 'aurelia-framework', 'services/user', './conf
 
       this.user = user;
       this.signedIn;
+
+      this.currentUser = {};
+      this.currentKey;
     }
 
     App.prototype.configureRouter = function configureRouter(config, router) {
@@ -71,6 +74,14 @@ define('app',['exports', 'jquery', 'aurelia-framework', 'services/user', './conf
     };
 
     App.prototype.save = function save() {
+      var currentUser = firebase.database().ref('Users/' + this.currentKey);
+
+      currentUser.on('value', function (snap) {
+        console.log(snap.val());
+      });
+
+      currentUser.update({ "name": "Joseph C" });
+
       bootbox.alert({
         title: "MoneyManage",
         message: "Content saved!",
@@ -87,9 +98,16 @@ define('app',['exports', 'jquery', 'aurelia-framework', 'services/user', './conf
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
           _this.signedIn = true;
+          var currentUid = user.uid;
+          _this.currentUser = {};
 
-          var uid = user.uid;
-          console.log(uid);
+          users.on('value', function (snap) {
+            snap.forEach(function (currentSnap) {
+              if (currentSnap.val().uid == currentUid) {
+                _this.currentKey = currentSnap.key;
+              }
+            });
+          });
         } else _this.signedIn = false;
       });
     };
