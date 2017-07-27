@@ -4,6 +4,7 @@ import { User } from '../services/user';
 import { Constants } from '../services/constants';
 import { ExpensesConstants } from '../services/expensesConstants';
 import { calculateExpenses } from '../utilities/calculateExpenses';
+var bootbox = require('bootbox');
 
 @inject(Router, User, Constants, calculateExpenses, ExpensesConstants)
 export class expenses {
@@ -16,10 +17,10 @@ export class expenses {
     }
 
     lockStateChange(myElement) {
-        if(myElement == 'mortgage' || 
+        if (myElement == 'mortgage' ||
             myElement == 'propertyTax' ||
-            myElement == 'homeownerInsurance' || 
-            myElement == 'carPayment'|| 
+            myElement == 'homeownerInsurance' ||
+            myElement == 'carPayment' ||
             myElement == 'carInsurance' ||
             myElement == 'healthInsurance' ||
             myElement == 'visualInsurance' ||
@@ -29,7 +30,7 @@ export class expenses {
             myElement == 'braces')
             return;
 
-        if(this.user.expenses[myElement + 'lock']) this.user.expenses[myElement + 'lock'] = false;
+        if (this.user.expenses[myElement + 'lock']) this.user.expenses[myElement + 'lock'] = false;
         else this.user.expenses[myElement + 'lock'] = true;
     }
 
@@ -42,10 +43,35 @@ export class expenses {
 
         this.expensesConstants.getExpenseConstants();
 
-        if(!this.user.expenses.homeCanGoToNext) alert('Please enter valid home expenses');
-        else if(!this.user.expenses.carCanGoToNext) alert('Please enter valid car expenses');
-        else if(!this.user.expenses.healthCanGoToNext) alert('Please enter valid health expenses');
-        else if(!this.user.expenses.discretionaryCanGoToNext) alert('Please enter valid discretionary expenses');
+        if (!this.user.expenses.homeCanGoToNext) {
+            bootbox.alert({
+                title: "MoneyManage",
+                message: "Please enter valid home expenses before accessing Results.",
+                backdrop: true
+            });
+        }
+        else if (!this.user.expenses.carCanGoToNext) {
+            bootbox.alert({
+                title: "MoneyManage",
+                message: "Please enter valid car expenses before accessing Results.",
+                backdrop: true
+            });
+
+        }
+        else if (!this.user.expenses.healthCanGoToNext) {
+            bootbox.alert({
+                title: "MoneyManage",
+                message: "Please enter valid health expenses before accessing Results.",
+                backdrop: true
+            });
+        }
+        else if (!this.user.expenses.discretionaryCanGoToNext) {
+            bootbox.alert({
+                title: "MoneyManage",
+                message: "Please enter valid discretionary expenses before accessing Results.",
+                backdrop: true
+            });
+        }
         else this.router.navigate('#/results');
     }
 
