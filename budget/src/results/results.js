@@ -232,18 +232,5 @@ export class results {
         //Show goals if there are any
         if(this.user.personalInfo.currentGoals.length > 0) this.user.results.showGoals = true;
         else this.user.results.showGoals = false;
-
-
-
-
-
-        // var users = firebase.database().ref('Users/');
-        // users.push({
-        //     Abeyyyyyyy:{
-        //         swagScro:10
-        //     }
-        // })
-
-
     }
 }
