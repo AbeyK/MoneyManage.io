@@ -68,6 +68,7 @@ export class login {
     }
 
     attached(){
-        
+        this.user.personalInfo.showNavbar = true;
+
     }
 }

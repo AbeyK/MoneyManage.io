@@ -14,12 +14,12 @@ form#login-form {
   box-shadow: 0 0 0.2em #000;*/
 }
 form#login-form div.heading {
-  background: #1567b9;
+  background: #337ab7;
   color: #fff;
   text-align: center;
   text-transform: uppercase;
   font-weight: bold;
-  padding: 1.5em;
+padding: 1.2vmin; font-weight:bold;
 }
 form#login-form div.left {
   width: 50%;
@@ -96,7 +96,7 @@ div.left input[type="email"]:focus, div.left input[type="password"]:focus {
   /*border: 0.1em solid #bdbdbd;*/
 }
 div.left input[type="submit"] {
-  background: #1567b9;
+  background: #337ab7;
   color: #fff;
   outline: none;
   text-transform: uppercase;
