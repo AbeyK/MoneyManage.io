@@ -17,7 +17,7 @@ export class Chart {
         var chartSpecificGoals = results.chartGoals[0];
         
         var chartGoalSeries = [{
-                name : "Savings & Extra Income",
+                name : "Savings & Income",
                 data: results.fiveYearSavings,
                 color: '#0066ff'
             }];
@@ -126,7 +126,7 @@ export class Chart {
                 text: 'Your Budget Plan'
             },
             subtitle: {
-                text: 'Total Expense: ' + results.fiveYearExpenses[0]
+                text: 'Total Expense: $' + results.fiveYearExpenses[0].toFixed(2)
             },
             plotOptions: {
                 pie: {
@@ -215,7 +215,7 @@ export class Chart {
                 text: 'Your Advanced Budet Plan'
             },
             subtitle: {
-                text: 'Total Expense: ' + results.fiveYearExpenses[0]
+                text: 'Total Expense: $' + results.fiveYearExpenses[0].toFixed(2)
             },
             yAxis: {
                 title: {
@@ -291,7 +291,7 @@ export class Chart {
                 text: 'Recommended Budget Plan'
             },
             subtitle: {
-                text: 'Total Expense: ' + recommend.totalExpense
+                text: 'Total Expense: $' + recommend.totalExpense.toFixed(2)
             },
             plotOptions: {
                 pie: {
@@ -385,7 +385,7 @@ export class Chart {
                 text: 'Your Advanced Budet Plan'
             },
             subtitle: {
-                text: 'Total Expense: ' + recommend.totalExpense
+                text: 'Total Expense: $' + recommend.totalExpense.toFixed(2)
             },
             yAxis: {
                 title: {
