@@ -14,7 +14,7 @@
                 <tr>
                     <!--DISPLAY EACH EXPENSE COLUMNS-->
                     <td repeat.for="amount of user.results.recommendedResults.length">
-                        <div style="text-align: center;"><strong>$ ${user.expenses['total' + user.results.recommendedResults[amount][0] + 'Expense']}</strong></div>
+                        <div style="text-align: center;"><strong>$ ${user.expenses['total' + user.results.recommendedResults[amount][0] + 'Expense'].toFixed(2)}</strong></div>
                         <hr>
                         <div style="height: 300px; overflow-y:scroll;">
                             <div repeat.for="expense of constants[user.results.recommendedResults[amount][0] + 'Expenses']" class="form-group">

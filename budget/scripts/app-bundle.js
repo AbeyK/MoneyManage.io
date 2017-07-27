@@ -328,37 +328,6 @@ define('main',['exports', './environment'], function (exports, _environment) {
     });
   }
 });
-define('about/about',['exports', 'aurelia-framework', 'aurelia-router', '../services/user'], function (exports, _aureliaFramework, _aureliaRouter, _user) {
-    'use strict';
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.about = undefined;
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var _dec, _class;
-
-    var about = exports.about = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router, _user.User), _dec(_class = function () {
-        function about(router, user) {
-            _classCallCheck(this, about);
-
-            this.router = router;
-            this.user = user;
-        }
-
-        about.prototype.attached = function attached() {
-            this.user.personalInfo.showNavbar = true;
-        };
-
-        return about;
-    }()) || _class);
-});
 define('aboutyou/personalinfo',['exports', 'aurelia-framework', 'aurelia-router', '../services/user', '../services/constants', '../utilities/slider', '../services/expensesConstants'], function (exports, _aureliaFramework, _aureliaRouter, _user, _constants, _slider, _expensesConstants) {
     'use strict';
 
@@ -498,6 +467,135 @@ define('aboutyou/personalinfo',['exports', 'aurelia-framework', 'aurelia-router'
         };
 
         return personalinfo;
+    }()) || _class);
+});
+define('about/about',['exports', 'aurelia-framework', 'aurelia-router', '../services/user'], function (exports, _aureliaFramework, _aureliaRouter, _user) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.about = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _class;
+
+    var about = exports.about = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router, _user.User), _dec(_class = function () {
+        function about(router, user) {
+            _classCallCheck(this, about);
+
+            this.router = router;
+            this.user = user;
+        }
+
+        about.prototype.attached = function attached() {
+            this.user.personalInfo.showNavbar = true;
+        };
+
+        return about;
+    }()) || _class);
+});
+define('expenses/expenses',['exports', 'aurelia-framework', 'aurelia-router', '../services/user', '../services/constants', '../services/expensesConstants', '../utilities/calculateExpenses', 'bootbox'], function (exports, _aureliaFramework, _aureliaRouter, _user, _constants, _expensesConstants, _calculateExpenses, bootbox) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.expenses = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _class;
+
+    var expenses = exports.expenses = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router, _user.User, _constants.Constants, _calculateExpenses.calculateExpenses, _expensesConstants.ExpensesConstants), _dec(_class = function () {
+        function expenses(router, user, constants, calculateExpenses, expensesConstants) {
+            _classCallCheck(this, expenses);
+
+            this.router = router;
+            this.user = user;
+            this.constants = constants;
+            this.calculateExpenses = calculateExpenses;
+            this.expensesConstants = expensesConstants;
+        }
+
+        expenses.prototype.lockStateChange = function lockStateChange(myElement) {
+            if (myElement == 'mortgage' || myElement == 'propertyTax' || myElement == 'homeownerInsurance' || myElement == 'carPayment' || myElement == 'carInsurance' || myElement == 'healthInsurance' || myElement == 'visualInsurance' || myElement == 'eyeCare' || myElement == 'dentalInsurance' || myElement == 'cavities' || myElement == 'braces') return;
+
+            if (this.user.expenses[myElement + 'lock']) this.user.expenses[myElement + 'lock'] = false;else this.user.expenses[myElement + 'lock'] = true;
+        };
+
+        expenses.prototype.back = function back() {
+            this.router.navigate('#/personalinfo');
+        };
+
+        expenses.prototype.next = function next() {
+            console.log(this.user.expenses);
+
+            this.expensesConstants.getExpenseConstants();
+
+            if (!this.user.expenses.homeCanGoToNext) {
+                bootbox.alert({
+                    title: "MoneyManage",
+                    message: "Please enter valid home expenses before accessing Results.",
+                    backdrop: true
+                });
+            } else if (!this.user.expenses.carCanGoToNext) {
+                bootbox.alert({
+                    title: "MoneyManage",
+                    message: "Please enter valid car expenses before accessing Results.",
+                    backdrop: true
+                });
+            } else if (!this.user.expenses.healthCanGoToNext) {
+                bootbox.alert({
+                    title: "MoneyManage",
+                    message: "Please enter valid health expenses before accessing Results.",
+                    backdrop: true
+                });
+            } else if (!this.user.expenses.discretionaryCanGoToNext) {
+                bootbox.alert({
+                    title: "MoneyManage",
+                    message: "Please enter valid discretionary expenses before accessing Results.",
+                    backdrop: true
+                });
+            } else this.router.navigate('#/results');
+        };
+
+        expenses.prototype.attached = function attached() {
+            this.user.personalInfo.showNavbar = true;
+            this.calculateExpenses.homeExpenses();
+            this.calculateExpenses.carExpenses();
+            this.calculateExpenses.healthExpenses();
+            this.calculateExpenses.discretionaryExpenses();
+
+            this.user.expenses.mortgagelock = false;
+            this.user.expenses.propertyTaxlock = false;
+            this.user.expenses.homeownerInsurancelock = false;
+
+            this.user.expenses.carPaymentlock = false;
+            this.user.expenses.carInsurancelock = false;
+
+            this.user.expenses.healthInsurancelock = false;
+            this.user.expenses.visualInsurancelock = false;
+            this.user.expenses.eyeCarelock = false;
+            this.user.expenses.dentalInsurancelock = false;
+            this.user.expenses.cavitieslock = false;
+            this.user.expenses.braceslock = false;
+
+            $('#expensesTooltip').tooltip({
+                content: "Enter all expenses as monthly amounts unless stated otherwise. Lock values you don't want changed. We've locked some values that cannot be changed."
+            });
+        };
+
+        return expenses;
     }()) || _class);
 });
 define('home/home',['exports', 'aurelia-framework', 'aurelia-router', '../services/user', 'bootbox'], function (exports, _aureliaFramework, _aureliaRouter, _user, bootbox) {
@@ -664,143 +762,6 @@ define('home/home',['exports', 'aurelia-framework', 'aurelia-router', '../servic
 
     return results;
   }()) || _class);
-});
-define('expenses/expenses',['exports', 'aurelia-framework', 'aurelia-router', '../services/user', '../services/constants', '../services/expensesConstants', '../utilities/calculateExpenses', 'bootbox'], function (exports, _aureliaFramework, _aureliaRouter, _user, _constants, _expensesConstants, _calculateExpenses, bootbox) {
-    'use strict';
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.expenses = undefined;
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var _dec, _class;
-
-    var expenses = exports.expenses = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router, _user.User, _constants.Constants, _calculateExpenses.calculateExpenses, _expensesConstants.ExpensesConstants), _dec(_class = function () {
-        function expenses(router, user, constants, calculateExpenses, expensesConstants) {
-            _classCallCheck(this, expenses);
-
-            this.router = router;
-            this.user = user;
-            this.constants = constants;
-            this.calculateExpenses = calculateExpenses;
-            this.expensesConstants = expensesConstants;
-        }
-
-        expenses.prototype.lockStateChange = function lockStateChange(myElement) {
-            if (myElement == 'mortgage' || myElement == 'propertyTax' || myElement == 'homeownerInsurance' || myElement == 'carPayment' || myElement == 'carInsurance' || myElement == 'healthInsurance' || myElement == 'visualInsurance' || myElement == 'eyeCare' || myElement == 'dentalInsurance' || myElement == 'cavities' || myElement == 'braces') return;
-
-            if (this.user.expenses[myElement + 'lock']) this.user.expenses[myElement + 'lock'] = false;else this.user.expenses[myElement + 'lock'] = true;
-        };
-
-        expenses.prototype.back = function back() {
-            this.router.navigate('#/personalinfo');
-        };
-
-        expenses.prototype.next = function next() {
-            console.log(this.user.expenses);
-
-            this.expensesConstants.getExpenseConstants();
-
-            if (!this.user.expenses.homeCanGoToNext) {
-                bootbox.alert({
-                    title: "MoneyManage",
-                    message: "Please enter valid home expenses before accessing Results.",
-                    backdrop: true
-                });
-            } else if (!this.user.expenses.carCanGoToNext) {
-                bootbox.alert({
-                    title: "MoneyManage",
-                    message: "Please enter valid car expenses before accessing Results.",
-                    backdrop: true
-                });
-            } else if (!this.user.expenses.healthCanGoToNext) {
-                bootbox.alert({
-                    title: "MoneyManage",
-                    message: "Please enter valid health expenses before accessing Results.",
-                    backdrop: true
-                });
-            } else if (!this.user.expenses.discretionaryCanGoToNext) {
-                bootbox.alert({
-                    title: "MoneyManage",
-                    message: "Please enter valid discretionary expenses before accessing Results.",
-                    backdrop: true
-                });
-            } else this.router.navigate('#/results');
-        };
-
-        expenses.prototype.attached = function attached() {
-            this.user.personalInfo.showNavbar = true;
-            this.calculateExpenses.homeExpenses();
-            this.calculateExpenses.carExpenses();
-            this.calculateExpenses.healthExpenses();
-            this.calculateExpenses.discretionaryExpenses();
-
-            this.user.expenses.mortgagelock = false;
-            this.user.expenses.propertyTaxlock = false;
-            this.user.expenses.homeownerInsurancelock = false;
-
-            this.user.expenses.carPaymentlock = false;
-            this.user.expenses.carInsurancelock = false;
-
-            this.user.expenses.healthInsurancelock = false;
-            this.user.expenses.visualInsurancelock = false;
-            this.user.expenses.eyeCarelock = false;
-            this.user.expenses.dentalInsurancelock = false;
-            this.user.expenses.cavitieslock = false;
-            this.user.expenses.braceslock = false;
-
-            $('#expensesTooltip').tooltip({
-                content: "Enter all expenses as monthly amounts unless stated otherwise. Lock values you don't want changed. We've locked some values that cannot be changed."
-            });
-        };
-
-        return expenses;
-    }()) || _class);
-});
-define('logout/logout',[], function () {
-    'use strict';
-
-    var screenW = window.innerWidth,
-        xCenter = screenW / 2,
-        animationContainer = document.getElementById('emojiAnimation'),
-        emojiPolice1 = document.getElementById('emojiPolice').cloneNode(true),
-        emojiPolice2 = document.getElementById('emojiPolice').cloneNode(true),
-        emojiPolice3 = document.getElementById('emojiPolice').cloneNode(true),
-        emojiGun1 = document.getElementById('emojiGun').cloneNode(true),
-        emojiGun2 = document.getElementById('emojiGun').cloneNode(true),
-        emojiGun3 = document.getElementById('emojiGun').cloneNode(true),
-        emojiExplosion2 = document.getElementById('emojiExplosion1').cloneNode(true),
-        emojiExplosion3 = document.getElementById('emojiExplosion1').cloneNode(true);
-
-    emojiPolice1.id = 'emojiPolice1';
-    emojiPolice2.id = 'emojiPolice2';
-    emojiPolice3.id = 'emojiPolice3';
-
-    emojiGun1.id = 'emojiGun1';
-    emojiGun2.id = 'emojiGun2';
-    emojiGun3.id = 'emojiGun3';
-
-    emojiExplosion2.id = 'emojiExplosion2';
-    emojiExplosion3.id = 'emojiExplosion3';
-
-    animationContainer.appendChild(emojiPolice1);
-    animationContainer.appendChild(emojiPolice2);
-    animationContainer.appendChild(emojiPolice3);
-
-    animationContainer.insertBefore(emojiGun1, animationContainer.firstChild);
-    animationContainer.insertBefore(emojiGun2, animationContainer.firstChild);
-    animationContainer.insertBefore(emojiGun3, animationContainer.firstChild);
-
-    animationContainer.appendChild(emojiExplosion2);
-    animationContainer.appendChild(emojiExplosion3);
-
-    var tl = new TimelineMax({ repeat: -1 }).to([emojiMoney, emojiGun1, emojiGun2, emojiGun3, emojiExplosion1, emojiExplosion2, emojiExplosion3], 0, { display: 'none' }).to(emojiAnimation, 0, { display: 'block' }).from(emojiBank, 1, { autoAlpha: 0, rotationX: -90, delay: 0.5, ease: Power4.easeOut }).fromTo(emojiRobber, 1.5, { left: screenW + 100 }, { left: xCenter + 110, delay: 1, ease: Power4.easeOut }).fromTo(emojiGun, 1.5, { display: 'none', left: screenW + 100 }, { display: 'block', left: xCenter + 110, ease: Power4.easeOut }, 2.5).to(emojiRobber, 0.5, { left: xCenter + 190, ease: Back.easeOut, delay: 1 }).fromTo(emojiGun, 0.5, { rotation: -45, left: xCenter + 125 }, { rotation: 0, left: xCenter + 110, ease: Back.easeOut, delay: -0.5 }).to(emojiRobber, 0.5, { left: xCenter, delay: 1 }).to(emojiGun, 0.25, { left: xCenter, delay: -0.5 }).to(emojiGun, 0, { rotationY: -180, display: 'none' }).to(emojiRobber, 0, { display: 'none' }).to(emojiBank, 0.1, { left: xCenter - 10, ease: Power4.easeIn }).to(emojiBank, 0.1, { left: xCenter + 10, ease: Power4.easeIn }).to(emojiBank, 0.1, { left: xCenter - 20, ease: Power4.easeIn }).to(emojiBank, 0.1, { left: xCenter + 20, ease: Power4.easeIn }).to(emojiBank, 0.1, { left: xCenter, ease: Power4.easeOut }).to(emojiBank, 0.1, { left: xCenter - 10, ease: Power4.easeIn, delay: 0.25 }).to(emojiBank, 0.1, { left: xCenter + 10, ease: Power4.easeIn }).to(emojiBank, 0.1, { left: xCenter - 20, ease: Power4.easeIn }).to(emojiBank, 0.1, { left: xCenter + 20, ease: Power4.easeIn }).to(emojiBank, 0.1, { left: xCenter, ease: Power4.easeOut }).to([emojiGun, emojiRobber, emojiMoney], 0, { display: 'block' }).to(emojiGun, 0.6, { left: xCenter + 330, delay: 0.5 }).to(emojiRobber, 0.4, { left: xCenter + 220, delay: -0.4 }).to(emojiMoney, 0.2, { left: xCenter + 110, delay: -0.2 }).fromTo(emojiCar, 0.5, { left: screenW + 100 }, { left: xCenter + 440, delay: 1, ease: Power4.easeOut }).to(emojiMoney, 0.6, { left: xCenter + 440, delay: 0.5 }).to(emojiRobber, 0.4, { left: xCenter + 440, delay: -0.6 }).to(emojiGun, 0.2, { left: xCenter + 440, delay: -0.6 }).to([emojiGun, emojiRobber, emojiMoney], 0, { display: 'none' }).to(emojiCar, 0.5, { rotationY: -180, ease: Power4.easeInOut }).to(emojiCar, 0.25, { left: screenW + 110, ease: Power4.easeIn }).to(emojiBank, 0.75, { left: '-=220', autoAlpha: 0, ease: Power4.easeIn, delay: -0.5 }).to(emojiCar, 0, { rotationY: 0 }).to(document.getElementsByTagName('body')[0], 0.5, { backgroundColor: '#009ACD' }).to(emojiCar, 2, { left: -220, ease: Power1.easeIn }).fromTo(emojiPolice, 2, { left: screenW + 220 }, { left: -110, delay: -2, ease: Power1.easeIn }).to(emojiCar, 0, { rotationY: -180, delay: 0.5 }).fromTo(emojiPolice1, 1, { left: screenW + 220 }, { left: xCenter - 110, ease: Power4.easeOut }).fromTo(emojiPolice2, 1, { left: screenW + 220 }, { left: xCenter, ease: Power4.easeOut, delay: -0.75 }).fromTo(emojiPolice3, 1, { left: screenW + 220 }, { left: xCenter + 110, ease: Power4.easeOut, delay: -0.75 }).to(emojiCar, 1, { left: xCenter - 360, ease: Back.easeOut, delay: -1 }).to(emojiGun1, 0, { display: 'block', rotation: -45, left: xCenter - 110 }).to(emojiGun1, 0.5, { rotation: 0, ease: Back.easeOut }).to(emojiPolice1, 0.5, { left: xCenter - 10, ease: Power4.easeInOut, delay: -0.5 }).to(emojiPolice2, 0.5, { left: xCenter + 100, ease: Power4.easeInOut, delay: -0.5 }).to(emojiPolice3, 0.5, { left: xCenter + 210, ease: Power4.easeInOut, delay: -0.5 }).to(emojiGun2, 0, { display: 'block', rotation: -45, left: xCenter + 100 }).to(emojiGun2, 0.5, { rotation: 0, ease: Back.easeOut }).to(emojiPolice2, 0.5, { left: xCenter + 210, ease: Power4.easeInOut, delay: -0.5 }).to(emojiPolice3, 0.5, { left: xCenter + 320, ease: Power4.easeInOut, delay: -0.5 }).to(emojiGun3, 0, { display: 'block', rotation: -45, left: xCenter + 320 }).to(emojiGun3, 0.5, { rotation: 0, ease: Back.easeOut }).to(emojiPolice3, 0.5, { left: xCenter + 420, ease: Power4.easeInOut, delay: -0.5 }).to(emojiExplosion1, 0, { display: 'block', marginTop: Math.random() * 120 - 100, left: xCenter - 220 - Math.random() * 120, delay: 0.25 }).to(emojiExplosion2, 0, { display: 'block', marginTop: Math.random() * 120 - 100, left: xCenter - 220 - Math.random() * 120, delay: 0.025 }).to(emojiExplosion3, 0, { display: 'block', marginTop: Math.random() * 120 - 100, left: xCenter - 220 - Math.random() * 120, delay: 0.05 }).to(emojiExplosion1, 0, { display: 'block', marginTop: Math.random() * 120 - 100, left: xCenter - 220 - Math.random() * 120, delay: 0.075 }).to(emojiExplosion2, 0, { display: 'block', marginTop: Math.random() * 120 - 100, left: xCenter - 220 - Math.random() * 120, delay: 0.1 }).to(emojiExplosion3, 0, { display: 'block', marginTop: Math.random() * 120 - 100, left: xCenter - 220 - Math.random() * 120, delay: 0.125 }).to(emojiExplosion1, 0, { display: 'block', marginTop: Math.random() * 120 - 100, left: xCenter - 220 - Math.random() * 120, delay: 0.15 }).to(emojiExplosion2, 0, { display: 'block', marginTop: Math.random() * 120 - 100, left: xCenter - 220 - Math.random() * 120, delay: 0.175 }).to(emojiExplosion3, 0, { display: 'block', marginTop: Math.random() * 120 - 100, left: xCenter - 220 - Math.random() * 120, delay: 0.2 }).to(emojiExplosion1, 0, { display: 'none', delay: 0.025 }).to(emojiExplosion2, 0, { display: 'none', delay: 0.025 }).to(emojiExplosion3, 0, { display: 'none', delay: 0.025 }).to(emojiCar, 0.5, { rotation: 180, ease: Elastic.easeOut, delay: 0.5 }).to(document.getElementsByTagName('body')[0], 0.5, { backgroundColor: '#c21c3b' }).fromTo(emojiAmbulance, 0.5, { left: -220, ease: Power4.easeOut, rotationY: 180, delay: 0.5 }, { left: xCenter - 360, delay: 1 }).to(emojiGun1, 0.5, { left: xCenter - 10, ease: Power4.easeInOut, delay: 0.5 }).to(emojiGun2, 0, { left: xCenter + 210, ease: Power4.easeInOut, delay: -0.25 }).to(emojiGun3, 0, { left: xCenter + 420, ease: Power4.easeInOut, delay: -0.25 }).to([emojiPolice1, emojiPolice2, emojiPolice3], 0.25, { rotationY: 180, delay: -0.1 }).to([emojiCar, emojiGun1, emojiGun2, emojiGun3], 0, { display: 'none', delay: 0.5 }).to(emojiAmbulance, 0.5, { left: screenW + 100, ease: Power2.easeIn }).to(emojiPolice1, 0.5, { left: screenW + 300, ease: Power2.easeIn, delay: -0.5 }).to(emojiPolice2, 0.5, { left: screenW + 500, ease: Power2.easeIn, delay: -0.5 }).to(emojiPolice3, 0.5, { left: screenW + 700, ease: Power2.easeIn, delay: -0.5 }).from(emojiHospital, 0.5, { autoAlpha: 0, delay: 0.5 }).to(emojiAmbulance, 0, { rotationY: 0 }).to(emojiAmbulance, 1, { left: xCenter, ease: Power4.easeOut, delay: 0.5 }).from(emojiFearful, 0.5, { autoAlpha: 0, delay: 1.5 }).fromTo(emojiGavel, 0.5, { left: screenW + 100 }, { left: xCenter + 110, ease: Power4.easeOut }).to(emojiGavel, 0.25, { marginTop: '-=36', rotation: 30, ease: Power4.easeOut, delay: -0.25 }).to(emojiGavel, 0.5, { marginTop: '+=36', rotation: 0, ease: Bounce.easeOut, delay: 0.25 }).from(emojiCrying, 0.5, { autoAlpha: 0 }).from(jailbars, 1, { top: -150, ease: Bounce.easeOut }).to(document.getElementsByTagName('body')[0], 1, { backgroundColor: '#666', delay: -1 }).to([emojiFearful, emojiHospital, emojiAmbulance], 0, { display: 'none' }).to([emojiCrying, jailbars, emojiGavel], 1, { rotationX: 90, autoAlpha: 0, ease: Power4.easeIn, delay: 2 }).to(document.getElementsByTagName('body')[0], 1, { backgroundColor: '#000' }).to(document.getElementsByTagName('body')[0], 1, { backgroundColor: '#5bb12f', delay: 0.5 });
 });
 define('login/login',['exports', 'aurelia-framework', 'aurelia-router', '../services/user', 'bootbox'], function (exports, _aureliaFramework, _aureliaRouter, _user, bootbox) {
     'use strict';
@@ -974,6 +935,45 @@ define('resources/index',["exports"], function (exports) {
   });
   exports.configure = configure;
   function configure(config) {}
+});
+define('logout/logout',[], function () {
+    'use strict';
+
+    var screenW = window.innerWidth,
+        xCenter = screenW / 2,
+        animationContainer = document.getElementById('emojiAnimation'),
+        emojiPolice1 = document.getElementById('emojiPolice').cloneNode(true),
+        emojiPolice2 = document.getElementById('emojiPolice').cloneNode(true),
+        emojiPolice3 = document.getElementById('emojiPolice').cloneNode(true),
+        emojiGun1 = document.getElementById('emojiGun').cloneNode(true),
+        emojiGun2 = document.getElementById('emojiGun').cloneNode(true),
+        emojiGun3 = document.getElementById('emojiGun').cloneNode(true),
+        emojiExplosion2 = document.getElementById('emojiExplosion1').cloneNode(true),
+        emojiExplosion3 = document.getElementById('emojiExplosion1').cloneNode(true);
+
+    emojiPolice1.id = 'emojiPolice1';
+    emojiPolice2.id = 'emojiPolice2';
+    emojiPolice3.id = 'emojiPolice3';
+
+    emojiGun1.id = 'emojiGun1';
+    emojiGun2.id = 'emojiGun2';
+    emojiGun3.id = 'emojiGun3';
+
+    emojiExplosion2.id = 'emojiExplosion2';
+    emojiExplosion3.id = 'emojiExplosion3';
+
+    animationContainer.appendChild(emojiPolice1);
+    animationContainer.appendChild(emojiPolice2);
+    animationContainer.appendChild(emojiPolice3);
+
+    animationContainer.insertBefore(emojiGun1, animationContainer.firstChild);
+    animationContainer.insertBefore(emojiGun2, animationContainer.firstChild);
+    animationContainer.insertBefore(emojiGun3, animationContainer.firstChild);
+
+    animationContainer.appendChild(emojiExplosion2);
+    animationContainer.appendChild(emojiExplosion3);
+
+    var tl = new TimelineMax({ repeat: -1 }).to([emojiMoney, emojiGun1, emojiGun2, emojiGun3, emojiExplosion1, emojiExplosion2, emojiExplosion3], 0, { display: 'none' }).to(emojiAnimation, 0, { display: 'block' }).from(emojiBank, 1, { autoAlpha: 0, rotationX: -90, delay: 0.5, ease: Power4.easeOut }).fromTo(emojiRobber, 1.5, { left: screenW + 100 }, { left: xCenter + 110, delay: 1, ease: Power4.easeOut }).fromTo(emojiGun, 1.5, { display: 'none', left: screenW + 100 }, { display: 'block', left: xCenter + 110, ease: Power4.easeOut }, 2.5).to(emojiRobber, 0.5, { left: xCenter + 190, ease: Back.easeOut, delay: 1 }).fromTo(emojiGun, 0.5, { rotation: -45, left: xCenter + 125 }, { rotation: 0, left: xCenter + 110, ease: Back.easeOut, delay: -0.5 }).to(emojiRobber, 0.5, { left: xCenter, delay: 1 }).to(emojiGun, 0.25, { left: xCenter, delay: -0.5 }).to(emojiGun, 0, { rotationY: -180, display: 'none' }).to(emojiRobber, 0, { display: 'none' }).to(emojiBank, 0.1, { left: xCenter - 10, ease: Power4.easeIn }).to(emojiBank, 0.1, { left: xCenter + 10, ease: Power4.easeIn }).to(emojiBank, 0.1, { left: xCenter - 20, ease: Power4.easeIn }).to(emojiBank, 0.1, { left: xCenter + 20, ease: Power4.easeIn }).to(emojiBank, 0.1, { left: xCenter, ease: Power4.easeOut }).to(emojiBank, 0.1, { left: xCenter - 10, ease: Power4.easeIn, delay: 0.25 }).to(emojiBank, 0.1, { left: xCenter + 10, ease: Power4.easeIn }).to(emojiBank, 0.1, { left: xCenter - 20, ease: Power4.easeIn }).to(emojiBank, 0.1, { left: xCenter + 20, ease: Power4.easeIn }).to(emojiBank, 0.1, { left: xCenter, ease: Power4.easeOut }).to([emojiGun, emojiRobber, emojiMoney], 0, { display: 'block' }).to(emojiGun, 0.6, { left: xCenter + 330, delay: 0.5 }).to(emojiRobber, 0.4, { left: xCenter + 220, delay: -0.4 }).to(emojiMoney, 0.2, { left: xCenter + 110, delay: -0.2 }).fromTo(emojiCar, 0.5, { left: screenW + 100 }, { left: xCenter + 440, delay: 1, ease: Power4.easeOut }).to(emojiMoney, 0.6, { left: xCenter + 440, delay: 0.5 }).to(emojiRobber, 0.4, { left: xCenter + 440, delay: -0.6 }).to(emojiGun, 0.2, { left: xCenter + 440, delay: -0.6 }).to([emojiGun, emojiRobber, emojiMoney], 0, { display: 'none' }).to(emojiCar, 0.5, { rotationY: -180, ease: Power4.easeInOut }).to(emojiCar, 0.25, { left: screenW + 110, ease: Power4.easeIn }).to(emojiBank, 0.75, { left: '-=220', autoAlpha: 0, ease: Power4.easeIn, delay: -0.5 }).to(emojiCar, 0, { rotationY: 0 }).to(document.getElementsByTagName('body')[0], 0.5, { backgroundColor: '#009ACD' }).to(emojiCar, 2, { left: -220, ease: Power1.easeIn }).fromTo(emojiPolice, 2, { left: screenW + 220 }, { left: -110, delay: -2, ease: Power1.easeIn }).to(emojiCar, 0, { rotationY: -180, delay: 0.5 }).fromTo(emojiPolice1, 1, { left: screenW + 220 }, { left: xCenter - 110, ease: Power4.easeOut }).fromTo(emojiPolice2, 1, { left: screenW + 220 }, { left: xCenter, ease: Power4.easeOut, delay: -0.75 }).fromTo(emojiPolice3, 1, { left: screenW + 220 }, { left: xCenter + 110, ease: Power4.easeOut, delay: -0.75 }).to(emojiCar, 1, { left: xCenter - 360, ease: Back.easeOut, delay: -1 }).to(emojiGun1, 0, { display: 'block', rotation: -45, left: xCenter - 110 }).to(emojiGun1, 0.5, { rotation: 0, ease: Back.easeOut }).to(emojiPolice1, 0.5, { left: xCenter - 10, ease: Power4.easeInOut, delay: -0.5 }).to(emojiPolice2, 0.5, { left: xCenter + 100, ease: Power4.easeInOut, delay: -0.5 }).to(emojiPolice3, 0.5, { left: xCenter + 210, ease: Power4.easeInOut, delay: -0.5 }).to(emojiGun2, 0, { display: 'block', rotation: -45, left: xCenter + 100 }).to(emojiGun2, 0.5, { rotation: 0, ease: Back.easeOut }).to(emojiPolice2, 0.5, { left: xCenter + 210, ease: Power4.easeInOut, delay: -0.5 }).to(emojiPolice3, 0.5, { left: xCenter + 320, ease: Power4.easeInOut, delay: -0.5 }).to(emojiGun3, 0, { display: 'block', rotation: -45, left: xCenter + 320 }).to(emojiGun3, 0.5, { rotation: 0, ease: Back.easeOut }).to(emojiPolice3, 0.5, { left: xCenter + 420, ease: Power4.easeInOut, delay: -0.5 }).to(emojiExplosion1, 0, { display: 'block', marginTop: Math.random() * 120 - 100, left: xCenter - 220 - Math.random() * 120, delay: 0.25 }).to(emojiExplosion2, 0, { display: 'block', marginTop: Math.random() * 120 - 100, left: xCenter - 220 - Math.random() * 120, delay: 0.025 }).to(emojiExplosion3, 0, { display: 'block', marginTop: Math.random() * 120 - 100, left: xCenter - 220 - Math.random() * 120, delay: 0.05 }).to(emojiExplosion1, 0, { display: 'block', marginTop: Math.random() * 120 - 100, left: xCenter - 220 - Math.random() * 120, delay: 0.075 }).to(emojiExplosion2, 0, { display: 'block', marginTop: Math.random() * 120 - 100, left: xCenter - 220 - Math.random() * 120, delay: 0.1 }).to(emojiExplosion3, 0, { display: 'block', marginTop: Math.random() * 120 - 100, left: xCenter - 220 - Math.random() * 120, delay: 0.125 }).to(emojiExplosion1, 0, { display: 'block', marginTop: Math.random() * 120 - 100, left: xCenter - 220 - Math.random() * 120, delay: 0.15 }).to(emojiExplosion2, 0, { display: 'block', marginTop: Math.random() * 120 - 100, left: xCenter - 220 - Math.random() * 120, delay: 0.175 }).to(emojiExplosion3, 0, { display: 'block', marginTop: Math.random() * 120 - 100, left: xCenter - 220 - Math.random() * 120, delay: 0.2 }).to(emojiExplosion1, 0, { display: 'none', delay: 0.025 }).to(emojiExplosion2, 0, { display: 'none', delay: 0.025 }).to(emojiExplosion3, 0, { display: 'none', delay: 0.025 }).to(emojiCar, 0.5, { rotation: 180, ease: Elastic.easeOut, delay: 0.5 }).to(document.getElementsByTagName('body')[0], 0.5, { backgroundColor: '#c21c3b' }).fromTo(emojiAmbulance, 0.5, { left: -220, ease: Power4.easeOut, rotationY: 180, delay: 0.5 }, { left: xCenter - 360, delay: 1 }).to(emojiGun1, 0.5, { left: xCenter - 10, ease: Power4.easeInOut, delay: 0.5 }).to(emojiGun2, 0, { left: xCenter + 210, ease: Power4.easeInOut, delay: -0.25 }).to(emojiGun3, 0, { left: xCenter + 420, ease: Power4.easeInOut, delay: -0.25 }).to([emojiPolice1, emojiPolice2, emojiPolice3], 0.25, { rotationY: 180, delay: -0.1 }).to([emojiCar, emojiGun1, emojiGun2, emojiGun3], 0, { display: 'none', delay: 0.5 }).to(emojiAmbulance, 0.5, { left: screenW + 100, ease: Power2.easeIn }).to(emojiPolice1, 0.5, { left: screenW + 300, ease: Power2.easeIn, delay: -0.5 }).to(emojiPolice2, 0.5, { left: screenW + 500, ease: Power2.easeIn, delay: -0.5 }).to(emojiPolice3, 0.5, { left: screenW + 700, ease: Power2.easeIn, delay: -0.5 }).from(emojiHospital, 0.5, { autoAlpha: 0, delay: 0.5 }).to(emojiAmbulance, 0, { rotationY: 0 }).to(emojiAmbulance, 1, { left: xCenter, ease: Power4.easeOut, delay: 0.5 }).from(emojiFearful, 0.5, { autoAlpha: 0, delay: 1.5 }).fromTo(emojiGavel, 0.5, { left: screenW + 100 }, { left: xCenter + 110, ease: Power4.easeOut }).to(emojiGavel, 0.25, { marginTop: '-=36', rotation: 30, ease: Power4.easeOut, delay: -0.25 }).to(emojiGavel, 0.5, { marginTop: '+=36', rotation: 0, ease: Bounce.easeOut, delay: 0.25 }).from(emojiCrying, 0.5, { autoAlpha: 0 }).from(jailbars, 1, { top: -150, ease: Bounce.easeOut }).to(document.getElementsByTagName('body')[0], 1, { backgroundColor: '#666', delay: -1 }).to([emojiFearful, emojiHospital, emojiAmbulance], 0, { display: 'none' }).to([emojiCrying, jailbars, emojiGavel], 1, { rotationX: 90, autoAlpha: 0, ease: Power4.easeIn, delay: 2 }).to(document.getElementsByTagName('body')[0], 1, { backgroundColor: '#000' }).to(document.getElementsByTagName('body')[0], 1, { backgroundColor: '#5bb12f', delay: 0.5 });
 });
 define('results/results',['exports', 'aurelia-framework', 'aurelia-router', '../services/user', '../utilities/chart', '../services/constants', '../utilities/calculateExpenses', '../utilities/calculateRecommended', '../utilities/calculatePercentages', 'bootbox'], function (exports, _aureliaFramework, _aureliaRouter, _user, _chart, _constants, _calculateExpenses, _calculateRecommended, _calculatePercentages, bootbox) {
     'use strict';
@@ -2208,7 +2208,7 @@ define('utilities/chart',['exports', 'aurelia-framework', '../services/user', 'h
             var chartSpecificGoals = results.chartGoals[0];
 
             var chartGoalSeries = [{
-                name: "Savings & Extra Income",
+                name: "Savings & Income",
                 data: results.fiveYearSavings,
                 color: '#0066ff'
             }];
@@ -2314,7 +2314,7 @@ define('utilities/chart',['exports', 'aurelia-framework', '../services/user', 'h
                     text: 'Your Budget Plan'
                 },
                 subtitle: {
-                    text: 'Total Expense: ' + results.fiveYearExpenses[0]
+                    text: 'Total Expense: $' + results.fiveYearExpenses[0].toFixed(2)
                 },
                 plotOptions: {
                     pie: {
@@ -2396,7 +2396,7 @@ define('utilities/chart',['exports', 'aurelia-framework', '../services/user', 'h
                     text: 'Your Advanced Budet Plan'
                 },
                 subtitle: {
-                    text: 'Total Expense: ' + results.fiveYearExpenses[0]
+                    text: 'Total Expense: $' + results.fiveYearExpenses[0].toFixed(2)
                 },
                 yAxis: {
                     title: {
@@ -2468,7 +2468,7 @@ define('utilities/chart',['exports', 'aurelia-framework', '../services/user', 'h
                     text: 'Recommended Budget Plan'
                 },
                 subtitle: {
-                    text: 'Total Expense: ' + recommend.totalExpense
+                    text: 'Total Expense: $' + recommend.totalExpense.toFixed(2)
                 },
                 plotOptions: {
                     pie: {
@@ -2556,7 +2556,7 @@ define('utilities/chart',['exports', 'aurelia-framework', '../services/user', 'h
                     text: 'Your Advanced Budet Plan'
                 },
                 subtitle: {
-                    text: 'Total Expense: ' + recommend.totalExpense
+                    text: 'Total Expense: $' + recommend.totalExpense.toFixed(2)
                 },
                 yAxis: {
                     title: {
@@ -2885,8 +2885,6 @@ define('services/data/expensesData',["exports"], function (exports) {
 
         var ExpensesData = exports.ExpensesData = function ExpensesData() {
                 _classCallCheck(this, ExpensesData);
-
-                this.isTotalExpenseZero = false;
 
                 this.totalExpense = 0;
                 this.totalHomeExpense = 0;
@@ -3394,10 +3392,10 @@ define('text!about/about.html', ['module'], function(module) { module.exports = 
 define('text!css/drag-and-drop.css', ['module'], function(module) { module.exports = ".goalOverflow {\r\n    overflow-y:scroll;\r\n}\r\n\r\n#myGoals {\r\n    width: 100%; \r\n    height: 30%; \r\n    background-color: #f5f5f5;\r\n    text-align: center; \r\n    color: #337ab7;\r\n    vertical-align: middle; \r\n    line-height: 150px;\r\n}\r\npanel{\r\n    height: 10px !important;\r\n        box-shadow: 10px 10px grey;\r\n\r\n}\r\n"; });
 define('text!aboutyou/personalinfo.html', ['module'], function(module) { module.exports = "<template><div id=\"personalinfo\"><form submit.delegate=\"next()\"><compose view-model=\"./compose/compose-personal-info\"></compose><br><br><compose view-model=\"./compose/compose-goals\"></compose><br><hr><button class=\"btn btn-secondary btn-lg\" style=\"float:left;width:10vmax;margin:1vw\" click.delegate=\"back()\"><span class=\"glyphicon glyphicon-arrow-left\"></span></button> <button class=\"btn btn-primary btn-lg\" style=\"float:right;width:10vmax;margin:1vw\" type=\"submit\" id=\"next\"><span class=\"glyphicon glyphicon-arrow-right\"></span></button></form></div></template>"; });
 define('text!css/navbar.css', ['module'], function(module) { module.exports = "\r\nnav{\r\n  width: 100%;\r\n  margin: 1em auto;\r\n}\r\n\r\nul{\r\n  margin: 0px;\r\n  padding: 0px;\r\n  list-style: none;\r\n}\r\n\r\nul.dropdown{ \r\n  position: relative; \r\n  width: 100%; \r\n}\r\n\r\nul.dropdown li{ \r\n  font-weight: bold; \r\n  float: left; \r\n  width: 125px; \r\n  position: relative;\r\n  background: #f5f5f5;\r\n}\r\n\r\nul.dropdown a:hover{ \r\n  color: #000; \r\n}\r\n\r\nul.dropdown li a { \r\n  display: block; \r\n  padding: 20px 8px;\r\n  color: #34495e; \r\n  position: relative; \r\n  z-index: 2000; \r\n  text-align: center;\r\n  text-decoration: none;\r\n  font-weight: 300;\r\n}\r\n\r\nul.dropdown li a:hover,\r\nul.dropdown li a.hover{ \r\n  background: #337ab7;\r\n  position: relative;\r\n  color: #fff;\r\n}\r\n\r\n\r\nul.dropdown ul{ \r\n display: none;\r\n position: absolute; \r\n  top: 0; \r\n  left: 0; \r\n  width: 1000px; \r\n  z-index: 1000;\r\n}\r\n\r\nul.dropdown ul li { \r\n  font-weight: normal; \r\n  background: #f5f5f5; \r\n  color: #000; \r\n  border-bottom: 1px solid #ccc; \r\n}\r\n\r\nul.dropdown ul li a{ \r\n  display: block; \r\n  color: #34495e !important;\r\n  background: #eee !important;\r\n} \r\n\r\nul.dropdown ul li a:hover{\r\n  display: block; \r\n  background: #3498db !important;\r\n  color: #fff !important;\r\n} \r\n\r\n.drop > a{\r\n  position: relative;\r\n}\r\n\r\n.drop > a:after{\r\n  content:\"\";\r\n  position: absolute;\r\n  right: 10px;\r\n  top: 40%;\r\n  border-left: 5px solid transparent;\r\n  border-top: 5px solid #333;\r\n  border-right: 5px solid transparent;\r\n  z-index: 999;\r\n}\r\n\r\n.drop > a:hover:after{\r\n  content:\"\";\r\n   border-left: 5px solid transparent;\r\n  border-top: 5px solid #fff;\r\n  border-right: 5px solid transparent;\r\n}\r\n\r\n.navbar-default {\r\n  height: 30px;\r\n  min-height:30px;\r\n  font-size: 15px;\r\n}\r\n\r\n.navbar-default .navbar-nav > li > a,\r\n.navbar-brand {\r\n  padding-top: 0;\r\n  padding-bottom: 0;\r\n  line-height: 30px;\r\n  color:#337ab7;\r\n}\r\n\r\n .navbar-default .navbar-nav > .active{\r\n    color: #fff;\r\n   /*background: #337ab7;*/\r\n }\r\n .navbar-default .navbar-nav > .active > a, \r\n .navbar-default .navbar-nav > .active > a:hover, \r\n .navbar-default .navbar-nav > .active > a:focus {\r\n      color: #fff;\r\n      background: #337ab7;\r\n      /*font-weight: bold;*/\r\n }\r\n\r\n .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {\r\n    background-color: #337ab7;\r\n    color: #fff;\r\n}\r\na {\r\n    text-decoration: none !important;\r\n}\r\n\r\n.dropdown {\r\n    position: relative;\r\n    display: inline-block;\r\n}\r\n\r\n.dropdown .dropdown-menu {\r\n    position: absolute;\r\n    top: 100%;\r\n    display: none;\r\n    margin: 0;\r\n\r\n    /****************\r\n     ** NEW STYLES **\r\n     ****************/\r\n\r\n    list-style: none; /** Remove list bullets */\r\n    width: 100%; /** Set the width to 100% of it's parent */\r\n    padding: 0;\r\n}\r\n\r\n.dropdown:hover .dropdown-menu {\r\n    display: block;\r\n}\r\n\r\n/** Button Styles **/\r\n.dropdown button {\r\n    /*background: #FF6223;\r\n    color: #FFFFFF;*/\r\n    border: none;\r\n    margin: 0;\r\n    padding: 0.4em 0.8em;\r\n    font-size: 1em;\r\n}\r\n\r\n/** List Item Styles **/\r\n.dropdown a {\r\n    display: block;\r\n    padding: 0.2em 0.8em;\r\n    text-decoration: none;\r\n    /*background: #CCCCCC;\r\n    color: #333333;*/\r\n}\r\n\r\n/** List Item Hover Styles **/\r\n.dropdown a:hover {\r\n    /*background: #BBBBBB;*/\r\n}\r\n#navbarHeader{\r\n  width:100% !important;\r\n}\r\n\r\n@media screen and (min-width: 1200px) {\r\n#navbarHeader{\r\n  width:60% !important;\r\n\r\n}\r\n}"; });
-define('text!expenses/expenses.html', ['module'], function(module) { module.exports = "<template><link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css\"><br><br><div id=\"expenses\"><form submit.delegate=\"next()\"><div class=\"container\" style=\"width:60%;padding:0\"><div class=\"panel-group popout\" id=\"accordion\"><compose view-model=\"./compose/compose-home-expenses\"></compose><compose view-model=\"./compose/compose-car-expenses\"></compose><compose view-model=\"./compose/compose-health-expenses\"></compose><compose view-model=\"./compose/compose-discretionary-expenses\"></compose></div></div><div id=\"personalinfo\"><hr><button class=\"btn btn-secondary btn-lg\" style=\"float:left;width:10vmax;margin:1vw\" click.delegate=\"back()\"><span class=\"glyphicon glyphicon-arrow-left\"></span></button> <button class=\"btn btn-primary btn-lg\" style=\"float:right;width:10vmax;margin:1vw\" type=\"submit\" id=\"next\"><span class=\"glyphicon glyphicon-arrow-right\"></span></button></div></form></div><br><br><br></template>"; });
-define('text!css/style.css', ['module'], function(module) { module.exports = "#personalinfo, #navbarHeader, #expenses, #results{\r\n    animation: fadein .5s;\r\n    -moz-animation: fadein .5s; /* Firefox */\r\n    -webkit-animation: fadein .5s; /* Safari and Chrome */\r\n    -o-animation: fadein .5s; /* Opera */\r\n}\r\n@keyframes fadein {\r\n    from {\r\n        opacity:0;\r\n    }\r\n    to {\r\n        opacity:1;\r\n    }\r\n}\r\n@-moz-keyframes fadein { /* Firefox */\r\n    from {\r\n        opacity:0;\r\n    }\r\n    to {\r\n        opacity:1;\r\n    }\r\n}\r\n@-webkit-keyframes fadein { /* Safari and Chrome */\r\n    from {\r\n        opacity:0;\r\n    }\r\n    to {\r\n        opacity:1;\r\n    }\r\n}\r\n@-o-keyframes fadein { /* Opera */\r\n    from {\r\n        opacity:0;\r\n    }\r\n    to {\r\n        opacity: 1;\r\n    }\r\n}\r\n#personalinfo, #expenses, #results {\r\n    margin: 0 auto;\r\n    text-align: center;\r\n    width: 60%;\r\n}\r\n\r\nhtml, body {\r\n\tmargin:0;\r\n\tpadding:0;\r\n\theight:100%;\r\n\tbackground-color: #fff;\r\n\t    font-family: 'Maven Pro', sans-serif;\r\n\r\n}\r\n.range-slider {\r\n    /*position: relative;*/\r\n    height: 10px;\r\n}\r\n#app {\r\n\tmin-height:100%;\r\n\tposition:relative;\r\n}\r\n\r\n#content {\r\n\tpadding-bottom:100px; /* Height of the footer element */\r\n}\r\n\r\n#footer {\r\n\tbackground:#ededed;\r\n\twidth:100%;\r\n\theight:60px;\r\n\tposition:absolute;\r\n\tbottom:0;\r\n\tleft:0;\r\n    text-align: center;\r\n}\r\n\r\n.btn-sample:active {\r\n  color: #337ab7; \r\n}\r\n\r\ni {\r\n\twidth:10px;\r\n}\r\n\r\n.expensesInput {\r\n\twidth: 90%;\r\n\t margin: 0 auto;\r\n}\r\n\r\n.glyphicon-question-sign {\r\n\tcolor: #fff;\r\n\tfont-size: 20px;\r\n}\r\n\r\n.box-shadow--6dp {\r\nbox-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 6px 9px rgba(0, 0, 0, 0.2);\r\n}\r\n\r\n.highcharts-series-group {\r\nbox-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 6px 9px rgba(0, 0, 0, 0.2);\r\n}\r\n.btn{\r\n\tborder-radius:0;\r\n}\r\n/*.panel, .panel-group .panel-heading+.panel-collapse>.panel-body{\r\n    border: 0;\r\n}*/\r\n.panel-title, .panel-heading{\r\n  background: #337ab7 !important;\r\n  color:white !important;\r\n  font-weight:bold !important;\r\n  /*margin:0 !important;*/\r\n  padding: 1.2vmin !important;\r\n\r\n  }\r\n\r\n.adding {\r\n\tcolor: #3c763d;\r\n}\r\n\r\n.decreasing {\r\n\tcolor: #a94442;\r\n}\r\n.container{\r\n\twidth:100vw !important;\r\n}\r\n@media screen and (min-width: 700px) {\r\n  .container {\r\nwidth:85vw !important;  }\r\n}\r\n@media screen and (min-width: 1200px) {\r\n  .container {\r\nwidth:60vw !important;  }\r\n}\r\n\r\n#personalinfo{\r\n\twidth:100vw !important;\r\n}\r\n@media screen and (min-width: 700px) {\r\n#personalinfo {\r\nwidth:85vw !important;  }\r\n}\r\n@media screen and (min-width: 1200px) {\r\n#personalinfo {\r\nwidth:60vw !important;  }\r\n}\r\n\r\n#results{\r\n\twidth:100vw !important;\r\n}\r\n@media screen and (min-width: 700px) {\r\n#results {\r\nwidth:85vw !important;  }\r\n}\r\n@media screen and (min-width: 1200px) {\r\n#results {\r\nwidth:60vw !important;  }\r\n}\r\n.glyphicon.glyphicon-question-sign {\r\n    font-size: 70%;\r\n\t}\r\n\r\n.loading-bro {\r\n  margin: 50px auto;\r\n  width: 150px;\r\n}\r\n.loading-bro > h1 {\r\n  text-align: center;\r\n  font-size: 2.5em;\r\n  margin-bottom: 1em;\r\n  font-weight: 300;\r\n  color: #337ab7;\r\n}\r\n\r\n#load {\r\n  width: 150px;\r\n  animation: loading 3s linear infinite;\r\n}\r\n#load #loading-inner {\r\n  stroke-dashoffset: 0;\r\n  stroke-dasharray: 300;\r\n  stroke-width: 10;\r\n  stroke-miterlimit: 10;\r\n  stroke-linecap: round;\r\n  animation: loading-circle 2s linear infinite;\r\n  stroke: #337ab7;\r\n  fill: transparent;\r\n}\r\n\r\n@keyframes loading {\r\n  0% {\r\n    transform: rotate(0);\r\n  }\r\n  100% {\r\n    transform: rotate(360deg);\r\n  }\r\n}\r\n@keyframes loading-circle {\r\n  0% {\r\n    stroke-dashoffset: 0;\r\n  }\r\n  100% {\r\n    stroke-dashoffset: -600;\r\n  }\r\n}\r\n"; });
-define('text!home/home.css', ['module'], function(module) { module.exports = "*{\r\n  \r\nmargin:0 auto;\r\n}\r\n\r\n#title{\r\n    margin:0 auto;\r\n    padding: 5%;\r\n    padding-bottom: 1vh;\r\n  font-size: 36px; /* Some tweener fallback that doesn't look awful */ \r\n  font-size: 11vw;    \r\n  font-weight: bold;\r\n    color: #fff;\r\n    /*font-family: 'Maven Pro', sans-serif;*/\r\n\r\n}\r\n\r\n@media screen and (min-width: 700px) {\r\n  #title {\r\n   font-size: 7vmin;\r\n  }\r\n}\r\n#subtitle{\r\n      font-style: italic;\r\n      color: #fff;\r\n  font-size: 4.5vmin;\r\n      padding-bottom: 0;\r\n\r\n}\r\n\r\n@media screen and (min-width: 700px) {\r\n  #subtitle {\r\n  font-size: 3vmin;\r\n  }\r\n}\r\n#start{\r\n  font-size: 3vmin !important;\r\n\r\n    /*width: 10%;*/\r\n    /*height: 150px;*/\r\n    color: #fff;\r\n        /*padding:0 !important;*/\r\n\r\n    padding-left: 8vmin !important;\r\n    padding-right: 8vmin !important;\r\n\r\n}\r\n.btn-start{\r\n    background-color: #337ab7;\r\n    color:#fff;\r\n        font-weight: bold;\r\n\r\n    font-size: 4vh;\r\n\r\n}\r\n\r\n.btn-start:hover{\r\n  -moz-transition: all 0.15s ease-in-out;\r\n  -o-transition: all 0.15s ease-in-out;\r\n  -webkit-transition: all 0.15s ease-in-out;\r\n  transition: all 0.15s ease-in-out;\r\n    background-color: #fff;\r\n    color: #afca5d !important;\r\n        font-weight: bold;\r\n\r\n    font-size: 4vh;\r\n}\r\n\r\n\r\nbody{\r\n    /*background: linear-gradient(to bottom right, #1567b9, #baecc7);*/\r\n}\r\n.bg {\r\nheight:100vh;\r\nmargin: 0;\r\n    background: linear-gradient(to bottom right, #1567b9, #baecc7);\r\n  text-align: center;\r\n  padding: 0;\r\n}\r\n\r\n.zigzag {\r\n  stroke-dasharray: 480;\r\n  stroke-dashoffset: 480;\r\n  -webkit-animation: zigzag 4s linear forwards infinite;\r\n          animation: zigzag 4s linear forwards infinite;\r\n}\r\n\r\n@-webkit-keyframes zigzag {\r\n  from {\r\n    stroke-dashoffset: 980;\r\n  }\r\n  to {\r\n    stroke-dashoffset: 0;\r\n  }\r\n}\r\n\r\n@keyframes zigzag {\r\n  from {\r\n    stroke-dashoffset: 980;\r\n  }\r\n  to {\r\n    stroke-dashoffset: 0;\r\n  }\r\n}\r\n.dash {\r\n  stroke-dasharray: 280;\r\n  stroke-dashoffset: 280;\r\n  -webkit-animation: month 4s linear backwards infinite;\r\n          animation: month 4s linear backwards infinite;\r\n}\r\n.dash:nth-child(1) {\r\n  -webkit-animation-delay: 0s;\r\n          animation-delay: 0s;\r\n}\r\n.dash:nth-child(2) {\r\n  -webkit-animation-delay: 0.05s;\r\n          animation-delay: 0.05s;\r\n}\r\n.dash:nth-child(3) {\r\n  -webkit-animation-delay: 0.10s;\r\n          animation-delay: 0.10s;\r\n}\r\n.dash:nth-child(4) {\r\n  -webkit-animation-delay: 0.15s;\r\n          animation-delay: 0.15s;\r\n}\r\n.dash:nth-child(5) {\r\n  -webkit-animation-delay: 0.20s;\r\n          animation-delay: 0.20s;\r\n}\r\n.dash:nth-child(6) {\r\n  -webkit-animation-delay: 0.25s;\r\n          animation-delay: 0.25s;\r\n}\r\n.dash:nth-child(7) {\r\n  -webkit-animation-delay: 0.30s;\r\n          animation-delay: 0.30s;\r\n}\r\n.dash:nth-child(8) {\r\n  -webkit-animation-delay: 0.35s;\r\n          animation-delay: 0.35s;\r\n}\r\n.dash:nth-child(9) {\r\n  -webkit-animation-delay: 0.40s;\r\n          animation-delay: 0.40s;\r\n}\r\n.dash:nth-child(10) {\r\n  -webkit-animation-delay: 0.45s;\r\n          animation-delay: 0.45s;\r\n}\r\n\r\n@-webkit-keyframes month {\r\n  from {\r\n    stroke-dashoffset: 380;\r\n  }\r\n  to {\r\n    stroke-dashoffset: 0;\r\n  }\r\n}\r\n\r\n@keyframes month {\r\n  from {\r\n    stroke-dashoffset: 380;\r\n  }\r\n  to {\r\n    stroke-dashoffset: 0;\r\n  }\r\n}\r\nsvg{\r\n width: 90%;\r\n /*background-image: url(image-with-4-3-aspect-ratio.svg);*/\r\n /*background-size: cover;*/\r\n height: 50vmin;\r\n padding: 0; /* reset */\r\n /*padding-bottom: calc(100% * 3 / 4);*/\r\n }\r\n\r\n@media screen and (min-width: 700px) {\r\n  svg {\r\n     height: 40vmin;\r\n  }\r\n}\r\n\r\n"; });
 define('text!home/home.html', ['module'], function(module) { module.exports = "<template style=\"background-color:#337ab7\"><require from=\"home/home.css\"></require><div class=\"bg\"><div style=\"position:relative;top:50%;transform:translateY(-60%)\"><div style=\"border:#fff\"><h1 id=\"title\">MoneyManage</h1><svg version=\"1.1\" baseProfile=\"tiny\" id=\"chart\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" width=\"366.037px\" height=\"261.026px\" viewBox=\"0 0 366.037 261.026\" xml:space=\"preserve\"><path fill=\"#FFFFFF\" d=\"M297.813,187.789c-0.414,0-0.75-0.336-0.75-0.75V41.398c0-0.689-0.561-1.25-1.25-1.25H61.049\r\n\tc-0.689,0-1.25,0.561-1.25,1.25v145.641c0,0.414-0.336,0.75-0.75,0.75s-0.75-0.336-0.75-0.75V41.398c0-1.517,1.234-2.75,2.75-2.75\r\n\th234.764c1.516,0,2.75,1.233,2.75,2.75v145.641C298.563,187.453,298.227,187.789,297.813,187.789z M327.25,187.977\r\n\tc0-0.414-0.336-0.75-0.75-0.75H30.363c-0.414,0-0.75,0.336-0.75,0.75c0,10.002,8.137,18.139,18.138,18.139h261.367\r\n\tC319.116,206.115,327.25,197.979,327.25,187.977z M325.733,188.727c-0.394,8.828-7.696,15.889-16.615,15.889H47.75\r\n\tc-8.923,0-16.228-7.061-16.621-15.889H325.733z\"/><g><line class=\"dash\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-miterlimit=\"10\" x1=\"84.662\" y1=\"168.215\" x2=\"84.662\" y2=\"140.473\"/><line class=\"dash\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-miterlimit=\"10\" x1=\"105.592\" y1=\"168.215\" x2=\"105.592\" y2=\"149.795\"/><line class=\"dash three\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-miterlimit=\"10\" x1=\"126.523\" y1=\"168.215\" x2=\"126.523\" y2=\"159.118\"/><line class=\"dash four\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-miterlimit=\"10\" x1=\"147.453\" y1=\"168.215\" x2=\"147.453\" y2=\"140.473\"/><line class=\"dash five\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-miterlimit=\"10\" x1=\"168.382\" y1=\"168.215\" x2=\"168.382\" y2=\"149.795\"/><line class=\"dash six\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-miterlimit=\"10\" x1=\"189.313\" y1=\"168.215\" x2=\"189.313\" y2=\"140.473\"/><line class=\"dash seven\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-miterlimit=\"10\" x1=\"210.244\" y1=\"168.215\" x2=\"210.244\" y2=\"135.812\"/><line class=\"dash eight\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-miterlimit=\"10\" x1=\"231.173\" y1=\"168.215\" x2=\"231.173\" y2=\"163.779\"/><line class=\"dash nine\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-miterlimit=\"10\" x1=\"252.104\" y1=\"168.215\" x2=\"252.104\" y2=\"154.457\"/><line class=\"dash ten\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-miterlimit=\"10\" x1=\"272.201\" y1=\"168.215\" x2=\"272.201\" y2=\"163.779\"/></g><polyline fill=\"none\" points=\"84.295,72.647 104.795,97.147 147.795,75.147 189.295,110.647 231.795,102.147 270.795,122.147 \"/><polyline class=\"zigzag\" fill=\"none\" stroke=\"#AFCA5D\" stroke-width=\"5\" stroke-miterlimit=\"10\" points=\"84.295,72.647 104.795,97.147 \r\n\t147.795,75.147 189.295,110.647 231.795,102.147 270.795,122.147 \"/></svg><div style=\"text-align:center;margin:0 auto\"><button id=\"start\" type=\"button\" class=\"btn btn-start\" style=\"margin:0 auto\" click.delegate=\"start()\">START</button></div></div></div></div></template>"; });
+define('text!css/style.css', ['module'], function(module) { module.exports = "#personalinfo, #navbarHeader, #expenses, #results{\r\n    animation: fadein .5s;\r\n    -moz-animation: fadein .5s; /* Firefox */\r\n    -webkit-animation: fadein .5s; /* Safari and Chrome */\r\n    -o-animation: fadein .5s; /* Opera */\r\n}\r\n@keyframes fadein {\r\n    from {\r\n        opacity:0;\r\n    }\r\n    to {\r\n        opacity:1;\r\n    }\r\n}\r\n@-moz-keyframes fadein { /* Firefox */\r\n    from {\r\n        opacity:0;\r\n    }\r\n    to {\r\n        opacity:1;\r\n    }\r\n}\r\n@-webkit-keyframes fadein { /* Safari and Chrome */\r\n    from {\r\n        opacity:0;\r\n    }\r\n    to {\r\n        opacity:1;\r\n    }\r\n}\r\n@-o-keyframes fadein { /* Opera */\r\n    from {\r\n        opacity:0;\r\n    }\r\n    to {\r\n        opacity: 1;\r\n    }\r\n}\r\n#personalinfo, #expenses, #results {\r\n    margin: 0 auto;\r\n    text-align: center;\r\n    width: 60%;\r\n}\r\n\r\nhtml, body {\r\n\tmargin:0;\r\n\tpadding:0;\r\n\theight:100%;\r\n\tbackground-color: #fff;\r\n\t    font-family: 'Maven Pro', sans-serif;\r\n\r\n}\r\n.range-slider {\r\n    /*position: relative;*/\r\n    height: 10px;\r\n}\r\n#app {\r\n\tmin-height:100%;\r\n\tposition:relative;\r\n}\r\n\r\n#content {\r\n\tpadding-bottom:100px; /* Height of the footer element */\r\n}\r\n\r\n#footer {\r\n\tbackground:#ededed;\r\n\twidth:100%;\r\n\theight:60px;\r\n\tposition:absolute;\r\n\tbottom:0;\r\n\tleft:0;\r\n    text-align: center;\r\n}\r\n\r\n.btn-sample:active {\r\n  color: #337ab7; \r\n}\r\n\r\ni {\r\n\twidth:10px;\r\n}\r\n\r\n.expensesInput {\r\n\twidth: 90%;\r\n\t margin: 0 auto;\r\n}\r\n\r\n.glyphicon-question-sign {\r\n\tcolor: #fff;\r\n\tfont-size: 20px;\r\n}\r\n\r\n.box-shadow--6dp {\r\nbox-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 6px 9px rgba(0, 0, 0, 0.2);\r\n}\r\n\r\n.highcharts-series-group {\r\nbox-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 6px 9px rgba(0, 0, 0, 0.2);\r\n}\r\n.btn{\r\n\tborder-radius:0;\r\n}\r\n/*.panel, .panel-group .panel-heading+.panel-collapse>.panel-body{\r\n    border: 0;\r\n}*/\r\n.panel-title, .panel-heading{\r\n  background: #337ab7 !important;\r\n  color:white !important;\r\n  font-weight:bold !important;\r\n  /*margin:0 !important;*/\r\n  padding: 1.2vmin !important;\r\n\r\n  }\r\n\r\n.adding {\r\n\tcolor: #3c763d;\r\n}\r\n\r\n.decreasing {\r\n\tcolor: #a94442;\r\n}\r\n.container{\r\n\twidth:100vw !important;\r\n}\r\n@media screen and (min-width: 700px) {\r\n  .container {\r\nwidth:85vw !important;  }\r\n}\r\n@media screen and (min-width: 1200px) {\r\n  .container {\r\nwidth:60vw !important;  }\r\n}\r\n\r\n#personalinfo{\r\n\twidth:100vw !important;\r\n}\r\n@media screen and (min-width: 700px) {\r\n#personalinfo {\r\nwidth:85vw !important;  }\r\n}\r\n@media screen and (min-width: 1200px) {\r\n#personalinfo {\r\nwidth:60vw !important;  }\r\n}\r\n\r\n#results{\r\n\twidth:100vw !important;\r\n}\r\n@media screen and (min-width: 700px) {\r\n#results {\r\nwidth:85vw !important;  }\r\n}\r\n@media screen and (min-width: 1200px) {\r\n#results {\r\nwidth:60vw !important;  }\r\n}\r\n.glyphicon.glyphicon-question-sign {\r\n    font-size: 70%;\r\n\t}\r\n\r\n.loading-bro {\r\n  margin: 50px auto;\r\n  width: 150px;\r\n}\r\n.loading-bro > h1 {\r\n  text-align: center;\r\n  font-size: 2.5em;\r\n  margin-bottom: 1em;\r\n  font-weight: 300;\r\n  color: #337ab7;\r\n}\r\n\r\n#load {\r\n  width: 150px;\r\n  animation: loading 3s linear infinite;\r\n}\r\n#load #loading-inner {\r\n  stroke-dashoffset: 0;\r\n  stroke-dasharray: 300;\r\n  stroke-width: 10;\r\n  stroke-miterlimit: 10;\r\n  stroke-linecap: round;\r\n  animation: loading-circle 2s linear infinite;\r\n  stroke: #337ab7;\r\n  fill: transparent;\r\n}\r\n\r\n@keyframes loading {\r\n  0% {\r\n    transform: rotate(0);\r\n  }\r\n  100% {\r\n    transform: rotate(360deg);\r\n  }\r\n}\r\n@keyframes loading-circle {\r\n  0% {\r\n    stroke-dashoffset: 0;\r\n  }\r\n  100% {\r\n    stroke-dashoffset: -600;\r\n  }\r\n}\r\n"; });
+define('text!expenses/expenses.html', ['module'], function(module) { module.exports = "<template><link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css\"><br><br><div id=\"expenses\"><form submit.delegate=\"next()\"><div class=\"container\" style=\"width:60%;padding:0\"><div class=\"panel-group popout\" id=\"accordion\"><compose view-model=\"./compose/compose-home-expenses\"></compose><compose view-model=\"./compose/compose-car-expenses\"></compose><compose view-model=\"./compose/compose-health-expenses\"></compose><compose view-model=\"./compose/compose-discretionary-expenses\"></compose></div></div><div id=\"personalinfo\"><hr><button class=\"btn btn-secondary btn-lg\" style=\"float:left;width:10vmax;margin:1vw\" click.delegate=\"back()\"><span class=\"glyphicon glyphicon-arrow-left\"></span></button> <button class=\"btn btn-primary btn-lg\" style=\"float:right;width:10vmax;margin:1vw\" type=\"submit\" id=\"next\"><span class=\"glyphicon glyphicon-arrow-right\"></span></button></div></form></div><br><br><br></template>"; });
+define('text!home/home.css', ['module'], function(module) { module.exports = "*{\r\n  \r\nmargin:0 auto;\r\n}\r\n\r\n#title{\r\n    margin:0 auto;\r\n    padding: 5%;\r\n    padding-bottom: 1vh;\r\n  font-size: 36px; /* Some tweener fallback that doesn't look awful */ \r\n  font-size: 11vw;    \r\n  font-weight: bold;\r\n    color: #fff;\r\n    /*font-family: 'Maven Pro', sans-serif;*/\r\n\r\n}\r\n\r\n@media screen and (min-width: 700px) {\r\n  #title {\r\n   font-size: 7vmin;\r\n  }\r\n}\r\n#subtitle{\r\n      font-style: italic;\r\n      color: #fff;\r\n  font-size: 4.5vmin;\r\n      padding-bottom: 0;\r\n\r\n}\r\n\r\n@media screen and (min-width: 700px) {\r\n  #subtitle {\r\n  font-size: 3vmin;\r\n  }\r\n}\r\n#start{\r\n  font-size: 3vmin !important;\r\n\r\n    /*width: 10%;*/\r\n    /*height: 150px;*/\r\n    color: #fff;\r\n        /*padding:0 !important;*/\r\n\r\n    padding-left: 8vmin !important;\r\n    padding-right: 8vmin !important;\r\n\r\n}\r\n.btn-start{\r\n    background-color: #337ab7;\r\n    color:#fff;\r\n        font-weight: bold;\r\n\r\n    font-size: 4vh;\r\n\r\n}\r\n\r\n.btn-start:hover{\r\n  -moz-transition: all 0.15s ease-in-out;\r\n  -o-transition: all 0.15s ease-in-out;\r\n  -webkit-transition: all 0.15s ease-in-out;\r\n  transition: all 0.15s ease-in-out;\r\n    background-color: #fff;\r\n    color: #afca5d !important;\r\n        font-weight: bold;\r\n\r\n    font-size: 4vh;\r\n}\r\n\r\n\r\nbody{\r\n    /*background: linear-gradient(to bottom right, #1567b9, #baecc7);*/\r\n}\r\n.bg {\r\nheight:100vh;\r\nmargin: 0;\r\n    background: linear-gradient(to bottom right, #1567b9, #baecc7);\r\n  text-align: center;\r\n  padding: 0;\r\n}\r\n\r\n.zigzag {\r\n  stroke-dasharray: 480;\r\n  stroke-dashoffset: 480;\r\n  -webkit-animation: zigzag 4s linear forwards infinite;\r\n          animation: zigzag 4s linear forwards infinite;\r\n}\r\n\r\n@-webkit-keyframes zigzag {\r\n  from {\r\n    stroke-dashoffset: 980;\r\n  }\r\n  to {\r\n    stroke-dashoffset: 0;\r\n  }\r\n}\r\n\r\n@keyframes zigzag {\r\n  from {\r\n    stroke-dashoffset: 980;\r\n  }\r\n  to {\r\n    stroke-dashoffset: 0;\r\n  }\r\n}\r\n.dash {\r\n  stroke-dasharray: 280;\r\n  stroke-dashoffset: 280;\r\n  -webkit-animation: month 4s linear backwards infinite;\r\n          animation: month 4s linear backwards infinite;\r\n}\r\n.dash:nth-child(1) {\r\n  -webkit-animation-delay: 0s;\r\n          animation-delay: 0s;\r\n}\r\n.dash:nth-child(2) {\r\n  -webkit-animation-delay: 0.05s;\r\n          animation-delay: 0.05s;\r\n}\r\n.dash:nth-child(3) {\r\n  -webkit-animation-delay: 0.10s;\r\n          animation-delay: 0.10s;\r\n}\r\n.dash:nth-child(4) {\r\n  -webkit-animation-delay: 0.15s;\r\n          animation-delay: 0.15s;\r\n}\r\n.dash:nth-child(5) {\r\n  -webkit-animation-delay: 0.20s;\r\n          animation-delay: 0.20s;\r\n}\r\n.dash:nth-child(6) {\r\n  -webkit-animation-delay: 0.25s;\r\n          animation-delay: 0.25s;\r\n}\r\n.dash:nth-child(7) {\r\n  -webkit-animation-delay: 0.30s;\r\n          animation-delay: 0.30s;\r\n}\r\n.dash:nth-child(8) {\r\n  -webkit-animation-delay: 0.35s;\r\n          animation-delay: 0.35s;\r\n}\r\n.dash:nth-child(9) {\r\n  -webkit-animation-delay: 0.40s;\r\n          animation-delay: 0.40s;\r\n}\r\n.dash:nth-child(10) {\r\n  -webkit-animation-delay: 0.45s;\r\n          animation-delay: 0.45s;\r\n}\r\n\r\n@-webkit-keyframes month {\r\n  from {\r\n    stroke-dashoffset: 380;\r\n  }\r\n  to {\r\n    stroke-dashoffset: 0;\r\n  }\r\n}\r\n\r\n@keyframes month {\r\n  from {\r\n    stroke-dashoffset: 380;\r\n  }\r\n  to {\r\n    stroke-dashoffset: 0;\r\n  }\r\n}\r\nsvg{\r\n width: 90%;\r\n /*background-image: url(image-with-4-3-aspect-ratio.svg);*/\r\n /*background-size: cover;*/\r\n height: 50vmin;\r\n padding: 0; /* reset */\r\n /*padding-bottom: calc(100% * 3 / 4);*/\r\n }\r\n\r\n@media screen and (min-width: 700px) {\r\n  svg {\r\n     height: 40vmin;\r\n  }\r\n}\r\n\r\n"; });
 define('text!login/login.css', ['module'], function(module) { module.exports = "\r\n\r\nform#login-form {\r\n  background: #fff;\r\n  width: 35em;\r\n  margin: 2em auto;\r\n  overflow: hidden;\r\n  position: relative;\r\n  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 6px 9px rgba(0, 0, 0, 0.2);\r\n\r\n  /*-moz-border-radius: 0.3em;\r\n  -webkit-border-radius: 0.3em;\r\n  border-radius: 0.3em;\r\n  -moz-box-shadow: 0 0 0.2em #000;\r\n  -webkit-box-shadow: 0 0 0.2em #000;\r\n  box-shadow: 0 0 0.2em #000;*/\r\n}\r\nform#login-form div.heading {\r\n  background: #337ab7;\r\n  color: #fff;\r\n  text-align: center;\r\n  text-transform: uppercase;\r\n  font-weight: bold;\r\npadding: 1.2vmin; font-weight:bold;\r\n}\r\nform#login-form div.left {\r\n  width: 50%;\r\n  float: left;\r\n  padding: 1.7em 1.5em 2.5em 1.5em;\r\n  -moz-box-sizing: border-box;\r\n  -webkit-box-sizing: border-box;\r\n  box-sizing: border-box;\r\n}\r\nform#login-form div.right {\r\n  width: 50%;\r\n  float: right;\r\n  padding: 1.7em 1.5em 2.5em 1.5em;\r\n  -moz-box-sizing: border-box;\r\n  -webkit-box-sizing: border-box;\r\n  box-sizing: border-box;\r\n}\r\nform#login-form:before {\r\n  content: 'or';\r\n  color: gray;\r\n  position: absolute;\r\n  top: 0;\r\n  right: 0;\r\n  left: 0;\r\n  bottom: 0;\r\n  margin: auto;\r\n  height: 0.5em;\r\n  width: 0.5em;\r\n  left: -1.5em;\r\n  top: 1.2em;\r\n  z-index: 900;\r\n}\r\nform#login-form:after {\r\n  content: '';\r\n  position: absolute;\r\n  background: rgba(128, 128, 128, 0.3);\r\n  top: 0;\r\n  right: 0;\r\n  left: 0;\r\n  bottom: 0;\r\n  margin: auto;\r\n  height: 7.25em;\r\n  width: 0.1em;\r\n  left: -0.85em;\r\n  top: -6.8em;\r\n  -moz-box-shadow: 0 8.8em 0 0 rgba(128, 128, 128, 0.3);\r\n  -webkit-box-shadow: 0 8.8em 0 0 rgba(128, 128, 128, 0.3);\r\n  box-shadow: 0 8.8em 0 0 rgba(128, 128, 128, 0.3);\r\n}\r\n\r\ndiv.left label {\r\n  display: inline-block;\r\n  color: gray;\r\n  font-size: 1.1em;\r\n  margin-top: 0.6em;\r\n}\r\ndiv.left input[type=\"email\"], div.left input[type=\"password\"] {\r\n  border: 0.1em solid #dfdfdf;\r\n  padding: 1em;\r\n  margin: 0.6em 0;\r\n  -moz-border-radius: 0.2em;\r\n  -webkit-border-radius: 0.2em;\r\n  border-radius: 0.2em;\r\n  -moz-box-shadow: 0 0 0.2em rgba(223, 223, 223, 0.2);\r\n  -webkit-box-shadow: 0 0 0.2em rgba(223, 223, 223, 0.2);\r\n  box-shadow: 0 0 0.2em rgba(223, 223, 223, 0.2);\r\n  -moz-transition: all 0.15s ease-in-out;\r\n  -o-transition: all 0.15s ease-in-out;\r\n  -webkit-transition: all 0.15s ease-in-out;\r\n  transition: all 0.15s ease-in-out;\r\n}\r\ndiv.left input[type=\"email\"]:focus, div.left input[type=\"password\"]:focus {\r\n  outline: none;\r\n  /*border: 0.1em solid #bdbdbd;*/\r\n}\r\ndiv.left input[type=\"submit\"] {\r\n  background: #337ab7;\r\n  color: #fff;\r\n  outline: none;\r\n  text-transform: uppercase;\r\n  padding: 1.2em;\r\n  overflow: hidden;\r\n  border: none;\r\n  letter-spacing: 0.1em;\r\n  margin: 0.5em 0;\r\n  font-weight: bold;\r\n  -moz-border-radius: 0.4em;\r\n  -webkit-border-radius: 0.4em;\r\n  border-radius: 0.4em;\r\n  -moz-transition: all 0.15s ease-in-out;\r\n  -o-transition: all 0.15s ease-in-out;\r\n  -webkit-transition: all 0.15s ease-in-out;\r\n  transition: all 0.15s ease-in-out;\r\n}\r\ndiv.left input[type=\"submit\"]:hover {\r\n  background: #fff;\r\n  color: #afca5d;\r\n}\r\n\r\ndiv.right div.connect {\r\n  color: gray;\r\n  font-size: 1.1em;\r\n  text-align: center;\r\n}\r\ndiv.right a {\r\n  display: inline-block;\r\n  font-size: 1.5em;\r\n  text-decoration: none;\r\n  color: white;\r\n  width: 9em;\r\n  padding: 0.55em 0.3em;\r\n  clear: both;\r\n  text-align: center;\r\n  margin: 0.5em 0.1em;\r\n  -moz-border-radius: 0.3em;\r\n  -webkit-border-radius: 0.3em;\r\n  border-radius: 0.3em;\r\n}\r\ndiv.right a.facebook {\r\n  background: #3a589a;\r\n  margin-top: 0.8em;\r\n  -moz-transition: all 0.15s ease-in-out;\r\n  -o-transition: all 0.15s ease-in-out;\r\n  -webkit-transition: all 0.15s ease-in-out;\r\n  transition: all 0.15s ease-in-out;\r\n}\r\ndiv.right a.facebook:hover {\r\n  background: rgba(58, 88, 154, 0.8);\r\n}\r\ndiv.right a.twitter {\r\n  background: #4099ff;\r\n  -moz-transition: all 0.15s ease-in-out;\r\n  -o-transition: all 0.15s ease-in-out;\r\n  -webkit-transition: all 0.15s ease-in-out;\r\n  transition: all 0.15s ease-in-out;\r\n}\r\ndiv.right a.twitter:hover {\r\n  background: rgba(64, 153, 255, 0.8);\r\n}\r\ndiv.right a.google-plus {\r\n  background: #e9544f;\r\n  -moz-transition: all 0.15s ease-in-out;\r\n  -o-transition: all 0.15s ease-in-out;\r\n  -webkit-transition: all 0.15s ease-in-out;\r\n  transition: all 0.15s ease-in-out;\r\n}\r\ndiv.right a.google-plus:hover {\r\n  background: rgba(233, 84, 79, 0.8);\r\n}\r\n"; });
 define('text!login/login.html', ['module'], function(module) { module.exports = "<template><require from=\"login/login.css\"></require><require from=\"home/home.css\"></require><require from=\"css/style.css\"></require><br><br><form submit.delegate=\"login(emailInput, passwordInput)\" action=\"#\" id=\"login-form\"><div class=\"\" style=\"background-color:#337ab7;color:#fff\"><h3 style=\"margin:0;padding:1.2vmin;font-weight:700;text-align:center\">MoneyManage</h3></div><div class=\"left\"><label for=\"email\">Email</label><br><input value.bind=\"emailInput\" type=\"email\" name=\"email\" id=\"email\" placeholder=\"email@email.com\"><br><label for=\"password\">Password</label><br><input value.bind=\"passwordInput\" type=\"password\" name=\"password\" id=\"pass\" placeholder=\"password\"><br><input type=\"submit\" value=\"Login\"></div><div class=\"right\" style=\"font-size:.8em;text-align:center;border-radius:0\"><div class=\"connect\">Register With...</div><a href=\"\" class=\"facebook\" click.delegate=\"facebookLogin()\"><span class=\"fontawesome-facebook\">Facebook</span></a><br><a href=\"\" class=\"google-plus\"><span class=\"fontawesome-google-plus\" click.delegate=\"googleLogin()\">Google</span></a></div></form><form submit.delegate=\"newUser(newEmail, newPassword)\" id=\"login-form\"><div class=\"heading\">Create new user</div><div class=\"left\"><label for=\"email\">Email</label><br><input value.bind=\"newEmail\" type=\"email\" name=\"email\" id=\"email\" placeholder=\"email@email.com\"><br><label for=\"password\">Password</label><br><input value.bind=\"newPassword\" type=\"password\" name=\"password\" id=\"pass\" placeholder=\"password\"><br><input type=\"submit\" value=\"New User\"></div><div class=\"right\"><div class=\"connect\">Connect with</div><a href=\"\" class=\"facebook\"><span class=\"fontawesome-facebook\" click.delegate=\"facebookLogin()\">Facebook</span></a><br><a href=\"\" class=\"google-plus\"><span class=\"fontawesome-google-plus\" click.delegate=\"googleLogin()\">Google</span></a></div></form></template>"; });
 define('text!logout/logout.css', ['module'], function(module) { module.exports = "body {\r\n  background:#5bb12f;\r\n}\r\n#emojiAnimation {\r\n  display:none;\r\n}\r\n.emoji-container {\r\n  background: #fff;\r\n  width:64px;\r\n  height:64px;\r\n  padding:16px;\r\n  border-radius:50%;\r\n  position:absolute;\r\n  top:50%;\r\n  left:50%;\r\n  margin-top:-64px;\r\n  margin-left:-40px;\r\n  overflow:hidden;\r\n}\r\n.emoji-car {\r\n  position:relative;\r\n  top:-16px;\r\n  left:-4px;\r\n  width:72px;\r\n}\r\n#sliderWrapper {\r\n  position:absolute;\r\n  left: 10%;\r\n  bottom:0;\r\n  width:80%;\r\n}\r\n#emojiExplosion1,#emojiExplosion2,#emojiExplosion3 {\r\n  width:32px;\r\n  height:32px;\r\n  margin-top:-36px;\r\n  padding:8px;\r\n}\r\n#jailbars {\r\n    position: absolute;\r\n    top: -20px;\r\n    left: 3px;\r\n    width: 100%;\r\n}\r\n.jailbar {\r\n    width: 6px;\r\n    height: 120px;\r\n    background: #666;\r\n    float: left;\r\n    margin: 6px;\r\n}"; });
@@ -3411,5 +3409,5 @@ define('text!expenses/compose/compose-health-expenses.html', ['module'], functio
 define('text!expenses/compose/compose-home-expenses.html', ['module'], function(module) { module.exports = "<template><br><div class=\"${click ? 'none' : 'box-shadow--6dp'}\" style=\"border-radius:0\"><div><h4 class=\"panel-title\"><div style=\"float:right;padding:5px;width:30%;text-align:right\">Yearly Total: $${user.expenses.totalHomeExpense.toFixed(0)}</div><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#homeExpenseCollapse\" click.delegate=\"clicked()\" style=\"float:left;padding:5px;width:30%\"><span show.bind=\"click\" class=\"glyphicon glyphicon-chevron-right\" style=\"float:left\"></span> <span show.bind=\"!click\" class=\"glyphicon glyphicon-chevron-down\" style=\"float:left\"></span> </a><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#homeExpenseCollapse\" click.delegate=\"clicked()\" style=\"font-size:24px\"><center>Home <span id=\"expensesTooltip\" title=\"\" class=\"glyphicon glyphicon-question-sign\"></span></center></a></h4></div><div id=\"homeExpenseCollapse\" class=\"panel-collapse collapse in\"><div class=\"panel-body\"><div repeat.for=\"home of constants.HomeExpenses\" class=\"form-group col-md-6\"><label style=\"padding-left:5%\">${home.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0 expensesInput\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[home.value]\" change.delegate=\"calculateExpenses.homeExpenses()\" class=\"form-control\" id=\"${home.value}\"><div class=\"input-group-btn\"><button type=\"button\" class=\"btn ${user.expenses[home.value + 'lock'] ? 'btn-default' : 'btn-primary'}\" click.delegate=\"lockStateChange(home.value)\"><i class=\"fa fa-unlock\" show.bind=\"!user.expenses[home.value + 'lock']\"></i> <i class=\"fa fa-lock\" show.bind=\"user.expenses[home.value + 'lock']\"></i></button></div></div><br></div></div></div></div></template>"; });
 define('text!results/compose/compose-chart.html', ['module'], function(module) { module.exports = "<template><div class=\"col-md-6\"><div class=\"\" show.bind=\"user.results.showBudget\" id=\"resultsContainerSimple\"></div><div class=\"\" show.bind=\"user.results.showAdvanced\" id=\"resultsContainerAdvanced\"></div><div class=\"\" show.bind=\"user.results.showGoalsChart\" id=\"fiveYearGoalsContainer\"></div><div class=\"\" show.bind=\"user.results.showExpenses\" id=\"fiveYearExpensesContainer\"></div><div class=\"form-group\" style=\"padding-top:3vmin\"><select class=\"form-control\" value.bind=\"option\" change.delegate=\"showChart(option)\" style=\"font-weight:700;font-size:1em;height:3.3em\"><option repeat.for=\"option of chartOptions\">${option.text}</option></select></div></div><div class=\"col-md-6\"><div class=\"\" show.bind=\"!user.results.showAdvancedRecommended\" id=\"recommendedContainer\"></div><div class=\"\" show.bind=\"user.results.showAdvancedRecommended\" id=\"recommendedContainerAdvanced\"></div><div class=\"form-group\" style=\"padding-top:3vmin\"><select class=\"form-control\" value.bind=\"option\" change.delegate=\"showRecommendedChart(option)\" style=\"font-weight:700;font-size:1em;height:3.3em\"><option>Recommended Simple Budget</option><option>Recommended Advanced Budget</option></select></div></div><br><br></template>"; });
 define('text!results/compose/compose-recommendations.html', ['module'], function(module) { module.exports = "<template><br style=\"clear:both\"><div class=\"${user.recommend.messageStyle}\"><b>${user.recommend.message}</b><br><br><button class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#changes\">See Recommended Changes</button><div class=\"modal fade\" id=\"changes\" role=\"dialog\"><div class=\"modal-dialog\"><div class=\"modal-content\"><div class=\"modal-header\"><button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button><h4 class=\"modal-title\"><b>Monthly Changes</b></h4></div><div class=\"modal-body\"><div class=\"row\"><div class=\"col-md-6\"><h5><b>Home Changes</b></h5><div repeat.for=\"homeChange of currentHomeChanges\" class=\"${user.recommend.homeChanges[homeChange.slice(0,-1)] < 0 ? 'decreasing' : 'adding'}\">${homeChange.charAt(0).toUpperCase() + homeChange.slice(1)} ${modelHomeChanges[$index]}</div></div><div class=\"col-md-6\"><h5><b>Transportation Changes</b></h5><div repeat.for=\"carChange of currentCarChanges\" class=\"${user.recommend.carChanges[carChange.slice(0,-1)] < 0 ? 'decreasing' : 'adding'}\">${carChange.charAt(0).toUpperCase() + carChange.slice(1)} ${modelCarChanges[$index]}</div></div></div><hr><div class=\"row\"><div class=\"col-md-6\"><h5><b>Health Changes</b></h5><div repeat.for=\"healthChange of currentHealthChanges\" class=\"${user.recommend.healthChanges[healthChange.slice(0,-1)] < 0 ? 'decreasing' : 'adding'}\">${healthChange.charAt(0).toUpperCase() + healthChange.slice(1)} ${modelHealthChanges[$index]}</div></div><div class=\"col-md-6\"><h5><b>Discretionary Changes</b></h5><div repeat.for=\"discretionaryChange of currentDiscretionaryChanges\" class=\"${user.recommend.discretionaryChanges[discretionaryChange.slice(0,-1)] < 0 ? 'decreasing' : 'adding'}\">${discretionaryChange.charAt(0).toUpperCase() + discretionaryChange.slice(1)} ${modelDiscretionaryChanges[$index]}</div><h5 class=\"${user.recommend.expensesChange < 0 ? 'decreasing' : 'adding'}\"><b>Yearly Expense Change: ${modelExpenseChange}</b></h5></div></div></div><div class=\"modal-footer\"><button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button></div></div></div></div></div></template>"; });
-define('text!results/compose/compose-table.html', ['module'], function(module) { module.exports = "<template><hr style=\"clear:both\"><div style=\"width:100%;margin:0 auto\" class=\"table-outter\"><table class=\"table table-bordered box-shadow--6dp\"><thead class=\"bg-primary\"><tr style=\"font-size:20px\"><th style=\"text-align:center\" repeat.for=\"expense of user.results.recommendedResults.length\">${user.results.recommendedResults[expense][0]}</th><th style=\"text-align:center\">Savings</th></tr></thead><tbody><tr><td repeat.for=\"amount of user.results.recommendedResults.length\"><div style=\"text-align:center\"><strong>$ ${user.expenses['total' + user.results.recommendedResults[amount][0] + 'Expense']}</strong></div><hr><div style=\"height:300px;overflow-y:scroll\"><div repeat.for=\"expense of constants[user.results.recommendedResults[amount][0] + 'Expenses']\" class=\"form-group\"><label>${expense.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[expense.value]\" disabled.bind=\"!user.expenses[expense.value + 'lock']\" change.delegate=\"checkValue(user.expenses, user.expenses[expense.value], expense, user.results.recommendedResults[amount][0])\" class=\"form-control ${user.expenses[expense.value + 'check'] ? 'alert-success' : 'alert-danger'}\"></div><br></div></div></td><td><div style=\"text-align:center\"><strong>$ ${user.personalInfo.savingsPerMonth * 12}</strong></div><hr><div class=\"form-group\"><label for=\"privateSchool\">Savings Per Month</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo.savingsPerMonth\" class=\"form-control\"></div><br></div><div show.bind=\"user.results.showGoals\" style=\"height:200px;overflow-y:scroll\"><div repeat.for=\"wish of constants.wishes\"><div show.bind=\"user.personalInfo[wish.check]\"><div class=\"form-group\"><label for=\"privateSchool\">Amount for ${wish.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo[wish.value]\" class=\"form-control ${user.results[wish.value + 'MetGoal'] ? 'alert-success' : 'alert-danger'}\"></div></div><br></div></div></div></td></tr></tbody></table></div><div style=\"width:45%;margin:0 auto;text-align:center\" class=\"alert alert-success\" role=\"alert\"><strong>This means your expense is lower than average or you meet your goal</strong></div><div style=\"width:45%;margin:0 auto;text-align:center\" class=\"alert alert-danger\" role=\"alert\"><strong>This means your expense is higher than average or you didn't meet your goal</strong></div></template>"; });
+define('text!results/compose/compose-table.html', ['module'], function(module) { module.exports = "<template><hr style=\"clear:both\"><div style=\"width:100%;margin:0 auto\" class=\"table-outter\"><table class=\"table table-bordered box-shadow--6dp\"><thead class=\"bg-primary\"><tr style=\"font-size:20px\"><th style=\"text-align:center\" repeat.for=\"expense of user.results.recommendedResults.length\">${user.results.recommendedResults[expense][0]}</th><th style=\"text-align:center\">Savings</th></tr></thead><tbody><tr><td repeat.for=\"amount of user.results.recommendedResults.length\"><div style=\"text-align:center\"><strong>$ ${user.expenses['total' + user.results.recommendedResults[amount][0] + 'Expense'].toFixed(2)}</strong></div><hr><div style=\"height:300px;overflow-y:scroll\"><div repeat.for=\"expense of constants[user.results.recommendedResults[amount][0] + 'Expenses']\" class=\"form-group\"><label>${expense.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.expenses[expense.value]\" disabled.bind=\"!user.expenses[expense.value + 'lock']\" change.delegate=\"checkValue(user.expenses, user.expenses[expense.value], expense, user.results.recommendedResults[amount][0])\" class=\"form-control ${user.expenses[expense.value + 'check'] ? 'alert-success' : 'alert-danger'}\"></div><br></div></div></td><td><div style=\"text-align:center\"><strong>$ ${user.personalInfo.savingsPerMonth * 12}</strong></div><hr><div class=\"form-group\"><label for=\"privateSchool\">Savings Per Month</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo.savingsPerMonth\" class=\"form-control\"></div><br></div><div show.bind=\"user.results.showGoals\" style=\"height:200px;overflow-y:scroll\"><div repeat.for=\"wish of constants.wishes\"><div show.bind=\"user.personalInfo[wish.check]\"><div class=\"form-group\"><label for=\"privateSchool\">Amount for ${wish.title}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><div class=\"input-group-addon\">$</div><input type=\"text\" value.bind=\"user.personalInfo[wish.value]\" class=\"form-control ${user.results[wish.value + 'MetGoal'] ? 'alert-success' : 'alert-danger'}\"></div></div><br></div></div></div></td></tr></tbody></table></div><div style=\"width:45%;margin:0 auto;text-align:center\" class=\"alert alert-success\" role=\"alert\"><strong>This means your expense is lower than average or you meet your goal</strong></div><div style=\"width:45%;margin:0 auto;text-align:center\" class=\"alert alert-danger\" role=\"alert\"><strong>This means your expense is higher than average or you didn't meet your goal</strong></div></template>"; });
 //# sourceMappingURL=app-bundle.js.map
