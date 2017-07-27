@@ -11,6 +11,9 @@ export class App {
   constructor(user) {
     this.user = user;
     this.signedIn;
+
+    this.currentUser = {};
+    this.currentKey;
   }
 
   configureRouter(config, router) {
@@ -66,6 +69,14 @@ export class App {
   }
 
   save() {
+    var currentUser = firebase.database().ref('Users/' + this.currentKey);
+    
+    currentUser.on('value', (snap) => {
+      console.log(snap.val());
+    });
+
+    currentUser.update({"name" : "Joseph C"});
+
     bootbox.alert({
         title: "MoneyManage",
         message: "Content saved!",
@@ -77,18 +88,24 @@ export class App {
     firebase.initializeApp(configFB);
     var users = firebase.database().ref('Users/');
     
+    //When authorization is changed, call this function
     firebase.auth().onAuthStateChanged( (user) => {
+      //If signed in, do this stuff
       if(user) {
         this.signedIn = true;
+        var currentUid = user.uid;
+        this.currentUser = {};
 
-        var uid = user.uid;
-        console.log(uid);
-        // users.push({
-        //     "name" : "Joseph",
-        //     "uid" : uid
-        // });
+        //Get current key and user
+        users.on('value', (snap) => {            
+            snap.forEach( (currentSnap) => {
+              if(currentSnap.val().uid == currentUid) { //Check for the signed in user
+                this.currentKey = currentSnap.key; //Get key for changes
+              }
+            });
+        });
       }
-      else this.signedIn = false;
+      else this.signedIn = false; //Let program know that the user is not signed in
     });
   }
 }
