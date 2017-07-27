@@ -32,6 +32,7 @@ export class results {
             }
           }
       });
+      
     }
     else{
           this.user.personalInfo.showNavbar = true;

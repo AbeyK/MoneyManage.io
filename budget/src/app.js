@@ -17,12 +17,16 @@ export class App {
   }
 
   configureRouter(config, router) {
+    var widthLimit = true;
+    if ($(window).width() < 800){
+      widthLimit=false;
+    }
     this.router = router;
     config.title = "Budget Tool";
     config.map([
       {
         route: ['', 'home'], moduleId: 'home/home',
-        name: 'home', title: ' MoneyManage: Budgeting Tool ', nav: false, settings: 'Home'
+        name: 'home', title: ' MoneyManage: Budgeting Tool ', nav: widthLimit, settings: 'Home'
       },
       {
         route: 'personalinfo', moduleId: 'aboutyou/personalinfo',
@@ -47,7 +51,7 @@ export class App {
       },
       {
         route: 'about', moduleId: 'about/about',
-        name: 'about', title: 'MoneyManage: About', nav: false, settings: 'About'
+        name: 'about', title: 'MoneyManage: About', nav: widthLimit, settings: 'About'
       }
     ]);
   }

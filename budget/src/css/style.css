@@ -1,8 +1,8 @@
-#personalinfo, #navbarHeader{
-    animation: fadein .8s;
-    -moz-animation: fadein .8s; /* Firefox */
-    -webkit-animation: fadein .8s; /* Safari and Chrome */
-    -o-animation: fadein .8s; /* Opera */
+#personalinfo, #navbarHeader, #expenses, #results{
+    animation: fadein .5s;
+    -moz-animation: fadein .5s; /* Firefox */
+    -webkit-animation: fadein .5s; /* Safari and Chrome */
+    -o-animation: fadein .5s; /* Opera */
 }
 @keyframes fadein {
     from {
