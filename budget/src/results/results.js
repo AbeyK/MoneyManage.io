@@ -257,6 +257,11 @@ export class results {
                 }
             });
         } else {
+            bootbox.alert({
+                title:"MoneyManage",
+                message: "Note: These results are estimates based on the average spending habit data and may not be accurate for you.",
+                backdrop: true
+            });
             this.user.expenses.isTotalExpenseZero = false;
         }
     }

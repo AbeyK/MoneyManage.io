@@ -1,4 +1,4 @@
-#personalinfo, #navbarHeader, #expenses, #results{
+#personalinfo, #navbarHeader, #expenses1, #results{
     animation: fadein .5s;
     -moz-animation: fadein .5s; /* Firefox */
     -webkit-animation: fadein .5s; /* Safari and Chrome */
