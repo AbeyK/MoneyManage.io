@@ -1,7 +1,7 @@
 <template>
     <br>
     <br>    <br>
-    <div class=" box-shadow--6dp" style="border-radius:0; height: 400px; width:100%; overflow:auto">
+    <div id = "personalInfoIntro" class=" box-shadow--6dp" style="border-radius:0;  width:100%; overflow:auto">
         <div class="" style="background-color:#337ab7; color:#fff;">
             <h3 style="margin:0; padding: 1.2vmin; font-weight:bold;">About Me</h3>
         </div>
@@ -39,7 +39,7 @@
                 <label for="householdSize">Household Size</label>
                 <input type="text" value.bind="user.personalInfo.householdSize" change.delegate="checkHouseholdSize()" class="form-control ${user.personalInfo.validHouseholdSize ? 'none' : 'btn-danger'}">
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-6" style="padding-bottom: 5vmin">
                 <label for="householdSize">Size of Home (in square feet)</label>
                 <input type="text" value.bind="user.personalInfo.squareFootHome" change.delegate="checkHomeSize()" class="form-control ${user.personalInfo.validHomeSize ? 'none' : 'btn-danger'}">
             </div>

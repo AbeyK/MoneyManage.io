@@ -206,6 +206,10 @@ export class results {
     }
 
     attached() {
+        if ($(window).width() < 800) {
+            //let self = this;
+            this.user.personalInfo.widthGreaterThan800 = false;
+        }
         this.user.personalInfo.showNavbar = true;
         this.getChartData();
 
@@ -258,7 +262,7 @@ export class results {
             });
         } else {
             bootbox.alert({
-                title:"MoneyManage",
+                title: "MoneyManage",
                 message: "Note: These results are estimates based on the average spending habit data and may not be accurate for you.",
                 backdrop: true
             });

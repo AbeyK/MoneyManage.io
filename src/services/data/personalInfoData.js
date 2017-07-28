@@ -1,6 +1,7 @@
 export class PersonalInfoData {
     constructor() {
         this.showNavbar = false;
+        this.widthGreaterThan800=true;
         
         this.age = 50;
         this.income = 0;

@@ -4,11 +4,11 @@
     <div class=" ${click ? 'none' : 'box-shadow--6dp'}" style="border-radius:0">
         <div>
             <h4 class="panel-title">
-                <div style="float:right; padding:5px;width:30%; text-align:right">
-                    Yearly Total: $${user.expenses.totalCarExpense}
+                <div style="float:right; padding:5px;width:15%; text-align:right">
+                    $${user.expenses.totalCarExpense/12}
                 </div>
                 <a data-toggle="collapse" data-parent="#accordion" href="#carExpenseCollapse" 
-                    click.delegate="clicked()" style="float:left; padding:5px; width:30%">
+                    click.delegate="clicked()" style="float:left; padding:5px; width:15%">
                     <span show.bind="click" class="glyphicon glyphicon-chevron-right" style="float:left"></span>
                     <span show.bind="!click" class="glyphicon glyphicon-chevron-down" style="float:left"></span>
                 </a>

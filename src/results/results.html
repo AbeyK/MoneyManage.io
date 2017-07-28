@@ -13,18 +13,19 @@
             
         <compose view-model="./compose/compose-chart"></compose>
         <compose view-model="./compose/compose-recommendations"></compose>
-        <compose view-model="./compose/compose-table"></compose>
+        <compose show.bind="user.personalInfo.widthGreaterThan800"  view-model="./compose/compose-table"></compose>
         </div>
         <hr>
-
-        <button class="btn btn-secondary btn-lg" style="float:left; width: 10vmax;margin:1vw" click.delegate="back()">
-            <span class="glyphicon glyphicon-arrow-left"></span>
-        </button>
+        <div show.bind="user.personalInfo.widthGreaterThan800">
         <div show.bind="!user.expenses.isTotalExpenseZero">
-
-        <button class="btn btn-lg" style="float:center; width: 20vmax; background-color:#dff0d8" click.delegate="getChartData()">Redraw Chart
+        <button class="btn btn-lg" style="width: 15vmax; background-color:#dff0d8" click.delegate="getChartData()">Redraw
         </button>
         </div>
+        </div>
+        <button class="btn btn-default btn-lg" style="float:left; width: 10vmax;margin:1vw" click.delegate="back()">
+            <span class="glyphicon glyphicon-arrow-left"></span>
+        </button>
+
 
         <button class="btn btn-primary btn-lg" style="float:right; width: 10vmax;margin:1vw" click.delegate="home()">
             Finish

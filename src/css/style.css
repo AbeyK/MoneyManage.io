@@ -202,3 +202,14 @@ width:60vw !important;  }
     stroke-dashoffset: -600;
   }
 }
+.personalInfoIntro{
+    border-radius:0; 
+    /*height: 50vh; */
+    width:100%; 
+    overflow:auto
+}
+@media screen and (min-width: 800px) {
+.personalInfoIntro{
+    /*height: 1vh; */
+}
+}

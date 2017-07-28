@@ -4,10 +4,10 @@
             <compose view-model="./compose/compose-personal-info"></compose>
             <br>
             <br>
-            <compose view-model="./compose/compose-goals"></compose>
+            <compose show.bind="user.personalInfo.widthGreaterThan800" view-model="./compose/compose-goals"></compose>
             <br>
             <hr>
-            <button class="btn btn-secondary btn-lg" style="float:left; width: 10vmax; margin:1vw" click.delegate="back()">
+            <button class="btn btn-default btn-lg" style="float:left; width: 10vmax; margin:1vw" click.delegate="back()">
                 <span class="glyphicon glyphicon-arrow-left"></span>
             </button>
             <button class="btn btn-primary btn-lg" style="float:right; width: 10vmax; margin:1vw" type="submit" id="next">
