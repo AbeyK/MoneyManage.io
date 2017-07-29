@@ -29,7 +29,7 @@ export class results {
           callback: (result) => {
             if (result){
               console.log(result);
-              this.user.personalInfo.showNavbar = true;
+              // this.user.personalInfo.showNavbar = true;
               this.router.navigate('#/personalinfo');
             }
           }
@@ -37,7 +37,7 @@ export class results {
       
     }
     else{
-          this.user.personalInfo.showNavbar = true;
+          // this.user.personalInfo.showNavbar = true;
          this.router.navigate('#/personalinfo');
     }
 

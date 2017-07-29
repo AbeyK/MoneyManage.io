@@ -64,17 +64,18 @@ font-size: 2vmax;
 
 }
 
-.btn-start:hover{
+/*.btn-start:hover{
   -moz-transition: all 0.15s ease-in-out;
   -o-transition: all 0.15s ease-in-out;
   -webkit-transition: all 0.15s ease-in-out;
   transition: all 0.15s ease-in-out;
     background-color: #fff;
-    color: #afca5d !important;
+    color: #337ab7 !important;
+    border: #fff;
         font-weight: bold;
 
     font-size: 3vh;
-}
+}*/
 
 
 body{
@@ -83,7 +84,7 @@ body{
 .bg {
 height:100vh;
 margin: 0;
-  background: url(1.jpg) no-repeat center center fixed; 
+  background: url(src/images/background.jpg) no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
