@@ -22,11 +22,11 @@ export class App {
       widthLimit=false;
     }
     this.router = router;
-    config.title = "Budget Tool";
+    config.title = "Budgeting Tool";
     config.map([
       {
         route: ['', 'home'], moduleId: 'home/home',
-        name: 'home', title: ' MoneyManage: Budgeting Tool ', nav: widthLimit, settings: 'Home'
+        name: 'home', title: ' MoneyManage', nav: widthLimit, settings: 'Home'
       },
       {
         route: 'personalinfo', moduleId: 'aboutyou/personalinfo',
@@ -34,7 +34,7 @@ export class App {
       },
       {
         route: 'expenses', moduleId: 'expenses/expenses',
-        name: 'expenses', title: 'MoneyManage: Spending Habits', nav: true, settings: 'Spending'
+        name: 'expenses', title: 'MoneyManage: Spending', nav: true, settings: 'Spending'
       },
 
       {

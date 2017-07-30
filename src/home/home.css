@@ -19,16 +19,16 @@ font-size: 2vmax;
     padding: 5%;
     padding-bottom: 1vh;
   font-size: 36px; /* Some tweener fallback that doesn't look awful */ 
-  font-size: 11vw;    
+  font-size: 12vw;    
   font-weight: bold;
     color: #fff;
     /*font-family: 'Maven Pro', sans-serif;*/
 
 }
 
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 600px) {
   #title {
-   font-size: 7vmin;
+   font-size: 8vmin;
   }
 }
 #subtitle{
@@ -45,7 +45,6 @@ font-size: 2vmax;
   }
 }
 #start{
-  font-size: 3vmin !important;
 
     /*width: 10%;*/
     /*height: 150px;*/
@@ -61,21 +60,22 @@ font-size: 2vmax;
     color:#fff;
         font-weight: bold;
 
-    font-size: 4vh;
+    font-size: 3vh !important;
 
 }
 
-.btn-start:hover{
+/*.btn-start:hover{
   -moz-transition: all 0.15s ease-in-out;
   -o-transition: all 0.15s ease-in-out;
   -webkit-transition: all 0.15s ease-in-out;
   transition: all 0.15s ease-in-out;
     background-color: #fff;
-    color: #afca5d !important;
+    color: #337ab7 !important;
+    border: #fff;
         font-weight: bold;
 
-    font-size: 4vh;
-}
+    font-size: 3vh;
+}*/
 
 
 body{
@@ -84,7 +84,12 @@ body{
 .bg {
 height:100vh;
 margin: 0;
-    background: linear-gradient(to bottom right, #1567b9, #baecc7);
+  background: url(src/images/background.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+    /*background: linear-gradient(to bottom right, #1567b9, #baecc7);*/
   text-align: center;
   padding: 0;
 }
@@ -186,7 +191,7 @@ svg{
  /*padding-bottom: calc(100% * 3 / 4);*/
  }
 
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 600px) {
   svg {
      height: 40vmin;
   }
